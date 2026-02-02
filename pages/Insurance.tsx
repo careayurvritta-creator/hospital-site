@@ -106,8 +106,20 @@ const Insurance: React.FC = () => {
       setLoading(true);
 
       try {
-         const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : undefined;
-         if (!apiKey) throw new Error("API Key missing");
+         const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY;
+         if (!apiKey) throw new Error("API Key missing. Please check your environment configuration.");
+
+         // Validate file size (max 20MB)
+         const maxSize = 20 * 1024 * 1024; // 20MB
+         if (selectedFile.size > maxSize) {
+            throw new Error("File too large. Please upload a file under 20MB.");
+         }
+
+         // Validate file type
+         const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'application/pdf'];
+         if (!validTypes.includes(selectedFile.type)) {
+            throw new Error("Invalid file type. Please upload a JPG, PNG, WebP, GIF image or PDF.");
+         }
 
          const base64Data = await new Promise<string>((resolve, reject) => {
             const reader = new FileReader();
@@ -141,24 +153,49 @@ const Insurance: React.FC = () => {
         If the document is not legible or not a policy, please state that clearly.
       `;
 
+         // Use the correct API structure for @google/genai
          const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-2.0-flash',
             contents: [
                {
                   role: 'user',
                   parts: [
-                     { text: prompt },
-                     { inlineData: { mimeType: mimeType, data: base64String } }
+                     { 
+                        inlineData: { 
+                           mimeType: mimeType, 
+                           data: base64String 
+                        } 
+                     },
+                     { text: prompt }
                   ]
                }
             ]
          });
 
-         setAnalysisResult(response.text || "Could not analyze the document.");
+         const resultText = response.text || 
+                           (response.candidates?.[0]?.content?.parts?.[0] as { text?: string })?.text;
+         
+         if (resultText) {
+            setAnalysisResult(resultText);
+         } else {
+            throw new Error("No response received from AI");
+         }
 
-      } catch (error) {
+      } catch (error: unknown) {
          console.error("Analysis failed:", error);
-         setAnalysisResult("Error analyzing the document. Please ensure the file is a valid Image (JPG/PNG) or PDF under 20MB.");
+         const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+         
+         if (errorMessage.includes("API Key")) {
+            setAnalysisResult("Configuration error: API key is missing. Please contact support.");
+         } else if (errorMessage.includes("File too large")) {
+            setAnalysisResult("Error: File is too large. Please upload a file under 20MB.");
+         } else if (errorMessage.includes("Invalid file type")) {
+            setAnalysisResult("Error: Invalid file type. Please upload a valid Image (JPG/PNG/WebP) or PDF file.");
+         } else if (errorMessage.includes("Could not process")) {
+            setAnalysisResult("Error: The document could not be processed. Please ensure the image is clear and readable, or try a different file.");
+         } else {
+            setAnalysisResult("Error analyzing the document. Please ensure the file is a valid Image (JPG/PNG) or PDF under 20MB. If the problem persists, try with a clearer image of your policy document.");
+         }
       } finally {
          setLoading(false);
       }
