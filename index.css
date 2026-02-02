@@ -568,3 +568,299 @@ button:focus-visible {
   outline: 2px solid #009688;
   outline-offset: 2px;
 }
+
+/* ============================================
+   STEP 4: CONTENT LAYOUT & TYPOGRAPHY
+   ============================================ */
+
+/* Mobile-optimized typography */
+@media (max-width: 768px) {
+
+  /* Ensure minimum readable body text */
+  body {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* Responsive headings */
+  h1 {
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    line-height: 1.25;
+  }
+
+  h3 {
+    font-size: clamp(1.25rem, 4vw, 1.5rem);
+    line-height: 1.3;
+  }
+
+  /* Consistent section padding */
+  section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  /* Prevent text overflow */
+  p,
+  li,
+  span {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+}
+
+/* Text truncation utilities */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Prevent horizontal scroll on mobile */
+.overflow-x-safe {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Image aspect ratio preservation */
+.aspect-mobile {
+  aspect-ratio: 4/3;
+  object-fit: cover;
+}
+
+/* ============================================
+   STEP 5: PAGE-SPECIFIC MOBILE FIXES
+   ============================================ */
+
+/* Hero section mobile optimization */
+@media (max-width: 768px) {
+  .hero-mobile {
+    min-height: 70vh;
+    padding-top: 4rem;
+  }
+
+  /* Single column service cards */
+  .service-grid-mobile {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* Full-width CTAs on mobile */
+  .cta-mobile-full {
+    width: 100%;
+    display: block;
+  }
+}
+
+/* ============================================
+   STEP 6: PERFORMANCE OPTIMIZATION
+   ============================================ */
+
+/* GPU-accelerated animations only */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Reduced animations for performance */
+@media (prefers-reduced-motion: reduce),
+(max-width: 768px) {
+  .perf-animation {
+    animation-duration: 0.2s !important;
+    transition-duration: 0.2s !important;
+  }
+}
+
+/* Content visibility for lazy rendering */
+.content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+/* Skeleton loader base */
+.skeleton {
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes skeletonPulse {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ============================================
+   STEP 7: CHATBOT MOBILE EXPERIENCE
+   ============================================ */
+
+/* Full-screen chat on mobile */
+@media (max-width: 768px) {
+  .chatbot-mobile-full {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+    z-index: 9999 !important;
+  }
+
+  /* Chat input at bottom with keyboard spacing */
+  .chat-input-mobile {
+    position: sticky;
+    bottom: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+    background: white;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  /* Chat messages area */
+  .chat-messages-mobile {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+}
+
+/* Chat message bubbles */
+.chat-bubble {
+  max-width: 85%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ============================================
+   STEP 8: ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+/* High contrast text */
+.high-contrast {
+  color: #1a1a1a !important;
+}
+
+/* Skip link for keyboard navigation */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #009688;
+  color: white;
+  padding: 8px 16px;
+  z-index: 10000;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Focus ring for all interactive elements */
+.focus-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 150, 136, 0.4);
+}
+
+/* Larger touch targets for accessibility */
+.touch-target-lg {
+  min-height: 56px;
+  min-width: 56px;
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================
+   STEP 9: DEVICE-SPECIFIC OPTIMIZATIONS
+   ============================================ */
+
+/* iPhone notch handling */
+@supports (padding: max(0px)) {
+  .notch-safe {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+}
+
+/* Small screen (iPhone SE) */
+@media (max-width: 375px) {
+  .text-xs-mobile {
+    font-size: 0.75rem;
+  }
+
+  .p-xs-mobile {
+    padding: 0.75rem;
+  }
+
+  .gap-xs-mobile {
+    gap: 0.5rem;
+  }
+}
+
+/* Large screen (iPhone Pro Max, Android) */
+@media (min-width: 414px) and (max-width: 768px) {
+  .p-lg-mobile {
+    padding: 1.25rem;
+  }
+}
+
+/* Landscape mode */
+@media (max-height: 500px) and (orientation: landscape) {
+  .landscape-compact {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .landscape-hide {
+    display: none;
+  }
+}
+
+/* Safe area for bottom nav */
+.pb-nav-safe {
+  padding-bottom: calc(64px + env(safe-area-inset-bottom));
+}
+
+/* ============================================
+   STEP 10: TESTING UTILITIES
+   ============================================ */
+
+/* Debug grid overlay (development only) */
+.debug-grid {
+  background-image: linear-gradient(to right, rgba(255, 0, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+/* Touch area visualization */
+.debug-touch {
+  outline: 2px dashed rgba(0, 150, 136, 0.5);
+}

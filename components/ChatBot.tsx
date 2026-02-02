@@ -242,21 +242,19 @@ You understand:
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-ayur-cream/30 scroll-smooth">
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-ayur-cream/30 scroll-smooth chat-messages-mobile overscroll-contain">
           {messages.map((msg, idx) => (
             <div
               key={idx}
               className={`flex items-start gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
             >
-              <div
-                className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center shadow-sm ${msg.role === 'user' ? 'bg-ayur-gold text-white' : 'bg-ayur-green text-white'
-                  }`}
-              >
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${msg.role === 'user' ? 'bg-ayur-accent text-white' : 'bg-ayur-green text-white'
+                }`}>
                 {msg.role === 'user' ? <User size={14} /> : <Bot size={14} />}
               </div>
               <div
-                className={`max-w-[85%] p-3.5 rounded-2xl text-sm leading-relaxed shadow-sm ${msg.role === 'user'
-                  ? 'bg-ayur-green text-white rounded-tr-none'
+                className={`chat-bubble px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-sm ${msg.role === 'user'
+                  ? 'bg-ayur-accent text-white rounded-tr-none'
                   : 'bg-white border border-ayur-subtle text-ayur-gray rounded-tl-none'
                   }`}
               >
@@ -279,7 +277,7 @@ You understand:
         </div>
 
         {/* Input */}
-        <div className="p-3 md:p-4 bg-white border-t border-ayur-subtle pb-safe">
+        <div className="p-3 md:p-4 bg-white border-t border-ayur-subtle chat-input-mobile">
           <div className="flex items-center gap-2 bg-gray-50 p-1.5 rounded-full border border-ayur-subtle focus-within:border-ayur-green focus-within:ring-1 focus-within:ring-ayur-green transition-all shadow-inner">
             <input
               type="text"
@@ -287,8 +285,8 @@ You understand:
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyPress}
               placeholder={language === 'hi' ? "अपना प्रश्न यहाँ लिखें..." : "Type your health question..."}
-              className="flex-1 px-4 py-2 bg-transparent text-ayur-green placeholder-gray-400 focus:outline-none text-base md:text-sm"
-              autoFocus={isOpen && window.innerWidth > 768}
+              className="flex-1 px-4 py-2 bg-transparent text-ayur-green placeholder-gray-400 focus:outline-none text-base touch-manipulation"
+              enterKeyHint="send"
             />
             {/* Voice Input Integration */}
             <VoiceInput onTranscript={handleVoiceInput} isCompact={true} className="mr-1" />
@@ -296,7 +294,7 @@ You understand:
             <button
               onClick={handleSend}
               disabled={isLoading || !input.trim()}
-              className="p-3 bg-ayur-green text-white rounded-full hover:bg-ayur-gold disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
+              className="p-3 bg-ayur-green text-white rounded-full hover:bg-ayur-gold disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm min-w-[48px] min-h-[48px] flex items-center justify-center active:scale-90 touch-manipulation"
               aria-label="Send message"
               title="Send"
             >
