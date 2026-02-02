@@ -256,7 +256,9 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   />
                   <button
                     onClick={detectLocation}
-                    className="absolute right-3 top-3 p-1.5 bg-ayur-cream rounded-lg text-ayur-gold hover:text-ayur-green"
+                    className="absolute right-3 top-3 p-1.5 bg-ayur-cream rounded-lg text-ayur-gold hover:text-ayur-green min-w-[36px] min-h-[36px] flex items-center justify-center"
+                    aria-label="Detect my location"
+                    title="Detect my location"
                   >
                     <MapPin size={16} />
                   </button>
@@ -287,8 +289,9 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-ayur-gray mb-2">Gender</label>
+                <label htmlFor="gender-select" className="block text-sm font-bold text-ayur-gray mb-2">Gender</label>
                 <select
+                  id="gender-select"
                   className={inputStyle}
                   value={formData.gender}
                   onChange={e => setFormData({ ...formData, gender: e.target.value })}
@@ -298,8 +301,9 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-bold text-ayur-gray mb-2">Preference</label>
+                <label htmlFor="preference-select" className="block text-sm font-bold text-ayur-gray mb-2">Preference</label>
                 <select
+                  id="preference-select"
                   className={inputStyle}
                   value={formData.preference}
                   onChange={e => setFormData({ ...formData, preference: e.target.value })}

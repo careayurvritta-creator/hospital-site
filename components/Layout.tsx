@@ -142,6 +142,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="min-h-screen flex flex-col font-sans text-ayur-gray bg-ayur-cream selection:bg-ayur-accent selection:text-white relative">
 
+      {/* Skip to main content link for accessibility */}
+      <a
+        href="#main-content"
+        className="skip-link sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-ayur-green focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg"
+      >
+        Skip to main content
+      </a>
+
       {/* Navbar */}
       <header
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${styles.bg} ${styles.glass} ${isMenuOpen ? '' : 'py-3 md:py-4'}`}
@@ -243,8 +251,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         {/* Mobile Menu Overlay - Full Screen with Enhanced Animations */}
         <div
           className={`lg:hidden fixed inset-0 z-40 bg-ayur-cream transition-all duration-300 ease-out flex flex-col ${isMenuOpen
-              ? 'opacity-100 pointer-events-auto'
-              : 'opacity-0 pointer-events-none'
+            ? 'opacity-100 pointer-events-auto'
+            : 'opacity-0 pointer-events-none'
             }`}
           style={{
             paddingTop: 'calc(96px + env(safe-area-inset-top))',
@@ -352,7 +360,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow pb-20 md:pb-0">
+      <main id="main-content" className="flex-grow pb-20 md:pb-0" tabIndex={-1}>
         {children}
       </main>
 

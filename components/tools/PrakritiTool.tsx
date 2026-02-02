@@ -183,7 +183,13 @@ const PrakritiTool: React.FC<PrakritiToolProps> = ({ onBack }) => {
             ) : avatarUrl ? (
               <div className="relative group animate-fadeIn">
                 <img src={avatarUrl} alt="Dosha Avatar" className="w-64 h-64 rounded-full shadow-2xl border-4 border-white object-cover" />
-                <a href={avatarUrl} download="my-prakriti-avatar.png" className="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow-lg hover:bg-ayur-gold hover:text-white transition-colors">
+                <a
+                  href={avatarUrl}
+                  download="my-prakriti-avatar.png"
+                  className="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow-lg hover:bg-ayur-gold hover:text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+                  aria-label="Download your Prakriti avatar"
+                  title="Download your Prakriti avatar"
+                >
                   <Download size={20} />
                 </a>
               </div>
@@ -309,8 +315,8 @@ const PrakritiTool: React.FC<PrakritiToolProps> = ({ onBack }) => {
                       key={idx}
                       onClick={() => handleOptionSelect(q.id, opt.dosha!)}
                       className={`group relative p-6 rounded-2xl border-2 text-left transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[140px] active:scale-95 ${isSelected
-                          ? 'border-ayur-gold bg-ayur-gold/10 shadow-md ring-2 ring-ayur-gold'
-                          : cardStyle
+                        ? 'border-ayur-gold bg-ayur-gold/10 shadow-md ring-2 ring-ayur-gold'
+                        : cardStyle
                         }`}
                     >
                       {/* Background Icon Watermark */}
