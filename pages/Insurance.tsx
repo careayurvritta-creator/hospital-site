@@ -106,7 +106,10 @@ const Insurance: React.FC = () => {
       setLoading(true);
 
       try {
-         const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY;
+         // Use Vite's import.meta.env for client-side environment variables
+         const apiKey = import.meta.env.VITE_GEMINI_API_KEY ||
+            import.meta.env.VITE_API_KEY ||
+            (typeof process !== 'undefined' && process.env?.API_KEY);
          if (!apiKey) throw new Error("API Key missing. Please check your environment configuration.");
 
          // Validate file size (max 20MB)
@@ -160,11 +163,11 @@ const Insurance: React.FC = () => {
                {
                   role: 'user',
                   parts: [
-                     { 
-                        inlineData: { 
-                           mimeType: mimeType, 
-                           data: base64String 
-                        } 
+                     {
+                        inlineData: {
+                           mimeType: mimeType,
+                           data: base64String
+                        }
                      },
                      { text: prompt }
                   ]
@@ -172,9 +175,9 @@ const Insurance: React.FC = () => {
             ]
          });
 
-         const resultText = response.text || 
-                           (response.candidates?.[0]?.content?.parts?.[0] as { text?: string })?.text;
-         
+         const resultText = response.text ||
+            (response.candidates?.[0]?.content?.parts?.[0] as { text?: string })?.text;
+
          if (resultText) {
             setAnalysisResult(resultText);
          } else {
@@ -184,7 +187,7 @@ const Insurance: React.FC = () => {
       } catch (error: unknown) {
          console.error("Analysis failed:", error);
          const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
-         
+
          if (errorMessage.includes("API Key")) {
             setAnalysisResult("Configuration error: API key is missing. Please contact support.");
          } else if (errorMessage.includes("File too large")) {
