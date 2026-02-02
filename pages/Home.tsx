@@ -113,8 +113,39 @@ const Home: React.FC = () => {
       <TrustBadges />
 
       {/* 
+        MOBILE QUICK NAVIGATION 
+        Easy access to all main pages - Mobile Only
+      */}
+      <section className="py-6 bg-white md:hidden">
+        <div className="px-4">
+          <h3 className="text-sm font-bold text-ayur-gray/60 uppercase tracking-wider mb-4 text-center">
+            Explore
+          </h3>
+          <div className="flex flex-wrap justify-center gap-3">
+            {[
+              { label: 'Services', path: '/services', icon: '🌿' },
+              { label: 'Programs', path: '/programs', icon: '📋' },
+              { label: 'About Us', path: '/about', icon: '🏥' },
+              { label: 'AI Tools', path: '/tools', icon: '🤖' },
+              { label: 'Insurance', path: '/insurance', icon: '📄' },
+              { label: 'Book Now', path: '/booking', icon: '📅' },
+            ].map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className="flex items-center gap-2 px-4 py-3 rounded-full bg-ayur-cream border border-ayur-subtle text-ayur-green font-medium text-sm active:scale-95 active:bg-ayur-green active:text-white transition-all duration-150 touch-manipulation"
+              >
+                <span>{item.icon}</span>
+                {item.label}
+              </NavLink>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 
         QUICK TRIAGE TILES 
-        Mobile: Single Column
+        Mobile: Single Column with improved touch feedback
       */}
       <section className="py-16 md:py-20 bg-white relative z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -133,16 +164,17 @@ const Home: React.FC = () => {
               <NavLink
                 key={idx}
                 to={item.link}
-                className="group card-luxury p-6 flex items-center md:block"
+                className="group card-luxury p-5 md:p-6 flex items-center md:block active:scale-[0.98] transition-transform duration-150 touch-manipulation"
               >
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-ayur-green/10 flex items-center justify-center text-ayur-green md:mb-6 mr-4 md:mr-0 shrink-0 group-hover:bg-ayur-green group-hover:text-white transition-colors">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-ayur-green/10 flex items-center justify-center text-ayur-green md:mb-6 mr-4 md:mr-0 shrink-0 group-hover:bg-ayur-green group-hover:text-white group-active:bg-ayur-green group-active:text-white transition-colors">
                   <item.icon size={24} strokeWidth={1.5} className="md:w-7 md:h-7" />
                 </div>
-                <div>
+                <div className="flex-1">
                   <h3 className="font-serif text-lg md:text-xl font-bold text-ayur-green-text mb-1 md:mb-2 group-hover:text-ayur-accent transition-colors">{item.title}</h3>
                   <p className="text-xs md:text-sm text-ayur-gray mb-1 md:mb-6 leading-relaxed">{item.desc}</p>
-                  <div className="hidden md:flex items-center text-ayur-accent text-xs font-bold uppercase tracking-wider">
-                    Learn more <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                  <div className="flex items-center text-ayur-accent text-xs font-bold uppercase tracking-wider">
+                    <span className="md:hidden">View →</span>
+                    <span className="hidden md:flex items-center">Learn more <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" /></span>
                   </div>
                 </div>
               </NavLink>
@@ -228,7 +260,7 @@ const Home: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             {/* Tool 1 */}
-            <NavLink to="/tools" className="group bg-ayur-cream/40 rounded-2xl p-6 md:p-8 hover:bg-ayur-green hover:text-white transition-all duration-300 relative overflow-hidden">
+            <NavLink to="/tools" className="group bg-ayur-cream/40 rounded-2xl p-6 md:p-8 hover:bg-ayur-green hover:text-white active:bg-ayur-green active:text-white active:scale-[0.98] transition-all duration-200 relative overflow-hidden touch-manipulation">
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                 <Leaf size={80} />
               </div>
@@ -241,7 +273,7 @@ const Home: React.FC = () => {
             </NavLink>
 
             {/* Tool 2 */}
-            <NavLink to="/tools" className="group bg-ayur-cream/40 rounded-2xl p-6 md:p-8 hover:bg-ayur-green hover:text-white transition-all duration-300 relative overflow-hidden">
+            <NavLink to="/tools" className="group bg-ayur-cream/40 rounded-2xl p-6 md:p-8 hover:bg-ayur-green hover:text-white active:bg-ayur-green active:text-white active:scale-[0.98] transition-all duration-200 relative overflow-hidden touch-manipulation">
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                 <ShieldCheck size={80} />
               </div>
@@ -254,7 +286,7 @@ const Home: React.FC = () => {
             </NavLink>
 
             {/* Tool 3 */}
-            <NavLink to="/tools" className="group bg-ayur-cream/40 rounded-2xl p-6 md:p-8 hover:bg-ayur-green hover:text-white transition-all duration-300 relative overflow-hidden">
+            <NavLink to="/tools" className="group bg-ayur-cream/40 rounded-2xl p-6 md:p-8 hover:bg-ayur-green hover:text-white active:bg-ayur-green active:text-white active:scale-[0.98] transition-all duration-200 relative overflow-hidden touch-manipulation">
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                 <Brain size={80} />
               </div>
