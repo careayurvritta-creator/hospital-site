@@ -1,0 +1,123 @@
+{
+    "name": "Ayurvritta Ayurveda",
+    "short_name": "Ayurvritta",
+    "description": "Ayurvritta Ayurveda Hospital & Panchakarma Center - Evidence-based Ayurvedic healthcare",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#F5F0E8",
+    "theme_color": "#0F3D3E",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "lang": "en",
+    "icons": [
+        {
+            "src": "/icons/icon-72x72.png",
+            "sizes": "72x72",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/icons/icon-96x96.png",
+            "sizes": "96x96",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/icons/icon-128x128.png",
+            "sizes": "128x128",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/icons/icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/icons/icon-152x152.png",
+            "sizes": "152x152",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/icons/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable any"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Book Appointment",
+            "short_name": "Book",
+            "description": "Book your Ayurveda consultation",
+            "url": "/#/booking",
+            "icons": [
+                {
+                    "src": "/icons/book-icon.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Call Us",
+            "short_name": "Call",
+            "description": "Call Ayurvritta Hospital",
+            "url": "tel:+919426684047",
+            "icons": [
+                {
+                    "src": "/icons/call-icon.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "WhatsApp",
+            "short_name": "Chat",
+            "description": "Chat with us on WhatsApp",
+            "url": "https://wa.me/919426684047",
+            "icons": [
+                {
+                    "src": "/icons/whatsapp-icon.png",
+                    "sizes": "96x96"
+                }
+            ]
+        }
+    ],
+    "categories": [
+        "health",
+        "medical",
+        "lifestyle"
+    ],
+    "screenshots": [
+        {
+            "src": "/screenshots/home.png",
+            "sizes": "1080x1920",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Home Page"
+        },
+        {
+            "src": "/screenshots/services.png",
+            "sizes": "1080x1920",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Services"
+        }
+    ],
+    "related_applications": [],
+    "prefer_related_applications": false
+}

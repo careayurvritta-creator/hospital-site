@@ -1,0 +1,185 @@
+{
+    "topic": "Panchakarma",
+    "sanskrit": "पंचकर्म",
+    "description": "Five purification therapies that eliminate deep-rooted toxins (Ama) from the body",
+    "meaning": "Pancha = Five, Karma = Actions/Procedures",
+    "therapies": [
+        {
+            "name": "Vamana",
+            "sanskrit": "वमन",
+            "english": "Therapeutic Emesis",
+            "indication": "Kapha disorders",
+            "conditions": [
+                "Asthma and respiratory disorders",
+                "Skin diseases (Kushtha)",
+                "Obesity (Sthaulya)",
+                "Diabetes (Prameha)",
+                "Thyroid disorders"
+            ],
+            "procedure": "Induced vomiting using herbal preparations after proper Snehana and Swedana",
+            "duration": "Single sitting after 3-7 days preparation",
+            "benefits": [
+                "Clears upper respiratory tract",
+                "Removes excess Kapha",
+                "Improves metabolism",
+                "Lightness in body"
+            ],
+            "contraindications": [
+                "Heart disease",
+                "Pregnancy",
+                "Elderly and children",
+                "Extreme weakness"
+            ]
+        },
+        {
+            "name": "Virechana",
+            "sanskrit": "विरेचन",
+            "english": "Therapeutic Purgation",
+            "indication": "Pitta disorders",
+            "conditions": [
+                "Skin diseases",
+                "Liver disorders",
+                "Jaundice",
+                "Chronic fever",
+                "Hyperacidity"
+            ],
+            "procedure": "Controlled purgation using herbal laxatives after oleation",
+            "duration": "Single day after 5-7 days preparation",
+            "benefits": [
+                "Cleanses liver and GI tract",
+                "Removes excess Pitta",
+                "Improves skin complexion",
+                "Enhances metabolism"
+            ],
+            "contraindications": [
+                "Bleeding disorders",
+                "Ulcerative colitis active phase",
+                "Pregnancy",
+                "Extreme debility"
+            ]
+        },
+        {
+            "name": "Basti",
+            "sanskrit": "बस्ति",
+            "english": "Medicated Enema",
+            "indication": "Vata disorders",
+            "types": [
+                "Anuvasana Basti (Oil enema)",
+                "Niruha/Asthapana Basti (Decoction enema)"
+            ],
+            "conditions": [
+                "Joint disorders (Sandhivata)",
+                "Paralysis",
+                "Neurological disorders",
+                "Chronic constipation",
+                "Infertility"
+            ],
+            "procedure": "Administration of medicated oils or decoctions through rectum",
+            "duration": "8-30 days course",
+            "benefits": [
+                "Controls Vata dosha",
+                "Nourishes tissues",
+                "Improves strength",
+                "Rejuvenation"
+            ],
+            "contraindications": [
+                "Diabetes uncontrolled",
+                "Severe anemia",
+                "During menstruation"
+            ]
+        },
+        {
+            "name": "Nasya",
+            "sanskrit": "नस्य",
+            "english": "Nasal Therapy",
+            "indication": "Head and neck disorders",
+            "conditions": [
+                "Sinusitis",
+                "Migraine",
+                "Hair fall",
+                "Memory disorders",
+                "Facial paralysis"
+            ],
+            "procedure": "Administration of medicated oils through nostrils",
+            "duration": "7-21 days",
+            "benefits": [
+                "Clears sinuses",
+                "Improves brain function",
+                "Strengthens sense organs",
+                "Enhances memory"
+            ],
+            "contraindications": [
+                "Acute cold with fever",
+                "After head bath",
+                "Pregnancy"
+            ]
+        },
+        {
+            "name": "Raktamokshana",
+            "sanskrit": "रक्तमोक्षण",
+            "english": "Bloodletting",
+            "indication": "Blood (Rakta) disorders",
+            "methods": [
+                "Jalaukavacharana (Leech therapy)",
+                "Siravyadha (Venipuncture)",
+                "Pracchana (Superficial incisions)"
+            ],
+            "conditions": [
+                "Skin diseases",
+                "Varicose veins",
+                "Gout",
+                "Chronic wounds"
+            ],
+            "benefits": [
+                "Purifies blood",
+                "Reduces inflammation",
+                "Improves circulation"
+            ],
+            "contraindications": [
+                "Anemia",
+                "Bleeding disorders",
+                "Pregnancy"
+            ]
+        }
+    ],
+    "purvakarma": {
+        "description": "Preparatory procedures before main Panchakarma",
+        "procedures": [
+            {
+                "name": "Snehana",
+                "english": "Oleation",
+                "types": [
+                    "Abhyantara (Internal - ghee)",
+                    "Bahya (External - massage)"
+                ],
+                "duration": "3-7 days"
+            },
+            {
+                "name": "Swedana",
+                "english": "Sudation/Steam",
+                "types": [
+                    "Bashpa Sweda (Steam)",
+                    "Pinda Sweda (Bolus)",
+                    "Nadi Sweda (Tube)"
+                ],
+                "purpose": "Opens channels, liquefies toxins"
+            }
+        ]
+    },
+    "paschatkarma": {
+        "description": "Post-therapy dietary and lifestyle regimen",
+        "samsarjana_krama": [
+            "Day 1-2: Peya (thin rice gruel)",
+            "Day 3-4: Vilepi (thick rice gruel)",
+            "Day 5-6: Akrita Yusha (unseasoned soup)",
+            "Day 7: Krita Yusha (seasoned soup)",
+            "Gradual return to normal diet"
+        ]
+    },
+    "at_ayurvritta": {
+        "specialty": "Classical Panchakarma with modern amenities",
+        "doctor": "Dr. Jinendradutt Sharma",
+        "focus": "Lifestyle disorders, Thyroid, Diabetes, CKD",
+        "approach": "Authentic protocols from classical texts"
+    }
+}

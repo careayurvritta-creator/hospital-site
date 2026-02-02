@@ -1,0 +1,324 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   MOBILE-FIRST BASE STYLES
+   ============================================ */
+
+/* Custom base styles */
+html {
+  /* Prevent pull-to-refresh on mobile */
+  overscroll-behavior-y: contain;
+  /* Smooth scrolling */
+  scroll-behavior: smooth;
+  /* Prevent text size adjustment on orientation change */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  background-color: #FDFBF7;
+  color: #1A3C34;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent overscroll bounce */
+  overscroll-behavior-y: none;
+  /* Mobile-first font size */
+  font-size: 16px;
+  line-height: 1.6;
+  /* Safe area padding for notched devices */
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Mobile input zoom prevention - CRITICAL for iOS */
+input,
+select,
+textarea {
+  font-size: 16px !important;
+}
+
+/* Prevent tap highlight on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ============================================
+   MOBILE SCROLLBAR (thin/hidden on mobile)
+   ============================================ */
+
+/* Hide scrollbar on mobile for cleaner look */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Desktop scrollbar */
+@media (min-width: 769px) {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #BFA05A;
+    border-radius: 4px;
+  }
+}
+
+/* ============================================
+   PRELOADER
+   ============================================ */
+
+#root:empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #FDFBF7;
+}
+
+#root:empty::after {
+  content: "AYURVRITTA";
+  font-family: 'Philosopher', sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #BFA05A;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   MOBILE-FIRST COMPONENT LAYER
+   ============================================ */
+
+@layer components {
+
+  /* ========== TOUCH TARGETS ========== */
+
+  /* Minimum 48px touch target for accessibility */
+  .touch-target {
+    @apply min-h-touch min-w-touch flex items-center justify-center;
+  }
+
+  /* Large touch target for primary actions */
+  .touch-target-lg {
+    @apply min-h-touch-lg flex items-center justify-center;
+  }
+
+  /* ========== SAFE AREAS ========== */
+
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-area-x {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* ========== BUTTONS ========== */
+
+  /* Primary Button - Mobile optimized */
+  .btn-primary {
+    @apply inline-flex justify-center items-center px-6 py-4 rounded-full font-bold shadow-lg transition-all duration-300 active:scale-95 min-h-touch;
+    background: linear-gradient(135deg, #009688 0%, #00796B 100%);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #00796B 0%, #004D40 100%);
+    @apply shadow-xl -translate-y-0.5;
+  }
+
+  /* Secondary Button - Mobile optimized */
+  .btn-secondary {
+    @apply inline-flex justify-center items-center px-6 py-4 rounded-full font-bold border-2 transition-all duration-300 active:scale-95 min-h-touch;
+    border-color: #BFA05A;
+    color: #1A3C34;
+  }
+
+  .btn-secondary:hover {
+    background-color: #BFA05A;
+    color: white;
+  }
+
+  /* ========== CARDS ========== */
+
+  /* Luxury Card - Touch optimized */
+  .card-luxury {
+    @apply bg-white rounded-2xl border transition-all duration-300;
+    border-color: #E8E4D9;
+    box-shadow: 0 2px 8px rgba(26, 60, 52, 0.04);
+  }
+
+  .card-luxury:hover {
+    border-color: #BFA05A;
+    box-shadow: 0 12px 40px rgba(26, 60, 52, 0.12);
+    transform: translateY(-4px);
+  }
+
+  /* Mobile card - Simplified for touch */
+  .card-mobile {
+    @apply bg-white rounded-2xl p-4 transition-all duration-200 shadow-card-mobile active:scale-[0.98];
+    border: 1px solid #E8E4D9;
+  }
+
+  /* ========== MOBILE SCROLL CONTAINERS ========== */
+
+  /* Horizontal scroll snap for cards */
+  .scroll-snap-x {
+    @apply flex gap-4 overflow-x-auto pb-4 -mx-4 px-4;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .scroll-snap-x>* {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
+  /* Hide scrollbar for scroll containers */
+  .scroll-snap-x::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ========== MOBILE BOTTOM NAV ========== */
+
+  .bottom-nav {
+    @apply fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 shadow-bottom-nav z-40;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .bottom-nav-item {
+    @apply flex flex-col items-center justify-center py-2 px-3 min-h-touch transition-colors;
+  }
+
+  .bottom-nav-item.active {
+    @apply text-ayur-green;
+  }
+
+  .bottom-nav-item:not(.active) {
+    @apply text-gray-400;
+  }
+
+  /* ========== MOBILE FORM INPUTS ========== */
+
+  .input-mobile {
+    @apply w-full px-4 py-4 bg-gray-50 text-ayur-green placeholder-gray-400 rounded-xl text-base;
+    @apply border border-transparent focus:bg-white focus:border-ayur-green focus:ring-1 focus:ring-ayur-green;
+    @apply outline-none transition-all shadow-sm;
+    font-size: 16px;
+    /* Prevents zoom on iOS */
+  }
+
+  /* ========== TYPOGRAPHY ========== */
+
+  /* Section Title - Responsive */
+  .section-title {
+    @apply font-serif font-bold text-ayur-green;
+    @apply text-2xl sm:text-3xl md:text-4xl;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  /* Body Text - Improved readability */
+  .body-text {
+    @apply text-ayur-gray leading-relaxed;
+    @apply text-base md:text-lg;
+    line-height: 1.7;
+  }
+
+  /* ========== MOBILE SPACING UTILITIES ========== */
+
+  /* Add space for bottom nav */
+  .pb-bottom-nav {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+
+  /* Mobile-friendly section padding */
+  .section-mobile {
+    @apply py-12 px-4 sm:py-16 sm:px-6 md:py-20 lg:py-24;
+  }
+
+  /* ========== FLOATING ACTION BUTTON ========== */
+
+  .fab {
+    @apply fixed z-40 w-14 h-14 rounded-full flex items-center justify-center shadow-xl active:scale-95 transition-all;
+    bottom: calc(80px + env(safe-area-inset-bottom));
+    right: 16px;
+  }
+
+  .fab-primary {
+    @apply fab bg-ayur-accent text-white;
+  }
+}
+
+/* Selection styling */
+::selection {
+  background-color: #BFA05A;
+  color: white;
+}
+
+/* ============================================
+   RESPONSIVE VISIBILITY HELPERS
+   ============================================ */
+
+/* Only show on mobile (below md breakpoint) */
+.mobile-only {
+  @apply block md:hidden;
+}
+
+/* Only show on desktop (md and above) */
+.desktop-only {
+  @apply hidden md:block;
+}
+
+/* ============================================
+   ACCESSIBILITY IMPROVEMENTS
+   ============================================ */
+
+/* Focus visible for keyboard navigation */
+:focus-visible {
+  outline: 2px solid #009688;
+  outline-offset: 2px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

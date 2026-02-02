@@ -1,0 +1,134 @@
+{
+    "topic": "Pathya Apathya",
+    "sanskrit": "पथ्य अपथ्य",
+    "description": "Wholesome (Pathya) and unwholesome (Apathya) diet and lifestyle based on condition and constitution",
+    "general_principles": {
+        "pathya_definition": "That which is beneficial for the body channels (Srotas) and mind",
+        "apathya_definition": "That which causes harm to body channels or aggravates doshas",
+        "factors": [
+            "Prakriti (Constitution)",
+            "Vikriti (Current imbalance)",
+            "Desha (Place/Region)",
+            "Kala (Season/Time)",
+            "Agni (Digestive fire)",
+            "Bala (Strength)"
+        ]
+    },
+    "by_condition": {
+        "prameha_diabetes": {
+            "pathya": [
+                "Yava (Barley)",
+                "Mudga (Green gram)",
+                "Bitter gourd (Karavellaka)",
+                "Methi (Fenugreek)",
+                "Haridra (Turmeric)",
+                "Triphala",
+                "Physical exercise"
+            ],
+            "apathya": [
+                "Sugar and jaggery",
+                "Rice in excess",
+                "Potato and sweet potato",
+                "Maida (Refined flour)",
+                "Cold drinks",
+                "Day sleep",
+                "Sedentary lifestyle"
+            ]
+        },
+        "thyroid_hypothyroid": {
+            "pathya": [
+                "Shigru (Drumstick)",
+                "Coconut oil",
+                "Dry ginger",
+                "Pippali (Long pepper)",
+                "Black pepper",
+                "Yoga and Pranayama"
+            ],
+            "apathya": [
+                "Cabbage, cauliflower raw",
+                "Soy products",
+                "Excessive cold water",
+                "Heavy, oily foods",
+                "Day sleep"
+            ]
+        },
+        "kidney_ckd": {
+            "pathya": [
+                "Punarnava (Boerhavia)",
+                "Gokshura (Tribulus)",
+                "Varun (Crataeva)",
+                "Low protein diet",
+                "Adequate hydration",
+                "Ash gourd"
+            ],
+            "apathya": [
+                "High protein foods",
+                "Excessive salt",
+                "Spinach, tomatoes (oxalates)",
+                "Alcohol",
+                "NSAIDs"
+            ]
+        },
+        "obesity_sthaulya": {
+            "pathya": [
+                "Honey with warm water",
+                "Barley and millets",
+                "Bitter and astringent foods",
+                "Warm foods",
+                "Regular exercise",
+                "Triphala"
+            ],
+            "apathya": [
+                "Sweet and oily foods",
+                "Dairy products excess",
+                "Cold water and drinks",
+                "Day sleep",
+                "Sedentary habits"
+            ]
+        },
+        "pcod": {
+            "pathya": [
+                "Shatavari",
+                "Guduchi",
+                "Ashoka",
+                "Regular exercise",
+                "Warm foods",
+                "Stress management"
+            ],
+            "apathya": [
+                "Dairy excess",
+                "Sweet and sour foods",
+                "Junk food",
+                "Irregular routine",
+                "Stress"
+            ]
+        }
+    },
+    "seasonal_regimen": {
+        "hemanta_shishira": {
+            "season": "Winter (Nov-Feb)",
+            "recommended": "Heavy, sweet, oily foods; Exercise",
+            "avoid": "Fasting, excessive cold exposure"
+        },
+        "vasanta": {
+            "season": "Spring (Mar-Apr)",
+            "recommended": "Light foods, honey, exercise, Udvartana",
+            "avoid": "Day sleep, heavy foods"
+        },
+        "grishma": {
+            "season": "Summer (May-June)",
+            "recommended": "Sweet, liquid, cool foods; rest",
+            "avoid": "Pungent, salty, exercise in heat"
+        },
+        "varsha": {
+            "season": "Monsoon (July-Aug)",
+            "recommended": "Light, warm, sour foods; Basti therapy",
+            "avoid": "Day sleep, heavy exercise"
+        },
+        "sharad": {
+            "season": "Autumn (Sep-Oct)",
+            "recommended": "Bitter, sweet foods; Virechana",
+            "avoid": "Curd, oil, sun exposure"
+        }
+    }
+}

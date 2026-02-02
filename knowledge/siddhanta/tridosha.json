@@ -1,0 +1,130 @@
+{
+    "topic": "Tridosha",
+    "sanskrit": "त्रिदोष",
+    "description": "The three fundamental bio-energies that govern all physiological and psychological functions",
+    "doshas": [
+        {
+            "name": "Vata",
+            "sanskrit": "वात",
+            "elements": [
+                "Vayu (Air)",
+                "Akasha (Space)"
+            ],
+            "qualities": [
+                "Ruksha (Dry)",
+                "Laghu (Light)",
+                "Sheeta (Cold)",
+                "Khara (Rough)",
+                "Sukshma (Subtle)",
+                "Chala (Mobile)"
+            ],
+            "seat": "Pakwashaya (Colon)",
+            "functions": [
+                "Controls all movements in body",
+                "Governs nervous system",
+                "Regulates breathing and circulation",
+                "Eliminates waste products",
+                "Creativity and enthusiasm"
+            ],
+            "imbalance_signs": [
+                "Anxiety and restlessness",
+                "Dry skin and constipation",
+                "Joint pain and cracking",
+                "Insomnia and irregular appetite",
+                "Weight loss"
+            ],
+            "balancing": [
+                "Warm, moist, oily foods",
+                "Regular routine and rest",
+                "Abhyanga (oil massage)",
+                "Avoid cold and raw foods",
+                "Basti (enema therapy)"
+            ]
+        },
+        {
+            "name": "Pitta",
+            "sanskrit": "पित्त",
+            "elements": [
+                "Agni (Fire)",
+                "Jala (Water)"
+            ],
+            "qualities": [
+                "Ushna (Hot)",
+                "Tikshna (Sharp)",
+                "Laghu (Light)",
+                "Visra (Fleshy smell)",
+                "Sara (Spreading)",
+                "Drava (Liquid)"
+            ],
+            "seat": "Nabhi (Navel/Small Intestine)",
+            "functions": [
+                "Governs digestion and metabolism",
+                "Maintains body temperature",
+                "Controls hunger and thirst",
+                "Vision and skin complexion",
+                "Intelligence and courage"
+            ],
+            "imbalance_signs": [
+                "Acidity and heartburn",
+                "Skin rashes and inflammation",
+                "Excessive sweating and body odor",
+                "Irritability and anger",
+                "Premature greying"
+            ],
+            "balancing": [
+                "Cool, sweet, bitter foods",
+                "Avoid spicy and fried foods",
+                "Moderate exercise",
+                "Virechana (purgation therapy)",
+                "Cooling herbs like Shatavari"
+            ]
+        },
+        {
+            "name": "Kapha",
+            "sanskrit": "कफ",
+            "elements": [
+                "Prithvi (Earth)",
+                "Jala (Water)"
+            ],
+            "qualities": [
+                "Guru (Heavy)",
+                "Sheeta (Cold)",
+                "Mridu (Soft)",
+                "Snigdha (Oily)",
+                "Madhura (Sweet)",
+                "Sthira (Stable)"
+            ],
+            "seat": "Uras (Chest)",
+            "functions": [
+                "Provides structure and lubrication",
+                "Maintains immunity (Ojas)",
+                "Tissue building and repair",
+                "Joint lubrication",
+                "Emotional stability and love"
+            ],
+            "imbalance_signs": [
+                "Weight gain and obesity",
+                "Lethargy and excessive sleep",
+                "Congestion and mucus",
+                "Water retention",
+                "Depression and attachment"
+            ],
+            "balancing": [
+                "Light, warm, spicy foods",
+                "Regular vigorous exercise",
+                "Avoid dairy and sweets",
+                "Vamana (emesis therapy)",
+                "Dry massage (Udvartana)"
+            ]
+        }
+    ],
+    "clinical_application": {
+        "diagnosis": "Prakriti (constitution) and Vikriti (current imbalance) assessment",
+        "treatment_principle": "Balance aggravated dosha through opposite qualities",
+        "panchakarma_correlation": {
+            "Vata": "Basti (enema)",
+            "Pitta": "Virechana (purgation)",
+            "Kapha": "Vamana (emesis)"
+        }
+    }
+}

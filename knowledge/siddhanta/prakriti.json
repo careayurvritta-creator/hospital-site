@@ -1,0 +1,104 @@
+{
+    "topic": "Prakriti",
+    "sanskrit": "प्रकृति",
+    "description": "Innate constitution determined at conception, remains constant throughout life",
+    "types": [
+        {
+            "type": "Vata Prakriti",
+            "physical_traits": [
+                "Thin, light frame",
+                "Dry skin and hair",
+                "Cold hands and feet",
+                "Irregular appetite",
+                "Light, interrupted sleep",
+                "Prominent joints and veins"
+            ],
+            "mental_traits": [
+                "Quick-thinking, creative",
+                "Enthusiastic but anxious",
+                "Fast learner, quick forgetter",
+                "Variable moods",
+                "Loves travel and change"
+            ],
+            "dietary_recommendations": [
+                "Warm, cooked, oily foods",
+                "Sweet, sour, salty tastes",
+                "Avoid raw, cold, dry foods",
+                "Regular meal times essential"
+            ],
+            "lifestyle_recommendations": [
+                "Regular daily routine",
+                "Adequate rest, early sleep",
+                "Gentle yoga and meditation",
+                "Avoid excessive stimulation"
+            ]
+        },
+        {
+            "type": "Pitta Prakriti",
+            "physical_traits": [
+                "Medium build, muscular",
+                "Warm body temperature",
+                "Sharp hunger and thirst",
+                "Soft, oily skin",
+                "Tendency to grey early",
+                "Good digestion"
+            ],
+            "mental_traits": [
+                "Sharp intellect, analytical",
+                "Goal-oriented, ambitious",
+                "Strong memory",
+                "Can be irritable under stress",
+                "Natural leaders"
+            ],
+            "dietary_recommendations": [
+                "Cool, refreshing foods",
+                "Sweet, bitter, astringent tastes",
+                "Avoid spicy, sour, fermented",
+                "Never skip meals"
+            ],
+            "lifestyle_recommendations": [
+                "Moderate exercise, swimming",
+                "Avoid excessive heat",
+                "Balance work with relaxation",
+                "Moonlight walks"
+            ]
+        },
+        {
+            "type": "Kapha Prakriti",
+            "physical_traits": [
+                "Large, solid frame",
+                "Smooth, oily skin",
+                "Thick, wavy hair",
+                "Deep, heavy sleep",
+                "Slow metabolism",
+                "Strong immunity"
+            ],
+            "mental_traits": [
+                "Calm, steady, patient",
+                "Slow but thorough learner",
+                "Excellent long-term memory",
+                "Loving and forgiving",
+                "Resistant to change"
+            ],
+            "dietary_recommendations": [
+                "Light, warm, spicy foods",
+                "Pungent, bitter, astringent tastes",
+                "Avoid heavy, oily, sweet foods",
+                "Fasting beneficial occasionally"
+            ],
+            "lifestyle_recommendations": [
+                "Regular vigorous exercise",
+                "Wake early, avoid day sleep",
+                "Seek variety and stimulation",
+                "Dry massage (Udvartana)"
+            ]
+        }
+    ],
+    "dual_constitutions": [
+        "Vata-Pitta: Creative and sharp, needs balance of both",
+        "Pitta-Kapha: Strong digestion with endurance, heat sensitivity",
+        "Vata-Kapha: Variable digestion, needs regularity and warmth"
+    ],
+    "sama_prakriti": "Balanced constitution with equal doshas - rare and ideal",
+    "vikriti": "Current state of imbalance - differs from prakriti when doshas are aggravated"
+}

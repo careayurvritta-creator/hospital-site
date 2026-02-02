@@ -1,0 +1,14 @@
+# Ayurvritta Ayurveda Hospital
+# https://ayurvritta.com
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /*.json$
+Disallow: /sw.js
+
+# Sitemap
+Sitemap: https://ayurvritta.com/sitemap.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1

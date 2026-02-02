@@ -1,0 +1,146 @@
+{
+    "topic": "Ayurvritta Hospital Services",
+    "location": "FF 104–113, Lotus Enora Complex, Opp. Rutu Villa, New Alkapuri, Gotri, Vadodara – 390021",
+    "phone": "+91 94266 84047",
+    "hours": "Open 24 Hours, All Days",
+    "chief_physician": "Dr. Jinendradutt Sharma",
+    "specialty": "Lifestyle Disorders & Classical Panchakarma",
+    "approach": "Evidence-based Ayurveda with Nidan Parivarjan (root cause removal)",
+    "service_categories": [
+        {
+            "category": "Abhyanga & Massage",
+            "description": "Specialized oil therapies for musculoskeletal strengthening",
+            "price_range": "₹500-₹1500",
+            "popular": [
+                "Abhyanga Full Body ₹1300",
+                "Kati Vasti ₹1000",
+                "Greeva Vasti ₹1000"
+            ]
+        },
+        {
+            "category": "Swedana (Fomentation)",
+            "description": "Therapeutic sweating for stiffness and toxins",
+            "price_range": "₹600-₹2000",
+            "popular": [
+                "Patra Pinda Sweda ₹1500",
+                "Shashtika Pinda ₹2000"
+            ]
+        },
+        {
+            "category": "Dhara Therapies",
+            "description": "Rhythmic pouring for neurological & stress disorders",
+            "price_range": "₹1000-₹1800",
+            "popular": [
+                "Shirodhara ₹1500",
+                "Takradhara ₹1500"
+            ]
+        },
+        {
+            "category": "Panchakarma (Shodhan)",
+            "description": "Deep cellular detoxification",
+            "price_range": "₹700-₹5000",
+            "popular": [
+                "Vamana ₹5000",
+                "Virechana ₹3000"
+            ]
+        },
+        {
+            "category": "Basti Therapies",
+            "description": "Medicated enemas for Vata disorders",
+            "price_range": "₹500-₹2000",
+            "popular": [
+                "Nirooha Basti ₹1200",
+                "Matra Basti ₹500"
+            ]
+        },
+        {
+            "category": "Netra (Eye) Therapies",
+            "description": "Vision protection and eye care",
+            "price_range": "₹500-₹1000",
+            "popular": [
+                "Netra Tarpana ₹700/eye"
+            ]
+        },
+        {
+            "category": "Nasya & Head Therapies",
+            "description": "ENT and brain health via nasal route",
+            "price_range": "₹600-₹1000",
+            "popular": [
+                "Nasya ₹700"
+            ]
+        }
+    ],
+    "programs": [
+        {
+            "name": "Thyroid Reset Program",
+            "duration": "3 Months",
+            "focus": "Hypothyroidism, Hashimoto's",
+            "includes": [
+                "Udvartana",
+                "Nasya",
+                "Virechana",
+                "Pulse Diagnosis"
+            ]
+        },
+        {
+            "name": "Diabetes & Metabolic Rebalance",
+            "duration": "6 Months",
+            "focus": "Type 2 Diabetes, Prediabetes",
+            "includes": [
+                "Takradhara",
+                "Virechana",
+                "Diet Chart"
+            ]
+        },
+        {
+            "name": "CKD Integrative Support",
+            "duration": "Ongoing",
+            "focus": "CKD Stage 2-3, High Creatinine",
+            "includes": [
+                "Punarnavadi Basti",
+                "Rasayana Therapy"
+            ]
+        },
+        {
+            "name": "Stress Relief Panchakarma",
+            "duration": "7 or 14 Days",
+            "focus": "Insomnia, Anxiety, Burnout",
+            "includes": [
+                "Daily Shirodhara",
+                "Abhyanga",
+                "Meditation"
+            ]
+        },
+        {
+            "name": "Weight Loss & Metabolic Fatigue",
+            "duration": "3 Months",
+            "focus": "Obesity, Sluggish Metabolism",
+            "includes": [
+                "Udvartana",
+                "Lekhana Basti",
+                "Fasting Protocol"
+            ]
+        }
+    ],
+    "insurance": {
+        "note": "Cashless treatment available with most major insurers",
+        "examples": [
+            "Star Health",
+            "HDFC ERGO",
+            "Bajaj Allianz",
+            "ICICI Lombard",
+            "New India Assurance"
+        ]
+    },
+    "booking": {
+        "methods": [
+            "Call +91 94266 84047",
+            "WhatsApp",
+            "Website booking form"
+        ],
+        "consultation_type": [
+            "OPD",
+            "IPD (Panchakarma packages)"
+        ]
+    }
+}

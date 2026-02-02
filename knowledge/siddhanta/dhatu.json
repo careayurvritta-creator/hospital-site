@@ -1,0 +1,118 @@
+{
+    "topic": "Sapta Dhatu",
+    "sanskrit": "सप्त धातु",
+    "description": "Seven tissue elements that form the structural components of the body",
+    "dhatus": [
+        {
+            "name": "Rasa",
+            "sanskrit": "रस",
+            "english": "Plasma/Lymph",
+            "formation_time": "1 day after food digestion",
+            "function": "Nourishes all tissues, provides satisfaction (Prinana)",
+            "upadhatu": "Stanya (breast milk), Artava (menstrual blood)",
+            "mala": "Kapha (mucus)",
+            "sara_signs": [
+                "Smooth skin",
+                "Pleasant appearance",
+                "Contentment",
+                "Good hair"
+            ]
+        },
+        {
+            "name": "Rakta",
+            "sanskrit": "रक्त",
+            "english": "Blood",
+            "formation_time": "2 days",
+            "function": "Oxygenation, life force (Jeevana)",
+            "upadhatu": "Sira (blood vessels), Kandara (tendons)",
+            "mala": "Pitta",
+            "sara_signs": [
+                "Warm touch",
+                "Reddish complexion",
+                "Good energy",
+                "Sharp intellect"
+            ]
+        },
+        {
+            "name": "Mamsa",
+            "sanskrit": "मांस",
+            "english": "Muscle",
+            "formation_time": "3 days",
+            "function": "Covers body, provides strength (Lepana)",
+            "upadhatu": "Vasa (muscle fat), Tvacha (skin layers)",
+            "mala": "Khamala (ear wax, nasal debris)",
+            "sara_signs": [
+                "Well-built physique",
+                "Prominent muscles",
+                "Strength",
+                "Forgiveness"
+            ]
+        },
+        {
+            "name": "Meda",
+            "sanskrit": "मेद",
+            "english": "Fat/Adipose",
+            "formation_time": "4 days",
+            "function": "Lubrication, protection (Snehana)",
+            "upadhatu": "Snayu (ligaments)",
+            "mala": "Sweda (sweat)",
+            "sara_signs": [
+                "Soft body",
+                "Oily skin",
+                "Pleasant voice",
+                "Wealth"
+            ]
+        },
+        {
+            "name": "Asthi",
+            "sanskrit": "अस्थि",
+            "english": "Bone",
+            "formation_time": "5 days",
+            "function": "Structural support (Dharana)",
+            "upadhatu": "Danta (teeth)",
+            "mala": "Kesha, Loma, Nakha (hair, nails)",
+            "sara_signs": [
+                "Large joints",
+                "Strong bones",
+                "Active",
+                "Endurance"
+            ]
+        },
+        {
+            "name": "Majja",
+            "sanskrit": "मज्जा",
+            "english": "Bone Marrow/Nervous",
+            "formation_time": "6 days",
+            "function": "Fills bone cavities (Purana), nervous function",
+            "upadhatu": "None",
+            "mala": "Akshi Vit (eye secretions)",
+            "sara_signs": [
+                "Strong body",
+                "Soft joints",
+                "Good voice",
+                "Long life"
+            ]
+        },
+        {
+            "name": "Shukra",
+            "sanskrit": "शुक्र",
+            "english": "Reproductive Tissue",
+            "formation_time": "7 days",
+            "function": "Reproduction, vitality (Garbhotpadana)",
+            "upadhatu": "Ojas (essence of all dhatus)",
+            "mala": "None",
+            "sara_signs": [
+                "Attractive",
+                "Beautiful eyes",
+                "Fertility",
+                "Popular"
+            ]
+        }
+    ],
+    "clinical_relevance": {
+        "dhatu_kshaya": "Tissue depletion - leads to weakness of that tissue and subsequent ones",
+        "dhatu_vriddhi": "Tissue excess - creates heaviness and related disorders",
+        "sara_pariksha": "Assessment of tissue excellence for determining patient strength",
+        "treatment": "Nourish depleted dhatu, reduce excess dhatu using appropriate diet and therapy"
+    }
+}
