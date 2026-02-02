@@ -10,7 +10,7 @@ interface MobileBottomNavProps {
 
 interface NavItem {
     path: string;
-    labelKey: string; // Changed from label to labelKey
+    labelKey: string;
     icon: React.FC<{ className?: string; size?: number }>;
 }
 
@@ -22,9 +22,6 @@ const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
     const location = useLocation();
     const navigate = useNavigate();
 
-    // Moved inside component to access 't' if I wanted to translate here, 
-    // but better to keep data static and translate in render.
-    // Actually, distinct keys are needed.
     const NAV_ITEMS: NavItem[] = [
         { path: '/', labelKey: 'home', icon: Home },
         { path: '/services', labelKey: 'services', icon: Briefcase },
@@ -52,38 +49,55 @@ const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
             {/* Spacer to prevent content from being hidden behind nav */}
             <div className="h-16 md:hidden" />
 
-            {/* Bottom Navigation Bar */}
+            {/* Bottom Navigation Bar - Enhanced with blur and better styling */}
             <nav
-                className="bottom-nav md:hidden"
+                className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200/50 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]"
+                style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
                 role="navigation"
                 aria-label="Main mobile navigation"
             >
-                <div className="flex items-center justify-around h-16 max-w-lg mx-auto">
+                <div className="flex items-center justify-around h-16 max-w-lg mx-auto px-2">
                     {/* Main nav items */}
                     {NAV_ITEMS.map((item) => {
                         const Icon = item.icon;
                         const active = isActive(item.path);
-                        // Translate label
                         const label = (t.nav as any)[item.labelKey] || item.labelKey;
 
                         return (
                             <button
                                 key={item.path}
                                 onClick={() => handleNavClick(item.path)}
-                                className={`bottom-nav-item ${active ? 'active' : ''}`}
+                                className={`
+                                    relative flex flex-col items-center justify-center 
+                                    py-2 px-4 min-h-[48px] min-w-[56px]
+                                    transition-all duration-200 ease-out
+                                    active:scale-90 touch-manipulation
+                                    ${active
+                                        ? 'text-ayur-green'
+                                        : 'text-gray-500 hover:text-gray-700'
+                                    }
+                                `}
                                 aria-label={label}
                                 aria-current={active ? 'page' : undefined}
                             >
+                                {/* Icon with scale animation */}
                                 <Icon
-                                    size={22}
-                                    className={`mb-0.5 transition-transform ${active ? 'scale-110' : ''}`}
+                                    size={active ? 24 : 22}
+                                    className={`mb-0.5 transition-all duration-200 ${active ? 'drop-shadow-sm' : ''
+                                        }`}
                                 />
-                                <span className="text-[10px] font-medium tracking-wide">
+
+                                {/* Label with improved contrast */}
+                                <span className={`text-[10px] font-semibold tracking-wide transition-all ${active ? 'opacity-100' : 'opacity-75'
+                                    }`}>
                                     {label}
                                 </span>
-                                {/* Active indicator dot */}
+
+                                {/* Active indicator bar */}
                                 {active && (
-                                    <span className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-ayur-green" />
+                                    <span
+                                        className="absolute -bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-ayur-green animate-fadeIn"
+                                    />
                                 )}
                             </button>
                         );
@@ -92,18 +106,35 @@ const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
                     {/* Menu toggle button */}
                     <button
                         onClick={onMenuToggle}
-                        className={`bottom-nav-item ${isMenuOpen ? 'active' : ''}`}
+                        className={`
+                            relative flex flex-col items-center justify-center 
+                            py-2 px-4 min-h-[48px] min-w-[56px]
+                            transition-all duration-200 ease-out
+                            active:scale-90 touch-manipulation
+                            ${isMenuOpen
+                                ? 'text-ayur-green'
+                                : 'text-gray-500 hover:text-gray-700'
+                            }
+                        `}
                         aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
                         aria-expanded={isMenuOpen}
                     >
                         {isMenuOpen ? (
-                            <X size={22} className="mb-0.5" />
+                            <X size={24} className="mb-0.5 transition-transform duration-200 rotate-0" />
                         ) : (
-                            <Menu size={22} className="mb-0.5" />
+                            <Menu size={22} className="mb-0.5 transition-transform duration-200" />
                         )}
-                        <span className="text-[10px] font-medium tracking-wide">
-                            {isMenuOpen ? (language === 'en' ? 'Close' : language === 'hi' ? 'बंद' : 'બંધ') : (language === 'en' ? 'More' : language === 'hi' ? 'अधिक' : 'વધુ')}
+                        <span className={`text-[10px] font-semibold tracking-wide ${isMenuOpen ? 'opacity-100' : 'opacity-75'}`}>
+                            {isMenuOpen
+                                ? (language === 'en' ? 'Close' : language === 'hi' ? 'बंद' : 'બંધ')
+                                : (language === 'en' ? 'More' : language === 'hi' ? 'अधिक' : 'વધુ')
+                            }
                         </span>
+
+                        {/* Active indicator for menu */}
+                        {isMenuOpen && (
+                            <span className="absolute -bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-ayur-green animate-fadeIn" />
+                        )}
                     </button>
                 </div>
             </nav>
@@ -111,5 +142,5 @@ const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
     );
 };
 
-
 export default MobileBottomNav;
+

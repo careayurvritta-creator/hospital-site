@@ -322,3 +322,67 @@ textarea {
     scroll-behavior: auto !important;
   }
 }
+
+/* ============================================
+   MOBILE NAVIGATION ENHANCEMENTS
+   ============================================ */
+
+/* Touch manipulation for better responsiveness */
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+/* Staggered fade-in animation for menu items */
+@keyframes staggeredFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-staggered-fade-in {
+  animation: staggeredFadeIn 0.4s ease-out forwards;
+}
+
+/* Slide up animation for mobile elements */
+@keyframes mobileSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-mobile-slide-up {
+  animation: mobileSlideUp 0.3s ease-out forwards;
+}
+
+/* Auto-hide header transition */
+.header-auto-hide {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header-hidden {
+  transform: translateY(-100%);
+}
+
+/* Bottom nav active indicator pulse */
+@keyframes navIndicatorPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.nav-indicator-active {
+  animation: navIndicatorPulse 2s ease-in-out infinite;
+}

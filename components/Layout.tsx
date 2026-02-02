@@ -240,24 +240,42 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </div>
         </div>
 
-        {/* Mobile Menu Overlay - Full Screen */}
+        {/* Mobile Menu Overlay - Full Screen with Enhanced Animations */}
         <div
-          className={`lg:hidden fixed inset-0 z-40 bg-ayur-cream transition-opacity duration-300 ease-in-out flex flex-col pt-24 px-6 ${isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          className={`lg:hidden fixed inset-0 z-40 bg-ayur-cream transition-all duration-300 ease-out flex flex-col ${isMenuOpen
+              ? 'opacity-100 pointer-events-auto'
+              : 'opacity-0 pointer-events-none'
             }`}
+          style={{
+            paddingTop: 'calc(96px + env(safe-area-inset-top))',
+            paddingBottom: 'calc(80px + env(safe-area-inset-bottom))'
+          }}
         >
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/black-scales.png')] pointer-events-none"></div>
 
-          <nav className="flex flex-col space-y-5 text-center relative z-10 h-full overflow-y-auto pb-10">
-            {NAV_ITEMS.map((item) => (
+          {/* Swipe indicator at top */}
+          <div className="absolute top-20 left-1/2 -translate-x-1/2 w-12 h-1 rounded-full bg-gray-300/50 opacity-0 transition-opacity" style={{ opacity: isMenuOpen ? 1 : 0 }} />
+
+          <nav className="flex flex-col space-y-3 text-center relative z-10 h-full overflow-y-auto px-6">
+            {NAV_ITEMS.map((item, index) => (
               <NavLink
                 key={item.path}
                 to={item.path}
                 onClick={() => setIsMenuOpen(false)}
                 className={({ isActive }) =>
-                  `text-xl font-serif font-medium transition-transform duration-300 ${isActive ? 'text-ayur-green scale-105' : 'text-ayur-gray hover:text-ayur-green'
-                  }`
+                  `py-4 px-6 rounded-2xl text-xl font-serif font-medium transition-all duration-300 min-h-[56px] flex items-center justify-center
+                   ${isActive
+                    ? 'text-white bg-ayur-green shadow-lg'
+                    : 'text-ayur-gray hover:text-ayur-green hover:bg-ayur-green/5 active:scale-95'
+                  }
+                   ${isMenuOpen ? 'animate-fadeIn' : ''}
+                  `
                 }
+                style={{
+                  animationDelay: isMenuOpen ? `${index * 50}ms` : '0ms',
+                  animationFillMode: 'both'
+                }}
               >
                 {/* Mobile Loop Map */}
                 {(() => {
@@ -276,21 +294,58 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 })()}
               </NavLink>
             ))}
-            <div className="pt-6">
+
+            {/* Primary CTA */}
+            <div className="pt-4" style={{ animationDelay: isMenuOpen ? '300ms' : '0ms' }}>
               <NavLink
                 to="/booking"
                 onClick={() => setIsMenuOpen(false)}
-                className={() => "inline-block w-full bg-ayur-accent text-white text-lg py-4 rounded-xl font-bold shadow-lg active:scale-95 transition-transform"}
+                className={() => `
+                  inline-flex items-center justify-center w-full 
+                  bg-ayur-accent text-white text-lg py-5 rounded-2xl 
+                  font-bold shadow-lg active:scale-95 
+                  transition-all duration-200 min-h-[60px]
+                  ${isMenuOpen ? 'animate-fadeIn' : ''}
+                `}
               >
                 {t.nav.book}
               </NavLink>
             </div>
 
-            {/* Mobile Footer Links */}
-            <div className="mt-auto pt-6 flex justify-center gap-8 text-ayur-green opacity-70">
-              <a href="tel:+919426684047" className="p-2" title="Call Us" aria-label="Call Ayurvritta"><Phone size={24} /></a>
-              <a href="mailto:care.ayurvritta@gmail.com" className="p-2" title="Email Us" aria-label="Email Ayurvritta"><Mail size={24} /></a>
-              <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="p-2" title="Find Us" aria-label="View on Google Maps"><MapPin size={24} /></a>
+            {/* Mobile Footer Links - Quick Actions */}
+            <div
+              className={`mt-auto pt-8 flex justify-center gap-6 ${isMenuOpen ? 'animate-fadeIn' : ''}`}
+              style={{ animationDelay: isMenuOpen ? '350ms' : '0ms', animationFillMode: 'both' }}
+            >
+              <a
+                href="tel:+919426684047"
+                className="flex flex-col items-center gap-1 p-3 min-w-[64px] rounded-xl hover:bg-ayur-green/5 active:scale-95 transition-all"
+                title="Call Us"
+                aria-label="Call Ayurvritta"
+              >
+                <Phone size={24} className="text-ayur-green" />
+                <span className="text-xs text-ayur-gray/70">Call</span>
+              </a>
+              <a
+                href="mailto:care.ayurvritta@gmail.com"
+                className="flex flex-col items-center gap-1 p-3 min-w-[64px] rounded-xl hover:bg-ayur-green/5 active:scale-95 transition-all"
+                title="Email Us"
+                aria-label="Email Ayurvritta"
+              >
+                <Mail size={24} className="text-ayur-green" />
+                <span className="text-xs text-ayur-gray/70">Email</span>
+              </a>
+              <a
+                href="https://maps.google.com/?q=Ayurvritta+Vadodara"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center gap-1 p-3 min-w-[64px] rounded-xl hover:bg-ayur-green/5 active:scale-95 transition-all"
+                title="Find Us"
+                aria-label="View on Google Maps"
+              >
+                <MapPin size={24} className="text-ayur-green" />
+                <span className="text-xs text-ayur-gray/70">Map</span>
+              </a>
             </div>
           </nav>
         </div>
