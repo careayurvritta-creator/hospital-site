@@ -72,7 +72,8 @@ const ChatBot: React.FC = () => {
   useEffect(() => {
     if (isOpen) {
       try {
-        const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : undefined;
+        // Use Vite's import.meta.env for client-side environment variables
+        const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
         if (!apiKey) {
           console.error("API Key missing");
           return;

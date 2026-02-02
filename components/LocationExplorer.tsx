@@ -15,9 +15,10 @@ const LocationExplorer: React.FC = () => {
     setMapLinks([]);
 
     try {
-      const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : undefined;
+      // Use Vite's import.meta.env for client-side environment variables
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
       if (!apiKey) throw new Error("API Key missing");
-      
+
       const ai = new GoogleGenAI({ apiKey });
       // Using gemini-2.5-flash with googleMaps tool as requested
       const result = await ai.models.generateContent({
@@ -68,7 +69,7 @@ const LocationExplorer: React.FC = () => {
           Ask Gemini about nearby landmarks, hotels for your stay, or directions to our clinic.
         </p>
       </div>
-      
+
       <div className="p-6 space-y-4">
         <div className="flex gap-2">
           <input
@@ -91,26 +92,26 @@ const LocationExplorer: React.FC = () => {
         {response && (
           <div className="mt-4 bg-ayur-cream/30 p-4 rounded-xl border border-ayur-subtle animate-fadeIn">
             <p className="text-ayur-gray whitespace-pre-line text-sm leading-relaxed">{response}</p>
-            
+
             {mapLinks.length > 0 && (
               <div className="mt-4 pt-4 border-t border-ayur-subtle">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-ayur-gray mb-2">Sources & Map Links</h4>
                 <div className="flex flex-wrap gap-2">
                   {mapLinks.map((chunk, idx) => {
-                     // groundingChunks from googleMaps tool usually contain web uri or place uri
-                     if (chunk.web?.uri) {
-                         return (
-                             <a key={idx} href={chunk.web.uri} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs bg-white border border-ayur-subtle px-3 py-1.5 rounded-lg text-ayur-green hover:text-ayur-gold hover:border-ayur-gold transition-colors">
-                                 <ExternalLink size={10} />
-                                 {chunk.web.title || "View Web Source"}
-                             </a>
-                         );
-                     }
-                     // Handle Maps chunks if present (often structure is different)
-                     // The SDK types might not explicitly show it here without deeper inspection, 
-                     // but commonly it's under 'maps' or similar. 
-                     // Assuming the current error is just the toolConfig.
-                     return null;
+                    // groundingChunks from googleMaps tool usually contain web uri or place uri
+                    if (chunk.web?.uri) {
+                      return (
+                        <a key={idx} href={chunk.web.uri} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs bg-white border border-ayur-subtle px-3 py-1.5 rounded-lg text-ayur-green hover:text-ayur-gold hover:border-ayur-gold transition-colors">
+                          <ExternalLink size={10} />
+                          {chunk.web.title || "View Web Source"}
+                        </a>
+                      );
+                    }
+                    // Handle Maps chunks if present (often structure is different)
+                    // The SDK types might not explicitly show it here without deeper inspection, 
+                    // but commonly it's under 'maps' or similar. 
+                    // Assuming the current error is just the toolConfig.
+                    return null;
                   })}
                 </div>
               </div>

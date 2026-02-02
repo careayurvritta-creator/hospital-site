@@ -61,10 +61,11 @@ const PrakritiTool: React.FC<PrakritiToolProps> = ({ onBack }) => {
     setGeneratingImage(true);
     setImageError(null);
     try {
-      const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : undefined;
+      // Use Vite's import.meta.env for client-side environment variables
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
       if (!apiKey) throw new Error("API Key missing");
       const ai = new GoogleGenAI({ apiKey });
-      
+
       const prompt = `A beautiful, artistic, abstract circular mandala illustration representing Ayurveda constitution: ${type}. 
       Composition: ${v}% Blue (Air/Space), ${p}% Red (Fire), ${k}% Green (Earth/Water). 
       Style: Watercolor, spiritual, healing, high quality, white background. 
@@ -74,21 +75,21 @@ const PrakritiTool: React.FC<PrakritiToolProps> = ({ onBack }) => {
         model: 'gemini-2.5-flash-image',
         contents: prompt,
       });
-      
+
       const candidates = response.candidates;
       if (candidates && candidates[0].content.parts) {
-         let found = false;
-         for (const part of candidates[0].content.parts) {
-            if (part.inlineData) {
-               const base64Str = part.inlineData.data;
-               setAvatarUrl(`data:image/png;base64,${base64Str}`);
-               found = true;
-               break;
-            }
-         }
-         if (!found) {
-           setImageError("Could not generate image visualization.");
-         }
+        let found = false;
+        for (const part of candidates[0].content.parts) {
+          if (part.inlineData) {
+            const base64Str = part.inlineData.data;
+            setAvatarUrl(`data:image/png;base64,${base64Str}`);
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          setImageError("Could not generate image visualization.");
+        }
       } else {
         setImageError("No image generated.");
       }
@@ -102,7 +103,7 @@ const PrakritiTool: React.FC<PrakritiToolProps> = ({ onBack }) => {
   };
 
   const getDoshaIcon = (dosha?: string) => {
-    switch(dosha) {
+    switch (dosha) {
       case 'Vata': return <Wind className="text-blue-400" size={32} />;
       case 'Pitta': return <Flame className="text-red-400" size={32} />;
       case 'Kapha': return <Droplets className="text-green-500" size={32} />;
@@ -111,7 +112,7 @@ const PrakritiTool: React.FC<PrakritiToolProps> = ({ onBack }) => {
   };
 
   const getDoshaColor = (dosha?: string) => {
-    switch(dosha) {
+    switch (dosha) {
       case 'Vata': return 'border-blue-200 bg-blue-50/50 hover:border-blue-400 hover:bg-blue-50';
       case 'Pitta': return 'border-red-200 bg-red-50/50 hover:border-red-400 hover:bg-red-50';
       case 'Kapha': return 'border-green-200 bg-green-50/50 hover:border-green-400 hover:bg-green-50';
@@ -140,27 +141,27 @@ const PrakritiTool: React.FC<PrakritiToolProps> = ({ onBack }) => {
           <div className="bg-white p-6 md:p-8 rounded-3xl shadow-lg border border-ayur-subtle flex flex-col items-center">
             <h3 className="text-2xl font-serif font-bold text-center mb-6">{result.dominant}</h3>
             <div className="h-64 w-full relative">
-               <ResponsiveContainer width="100%" height="100%">
-                 <PieChart>
-                   <Pie data={data} innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">
-                     {data.map((entry, index) => (
-                       <Cell key={`cell-${index}`} fill={entry.color} />
-                     ))}
-                   </Pie>
-                   <Tooltip />
-                 </PieChart>
-               </ResponsiveContainer>
-               <div className="absolute inset-0 flex items-center justify-center flex-col pointer-events-none">
-                 <span className="text-xs text-gray-400 uppercase">Primary</span>
-                 <span className="text-xl font-bold text-ayur-green">{result.dominant.split(' ')[0]}</span>
-               </div>
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie data={data} innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">
+                    {data.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="absolute inset-0 flex items-center justify-center flex-col pointer-events-none">
+                <span className="text-xs text-gray-400 uppercase">Primary</span>
+                <span className="text-xl font-bold text-ayur-green">{result.dominant.split(' ')[0]}</span>
+              </div>
             </div>
-            
+
             <div className="flex justify-center gap-6 mt-6 w-full">
               {data.map(d => (
                 <div key={d.name} className="text-center">
                   <div className="text-xs font-bold text-gray-500 mb-1">{d.name}</div>
-                  <div className="w-12 h-1 rounded-full mx-auto mb-2" style={{backgroundColor: d.color}}></div>
+                  <div className="w-12 h-1 rounded-full mx-auto mb-2" style={{ backgroundColor: d.color }}></div>
                   <div className="font-bold text-lg">{d.value}%</div>
                 </div>
               ))}
@@ -169,33 +170,33 @@ const PrakritiTool: React.FC<PrakritiToolProps> = ({ onBack }) => {
 
           {/* Right: AI Avatar */}
           <div className="bg-gradient-to-br from-ayur-green/5 to-ayur-gold/10 p-8 rounded-3xl border border-ayur-green/20 flex flex-col items-center justify-center relative overflow-hidden">
-             <h3 className="font-serif text-xl font-bold text-ayur-green mb-4 flex items-center gap-2">
-               <Sparkles size={20} className="text-ayur-gold" />
-               Your Energy Avatar
-             </h3>
-             
-             {generatingImage ? (
-               <div className="flex flex-col items-center justify-center h-64 text-ayur-green">
-                 <Loader2 size={40} className="animate-spin mb-4" />
-                 <p className="text-sm font-medium animate-pulse">Designing your mandala...</p>
-               </div>
-             ) : avatarUrl ? (
-               <div className="relative group animate-fadeIn">
-                 <img src={avatarUrl} alt="Dosha Avatar" className="w-64 h-64 rounded-full shadow-2xl border-4 border-white object-cover" />
-                 <a href={avatarUrl} download="my-prakriti-avatar.png" className="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow-lg hover:bg-ayur-gold hover:text-white transition-colors">
-                   <Download size={20} />
-                 </a>
-               </div>
-             ) : (
-               <div className="w-64 h-64 rounded-full bg-white flex flex-col items-center justify-center text-gray-400 text-sm p-4 text-center border-2 border-dashed border-gray-300">
-                 <AlertCircle size={32} className="mb-2 opacity-50"/>
-                 {imageError || "Visual generation failed"}
-               </div>
-             )}
-             
-             <p className="text-center text-xs text-ayur-gray mt-6 max-w-xs italic opacity-80">
-               "A visual representation of the elements balancing within you."
-             </p>
+            <h3 className="font-serif text-xl font-bold text-ayur-green mb-4 flex items-center gap-2">
+              <Sparkles size={20} className="text-ayur-gold" />
+              Your Energy Avatar
+            </h3>
+
+            {generatingImage ? (
+              <div className="flex flex-col items-center justify-center h-64 text-ayur-green">
+                <Loader2 size={40} className="animate-spin mb-4" />
+                <p className="text-sm font-medium animate-pulse">Designing your mandala...</p>
+              </div>
+            ) : avatarUrl ? (
+              <div className="relative group animate-fadeIn">
+                <img src={avatarUrl} alt="Dosha Avatar" className="w-64 h-64 rounded-full shadow-2xl border-4 border-white object-cover" />
+                <a href={avatarUrl} download="my-prakriti-avatar.png" className="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow-lg hover:bg-ayur-gold hover:text-white transition-colors">
+                  <Download size={20} />
+                </a>
+              </div>
+            ) : (
+              <div className="w-64 h-64 rounded-full bg-white flex flex-col items-center justify-center text-gray-400 text-sm p-4 text-center border-2 border-dashed border-gray-300">
+                <AlertCircle size={32} className="mb-2 opacity-50" />
+                {imageError || "Visual generation failed"}
+              </div>
+            )}
+
+            <p className="text-center text-xs text-ayur-gray mt-6 max-w-xs italic opacity-80">
+              "A visual representation of the elements balancing within you."
+            </p>
           </div>
         </div>
 
@@ -203,7 +204,7 @@ const PrakritiTool: React.FC<PrakritiToolProps> = ({ onBack }) => {
         {advice && (
           <div className="bg-ayur-cream/30 rounded-3xl p-8 md:p-10 border border-ayur-subtle animate-fadeIn">
             <h3 className="font-serif text-3xl font-bold text-ayur-green mb-8 text-center">Your Personalized Wellness Plan</h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               {/* Diet Column */}
               <div>
@@ -243,13 +244,13 @@ const PrakritiTool: React.FC<PrakritiToolProps> = ({ onBack }) => {
             </div>
           </div>
         )}
-        
+
         {/* Share Section */}
         <div className="mt-8 flex justify-center animate-fadeIn">
-           <ShareResults 
-             title="My Prakriti Assessment" 
-             text={`I just discovered my Ayurveda Body Type at Ayurvritta Hospital! \n\nMy Constitution: ${result.dominant}\n(Vata: ${result.scores.Vata}%, Pitta: ${result.scores.Pitta}%, Kapha: ${result.scores.Kapha}%)`} 
-           />
+          <ShareResults
+            title="My Prakriti Assessment"
+            text={`I just discovered my Ayurveda Body Type at Ayurvritta Hospital! \n\nMy Constitution: ${result.dominant}\n(Vata: ${result.scores.Vata}%, Pitta: ${result.scores.Pitta}%, Kapha: ${result.scores.Kapha}%)`}
+          />
         </div>
 
         <div className="mt-12 flex justify-center gap-4">
@@ -274,16 +275,16 @@ const PrakritiTool: React.FC<PrakritiToolProps> = ({ onBack }) => {
           <p className="text-white/70 text-sm mt-1">{activeSection.description}</p>
         </div>
         <div className="text-right hidden sm:block relative z-10">
-           <span className="text-3xl font-bold text-ayur-gold">0{activeSectionIdx + 1}</span>
-           <span className="opacity-50 text-sm">/0{PRAKRITI_SECTIONS.length}</span>
+          <span className="text-3xl font-bold text-ayur-gold">0{activeSectionIdx + 1}</span>
+          <span className="opacity-50 text-sm">/0{PRAKRITI_SECTIONS.length}</span>
         </div>
       </div>
 
       {/* Progress */}
       <div className="h-1.5 w-full bg-gray-100">
-        <div 
-          className="h-full bg-ayur-gold transition-all duration-500 ease-out" 
-          style={{width: `${((activeSectionIdx + 1) / PRAKRITI_SECTIONS.length) * 100}%`}}
+        <div
+          className="h-full bg-ayur-gold transition-all duration-500 ease-out"
+          style={{ width: `${((activeSectionIdx + 1) / PRAKRITI_SECTIONS.length) * 100}%` }}
         ></div>
       </div>
 
@@ -293,29 +294,28 @@ const PrakritiTool: React.FC<PrakritiToolProps> = ({ onBack }) => {
           {activeSection.questions.map((q) => (
             <div key={q.id} className="animate-fadeIn">
               <h3 className="font-medium text-xl text-ayur-green mb-6 flex items-center">
-                 <span className="w-6 h-6 rounded-full bg-ayur-green/10 text-ayur-green text-xs flex items-center justify-center mr-3 font-bold">
-                   {q.id}
-                 </span>
-                 {q.text}
+                <span className="w-6 h-6 rounded-full bg-ayur-green/10 text-ayur-green text-xs flex items-center justify-center mr-3 font-bold">
+                  {q.id}
+                </span>
+                {q.text}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 {q.options.map((opt, idx) => {
                   const isSelected = answers[q.id] === opt.dosha;
                   const cardStyle = getDoshaColor(opt.dosha);
-                  
+
                   return (
                     <button
                       key={idx}
                       onClick={() => handleOptionSelect(q.id, opt.dosha!)}
-                      className={`group relative p-6 rounded-2xl border-2 text-left transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[140px] active:scale-95 ${
-                        isSelected 
-                        ? 'border-ayur-gold bg-ayur-gold/10 shadow-md ring-2 ring-ayur-gold' 
-                        : cardStyle
-                      }`}
+                      className={`group relative p-6 rounded-2xl border-2 text-left transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[140px] active:scale-95 ${isSelected
+                          ? 'border-ayur-gold bg-ayur-gold/10 shadow-md ring-2 ring-ayur-gold'
+                          : cardStyle
+                        }`}
                     >
                       {/* Background Icon Watermark */}
                       <div className={`absolute -bottom-4 -right-4 opacity-10 transition-transform duration-500 group-hover:scale-125 group-hover:rotate-12 ${isSelected ? 'opacity-20 scale-110' : ''}`}>
-                         {getDoshaIcon(opt.dosha)}
+                        {getDoshaIcon(opt.dosha)}
                       </div>
 
                       <span className={`relative z-10 font-medium text-sm leading-relaxed ${isSelected ? 'text-ayur-green font-bold' : 'text-gray-700'}`}>
@@ -325,7 +325,7 @@ const PrakritiTool: React.FC<PrakritiToolProps> = ({ onBack }) => {
                       {/* Selection Indicator */}
                       <div className="flex justify-between items-end mt-4 relative z-10">
                         <div className="opacity-80 scale-75 origin-bottom-left">
-                            {getDoshaIcon(opt.dosha)}
+                          {getDoshaIcon(opt.dosha)}
                         </div>
                         {isSelected && (
                           <div className="w-6 h-6 bg-ayur-gold rounded-full flex items-center justify-center shadow-sm animate-fadeIn">
@@ -344,7 +344,7 @@ const PrakritiTool: React.FC<PrakritiToolProps> = ({ onBack }) => {
 
       {/* Footer Nav */}
       <div className="p-6 border-t border-gray-100 flex justify-between items-center bg-white shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
-        <button 
+        <button
           onClick={onBack}
           className="text-gray-500 font-medium hover:text-ayur-green transition-colors px-4 py-2"
         >
