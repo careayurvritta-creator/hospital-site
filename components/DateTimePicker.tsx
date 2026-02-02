@@ -70,18 +70,26 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({ onSelect, selectedDate,
                         <span>{currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</span>
                     </div>
                     <div className="flex gap-1">
-                        <button onClick={handlePrevMonth} className="p-1 hover:bg-ayur-cream rounded-full">
-                            <ChevronLeft size={18} />
+                        <button
+                            onClick={handlePrevMonth}
+                            className="p-2 hover:bg-ayur-cream rounded-full min-w-[44px] min-h-[44px] flex items-center justify-center active:scale-90 transition-transform touch-manipulation"
+                            aria-label="Previous month"
+                        >
+                            <ChevronLeft size={20} />
                         </button>
-                        <button onClick={handleNextMonth} className="p-1 hover:bg-ayur-cream rounded-full">
-                            <ChevronRight size={18} />
+                        <button
+                            onClick={handleNextMonth}
+                            className="p-2 hover:bg-ayur-cream rounded-full min-w-[44px] min-h-[44px] flex items-center justify-center active:scale-90 transition-transform touch-manipulation"
+                            aria-label="Next month"
+                        >
+                            <ChevronRight size={20} />
                         </button>
                     </div>
                 </div>
 
                 <div className="grid grid-cols-7 gap-1 text-center mb-2">
-                    {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(d => (
-                        <div key={d} className="text-xs text-ayur-gray/60 font-medium">{d}</div>
+                    {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
+                        <div key={`day-${d}-${i}`} className="text-xs text-ayur-gray/60 font-medium py-1">{d}</div>
                     ))}
                 </div>
 
@@ -103,11 +111,13 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({ onSelect, selectedDate,
                                     onSelect(newDate, selectedTime || '');
                                 }}
                                 className={`
-                  h-8 w-8 rounded-full text-sm flex items-center justify-center transition-all
-                  ${selected ? 'bg-ayur-green text-white font-bold shadow-md' : ''}
-                  ${!selected && !disabled ? 'hover:bg-ayur-cream text-ayur-green' : ''}
-                  ${disabled ? 'text-gray-300 cursor-not-allowed' : 'cursor-pointer'}
-                `}
+                                    min-h-[44px] min-w-[44px] rounded-full text-sm flex items-center justify-center transition-all touch-manipulation
+                                    ${selected ? 'bg-ayur-green text-white font-bold shadow-md scale-105' : ''}
+                                    ${!selected && !disabled ? 'hover:bg-ayur-cream text-ayur-green active:scale-90 active:bg-ayur-green/20' : ''}
+                                    ${disabled ? 'text-gray-300 cursor-not-allowed' : 'cursor-pointer'}
+                                `}
+                                aria-label={`Select ${day}`}
+                                aria-pressed={selected}
                             >
                                 {day}
                             </button>
@@ -130,18 +140,20 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({ onSelect, selectedDate,
                                 key={slot}
                                 onClick={() => onSelect(selectedDate, slot)}
                                 className={`
-                  px-2 py-1.5 rounded-lg text-xs font-medium border transition-all
-                  ${selectedTime === slot
-                                        ? 'bg-ayur-accent text-white border-ayur-accent shadow-sm'
-                                        : 'bg-white border-ayur-subtle text-ayur-gray hover:border-ayur-accent hover:text-ayur-accent'}
-                `}
+                                    min-h-[44px] px-3 py-2 rounded-lg text-sm font-medium border transition-all touch-manipulation active:scale-95
+                                    ${selectedTime === slot
+                                        ? 'bg-ayur-accent text-white border-ayur-accent shadow-md'
+                                        : 'bg-white border-ayur-subtle text-ayur-gray hover:border-ayur-accent hover:text-ayur-accent active:bg-ayur-accent/10'}
+                                `}
+                                aria-label={`Select time ${slot}`}
+                                aria-pressed={selectedTime === slot}
                             >
                                 {slot}
                             </button>
                         ))}
                     </div>
                 ) : (
-                    <p className="text-xs text-center text-gray-400 py-4">Please select a date first</p>
+                    <p className="text-sm text-center text-gray-400 py-6">Please select a date first</p>
                 )}
             </div>
         </div>
