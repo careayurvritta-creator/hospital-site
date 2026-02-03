@@ -196,7 +196,7 @@ const Home: React.FC = () => {
             <div className="order-2 lg:order-1">
               <span className="text-ayur-gold font-bold tracking-widest uppercase text-xs mb-2 block">Our Philosophy</span>
               <h2 className="font-serif text-3xl md:text-5xl font-bold mb-6 leading-tight">
-                Not a Spa.<br />A Hospital for <span className="text-ayur-accent-light">Holistic Healing.</span>
+                A Hospital for <span className="text-ayur-accent-light">Holistic Healing.</span>
               </h2>
               <p className="text-ayur-cream/80 text-base md:text-lg leading-relaxed mb-8">
                 We bridge the gap between ancient wisdom and modern pathology. Our treatments are clinical procedures aimed at root-cause elimination (Nidan Parivarjan), not just relaxation.
