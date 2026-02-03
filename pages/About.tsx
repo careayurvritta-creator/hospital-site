@@ -42,6 +42,7 @@ const About: React.FC = () => {
                                 src="/images/about/about-story.png"
                                 alt="Authentic Ayurvedic Herbs"
                                 className="rounded-2xl shadow-xl relative z-10"
+                                loading="lazy"
                                 onError={(e) => { e.currentTarget.src = FALLBACK_HERB; }}
                             />
                         </div>
@@ -64,6 +65,7 @@ const About: React.FC = () => {
                                     src="/images/about/dr-sharma.png"
                                     alt="Dr. Jinendradutt Sharma"
                                     className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                                    loading="lazy"
                                     onError={(e) => { e.currentTarget.src = FALLBACK_DOCTOR_MALE; }}
                                 />
                                 <div className="absolute top-4 left-4">
@@ -103,6 +105,7 @@ const About: React.FC = () => {
                                     src="/images/about/dr-gor.png"
                                     alt="Dr. Sharlin Hareshbhai Gor"
                                     className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                                    loading="lazy"
                                     onError={(e) => { e.currentTarget.src = FALLBACK_DOCTOR_FEMALE; }}
                                 />
                                 <div className="absolute top-4 left-4">
@@ -111,14 +114,14 @@ const About: React.FC = () => {
                             </div>
                             <div className="p-8 flex-1 flex flex-col">
                                 <h3 className="font-serif text-2xl font-bold text-ayur-green">Dr. Sharlin H. Gor</h3>
-                                <p className="text-ayur-gray font-medium text-sm mb-6">MD (Alternative Medicine)</p>
+                                <p className="text-ayur-gold font-bold text-xs uppercase tracking-wider mb-6">M.D. (A.M.), B.A.M.S.</p>
 
-                                <div className="bg-ayur-cream/50 p-4 rounded-xl border border-ayur-subtle mb-6">
+                                <div className="bg-ayur-cream/30 p-4 rounded-xl border border-ayur-subtle mb-6">
                                     <div className="flex items-start gap-3">
                                         <Award size={20} className="text-ayur-green mt-0.5 shrink-0" />
                                         <div>
-                                            <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">IIAM Registration</p>
-                                            <p className="text-base font-bold text-ayur-green">22MDAM213141</p>
+                                            <p className="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Gujarat Board Reg.</p>
+                                            <p className="text-sm font-bold text-ayur-green">GB-I 26015</p>
                                         </div>
                                     </div>
                                 </div>
