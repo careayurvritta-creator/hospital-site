@@ -76,6 +76,7 @@ const Blog: React.FC = () => {
                                     src={post.image}
                                     alt={post.title}
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    loading="lazy"
                                 />
                                 <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-ayur-green flex items-center shadow-sm">
                                     <Tag size={12} className="mr-1.5 text-ayur-accent" />
@@ -100,7 +101,7 @@ const Blog: React.FC = () => {
 
                                 <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
                                     <span className="text-xs font-medium text-gray-400">{post.readTime}</span>
-                                    <button className="text-ayur-accent text-sm font-bold flex items-center group-hover:translate-x-1 transition-transform">
+                                    <button className="text-ayur-accent text-sm font-bold flex items-center group-hover:translate-x-1 transition-transform min-h-[44px] px-2 active:scale-95">
                                         Read Article <ArrowRight size={16} className="ml-1" />
                                     </button>
                                 </div>

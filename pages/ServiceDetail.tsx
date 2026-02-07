@@ -86,6 +86,7 @@ const ServiceDetail: React.FC = () => {
                                                         src={sub.image || service.image}
                                                         alt={sub.name}
                                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                                        loading="lazy"
                                                         onError={(e) => { e.currentTarget.src = FALLBACK_IMAGE; }}
                                                     />
                                                 </div>

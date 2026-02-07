@@ -85,6 +85,7 @@ const Programs: React.FC = () => {
                                             src="/images/programs/program-thyroid.png"
                                             alt="Healing Hands"
                                             className="w-full h-full object-cover object-top opacity-90 scale-110 translate-y-4"
+                                            loading="lazy"
                                             onError={(e) => {
                                                 e.currentTarget.src = FALLBACK_IMAGE;
                                             }}
@@ -98,6 +99,7 @@ const Programs: React.FC = () => {
                                         src={getProgramImage(program.id)}
                                         alt={program.title}
                                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                                        loading="lazy"
                                         onError={(e) => {
                                             e.currentTarget.src = FALLBACK_IMAGE;
                                         }}
@@ -193,7 +195,7 @@ const Programs: React.FC = () => {
                             <div className="mt-auto pt-4 md:pt-0">
                                 <NavLink
                                     to="/booking"
-                                    className="w-full md:w-auto inline-flex justify-center items-center bg-ayur-green text-white px-8 py-4 rounded-full font-bold hover:bg-ayur-gold transition-all duration-300 shadow-lg group-hover:shadow-xl hover:-translate-y-1"
+                                    className="w-full md:w-auto inline-flex justify-center items-center bg-ayur-green text-white px-8 py-4 rounded-full font-bold hover:bg-ayur-gold transition-all duration-300 shadow-lg group-hover:shadow-xl hover:-translate-y-1 min-h-[52px] active:scale-95"
                                 >
                                     Enquire About Program <ArrowRight size={20} className="ml-2" />
                                 </NavLink>
