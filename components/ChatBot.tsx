@@ -205,8 +205,9 @@ You understand:
       {/* Floating Action Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-20 right-4 md:bottom-6 md:right-6 z-[60] p-4 rounded-full shadow-2xl transition-all duration-300 ${isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100 bg-ayur-green hover:scale-110 text-white'
+        className={`fixed bottom-20 !bottom-20 right-4 md:bottom-6 md:left-auto md:right-6 z-[60] p-4 rounded-full shadow-2xl transition-all duration-300 ${isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100 bg-ayur-green hover:scale-110 text-white'
           }`}
+        style={{ bottom: isOpen ? 'auto' : '5rem' }}
         aria-label="Toggle Chat"
         title="Chat with AI Assistant"
       >

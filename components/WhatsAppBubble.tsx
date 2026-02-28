@@ -57,7 +57,8 @@ const WhatsAppBubble: React.FC<WhatsAppBubbleProps> = ({
             <button
                 onClick={() => setIsTooltipVisible(!isTooltipVisible)}
                 onMouseEnter={() => setIsTooltipVisible(true)}
-                className="fixed bottom-20 left-4 md:bottom-6 md:left-6 z-[60] group"
+                className="fixed bottom-20 !bottom-20 left-4 md:bottom-6 md:left-6 z-[60] group"
+                style={{ bottom: '5rem' }}
                 aria-label="Chat on WhatsApp"
                 title="Chat on WhatsApp"
             >

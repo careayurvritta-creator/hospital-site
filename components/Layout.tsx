@@ -181,7 +181,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   to={item.path}
                   className={({ isActive }) =>
                     `text-sm font-medium tracking-wide transition-all duration-200 relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-[-4px] after:left-0 after:bg-ayur-gold after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left ${isActive
-                      ? `font-bold after:scale-x-100 text-ayur-gold`
+                      ? `font-bold after:scale-x-100 text-ayur-gold !text-[#BFA05A]`
                       : `${styles.text} hover:opacity-80`
                     }`
                   }
