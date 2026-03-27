@@ -6,6 +6,7 @@ import { AnalyticsProvider } from './components/AnalyticsProvider';
 import CookieConsent from './components/CookieConsent';
 import MobileCTABar from './components/MobileCTABar';
 import { eventTracker } from './analytics';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // Lazy Load Pages for Performance Optimization
 const Home = React.lazy(() => import('./pages/Home'));
@@ -132,6 +133,8 @@ const App: React.FC = () => {
         <CookieConsent />
         {/* Mobile CTA Bar - Call/WhatsApp priority */}
         <MobileCTABar showBooking={false} />
+        {/* Vercel Speed Insights */}
+        <SpeedInsights />
       </AnalyticsProvider>
     </HashRouter>
   );
