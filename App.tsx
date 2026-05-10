@@ -1,35 +1,32 @@
-import React, { Suspense, useEffect, ReactNode, Component } from 'react';
-import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import React, { useEffect, ReactNode, Component, Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
 import SEOHead from './components/SEOHead';
 import { AnalyticsProvider } from './components/AnalyticsProvider';
 import CookieConsent from './components/CookieConsent';
 import MobileCTABar from './components/MobileCTABar';
-import { eventTracker } from './analytics';
+import { captureError } from './analytics/errorTracker';
 
-// Lazy Load Pages for Performance Optimization
-const Home = React.lazy(() => import('./pages/Home'));
-const Services = React.lazy(() => import('./pages/Services'));
-const ServiceDetail = React.lazy(() => import('./pages/ServiceDetail'));
-const Programs = React.lazy(() => import('./pages/Programs'));
-const About = React.lazy(() => import('./pages/About'));
-const Tools = React.lazy(() => import('./pages/Tools'));
-const Booking = React.lazy(() => import('./pages/Booking'));
-const Insurance = React.lazy(() => import('./pages/Insurance'));
-const Blog = React.lazy(() => import('./pages/Blog'));
-const PrivacyPolicy = React.lazy(() => import('./pages/PrivacyPolicy'));
-const Terms = React.lazy(() => import('./pages/Terms'));
-const AnalyticsDashboard = React.lazy(() => import('./components/AnalyticsDashboard'));
+// Lazy loaded page components for code splitting
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+const Services = lazy(() => import('./pages/Services'));
+const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
+const Programs = lazy(() => import('./pages/Programs'));
+const Tools = lazy(() => import('./pages/Tools'));
+const Booking = lazy(() => import('./pages/Booking'));
+const Insurance = lazy(() => import('./pages/Insurance'));
+const Blog = lazy(() => import('./pages/Blog'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const Terms = lazy(() => import('./pages/Terms'));
+const AnalyticsDashboard = lazy(() => import('./components/AnalyticsDashboard'));
 
-// Dependency-free Loading Fallback to ensure it renders immediately
-const LoadingFallback = () => (
+// Loading component for Suspense fallback
+const PageLoader: React.FC = () => (
   <div className="min-h-screen flex items-center justify-center bg-[#F5F0E8]">
-    <div className="flex flex-col items-center">
-      <svg className="animate-spin h-10 w-10 text-[#0F3D3E] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-      </svg>
-      <p className="font-serif text-[#0F3D3E] font-bold text-lg animate-pulse">Ayurvritta...</p>
+    <div className="flex flex-col items-center gap-4">
+      <div className="w-12 h-12 border-4 border-[#009688]/20 border-t-[#009688] rounded-full animate-spin"></div>
+      <p className="text-[#1A3C34]/70 font-medium">Loading...</p>
     </div>
   </div>
 );
@@ -55,16 +52,12 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-    console.error("Page Load Error:", error, errorInfo);
     // Track error to analytics
-    try {
-      eventTracker.trackError(error, {
-        componentStack: errorInfo?.componentStack,
-        source: 'ErrorBoundary',
-      });
-    } catch (e) {
-      console.error('Failed to track error:', e);
-    }
+    captureError(error, {
+      severity: 'high',
+      source: 'ErrorBoundary',
+      componentStack: errorInfo?.componentStack,
+    });
   }
 
   render() {
@@ -104,13 +97,13 @@ const ScrollToTop = () => {
 
 const App: React.FC = () => {
   return (
-    <HashRouter>
+    <Router>
       <AnalyticsProvider>
         <Layout>
           <ScrollToTop />
           <SEOHead />
           <ErrorBoundary>
-            <Suspense fallback={<LoadingFallback />}>
+            <Suspense fallback={<PageLoader />}>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
@@ -133,7 +126,7 @@ const App: React.FC = () => {
         {/* Mobile CTA Bar - Call/WhatsApp priority */}
         <MobileCTABar showBooking={false} />
       </AnalyticsProvider>
-    </HashRouter>
+    </Router>
   );
 };
 

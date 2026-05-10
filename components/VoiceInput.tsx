@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Mic, MicOff, Loader2 } from 'lucide-react';
+import { captureError } from '../analytics/errorTracker';
 
 interface VoiceInputProps {
   onTranscript: (text: string) => void;
@@ -28,7 +29,7 @@ const VoiceInput: React.FC<VoiceInputProps> = ({ onTranscript, className = "", i
         };
 
         recognitionRef.current.onerror = (event: any) => {
-          console.error("Speech recognition error", event.error);
+          captureError(new Error(`Speech recognition error: ${event.error}`), { severity: 'low', source: 'VoiceInput' });
           setIsListening(false);
         };
 

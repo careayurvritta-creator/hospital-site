@@ -1,10 +1,11 @@
 /**
- * FAQ Component with Schema.org markup
+ * FAQ Component with enhanced animations
  * Expandable FAQ section for common patient questions
  */
 
-import React, { useState } from 'react';
-import { ChevronDown, HelpCircle } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ChevronDown, HelpCircle, Phone } from 'lucide-react';
+import { useIntersectionObserver } from '../hooks';
 
 interface FAQItem {
     question: string;
@@ -47,71 +48,126 @@ const FAQ_ITEMS: FAQItem[] = [
 ];
 
 const FAQ: React.FC = () => {
-    const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const sectionObserver = useIntersectionObserver({ threshold: 0.1, rootMargin: '-50px' });
 
-    const toggleItem = (index: number) => {
-        setOpenIndex(openIndex === index ? null : index);
-    };
+  // Handle deep linking from URL hash
+  useEffect(() => {
+  const handleHashChange = () => {
+  const hash = window.location.hash;
+  if (hash.startsWith('#faq-')) {
+  const index = parseInt(hash.replace('#faq-', ''), 10);
+  if (!isNaN(index) && index >= 0 && index < FAQ_ITEMS.length) {
+  setTimeout(() => setOpenIndex(index), 100);
+  }
+  }
+  };
 
-    return (
-        <section className="py-16 bg-white">
-            <div className="max-w-4xl mx-auto px-4">
-                <div className="text-center mb-12">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-ayur-green-light rounded-full mb-4">
-                        <HelpCircle className="w-5 h-5 text-ayur-green" />
-                        <span className="text-sm font-medium text-ayur-green">Common Questions</span>
-                    </div>
-                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-ayur-green mb-4">
-                        Frequently Asked Questions
-                    </h2>
-                    <p className="text-ayur-gray">
-                        Find answers to common questions about Ayurveda and our treatments
-                    </p>
+  handleHashChange();
+  window.addEventListener('hashchange', handleHashChange);
+  return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  // Smooth scroll to opened FAQ item
+  useEffect(() => {
+  if (openIndex !== null && itemRefs.current[openIndex]) {
+  itemRefs.current[openIndex]?.scrollIntoView({
+  behavior: 'smooth',
+  block: 'center'
+  });
+  }
+  }, [openIndex]);
+
+  const toggleItem = (index: number) => {
+  setOpenIndex(openIndex === index ? null : index);
+  };
+
+  return (
+    <section ref={sectionObserver.ref} className="py-20 md:py-28 bg-gradient-to-b from-white to-ayur-cream/20">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="text-center mb-14">
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-ayur-green text-white rounded-full mb-5 shadow-lg">
+            <HelpCircle className="w-5 h-5" />
+            <span className="text-sm font-semibold uppercase tracking-wider">Common Questions</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-ayur-green mb-4">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-ayur-gray text-base md:text-lg max-w-xl mx-auto">
+            Find answers to common questions about Ayurveda and our treatments
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          {FAQ_ITEMS.map((item, index) => (
+            <div
+              key={index}
+              ref={(el) => (itemRefs.current[index] = el)}
+              id={`faq-${index}`}
+              className={`
+                border-2 border-ayur-subtle rounded-2xl overflow-hidden 
+                transition-all duration-300 hover:border-ayur-green/50 hover:shadow-xl
+                ${sectionObserver.isVisible ? 'animate-fadeInUp' : ''}
+              `}
+              style={{ 
+                animationDelay: `${index * 100}ms`,
+                opacity: sectionObserver.isVisible ? 1 : 0
+              }}
+            >
+              <button
+                onClick={() => toggleItem(index)}
+                className={`
+                  w-full flex items-center justify-between p-5 md:p-6 text-left 
+                  bg-white transition-all duration-300 hover:bg-ayur-cream/30
+                  ${openIndex === index ? 'bg-ayur-green/5' : ''}
+                `}
+                aria-expanded={openIndex === index}
+              >
+                <span className={`font-semibold text-lg text-ayur-green-text pr-4 transition-colors ${openIndex === index ? 'text-ayur-green' : ''}`}>
+                  {item.question}
+                </span>
+                <div className={`
+                  w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0
+                  transition-all duration-300 transform
+                  ${openIndex === index 
+                    ? 'bg-ayur-green text-white rotate-180 scale-110' 
+                    : 'bg-ayur-green/10 text-ayur-green group-hover:bg-ayur-green/20'
+                  }
+                `}>
+                  <ChevronDown className="w-5 h-5" />
                 </div>
-
-                <div className="space-y-4">
-                    {FAQ_ITEMS.map((item, index) => (
-                        <div
-                            key={index}
-                            className="border border-ayur-subtle rounded-xl overflow-hidden"
-                        >
-                            <button
-                                onClick={() => toggleItem(index)}
-                                className="w-full flex items-center justify-between p-5 text-left bg-white hover:bg-ayur-cream/50 transition-colors"
-                                aria-expanded={openIndex === index}
-                            >
-                                <span className="font-medium text-ayur-green pr-8">{item.question}</span>
-                                <ChevronDown
-                                    className={`w-5 h-5 text-ayur-green flex-shrink-0 transition-transform ${openIndex === index ? 'rotate-180' : ''
-                                        }`}
-                                />
-                            </button>
-
-                            <div
-                                className={`overflow-hidden transition-all duration-300 ${openIndex === index ? 'max-h-96' : 'max-h-0'
-                                    }`}
-                            >
-                                <div className="p-5 pt-0 text-ayur-gray leading-relaxed border-t border-ayur-subtle">
-                                    {item.answer}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+              </button>
+             
+              <div className={`
+                overflow-hidden transition-all duration-500 ease-out
+                ${openIndex === index ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}
+              `}>
+                <div className="p-5 md:p-6 pt-0 text-ayur-gray leading-relaxed border-t border-ayur-subtle/50">
+                  <div className="flex items-start gap-4">
+                    <div className="w-2 h-2 bg-ayur-accent rounded-full mt-2 flex-shrink-0 animate-pulse"></div>
+                    <div className="text-base">{item.answer}</div>
+                  </div>
                 </div>
-
-                {/* CTA */}
-                <div className="text-center mt-10">
-                    <p className="text-ayur-gray mb-4">Still have questions?</p>
-                    <a
-                        href="tel:+919426684047"
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-ayur-green text-white font-semibold rounded-full hover:bg-ayur-green-dark transition-colors"
-                    >
-                        Call Us: +91 94266 84047
-                    </a>
-                </div>
+              </div>
             </div>
-        </section>
-    );
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div className="text-center mt-12">
+          <p className="text-ayur-gray mb-5 text-lg">Still have questions?</p>
+          <a
+            href="tel:+919426684047"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-ayur-green text-white font-bold rounded-full hover:bg-ayur-green-dark hover:shadow-xl hover:scale-105 transition-all duration-300 group"
+          >
+            <Phone className="w-5 h-5 group-hover:animate-bounce-short" />
+            Call Us: +91 94266 84047
+          </a>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default FAQ;

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D8784"/>
+      <stop offset="100%" style="stop-color:#064D47"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D4A853"/>
+      <stop offset="100%" style="stop-color:#F5C842"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="600" cy="315" r="180" fill="none" stroke="url(#accent)" stroke-width="4" opacity="0.3"/>
+  <circle cx="600" cy="315" r="140" fill="none" stroke="url(#accent)" stroke-width="3" opacity="0.4"/>
+  <circle cx="600" cy="315" r="100" fill="none" stroke="url(#accent)" stroke-width="2" opacity="0.5"/>
+  <text x="600" y="260" font-family="Georgia, serif" font-size="72" font-weight="bold" fill="#FFFFFF" text-anchor="middle">AYURVRITTA</text>
+  <text x="600" y="320" font-family="system-ui, sans-serif" font-size="28" fill="#D4A853" text-anchor="middle">Ayurveda Hospital & Panchakarma Center</text>
+  <text x="600" y="380" font-family="system-ui, sans-serif" font-size="22" fill="#FFFFFF" text-anchor="middle" opacity="0.9">Classical Ayurveda for Modern Lifestyle Disorders</text>
+  <text x="600" y="430" font-family="system-ui, sans-serif" font-size="18" fill="#FFFFFF" text-anchor="middle" opacity="0.7">Thyroid • Diabetes • CKD • Panchakarma</text>
+  <text x="600" y="550" font-family="system-ui, sans-serif" font-size="20" fill="#D4A853" text-anchor="middle">Vadodara, Gujarat • +91 94266 84047</text>
+  <rect x="500" y="470" width="200" height="40" rx="20" fill="url(#accent)" opacity="0.8"/>
+  <text x="600" y="495" font-family="system-ui, sans-serif" font-size="16" fill="#064D47" text-anchor="middle" font-weight="bold">Book Consultation</text>
+</svg>

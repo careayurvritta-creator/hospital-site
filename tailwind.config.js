@@ -7,33 +7,37 @@ export default {
         "./components/**/*.tsx",
     ],
     theme: {
-        // Mobile-first screens (default is mobile, sm and up for larger)
         screens: {
-            'xs': '375px',   // iPhone SE
-            'sm': '640px',   // Small tablets
-            'md': '768px',   // Tablets
-            'lg': '1024px',  // Laptops
-            'xl': '1280px',  // Desktops
-            '2xl': '1536px', // Large screens
+            'xs': '375px',
+            'sm': '640px',
+            'md': '768px',
+            'lg': '1024px',
+            'xl': '1280px',
+            '2xl': '1536px',
         },
         extend: {
             colors: {
                 ayur: {
                     green: {
-                        DEFAULT: '#009688', // Core Brand Teal (Logo)
-                        text: '#1A3C34',    // Deep Jungle Green for text
-                        dark: '#004D40',    // Deep Teal for footer/dark sections
-                        light: '#E8F5F3',   // Very light teal tint
+                        DEFAULT: '#0d8770',
+                        text: '#1a1a2e',
+                        dark: '#094c47',
+                        light: '#e6f4f1',
                     },
                     accent: {
-                        DEFAULT: '#BFA05A', // Antique Bronze (Luxury Gold)
-                        hover: '#A68B45',   // Darker Bronze on interaction
-                        light: '#F5EFE0',   // Light bronze/cream tint
+                        DEFAULT: '#c9a227',
+                        hover: '#b8931f',
+                        light: '#fef9e6',
                     },
-                    cream: '#FDFBF7',      // Ivory Pearl background
-                    gray: '#1A3C34',       // Deep Jungle Green for text (harmonious)
+                    cream: '#fefefe',
+                    bg: '#fefefe',
+                    surface: '#f8f9fa',
+                    gray: '#6b7280',
+                    muted: '#6b7280',
                     light: '#FFFFFF',
-                    subtle: '#E8E4D9',     // Warm border color
+                    subtle: '#e5e7eb',
+                    border: '#e5e7eb',
+                    text: '#1a1a2e',
                 }
             },
             fontFamily: {
@@ -42,8 +46,8 @@ export default {
             },
             backgroundImage: {
                 'mandala': "url('https://www.transparenttextures.com/patterns/black-scales.png')",
+                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
             },
-            // Touch-friendly spacing
             spacing: {
                 'safe-top': 'env(safe-area-inset-top)',
                 'safe-bottom': 'env(safe-area-inset-bottom)',
@@ -52,7 +56,6 @@ export default {
                 '18': '4.5rem',
                 '22': '5.5rem',
             },
-            // Mobile-friendly sizing
             minHeight: {
                 'touch': '48px',
                 'touch-lg': '56px',
@@ -61,7 +64,6 @@ export default {
             minWidth: {
                 'touch': '48px',
             },
-            // Bottom nav height
             height: {
                 'bottom-nav': '64px',
                 'header': '56px',
@@ -69,7 +71,11 @@ export default {
             },
             keyframes: {
                 fadeIn: {
-                    '0%': { opacity: '0', transform: 'translateY(10px)' },
+                    '0%': { opacity: '0', transform: 'translateY(20px)' },
+                    '100%': { opacity: '1', transform: 'translateY(0)' },
+                },
+                fadeInUp: {
+                    '0%': { opacity: '0', transform: 'translateY(30px)' },
                     '100%': { opacity: '1', transform: 'translateY(0)' },
                 },
                 slideUp: {
@@ -99,10 +105,27 @@ export default {
                 spin: {
                     '0%': { transform: 'rotate(0deg)' },
                     '100%': { transform: 'rotate(360deg)' },
-                }
+                },
+                float: {
+                    '0%, 100%': { transform: 'translateY(0)' },
+                    '50%': { transform: 'translateY(-8px)' },
+                },
+                gradientShift: {
+                    '0%, 100%': { backgroundPosition: '0% 50%' },
+                    '50%': { backgroundPosition: '100% 50%' },
+                },
+                scaleIn: {
+                    '0%': { transform: 'scale(0.95)', opacity: '0' },
+                    '100%': { transform: 'scale(1)', opacity: '1' },
+                },
+                drawCheck: {
+                    '0%': { strokeDashoffset: '24' },
+                    '100%': { strokeDashoffset: '0' },
+                },
             },
             animation: {
                 'fadeIn': 'fadeIn 0.6s ease-out forwards',
+                'fadeInUp': 'fadeInUp 0.6s ease-out forwards',
                 'slideUp': 'slideUp 0.3s ease-out forwards',
                 'slideDown': 'slideDown 0.3s ease-out forwards',
                 'slideInRight': 'slideInRight 0.3s ease-out forwards',
@@ -110,21 +133,23 @@ export default {
                 'bounce-gentle': 'bounce 2s ease-in-out infinite',
                 'pulse-slow': 'pulse 2s ease-in-out infinite',
                 'spin-slow': 'spin 12s linear infinite',
+                'float': 'float 3s ease-in-out infinite',
+                'gradientShift': 'gradientShift 8s ease infinite',
+                'scaleIn': 'scaleIn 0.4s ease-out forwards',
+                'drawCheck': 'drawCheck 0.4s ease-out forwards',
             },
-            // Touch-optimized border radius
             borderRadius: {
                 '4xl': '2rem',
                 '5xl': '2.5rem',
             },
-            // Box shadows for mobile
             boxShadow: {
-                'bottom-nav': '0 -4px 20px rgba(0, 0, 0, 0.08)',
-                'card-mobile': '0 2px 8px rgba(0, 0, 0, 0.06)',
-                'card-mobile-hover': '0 8px 24px rgba(0, 0, 0, 0.12)',
-                'cta': '0 4px 16px rgba(191, 160, 90, 0.4)',
+                'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
+                'card': '0 4px 20px -5px rgba(13, 135, 112, 0.1)',
+                'card-hover': '0 20px 40px -10px rgba(13, 135, 112, 0.15)',
+                'glow': '0 0 20px rgba(13, 135, 112, 0.3)',
+                'cta': '0 4px 16px rgba(201, 162, 39, 0.3)',
             }
         }
     },
     plugins: [],
 }
-

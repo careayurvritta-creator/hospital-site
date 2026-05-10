@@ -45,8 +45,6 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({
         e.preventDefault();
         if (email) {
             trackEvent('conversion', 'exit_intent_email_capture', email.includes('@') ? 'valid' : 'invalid');
-            // Here you would send this to your backend
-            console.log('Email captured:', email);
             close();
         }
     };

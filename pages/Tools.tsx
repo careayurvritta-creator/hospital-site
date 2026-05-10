@@ -1,43 +1,47 @@
 import React, { useState } from 'react';
-import { Activity, AlertTriangle, Shield, Scale, Moon, ChevronRight, Utensils, Layers, ArrowLeft } from 'lucide-react';
+import { Activity, AlertTriangle, Shield, Scale, Moon, ChevronRight, Utensils, Layers, ArrowLeft, Sparkles, Heart, Brain, Droplets, Wind, Flame, Leaf } from 'lucide-react';
 import PrakritiTool from '../components/tools/PrakritiTool';
 import LifestyleTool from '../components/tools/LifestyleTool';
 import DietGenerator from '../components/tools/DietGenerator';
 import MedaTool from '../components/tools/MedaTool';
 import SaaraTool from '../components/tools/SaaraTool';
 import PanchakarmaTool from '../components/tools/PanchakarmaTool';
+import { useIntersectionObserver } from '../hooks';
 
-// -- Component: Tool Card --
 const ToolCard: React.FC<{
   title: string;
   desc: string;
   icon: React.ElementType;
   color: string;
+  iconBg: string;
   onClick: () => void;
-  delay?: string;
-}> = ({ title, desc, icon: Icon, color, onClick, delay = '0ms' }) => (
+  delay: string;
+  gradient: string;
+}> = ({ title, desc, icon: Icon, color, iconBg, onClick, delay, gradient }) => (
   <button 
     onClick={onClick} 
     style={{ animationDelay: delay }}
-    className="group flex flex-col items-start text-left bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-ayur-subtle hover:shadow-xl hover:border-ayur-gold/50 transition-all duration-300 h-full relative overflow-hidden animate-fadeIn opacity-0 w-full min-h-[220px] active:scale-[0.98]"
+    className={`group relative flex flex-col items-start text-left bg-white p-6 md:p-8 rounded-3xl border-2 border-ayur-subtle hover:border-transparent shadow-sm hover:shadow-2xl hover:shadow-ayur-green/20 hover:-translate-y-3 transition-all duration-500 h-full relative overflow-hidden animate-fadeInUp opacity-0 w-full min-h-[240px]`}
   >
-    <div className={`absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity ${color}`}>
-      <Icon size={120} />
+    <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl`}></div>
+    <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-10 transition-opacity">
+      <Icon size={140} />
     </div>
-    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-colors ${color} bg-opacity-10 text-opacity-100`}>
-      <Icon size={28} className={color.replace('bg-', 'text-').replace('/10', '')} />
+    <div className={`relative z-10 w-16 h-16 ${iconBg} rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}>
+      <Icon size={30} className={color} />
     </div>
-    <h3 className="font-serif text-xl md:text-2xl font-bold text-ayur-green mb-3 group-hover:text-ayur-gold transition-colors">{title}</h3>
-    <p className="text-ayur-gray text-sm leading-relaxed mb-6">{desc}</p>
-    <div className="mt-auto flex items-center text-xs font-bold uppercase tracking-widest text-ayur-green group-hover:text-ayur-gold bg-ayur-cream/50 px-4 py-2 rounded-full md:bg-transparent md:px-0 md:py-0">
-      Start Tool <ChevronRight size={14} className="ml-1" />
+    <h3 className="relative z-10 font-serif text-xl md:text-2xl font-bold text-ayur-green mb-3 group-hover:text-white transition-colors duration-300">{title}</h3>
+    <p className="relative z-10 text-ayur-gray text-sm leading-relaxed mb-6 group-hover:text-white/90 transition-colors duration-300">{desc}</p>
+    <div className="mt-auto flex items-center text-xs font-bold uppercase tracking-widest text-ayur-green group-hover:text-white bg-ayur-cream/50 px-4 py-2 rounded-full md:bg-transparent md:px-0 md:py-0 group-hover:bg-white/20">
+      Start Tool <ChevronRight size={14} className="ml-1 group-hover:translate-x-1 transition-transform" />
     </div>
   </button>
 );
 
-// -- Main Hub Component --
 const Tools: React.FC = () => {
   const [activeTool, setActiveTool] = useState<string | null>(null);
+  const headerObserver = useIntersectionObserver({ threshold: 0.2, rootMargin: '-50px' });
+  const cardsObserver = useIntersectionObserver({ threshold: 0.1, rootMargin: '-50px' });
 
   const renderActiveTool = () => {
     switch (activeTool) {
@@ -52,27 +56,43 @@ const Tools: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-ayur-cream pb-24">
+    <div className="min-h-screen bg-gradient-to-b from-ayur-cream via-white to-ayur-cream/30 pb-24">
       
-      {/* Header */}
-      <div className="bg-ayur-green pt-24 pb-16 md:pt-36 md:pb-32 text-center text-white relative overflow-hidden transition-all duration-500">
-        <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/black-scales.png')]"></div>
-        <div className="max-w-4xl mx-auto px-4 relative z-10">
-          <h1 className="font-serif text-3xl md:text-5xl font-bold mb-4 md:mb-6">Ayurveda Health Tools</h1>
-          <p className="text-lg md:text-xl text-ayur-cream/80 leading-relaxed max-w-2xl mx-auto">
+      {/* ENHANCED HEADER */}
+      <section ref={headerObserver.ref} className="bg-gradient-to-br from-ayur-green via-[#0a6b5a] to-ayur-green-dark pt-24 pb-20 md:pt-36 md:pb-40 text-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-ayur-accent/30 to-transparent rounded-full blur-[100px] animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-500/20 to-transparent rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-radial from-white/5 to-transparent rounded-full"></div>
+        
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M30 0c-5 0-10 5-10 15s5 15 10 15 10 15 10-5 10-15-5-15-10-15zm0 40c-5 0-10 5-10 15s5 15 10 15 10-5 10-15-5-15-10-15z\' fill=\'%23ffffff\' fill-opacity=\'1\' fill-rule=\'evenodd\'/%3E%3C/svg%3E")' }}></div>
+
+        <div className={`max-w-4xl mx-auto px-4 relative z-10 text-center ${headerObserver.isVisible ? 'animate-fadeInUp' : ''}`}>
+          <div className="inline-flex items-center gap-3 px-5 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full mb-6">
+            <Sparkles size={18} className="text-ayur-accent animate-pulse" />
+            <span className="text-sm font-semibold uppercase tracking-wider">Interactive Assessments</span>
+          </div>
+          
+          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 tracking-tight">
+            Ayurveda <span className="text-transparent bg-clip-text bg-gradient-to-r from-ayur-accent to-yellow-300">Health Tools</span>
+          </h1>
+          <p className="text-lg md:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto">
             Ancient wisdom meets modern algorithms. Use these interactive assessments to understand your body type, risks, and therapeutic needs.
           </p>
         </div>
-      </div>
 
-      <div className="max-w-6xl mx-auto px-4 -mt-10 md:-mt-16 relative z-20">
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-ayur-cream to-transparent"></div>
+      </section>
+
+      <div ref={cardsObserver.ref} className="max-w-6xl mx-auto px-4 -mt-10 relative z-20">
         {!activeTool ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <ToolCard 
               title="Prakriti Assessment" 
               desc="Decode your DNA the Ayurvedic way. Discover your unique Dosha constitution and receive a personalized wellness roadmap plus an AI-generated energy avatar."
               icon={Activity}
-              color="bg-ayur-gold"
+              color="text-amber-600"
+              iconBg="bg-amber-100"
+              gradient="from-amber-500 to-orange-500"
               onClick={() => setActiveTool('prakriti')}
               delay="0ms"
             />
@@ -80,15 +100,19 @@ const Tools: React.FC = () => {
               title="Lifestyle Risk Audit" 
               desc="Don't wait for symptoms. Evaluate your daily habits against clinical parameters to calculate your risk for Diabetes and metabolic disorders."
               icon={AlertTriangle}
-              color="bg-red-500"
+              color="text-red-500"
+              iconBg="bg-red-100"
+              gradient="from-red-500 to-rose-500"
               onClick={() => setActiveTool('risk')}
               delay="100ms"
             />
-             <ToolCard 
+            <ToolCard 
               title="Panchakarma Check" 
               desc="Are you ready for detox? Check your eligibility for intense purification therapies like Vamana & Virechana based on your strength (Bala)."
               icon={Shield}
-              color="bg-orange-500"
+              color="text-orange-600"
+              iconBg="bg-orange-100"
+              gradient="from-orange-500 to-amber-500"
               onClick={() => setActiveTool('panchakarma')}
               delay="150ms"
             />
@@ -96,15 +120,19 @@ const Tools: React.FC = () => {
               title="BMI & Meda Dhatu" 
               desc="Go beyond the weighing scale. Analyze your visceral fat and adipose tissue quality to distinguish between healthy weight and metabolic stress."
               icon={Scale}
-              color="bg-blue-500"
+              color="text-blue-600"
+              iconBg="bg-blue-100"
+              gradient="from-blue-500 to-cyan-500"
               onClick={() => setActiveTool('meda')}
               delay="200ms"
             />
-             <ToolCard 
+            <ToolCard 
               title="Saara Pariksha" 
               desc="How strong is your foundation? Assess the biological excellence of your 7 tissues (Dhatus) to understand your natural immunity and vitality."
               icon={Layers}
-              color="bg-purple-600"
+              color="text-purple-600"
+              iconBg="bg-purple-100"
+              gradient="from-purple-500 to-violet-600"
               onClick={() => setActiveTool('saara')}
               delay="300ms"
             />
@@ -112,16 +140,17 @@ const Tools: React.FC = () => {
               title="AI Diet Planner" 
               desc="Your food is your medicine. Generate a location-specific, season-adjusted daily menu and food guide tailored precisely to your health condition."
               icon={Utensils}
-              color="bg-green-600"
+              color="text-green-600"
+              iconBg="bg-green-100"
+              gradient="from-green-500 to-emerald-600"
               onClick={() => setActiveTool('diet')}
               delay="400ms"
             />
           </div>
         ) : (
-          <div className="bg-white rounded-3xl shadow-2xl overflow-hidden min-h-[600px] border border-ayur-subtle animate-fadeIn transition-all duration-500 ease-in-out">
-             {/* Mobile Back Button visible only when tool is active */}
-             <div className="md:hidden p-4 border-b border-gray-100 flex items-center text-ayur-green font-bold" onClick={() => setActiveTool(null)}>
-                <ArrowLeft size={20} className="mr-2"/> Back to Tools
+          <div className="bg-white rounded-3xl shadow-2xl overflow-hidden min-h-[600px] border-2 border-ayur-subtle hover:border-ayur-green/30 transition-all duration-500 animate-fadeInUp">
+             <div className="md:hidden p-4 border-b border-gray-100 flex items-center text-ayur-green font-bold gap-2 hover:bg-ayur-cream/30 transition-colors cursor-pointer" onClick={() => setActiveTool(null)}>
+                <ArrowLeft size={20}/> Back to Tools
              </div>
              {renderActiveTool()}
           </div>

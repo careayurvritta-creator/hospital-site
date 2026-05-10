@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone, MapPin, Facebook, Instagram, Twitter, Mail, Globe } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Menu, X, Phone, MapPin, Facebook, Instagram, Twitter, Mail, Globe, ChevronUp } from 'lucide-react';
 import { NavLink as RRDNavLink, useLocation } from 'react-router-dom';
 import { NAV_ITEMS } from '../constants';
 import ChatBot from './ChatBot';
@@ -39,12 +39,14 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
-  const location = useLocation();
-  const { language, setLanguage, t } = useLanguage();
-
+ const [isMenuOpen, setIsMenuOpen] = useState(false);
+ const [scrolled, setScrolled] = useState(false);
+ const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+ const [scrollProgress, setScrollProgress] = useState(0);
+ const [showScrollTop, setShowScrollTop] = useState(false);
+ const location = useLocation();
+ const { language, setLanguage, t } = useLanguage();
+ const headerRef = useRef<HTMLElement>(null);
   // Determine page types for header styling
   const isGreenHeroPage = location.pathname !== '/';
   const isBookingPage = location.pathname === '/booking';
@@ -72,20 +74,36 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     };
   }, [isMenuOpen]);
 
-  // Scroll effect for navbar
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const changeLanguage = (lang: Language) => {
-    setLanguage(lang);
-    setIsLangMenuOpen(false);
-  };
-
+   // Scroll effect for navbar, progress bar, and scroll-to-top button
+   useEffect(() => {
+   const handleScroll = () => {
+   const scrolled = window.scrollY > 20;
+   setScrolled(scrolled);
+   
+   // Calculate scroll progress
+   const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+   const progress = (window.scrollY / windowHeight) * 100;
+   setScrollProgress(progress);
+   
+   // Show/hide scroll to top button
+   setShowScrollTop(window.scrollY > 300);
+   };
+   
+   window.addEventListener('scroll', handleScroll, { passive: true });
+   return () => window.removeEventListener('scroll', handleScroll);
+   }, []);
+   const changeLanguage = (lang: Language) => {
+   setLanguage(lang);
+   setIsLangMenuOpen(false);
+   };
+   
+   // Smooth scroll to top
+   const scrollToTop = () => {
+   window.scrollTo({
+   top: 0,
+   behavior: 'smooth'
+   });
+   };
   // --- Dynamic Style Logic ---
   const getHeaderStyles = () => {
     // 1. If Menu is Open -> Background is Cream, Text must be Green
@@ -139,11 +157,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const styles = getHeaderStyles();
 
-  return (
-    <div className="min-h-screen flex flex-col font-sans text-ayur-gray bg-ayur-cream selection:bg-ayur-accent selection:text-white relative">
-
-      {/* Skip to main content link for accessibility */}
-      <a
+   return (
+   <div className="min-h-screen flex flex-col font-sans text-ayur-gray bg-ayur-cream selection:bg-ayur-accent selection:text-white relative">
+   
+   {/* Scroll Progress Bar */}
+   <div 
+   className="fixed top-0 left-0 h-1 bg-gradient-to-r from-ayur-green via-ayur-gold to-ayur-accent z-[60] transition-all duration-150 ease-out"
+   style={{ width: `${scrollProgress}%` }}
+   />
+  
+   {/* Skip to main content link for accessibility */}      <a
         href="#main-content"
         className="skip-link sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-ayur-green focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg"
       >
@@ -175,34 +198,38 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex space-x-6 items-center">
-              {NAV_ITEMS.map((item) => (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  className={({ isActive }) =>
-                    `text-sm font-medium tracking-wide transition-all duration-200 relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-[-4px] after:left-0 after:bg-ayur-gold after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left ${isActive
-                      ? `font-bold after:scale-x-100 text-ayur-gold !text-[#BFA05A]`
-                      : `${styles.text} hover:opacity-80`
-                    }`
-                  }
-                >
-                  {/* Map path to translation key */}
-                  {(() => {
-                    const keyMap: Record<string, string> = {
-                      '/': 'home',
-                      '/about': 'about',
-                      '/services': 'services',
-                      '/programs': 'programs',
-                      '/tools': 'tools',
-                      '/booking': 'contact',
-                      '/insurance': 'insurance' // Fallback handled below
-                    };
-                    const key = keyMap[item.path] || 'home';
-                    // @ts-ignore - Dynamic access to nav keys
-                    return (t.nav && t.nav[key]) || item.label;
-                  })()}
-                </NavLink>
-              ))}
+              {NAV_ITEMS.map((item) => {
+                const keyMap: Record<string, string> = {
+                  '/': 'home',
+                  '/about': 'about',
+                  '/services': 'services',
+                  '/programs': 'programs',
+                  '/tools': 'tools',
+                  '/booking': 'contact',
+                  '/insurance': 'insurance'
+                };
+                const key = keyMap[item.path] || 'home';
+                const label = (t.nav && (t.nav as Record<string, string>)[key]) || item.label;
+                
+                return (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    className={({ isActive }) =>
+                      `text-sm font-medium tracking-wide transition-all duration-200 relative group ${isActive
+                        ? `font-bold text-ayur-gold !text-[#BFA05A]`
+                        : `${styles.text}`
+                      }`
+                    }
+                    children={({ isActive }) => (
+                      <span className="relative inline-block py-1">
+                        {label}
+                        <span className={`absolute bottom-0 left-0 h-0.5 bg-ayur-gold transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                      </span>
+                    )}
+                  />
+                );
+              })}
 
               {/* Language Selector */}
               <div className="relative">
@@ -297,8 +324,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     '/insurance': 'insurance'
                   };
                   const key = keyMap[item.path] || 'home';
-                  // @ts-ignore
-                  return (t.nav && t.nav[key]) || item.label;
+                  const navItem = t.nav as Record<string, string> | undefined;
+                  return (navItem?.[key]) || item.label;
                 })()}
               </NavLink>
             ))}
@@ -419,7 +446,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <ul className="space-y-4 text-sm">
                 <li className="flex items-start">
                   <MapPin size={18} className="mt-1 mr-3 text-ayur-accent-light shrink-0" />
-                  <span className="opacity-90 leading-relaxed">FF 104–113, Lotus Enora Complex,<br />Opp. Rutu Villa, New Alkapuri,<br />Vadodara – 390021</span>
+                  <span className="opacity-90 leading-relaxed">FF 104–107, Lotus Enora Complex,<br />Opp. Rutu Villa, New Alkapuri,<br />Vadodara – 390021</span>
                 </li>
                 <li className="flex items-center">
                   <Phone size={18} className="mr-3 text-ayur-accent-light shrink-0" />
@@ -460,15 +487,26 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </div>
       </footer>
 
-      {/* Floating Action Bubbles - Hidden when mobile menu is open */}
-      <div className={`${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-opacity duration-200`}>
-        {/* AI Chatbot Overlay */}
-        <ChatBot />
-
-        {/* WhatsApp Chat Bubble */}
-        <WhatsAppBubble />
-      </div>
-    </div>
+       {/* Floating Action Bubbles - Hidden when mobile menu is open */}
+       <div className={`${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-opacity duration-200`}>
+       {/* AI Chatbot Overlay */}
+       <ChatBot />
+      
+       {/* WhatsApp Chat Bubble */}
+       <WhatsAppBubble />
+       
+       {/* Scroll to Top Button */}
+       <button
+       onClick={scrollToTop}
+       className={`fixed bottom-24 right-4 z-40 p-3 rounded-full bg-ayur-green text-white shadow-lg hover:bg-ayur-green-dark transition-all duration-300 transform hover:scale-110 active:scale-95 ${
+       showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+       }`}
+       aria-label="Scroll to top"
+       title="Back to top"
+       >
+       <ChevronUp size={24} className="animate-bounce-short" />
+       </button>
+       </div>    </div>
   );
 };
 

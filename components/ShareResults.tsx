@@ -26,7 +26,6 @@ const ShareResults: React.FC<ShareResultsProps> = ({
           url: url,
         });
       } catch (error) {
-        console.log('Error sharing:', error);
       }
     }
   };

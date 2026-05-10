@@ -123,7 +123,7 @@ const PrivacyPolicy: React.FC = () => {
                                 </div>
                                 <div className="flex items-center gap-3">
                                     <MapPin className="w-5 h-5 text-ayur-green" />
-                                    <span>FF 104–113, Lotus Enora Complex, Vadodara - 390021</span>
+                                    <span>FF 104–107, Lotus Enora Complex, Opp. Rutu Villa, New Alkapuri, Vadodara - 390021</span>
                                 </div>
                             </div>
                         </section>

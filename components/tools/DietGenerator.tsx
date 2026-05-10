@@ -6,25 +6,26 @@ import {
   Moon, Sunrise, Sunset, AlertCircle, CheckCircle2, User,
   UserCircle, Activity, Wheat, Grape, Carrot, Milk, Bean,
   Flower, Zap, MapPin, Printer, Download, ThumbsUp, ThumbsDown,
-  Clock
+  Clock, Sparkles
 } from 'lucide-react';
 import ShareResults from '../ShareResults';
 import { useLanguage } from '../LanguageContext';
+import { useIntersectionObserver } from '../../hooks';
+import { ActiveTab } from '../../types/index';
+import { captureError } from '../../analytics/errorTracker';
 
-// --- Ayurvedic Season Logic ---
 const getAyurvedicSeason = () => {
   const now = new Date();
-  const month = now.getMonth() + 1; // 1-12
+  const month = now.getMonth() + 1;
 
-  if (month === 1 || month === 2) return { name: "Sisira", english: "Late Winter", icon: Snowflake, quality: "Cold & Dry (Accumulates Kapha)" };
-  if (month === 3 || month === 4) return { name: "Vasanta", english: "Spring", icon: Leaf, quality: "Warm & Moist (Liquefies Kapha)" };
-  if (month === 5 || month === 6) return { name: "Grishma", english: "Summer", icon: Sun, quality: "Hot & Dry (Accumulates Vata)" };
-  if (month === 7 || month === 8) return { name: "Varsha", english: "Monsoon", icon: CloudRain, quality: "Humid & Weak Digestion (Aggravates Vata)" };
-  if (month === 9 || month === 10) return { name: "Sharad", english: "Autumn", icon: Wind, quality: "Clear & Hot (Aggravates Pitta)" };
-  return { name: "Hemanta", english: "Early Winter", icon: Snowflake, quality: "Cold & Strong Digestion (Balances Pitta)" };
+  if (month === 1 || month === 2) return { name: "Sisira", english: "Late Winter", icon: Snowflake, quality: "Cold & Dry (Accumulates Kapha)", color: "text-blue-500", bg: "bg-blue-50", gradient: "from-blue-400 to-cyan-500" };
+  if (month === 3 || month === 4) return { name: "Vasanta", english: "Spring", icon: Leaf, quality: "Warm & Moist (Liquefies Kapha)", color: "text-green-500", bg: "bg-green-50", gradient: "from-green-400 to-emerald-500" };
+  if (month === 5 || month === 6) return { name: "Grishma", english: "Summer", icon: Sun, quality: "Hot & Dry (Accumulates Vata)", color: "text-orange-500", bg: "bg-orange-50", gradient: "from-orange-400 to-yellow-500" };
+  if (month === 7 || month === 8) return { name: "Varsha", english: "Monsoon", icon: CloudRain, quality: "Humid & Weak Digestion (Aggravates Vata)", color: "text-gray-500", bg: "bg-gray-50", gradient: "from-gray-400 to-slate-500" };
+  if (month === 9 || month === 10) return { name: "Sharad", english: "Autumn", icon: Wind, quality: "Clear & Hot (Aggravates Pitta)", color: "text-purple-500", bg: "bg-purple-50", gradient: "from-purple-400 to-pink-500" };
+  return { name: "Hemanta", english: "Early Winter", icon: Snowflake, quality: "Cold & Strong Digestion (Balances Pitta)", color: "text-indigo-500", bg: "bg-indigo-50", gradient: "from-indigo-400 to-blue-500" };
 };
 
-// --- Icons Helper ---
 const getCategoryIcon = (cat: string) => {
   const c = cat.toLowerCase();
   if (c.includes('cereal') || c.includes('grain')) return <Wheat size={24} className="text-amber-600" />;
@@ -71,6 +72,9 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const currentSeason = getAyurvedicSeason();
   const reportRef = useRef<HTMLDivElement>(null);
 
+  const formObserver = useIntersectionObserver({ threshold: 0.1 });
+  const resultObserver = useIntersectionObserver({ threshold: 0.1 });
+
   const detectLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -81,7 +85,7 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           }));
         },
         (error) => {
-          console.error("Loc error", error);
+          captureError(error, { severity: 'low', source: 'DietGenerator:detectLocation' });
           alert("Could not detect location. Please enter manually.");
         }
       );
@@ -95,7 +99,6 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     setParsedResult(null);
 
     try {
-      // Use Vite's import.meta.env for client-side environment variables
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
       if (!apiKey) throw new Error("API Key missing");
 
@@ -116,7 +119,6 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       3. OUTPUT ALL TEXT CONTENT IN THE TARGET LANGUAGE (${language === 'hi' ? 'Hindi' : language === 'gu' ? 'Gujarati' : 'English'}).
       `;
 
-      // Structured JSON Output Schema
       const schema = {
         type: Type.OBJECT,
         properties: {
@@ -177,7 +179,7 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       });
 
     } catch (e) {
-      console.error("AI Generation Error", e);
+      captureError(e, { severity: 'medium', source: 'DietGenerator:generatePlan' });
       setParsedResult(null);
     } finally {
       setLoading(false);
@@ -191,17 +193,16 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const getTimeTheme = (timeStr: string) => {
     const t = timeStr.toLowerCase();
     if (t.includes('morning') || t.includes('am') || t.includes('breakfast'))
-      return { icon: Sunrise, color: 'text-orange-500', bg: 'bg-orange-50', border: 'border-orange-200' };
+      return { icon: Sunrise, color: 'text-orange-500', bg: 'bg-orange-50', border: 'border-orange-200', gradient: 'from-orange-100 to-amber-50' };
     if (t.includes('noon') || t.includes('lunch') || t.includes('snack'))
-      return { icon: Sun, color: 'text-amber-500', bg: 'bg-amber-50', border: 'border-amber-200' };
-    return { icon: Moon, color: 'text-indigo-500', bg: 'bg-indigo-50', border: 'border-indigo-200' };
+      return { icon: Sun, color: 'text-amber-500', bg: 'bg-amber-50', border: 'border-amber-200', gradient: 'from-amber-100 to-yellow-50' };
+    return { icon: Moon, color: 'text-indigo-500', bg: 'bg-indigo-50', border: 'border-indigo-200', gradient: 'from-indigo-100 to-purple-50' };
   };
 
-  const inputStyle = "w-full p-4 bg-white text-ayur-green placeholder-gray-400 border border-ayur-subtle rounded-xl focus:border-ayur-green focus:ring-1 focus:ring-ayur-green outline-none transition-all shadow-sm text-base";
+  const inputStyle = "w-full p-4 bg-white text-ayur-green placeholder-gray-400 border border-ayur-subtle rounded-xl focus:border-ayur-accent focus:ring-2 focus:ring-ayur-accent/20 outline-none transition-all shadow-sm hover:shadow-md text-base";
 
   return (
     <div className="h-full flex flex-col bg-white">
-      {/* Print Styles */}
       <style>
         {`
           @media print {
@@ -213,12 +214,13 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         `}
       </style>
 
-      {/* Header */}
-      <div className="bg-ayur-green text-white p-6 md:p-8 relative overflow-hidden flex-shrink-0 no-print">
-        <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/black-scales.png')]"></div>
+      <div className="bg-gradient-to-br from-green-500 via-ayur-green to-ayur-green-dark text-white p-6 md:p-8 relative overflow-hidden flex-shrink-0 no-print">
+        <div className="absolute top-0 right-0 w-40 h-40 bg-ayur-accent/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-radial from-white/5 to-transparent rounded-full"></div>
         <div className="relative z-10">
           <h2 className="font-serif text-2xl md:text-3xl font-bold flex items-center gap-3">
-            <Utensils className="text-ayur-gold" /> AI Diet Planner
+            <Utensils className="text-ayur-accent" /> AI Diet Planner
           </h2>
           <p className="opacity-80 mt-2 text-xs md:text-base">
             Generating location-specific Ritu protocols.
@@ -227,13 +229,13 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       </div>
 
       {step === 1 && (
-        <div className="flex-1 overflow-y-auto p-4 md:p-10 max-w-3xl mx-auto w-full space-y-6 animate-fadeIn pb-24">
-          <div className="bg-ayur-cream/30 p-4 md:p-6 rounded-2xl border border-ayur-subtle">
+        <div className="flex-1 overflow-y-auto p-4 md:p-10 max-w-3xl mx-auto w-full space-y-6 pb-24 animate-fadeIn">
+          <div className="bg-gradient-to-br from-ayur-cream/30 to-white p-4 md:p-6 rounded-2xl border border-ayur-subtle shadow-lg">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-              <div>
+              <div className="relative group">
                 <label className="block text-sm font-bold text-ayur-gray mb-2">Patient Name</label>
                 <div className="relative">
-                  <UserCircle className="absolute top-4 left-3 text-gray-400" size={20} />
+                  <UserCircle className="absolute top-4 left-3 text-ayur-accent group-focus-within:animate-pulse" size={20} />
                   <input
                     type="text"
                     className={`${inputStyle} pl-10`}
@@ -243,10 +245,10 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   />
                 </div>
               </div>
-              <div>
+              <div className="relative group">
                 <label className="block text-sm font-bold text-ayur-gray mb-2">Location</label>
                 <div className="relative flex items-center">
-                  <MapPin className="absolute top-4 left-3 text-gray-400" size={20} />
+                  <MapPin className="absolute top-4 left-3 text-ayur-accent group-focus-within:animate-pulse" size={20} />
                   <input
                     type="text"
                     className={`${inputStyle} pl-10 pr-12`}
@@ -256,7 +258,7 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   />
                   <button
                     onClick={detectLocation}
-                    className="absolute right-3 top-3 p-1.5 bg-ayur-cream rounded-lg text-ayur-gold hover:text-ayur-green min-w-[36px] min-h-[36px] flex items-center justify-center"
+                    className="absolute right-3 top-3 p-1.5 bg-gradient-to-br from-ayur-cream to-amber-100 rounded-lg text-ayur-accent hover:text-ayur-green min-w-[36px] min-h-[36px] flex items-center justify-center transition-all hover:scale-110"
                     aria-label="Detect my location"
                     title="Detect my location"
                   >
@@ -266,19 +268,22 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
               </div>
             </div>
 
-            <div className="mt-4 md:mt-6">
+            <div className="mt-4 md:mt-6 relative group">
               <label className="block text-sm font-bold text-ayur-gray mb-2">Condition</label>
-              <input
-                type="text"
-                placeholder="e.g. Hypothyroidism"
-                className={inputStyle}
-                value={formData.condition}
-                onChange={e => setFormData({ ...formData, condition: e.target.value })}
-              />
+              <div className="relative">
+                <Activity className="absolute top-4 left-3 text-ayur-accent" size={20} />
+                <input
+                  type="text"
+                  placeholder="e.g. Hypothyroidism"
+                  className={`${inputStyle} pl-10`}
+                  value={formData.condition}
+                  onChange={e => setFormData({ ...formData, condition: e.target.value })}
+                />
+              </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mt-4 md:mt-6">
-              <div>
+              <div className="relative group">
                 <label className="block text-sm font-bold text-ayur-gray mb-2">Age</label>
                 <input
                   type="number"
@@ -318,9 +323,9 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           <button
             onClick={generatePlan}
             disabled={!formData.condition || !formData.age}
-            className="w-full bg-ayur-green text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-ayur-gold disabled:opacity-50 transition-colors mt-8 flex items-center justify-center gap-2 mb-safe"
+            className="w-full bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:from-ayur-accent hover:to-amber-500 disabled:opacity-50 transition-all mt-8 flex items-center justify-center gap-2 mb-safe hover:scale-[1.01] hover:shadow-xl"
           >
-            Generate Plan <ChevronRight size={20} />
+            Generate Plan <Sparkles size={20} className="animate-pulse" />
           </button>
         </div>
       )}
@@ -329,17 +334,24 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         <div className="flex-1 overflow-y-auto bg-gray-50 flex flex-col">
           {loading ? (
             <div className="flex-1 flex flex-col items-center justify-center text-ayur-green p-8 text-center">
-              <Loader2 size={48} className="animate-spin text-ayur-gold mb-4" />
-              <h3 className="font-serif text-2xl font-bold mb-2">Analyzing...</h3>
+              <div className="relative mb-6">
+                <div className="w-24 h-24 border-4 border-ayur-green/20 rounded-full"></div>
+                <div className="absolute top-0 left-0 w-24 h-24 border-4 border-ayur-accent border-t-transparent rounded-full animate-spin"></div>
+              </div>
+              <h3 className="font-serif text-2xl font-bold mb-2 animate-bounceIn">Analyzing...</h3>
               <p className="text-gray-500">Formulating classical protocol in {language === 'en' ? 'English' : language === 'hi' ? 'Hindi' : 'Gujarati'}.</p>
+              <div className="mt-4 flex gap-1">
+                <div className="w-2 h-2 bg-ayur-accent rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                <div className="w-2 h-2 bg-ayur-accent rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                <div className="w-2 h-2 bg-ayur-accent rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+              </div>
             </div>
           ) : parsedResult ? (
             <div id="diet-report-container" ref={reportRef} className="flex-1 flex flex-col max-w-5xl mx-auto w-full md:p-8 bg-gray-50 print:bg-white print:p-0">
 
-              {/* Dashboard Header */}
-              <div className="bg-white p-6 rounded-3xl shadow-sm border border-ayur-subtle mb-6 flex flex-col md:flex-row justify-between items-center gap-6 print:border-none print:shadow-none print:p-0 print:mb-8">
+              <div className="bg-white p-6 rounded-3xl shadow-sm border border-ayur-subtle mb-6 flex flex-col md:flex-row justify-between items-center gap-6 print:border-none print:shadow-none print:p-0 print:mb-8 animate-fadeIn">
                 <div className="flex items-center gap-4 w-full md:w-auto">
-                  <div className="w-12 h-12 md:w-16 md:h-16 bg-ayur-green/10 rounded-2xl flex items-center justify-center text-ayur-green print:hidden shrink-0">
+                  <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-ayur-green/10 to-ayur-accent/10 rounded-2xl flex items-center justify-center text-ayur-green print:hidden shrink-0">
                     <User size={24} className="md:w-8 md:h-8" />
                   </div>
                   <div>
@@ -347,45 +359,43 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                     <p className="text-sm text-gray-500">{formData.gender}, {formData.age} • {formData.condition}</p>
                   </div>
                 </div>
-                <div className="bg-ayur-gold/5 px-6 py-3 rounded-2xl border border-ayur-gold/20 flex items-center gap-4 w-full md:w-auto">
-                  <currentSeason.icon size={32} className="text-ayur-gold" />
+                <div className={`bg-gradient-to-br ${currentSeason.bg} px-6 py-4 rounded-2xl border border-ayur-subtle flex items-center gap-4 w-full md:w-auto shadow-md`}>
+                  <div className={`w-12 h-12 bg-gradient-to-br ${currentSeason.gradient} rounded-xl flex items-center justify-center text-white shadow-lg`}>
+                    <currentSeason.icon size={24} />
+                  </div>
                   <div>
-                    <span className="block text-[10px] font-bold text-ayur-gold uppercase tracking-widest">Season</span>
+                    <span className="block text-[10px] font-bold text-ayur-accent uppercase tracking-widest">Season</span>
                     <span className="block font-serif text-xl font-bold text-ayur-green">{parsedResult.rituName || currentSeason.name}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Navigation Tabs - Horizontal Scroll on Mobile */}
-              <div className="flex gap-2 mb-6 overflow-x-auto pb-2 no-print px-4 md:px-0 -mx-4 md:mx-0 snap-x">
-                {['diet', 'seasonal', 'lifestyle'].map((t) => (
+              <div className="flex gap-2 mb-6 overflow-x-auto pb-2 no-print px-4 md:px-0 -mx-4 md:mx-0 snap-x animate-fadeIn" style={{ animationDelay: '100ms' }}>
+                {['diet', 'seasonal', 'lifestyle'].map((t, i) => (
                   <button
                     key={t}
-                    onClick={() => setActiveTab(t as any)}
-                    className={`px-6 py-3 rounded-full font-bold whitespace-nowrap transition-all snap-center ${activeTab === t ? 'bg-ayur-green text-white shadow-md' : 'bg-white text-gray-500 hover:bg-gray-100 border border-gray-100'}`}
+                    onClick={() => setActiveTab(t as ActiveTab)}
+                    className={`px-6 py-3 rounded-full font-bold whitespace-nowrap transition-all snap-center hover:scale-105 ${activeTab === t ? 'bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white shadow-lg' : 'bg-white text-gray-500 hover:bg-gray-100 border border-gray-100'}`}
                   >
                     {t === 'diet' ? 'Diet Chart' : t === 'seasonal' ? 'Scorecard' : 'Lifestyle'}
                   </button>
                 ))}
               </div>
 
-              {/* Content Area */}
               <div className="flex-1 px-4 md:px-0 pb-8 print:px-0">
 
-                {/* DIET CHART (Card View) */}
                 <div className={activeTab === 'diet' ? 'block' : 'hidden print:block'}>
-                  <div className="space-y-6 animate-fadeIn">
+                  <div className="space-y-6 animate-fadeIn" style={{ animationDelay: '200ms' }}>
                     <h4 className="font-serif text-2xl font-bold text-ayur-green mb-4 flex items-center gap-2">
-                      <Utensils className="text-ayur-gold" /> Meals
+                      <Utensils className="text-ayur-accent" /> Meals
                     </h4>
 
                     <div className="grid grid-cols-1 gap-4">
                       {parsedResult.diet.length > 0 ? parsedResult.diet.map((meal, idx) => {
                         const theme = getTimeTheme(meal.time);
                         return (
-                          <div key={idx} className={`bg-white rounded-2xl border-l-8 ${theme.border.replace('border', 'border-l')} border-y border-r border-gray-100 shadow-sm overflow-hidden`}>
-                            {/* Meal Header */}
-                            <div className={`px-4 py-3 ${theme.bg} flex justify-between items-center border-b border-gray-100`}>
+                          <div key={idx} className={`bg-white rounded-2xl border-l-8 ${theme.border.replace('border', 'border-l')} border-y border-r border-gray-100 shadow-sm overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 animate-fadeIn`} style={{ animationDelay: `${300 + idx * 80}ms` }}>
+                            <div className={`px-4 py-3 bg-gradient-to-r ${theme.gradient} flex justify-between items-center border-b border-gray-100`}>
                               <div className="flex items-center gap-2">
                                 <Clock size={14} className={theme.color} />
                                 <span className={`text-xs font-bold uppercase tracking-wider ${theme.color}`}>{meal.time}</span>
@@ -394,13 +404,12 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                               </div>
                             </div>
 
-                            {/* Meal Body */}
                             <div className="p-5">
                               <h5 className="font-serif text-xl font-bold text-ayur-green mb-3 leading-tight">
                                 {meal.food}
                               </h5>
                               <div className="flex items-start gap-2 pt-3 border-t border-gray-50">
-                                <Leaf size={14} className="text-ayur-gold mt-1 shrink-0" />
+                                <Leaf size={14} className="text-ayur-accent mt-1 shrink-0" />
                                 <p className="text-xs text-gray-500 italic leading-relaxed">
                                   "{meal.benefit}"
                                 </p>
@@ -417,23 +426,20 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   </div>
                 </div>
 
-                {/* FOOD SCORECARD (Stacked Cards on Mobile) */}
                 <div className={activeTab === 'seasonal' ? 'block' : 'hidden print:block'}>
-                  <div className="space-y-6 animate-fadeIn mt-4 print:mt-4">
+                  <div className="space-y-6 animate-fadeIn mt-4 print:mt-4" style={{ animationDelay: '200ms' }}>
                     {parsedResult.foodTable.length > 0 && (
                       <div className="space-y-4">
                         {parsedResult.foodTable.map((row, idx) => (
-                          <div key={idx} className="bg-white rounded-2xl border border-ayur-subtle shadow-sm overflow-hidden flex flex-col md:flex-row print:border print:mb-4 print:break-inside-avoid">
-                            {/* Category Header */}
-                            <div className="bg-ayur-cream/50 p-4 md:p-6 w-full md:w-1/4 flex items-center gap-4 border-b md:border-b-0 md:border-r border-ayur-subtle">
-                              <div className="p-2 bg-white rounded-xl shadow-sm border border-ayur-subtle">
+                          <div key={idx} className="bg-white rounded-2xl border border-ayur-subtle shadow-sm overflow-hidden flex flex-col md:flex-row print:border print:mb-4 print:break-inside-avoid hover:shadow-lg transition-shadow animate-fadeIn" style={{ animationDelay: `${300 + idx * 80}ms` }}>
+                            <div className="bg-gradient-to-br from-ayur-cream/50 to-white p-4 md:p-6 w-full md:w-1/4 flex items-center gap-4 border-b md:border-b-0 md:border-r border-ayur-subtle">
+                              <div className="p-2 bg-white rounded-xl shadow-md border border-ayur-subtle">
                                 {getCategoryIcon(row.category)}
                               </div>
                               <span className="font-bold text-ayur-green text-lg">{row.category}</span>
                             </div>
 
-                            {/* Good Side */}
-                            <div className="flex-1 p-4 md:p-6 bg-green-50/50 border-b md:border-b-0 md:border-r border-ayur-subtle">
+                            <div className="flex-1 p-4 md:p-6 bg-gradient-to-br from-green-50/50 to-white border-b md:border-b-0 md:border-r border-ayur-subtle">
                               <div className="flex items-center gap-2 mb-2">
                                 <ThumbsUp size={16} className="text-green-600" />
                                 <h5 className="text-xs font-bold uppercase tracking-widest text-green-700">Favor</h5>
@@ -441,8 +447,7 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                               <p className="text-gray-700 text-sm leading-relaxed">{row.good}</p>
                             </div>
 
-                            {/* Bad Side */}
-                            <div className="flex-1 p-4 md:p-6 bg-red-50/50">
+                            <div className="flex-1 p-4 md:p-6 bg-gradient-to-br from-red-50/50 to-white">
                               <div className="flex items-center gap-2 mb-2">
                                 <ThumbsDown size={16} className="text-red-500" />
                                 <h5 className="text-xs font-bold uppercase tracking-widest text-red-700">Avoid</h5>
@@ -456,25 +461,24 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   </div>
                 </div>
 
-                {/* LIFESTYLE TAB */}
                 <div className={activeTab === 'lifestyle' ? 'block' : 'hidden print:block'}>
-                  <div className="space-y-6 animate-fadeIn mt-4">
+                  <div className="space-y-6 animate-fadeIn mt-4" style={{ animationDelay: '200ms' }}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="bg-white p-6 rounded-3xl border border-ayur-subtle shadow-sm">
+                      <div className="bg-white p-6 rounded-3xl border border-ayur-subtle shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
                         <h5 className="font-bold text-ayur-green mb-4 flex items-center gap-2 border-b border-gray-100 pb-2">
                           <Sun size={20} className="text-orange-500" /> Habits
                         </h5>
                         <ul className="space-y-3">
                           {parsedResult.lifestyle.split('\n').filter(l => l.length > 2).map((line, i) => (
                             <li key={i} className="flex items-start gap-3 text-sm text-gray-700">
-                              <CheckCircle2 size={16} className="text-ayur-gold mt-0.5 shrink-0" />
+                              <CheckCircle2 size={16} className="text-ayur-accent mt-0.5 shrink-0" />
                               <span>{line}</span>
                             </li>
                           ))}
                         </ul>
                       </div>
 
-                      <div className="bg-white p-6 rounded-3xl border border-ayur-subtle shadow-sm">
+                      <div className="bg-white p-6 rounded-3xl border border-ayur-subtle shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
                         <h5 className="font-bold text-ayur-green mb-4 flex items-center gap-2 border-b border-gray-100 pb-2">
                           <Flower size={20} className="text-purple-500" /> Yoga
                         </h5>
@@ -491,12 +495,11 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   </div>
                 </div>
 
-                {/* Action Buttons */}
-                <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4 no-print pb-10">
-                  <button onClick={() => setStep(1)} className="px-6 py-3 rounded-full border border-gray-200 text-gray-500 hover:text-ayur-green font-medium">
+                <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4 no-print pb-10 animate-fadeIn" style={{ animationDelay: '500ms' }}>
+                  <button onClick={() => setStep(1)} className="px-6 py-3 rounded-full border border-gray-200 text-gray-500 hover:text-ayur-green font-medium hover:bg-gray-50 transition-all hover:scale-105">
                     New Plan
                   </button>
-                  <button onClick={handlePrint} className="bg-ayur-green text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-ayur-gold transition-colors flex items-center justify-center gap-2">
+                  <button onClick={handlePrint} className="bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white px-8 py-3 rounded-full font-bold shadow-lg hover:from-ayur-accent hover:to-amber-500 transition-all flex items-center justify-center gap-2 hover:scale-[1.02] hover:shadow-xl">
                     <Download size={18} /> Save PDF
                   </button>
                 </div>
@@ -505,10 +508,12 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             </div>
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
-              <AlertCircle size={48} className="text-red-400 mb-4" />
+              <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                <AlertCircle size={40} className="text-red-400" />
+              </div>
               <h3 className="font-serif text-xl font-bold text-ayur-green">Failed</h3>
               <p className="text-gray-500 mb-6">Check connection.</p>
-              <button onClick={() => setStep(1)} className="text-ayur-gold font-bold">Retry</button>
+              <button onClick={() => setStep(1)} className="px-6 py-2 bg-ayur-accent text-white rounded-full font-bold hover:bg-amber-600 transition-colors">Retry</button>
             </div>
           )}
         </div>

@@ -11,6 +11,19 @@
   <title>Ayurvritta Ayurveda Hospital & Panchakarma Center</title>
   <meta name="description"
     content="Classical Ayurveda for modern lifestyle disorders. Expert Panchakarma treatment in Vadodara for Thyroid, Diabetes, and CKD." />
+  <meta name="author" content="Ayurvritta Ayurveda Hospital" />
+  <meta name="keywords" content="Ayurveda, Ayurvedic treatment, Panchakarma, Kerala Ayurveda, traditional medicine, wellness, thyroid treatment, diabetes cure, kidney care, vadodara ayurveda, panchakarma center, dosha balance, prakriti analysis, ayurvedic doctor, herbal medicine, detoxification, wellness center" />
+  <meta name="geo.position" content="22.3075;73.1812" />
+  <meta name="geo.placename" content="Vadodara, Gujarat, India" />
+  <!-- 
+    Google Search Console Verification 
+    TO ENABLE: 
+    1. Go to https://search.google.com/search-console
+    2. Add property: https://ayurvritta.com
+    3. Copy the verification meta tag content here
+    4. Example format: 'google-site-verification: xxxxxxxx'
+  -->
+  <meta name="google-site-verification" content="YOUR_GSC_VERIFICATION_CODE" />
 
   <!-- PWA Manifest -->
   <link rel="manifest" href="/manifest.json" />
@@ -21,12 +34,23 @@
   <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts - optimized with font-display swap -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Philosopher:ital,wght@0,400;0,700;1,400&display=swap">
   <link
     href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Philosopher:ital,wght@0,400;0,700;1,400&display=swap"
-    rel="stylesheet">
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Philosopher:ital,wght@0,400;0,700;1,400&display=swap">
+  </noscript>
+  <style>
+    /* Fallback for fonts before they load */
+    @font-face { font-family: 'Montserrat'; font-display: swap; }
+    @font-face { font-family: 'Philosopher'; font-display: swap; }
+  </style>
 
   <script type="importmap">
 {

@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { PAGE_SEO, HOSPITAL_SCHEMA, FAQ_SCHEMA } from '../seo';
+import { PAGE_SEO, HOSPITAL_SCHEMA, FAQ_SCHEMA, ORGANIZATION_SCHEMA, PHYSICIAN_SCHEMA, BREADCRUMB_SCHEMA, HOWTO_PANCHAKARMA_SCHEMA, HOWTO_PRAKRITI_SCHEMA, HOWTO_DIET_SCHEMA, MEDICAL_WEBPAGE_SCHEMA } from '../seo';
 
 interface SEOHeadProps {
     title?: string;
@@ -38,7 +38,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
     const finalTitle = title || seoData.title;
     const finalDescription = description || seoData.description;
     const finalImage = image || seoData.ogImage || '/images/og-default.jpg';
-    const canonicalUrl = `${baseUrl}/#${location.pathname}`;
+    const canonicalUrl = `${baseUrl}${location.pathname}`;
 
     // Update document head
     React.useEffect(() => {
@@ -111,13 +111,61 @@ function updateStructuredData() {
     // Remove existing
     document.querySelectorAll('script[type="application/ld+json"]').forEach(el => el.remove());
 
-    // Add Hospital schema
+    // Add Hospital/MedicalBusiness schema
     const hospitalScript = document.createElement('script');
     hospitalScript.type = 'application/ld+json';
     hospitalScript.textContent = JSON.stringify(HOSPITAL_SCHEMA);
     document.head.appendChild(hospitalScript);
 
-    // Add FAQ schema (on home and booking pages)
+    // Add Organization schema
+    const orgScript = document.createElement('script');
+    orgScript.type = 'application/ld+json';
+    orgScript.textContent = JSON.stringify(ORGANIZATION_SCHEMA);
+    document.head.appendChild(orgScript);
+
+    // Add MedicalWebPage schema (on all pages for AI visibility)
+    const medicalWebpageScript = document.createElement('script');
+    medicalWebpageScript.type = 'application/ld+json';
+    medicalWebpageScript.textContent = JSON.stringify(MEDICAL_WEBPAGE_SCHEMA);
+    document.head.appendChild(medicalWebpageScript);
+
+    // Add Physician schema (on about and booking pages)
+    if (location.pathname === '/about' || location.pathname === '/booking' || location.pathname === '/') {
+        const physicianScript = document.createElement('script');
+        physicianScript.type = 'application/ld+json';
+        physicianScript.textContent = JSON.stringify(PHYSICIAN_SCHEMA);
+        document.head.appendChild(physicianScript);
+    }
+
+    // Add Breadcrumb schema (on all pages except home)
+    if (location.pathname !== '/') {
+        const breadcrumbScript = document.createElement('script');
+        breadcrumbScript.type = 'application/ld+json';
+        breadcrumbScript.textContent = JSON.stringify(BREADCRUMB_SCHEMA(location.pathname));
+        document.head.appendChild(breadcrumbScript);
+    }
+
+    // Add HowTo schemas on appropriate pages
+    if (location.pathname === '/services/panchakarma' || location.pathname === '/services') {
+        const howtoPkScript = document.createElement('script');
+        howtoPkScript.type = 'application/ld+json';
+        howtoPkScript.textContent = JSON.stringify(HOWTO_PANCHAKARMA_SCHEMA);
+        document.head.appendChild(howtoPkScript);
+    }
+
+    if (location.pathname === '/tools') {
+        const howtoPrakritiScript = document.createElement('script');
+        howtoPrakritiScript.type = 'application/ld+json';
+        howtoPrakritiScript.textContent = JSON.stringify(HOWTO_PRAKRITI_SCHEMA);
+        document.head.appendChild(howtoPrakritiScript);
+
+        const howtoDietScript = document.createElement('script');
+        howtoDietScript.type = 'application/ld+json';
+        howtoDietScript.textContent = JSON.stringify(HOWTO_DIET_SCHEMA);
+        document.head.appendChild(howtoDietScript);
+    }
+
+    // Add FAQ schema (on home and booking pages for AI search)
     if (location.pathname === '/' || location.pathname === '/booking') {
         const faqScript = document.createElement('script');
         faqScript.type = 'application/ld+json';

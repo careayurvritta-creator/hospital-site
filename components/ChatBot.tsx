@@ -4,6 +4,7 @@ import { MessageCircle, X, Send, Bot, User, Loader2, ChevronDown } from 'lucide-
 import { useLanguage } from './LanguageContext';
 import VoiceInput from './VoiceInput';
 import { chatBotAnalytics } from '../analytics';
+import { captureError } from '../analytics/errorTracker';
 
 interface Message {
   role: 'user' | 'model';
@@ -75,7 +76,7 @@ const ChatBot: React.FC = () => {
         // Use Vite's import.meta.env for client-side environment variables
         const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
         if (!apiKey) {
-          console.error("API Key missing");
+          captureError(new Error('API Key missing'), { severity: 'high', source: 'ChatBot:init' });
           return;
         }
 
@@ -102,7 +103,7 @@ You understand:
 - **Chief Physician**: Dr. Jinendradutt Sharma
 - **Specialty**: Lifestyle disorders - Thyroid, Diabetes (Prameha), CKD, Obesity (Sthaulya), PCOD
 - **Approach**: Evidence-based Ayurveda, Nidan Parivarjan (root cause removal)
-- **Location**: FF 104–113, Lotus Enora Complex, Opp. Rutu Villa, New Alkapuri, Gotri, Vadodara – 390021
+- **Location**: FF 104–107, Lotus Enora Complex, Opp. Rutu Villa, New Alkapuri, Vadodara – 390021
 - **Phone**: +91 94266 84047
 - **Hours**: Open 24 Hours, All Days
 
@@ -135,7 +136,7 @@ You understand:
         });
         setChatSession(newChat);
       } catch (e) {
-        console.error("Failed to initialize chat session:", e);
+        captureError(e, { severity: 'medium', source: 'ChatBot:initSession' });
         chatBotAnalytics.trackError('Failed to initialize chat session');
       }
     }
@@ -179,7 +180,7 @@ You understand:
       chatBotAnalytics.trackBotResponse(fullText, responseTime);
 
     } catch (error) {
-      console.error("Chat Error:", error);
+      captureError(error, { severity: 'medium', source: 'ChatBot:sendMessage' });
       const errorMessage = "I apologize, but I am having trouble connecting right now. Please check your connection and try again.";
       setMessages(prev => [...prev, { role: 'model', text: errorMessage }]);
       chatBotAnalytics.trackError('Chat API error');

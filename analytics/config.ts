@@ -1,13 +1,23 @@
 /**
  * Analytics Configuration
  * Central configuration for all analytics and tracking services
+ * 
+ * TO ENABLE ANALYTICS:
+ * 1. Google Analytics 4: Get your Measurement ID from analytics.google.com
+ *    - Create property > Get Measurement ID (format: G-XXXXXXXXXX)
+ * 2. Microsoft Clarity: Get Project ID from clarity.microsoft.com
+ *    - Project ID is a 12-character alphanumeric string
+ * 
+ * WARNING: Build will fail if placeholder values are used in production!
  */
 
 // Google Analytics 4 Measurement ID - Replace with your actual ID
-export const GA4_MEASUREMENT_ID = 'G-XXXXXXXXXX';
+// Get from: https://analytics.google.com
+export const GA4_MEASUREMENT_ID = import.meta.env.VITE_GA4_MEASUREMENT_ID || 'G-XXXXXXXXXX';
 
 // Microsoft Clarity Project ID - Replace with your actual ID
-export const CLARITY_PROJECT_ID = 'XXXXXXXXXX';
+// Get from: https://clarity.microsoft.com
+export const CLARITY_PROJECT_ID = import.meta.env.VITE_CLARITY_PROJECT_ID || 'XXXXXXXXXX';
 
 // Analytics Environment
 export const ANALYTICS_ENV = {

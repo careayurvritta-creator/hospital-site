@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import { MapPin, Navigation, Search, Loader2, ExternalLink } from 'lucide-react';
+import { captureError } from '../analytics/errorTracker';
 
 const LocationExplorer: React.FC = () => {
   const [query, setQuery] = useState('');
@@ -51,7 +52,7 @@ const LocationExplorer: React.FC = () => {
       }
 
     } catch (error) {
-      console.error("Maps Error:", error);
+      captureError(error, { severity: 'low', source: 'LocationExplorer:handleSearch' });
       setResponse("Sorry, I couldn't fetch location details right now.");
     } finally {
       setLoading(false);

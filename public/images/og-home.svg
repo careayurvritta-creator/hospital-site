@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D8784"/>
+      <stop offset="100%" style="stop-color:#064D47"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D4A853"/>
+      <stop offset="100%" style="stop-color:#F5C842"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="600" cy="315" r="200" fill="none" stroke="url(#accent)" stroke-width="3" opacity="0.2"/>
+  <text x="600" y="240" font-family="Georgia, serif" font-size="64" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Ayurvritta</text>
+  <text x="600" y="295" font-family="system-ui, sans-serif" font-size="32" fill="#D4A853" text-anchor="middle">Ayurveda Hospital</text>
+  <text x="600" y="360" font-family="system-ui, sans-serif" font-size="24" fill="#FFFFFF" text-anchor="middle" opacity="0.9">Expert Panchakarma Treatment in Vadodara</text>
+  <rect x="450" y="400" width="140" height="50" rx="25" fill="url(#accent)"/>
+  <text x="520" y="433" font-family="system-ui, sans-serif" font-size="18" fill="#064D47" text-anchor="middle" font-weight="bold">Services</text>
+  <rect x="610" y="400" width="140" height="50" rx="25" fill="url(#accent)"/>
+  <text x="680" y="433" font-family="system-ui, sans-serif" font-size="18" fill="#064D47" text-anchor="middle" font-weight="bold">Programs</text>
+  <text x="600" y="520" font-family="system-ui, sans-serif" font-size="18" fill="#FFFFFF" text-anchor="middle" opacity="0.8">Thyroid • Diabetes • CKD • Weight Loss</text>
+</svg>
