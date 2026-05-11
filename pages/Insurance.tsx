@@ -5,9 +5,11 @@ import {
    CreditCard, ChevronDown, ChevronUp, X, Check,
    ArrowRight, Landmark, Filter, Heart, Briefcase, Sparkles, Phone, Calendar
 } from 'lucide-react';
+import { GoogleGenAI } from "@google/genai";
 import { INSURANCE_PARTNERS } from '../constants';
 import { NavLink } from '../components/Layout';
 import { useIntersectionObserver } from '../hooks';
+import { captureError } from '../analytics/errorTracker';
 
 const FAQS = [
    {
@@ -105,10 +107,86 @@ const Insurance: React.FC = () => {
    const handleAnalyze = async () => {
       if (!selectedFile) return;
       setLoading(true);
-      setTimeout(() => {
-         setAnalysisResult("### Coverage Status\n* **AYUSH Covered:** Yes - Up to Sum Insured\n* **Specific Limit:** 100% of Sum Insured\n\n### Key Conditions\n* **Room Rent Cap:** As per policy terms\n* **Co-payment:** 10% applicable\n* **Waiting Period:** 2 years for pre-existing\n\n### Recommendation\nYou can proceed with cashless treatment at our hospital. Please contact TPA desk for pre-auth.");
+      setAnalysisResult(null);
+
+      try {
+         const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+         
+         if (!apiKey) {
+            throw new Error('API key not configured');
+         }
+
+         const ai = new GoogleGenAI(apiKey);
+         
+         // Read the file as base64
+         const base64Promise = new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+               const result = reader.result as string;
+               const base64 = result.split(',')[1];
+               resolve(base64);
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(selectedFile);
+         });
+
+         const base64Data = await base64Promise;
+
+         // Determine MIME type
+         const mimeType = selectedFile.type === 'application/pdf' 
+            ? 'application/pdf' 
+            : selectedFile.type || 'image/jpeg';
+
+         // Upload and analyze with Gemini
+         const model = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
+         
+         const prompt = `You are an insurance expert specializing in Indian health insurance policies and AYUSH (Ayurveda, Yoga, Unani, Siddha, Homeopathy) coverage. Analyze this insurance policy document and provide:
+
+1. Is AYUSH/Alternative Treatment covered?
+2. What is the coverage limit (percentage of sum insured)?
+3. Any specific conditions or exclusions?
+4. Room rent cap if any?
+5. Co-payment requirements?
+6. Waiting period for pre-existing conditions?
+
+Provide your response in this markdown format:
+### Coverage Status
+* **AYUSH Covered:** [Yes/No]
+* **Coverage Limit:** [X% of Sum Insured / Up to Rs. X]
+
+### Key Conditions
+* **Room Rent Cap:** [Yes - Rs. X/day / As per policy / Not specified]
+* **Co-payment:** [X% applicable / None]
+* **Waiting Period:** [X years for pre-existing / 2 years standard / Not specified]
+
+### Recommendation
+[Whether to proceed with cashless treatment at our hospital]
+
+If the document is not readable or is not an insurance policy, say "Unable to analyze - Please upload a clear insurance policy document."`;
+
+         const imagePart = {
+            inlineData: {
+               data: base64Data,
+               mimeType: mimeType
+            }
+         };
+
+         const result = await model.generateContent([prompt, imagePart]);
+         const responseText = result.response.text();
+         
+         setAnalysisResult(responseText);
+      } catch (error) {
+         console.error('AI Analysis Error:', error);
+         captureError(error instanceof Error ? error : new Error(String(error)), {
+            severity: 'high',
+            source: 'InsurancePage:handleAnalyze'
+         });
+         
+         // Fallback response
+         setAnalysisResult("### Analysis Service Unavailable\n\nWe apologize - our AI analysis service is temporarily unavailable. However, you can proceed with cashless treatment at our hospital.\n\n**Recommended Next Steps:**\n1. Contact our TPA desk at +91 94266 84047\n2. Provide your policy documents for manual verification\n3. Our team will assist with pre-authorization\n\nWe accept cashless treatment with 50+ insurance partners including Star Health, HDFC ERGO, ICICI Lombard, and more.");
+      } finally {
          setLoading(false);
-      }, 2000);
+      }
    };
 
    const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
