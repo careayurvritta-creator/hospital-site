@@ -15,6 +15,34 @@ export default defineConfig(({ mode }) => {
       outDir: 'dist',
       minify: 'esbuild',
       target: 'esnext',
+      rollupOptions: {
+        output: {
+          manualChunks: (id) => {
+            // Group node_modules into vendor chunks
+            if (id.includes('node_modules')) {
+              // React core together
+              if (id.includes('react') || id.includes('scheduler')) {
+                return 'vendor-react';
+              }
+              // Icons
+              if (id.includes('lucide-react')) {
+                return 'vendor-icons';
+              }
+              // Charts
+              if (id.includes('recharts') || id.includes('d3-')) {
+                return 'vendor-charts';
+              }
+              // Everything else
+              return 'vendor-misc';
+            }
+            // Pages into separate chunks
+            if (id.includes('/pages/')) {
+              const pageName = id.split('/pages/')[1]?.split('.')[0];
+              return `page-${pageName}`;
+            }
+          },
+        },
+      },
     },
     envPrefix: 'VITE_',
     resolve: {
@@ -24,12 +52,6 @@ export default defineConfig(({ mode }) => {
     },
     optimizeDeps: {
       include: ['react', 'react-dom', 'react-router-dom'],
-    },
-    test: {
-      globals: true,
-      environment: 'jsdom',
-      setupFiles: './tests/setup.ts',
-      include: ['tests/**/*.{test,spec}.{ts,tsx}'],
     },
   };
 });
