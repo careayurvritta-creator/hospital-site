@@ -1,17 +1,12 @@
-import React, { useState } from 'react';
-import { Activity, AlertTriangle, Shield, Scale, Moon, ChevronRight, Utensils, Layers, ArrowLeft, Sparkles, Heart, Brain, Droplets, Wind, Flame, Leaf } from 'lucide-react';
-import PrakritiTool from '../components/tools/PrakritiTool';
-import LifestyleTool from '../components/tools/LifestyleTool';
-import DietGenerator from '../components/tools/DietGenerator';
-import MedaTool from '../components/tools/MedaTool';
-import SaaraTool from '../components/tools/SaaraTool';
-import PanchakarmaTool from '../components/tools/PanchakarmaTool';
+import React, { useState, useEffect } from 'react';
+import { Activity, AlertTriangle, Shield, Scale, Moon, ChevronRight, Utensils, Layers, ArrowLeft, Sparkles } from 'lucide-react';
 import { useIntersectionObserver } from '../hooks';
+import type { ComponentType } from 'react';
 
 const ToolCard: React.FC<{
   title: string;
   desc: string;
-  icon: React.ElementType;
+  icon: ComponentType<{ size?: number; className?: string }>;
   color: string;
   iconBg: string;
   onClick: () => void;
@@ -40,25 +35,58 @@ const ToolCard: React.FC<{
 
 const Tools: React.FC = () => {
   const [activeTool, setActiveTool] = useState<string | null>(null);
+  const [loadedTools, setLoadedTools] = useState<Record<string, ComponentType<{ onBack: () => void }>>>({});
+  const [loadingTool, setLoadingTool] = useState<string | null>(null);
+  
   const headerObserver = useIntersectionObserver({ threshold: 0.2, rootMargin: '-50px' });
   const cardsObserver = useIntersectionObserver({ threshold: 0.1, rootMargin: '-50px' });
 
-  const renderActiveTool = () => {
-    switch (activeTool) {
-      case 'prakriti': return <PrakritiTool onBack={() => setActiveTool(null)} />;
-      case 'risk': return <LifestyleTool onBack={() => setActiveTool(null)} />;
-      case 'diet': return <DietGenerator onBack={() => setActiveTool(null)} />;
-      case 'meda': return <MedaTool onBack={() => setActiveTool(null)} />;
-      case 'saara': return <SaaraTool onBack={() => setActiveTool(null)} />;
-      case 'panchakarma': return <PanchakarmaTool onBack={() => setActiveTool(null)} />;
-      default: return null;
+  useEffect(() => {
+    if (activeTool && !loadedTools[activeTool] && !loadingTool) {
+      setLoadingTool(activeTool);
+      let modulePath: string;
+      switch (activeTool) {
+        case 'prakriti': modulePath = '../components/tools/PrakritiTool'; break;
+        case 'risk': modulePath = '../components/tools/LifestyleTool'; break;
+        case 'diet': modulePath = '../components/tools/DietGenerator'; break;
+        case 'meda': modulePath = '../components/tools/MedaTool'; break;
+        case 'saara': modulePath = '../components/tools/SaaraTool'; break;
+        case 'panchakarma': modulePath = '../components/tools/PanchakarmaTool'; break;
+        default: return;
+      }
+      import(modulePath).then((mod) => {
+        const defaultExport = mod.default || mod;
+        setLoadedTools(prev => ({ ...prev, [activeTool]: defaultExport }));
+        setLoadingTool(null);
+      }).catch(err => {
+        console.error('Failed to load tool:', err);
+        setLoadingTool(null);
+      });
     }
+  }, [activeTool, loadedTools, loadingTool]);
+
+  const ActiveToolComponent = activeTool ? loadedTools[activeTool] : null;
+
+  const renderActiveTool = () => {
+    if (loadingTool) {
+      return (
+        <div className="min-h-[400px] flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-[#009688]/20 border-t-[#009688] rounded-full animate-spin"></div>
+            <p className="text-[#1A3C34]/70 font-medium">Loading tool...</p>
+          </div>
+        </div>
+      );
+    }
+    if (ActiveToolComponent) {
+      const Tool = ActiveToolComponent;
+      return <Tool onBack={() => setActiveTool(null)} />;
+    }
+    return null;
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-ayur-cream via-white to-ayur-cream/30 pb-24">
-      
-      {/* ENHANCED HEADER */}
       <section ref={headerObserver.ref} className="bg-gradient-to-br from-ayur-green via-[#0a6b5a] to-ayur-green-dark pt-24 pb-20 md:pt-36 md:pb-40 text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-ayur-accent/30 to-transparent rounded-full blur-[100px] animate-pulse"></div>
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-500/20 to-transparent rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '1.5s' }}></div>
