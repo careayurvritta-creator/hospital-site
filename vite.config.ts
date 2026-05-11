@@ -23,7 +23,7 @@ export default defineConfig(({ mode }) => {
               if (id.includes('react') || id.includes('scheduler')) {
                 return 'vendor-react';
               }
-              // Icons
+              // Icons - lucide-react causes issues when bundled normally
               if (id.includes('lucide-react')) {
                 return 'vendor-icons';
               }
@@ -49,7 +49,7 @@ export default defineConfig(({ mode }) => {
       }
     },
     optimizeDeps: {
-      include: ['react', 'react-dom', 'react-router-dom'],
+      include: ['react', 'react-dom', 'react-router-dom', 'lucide-react'],
     },
   };
 });
