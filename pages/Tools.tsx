@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { Activity, AlertTriangle, Shield, Scale, Moon, ChevronRight, Utensils, Layers, ArrowLeft, Sparkles } from 'lucide-react';
+import { Activity, AlertTriangle, Shield, Scale, ChevronRight, Utensils, Layers, ArrowLeft, Sparkles } from 'lucide-react';
 import { useIntersectionObserver } from '../hooks';
-import PrakritiTool from '../components/tools/PrakritiTool';
 import LifestyleTool from '../components/tools/LifestyleTool';
-import DietGenerator from '../components/tools/DietGenerator';
 import MedaTool from '../components/tools/MedaTool';
 import SaaraTool from '../components/tools/SaaraTool';
 import PanchakarmaTool from '../components/tools/PanchakarmaTool';
@@ -46,12 +44,8 @@ const Tools: React.FC = () => {
 
   const renderTool = () => {
     switch (activeTool) {
-      case 'prakriti':
-        return <PrakritiTool onBack={() => setActiveTool(null)} />;
       case 'risk':
         return <LifestyleTool onBack={() => setActiveTool(null)} />;
-      case 'diet':
-        return <DietGenerator onBack={() => setActiveTool(null)} />;
       case 'meda':
         return <MedaTool onBack={() => setActiveTool(null)} />;
       case 'saara':
@@ -93,16 +87,6 @@ const Tools: React.FC = () => {
         {!activeTool ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <ToolCard 
-              title="Prakriti Assessment" 
-              desc="Decode your DNA the Ayurvedic way. Discover your unique Dosha constitution and receive a personalized wellness roadmap plus an AI-generated energy avatar."
-              icon={Activity}
-              color="text-amber-600"
-              iconBg="bg-amber-100"
-              gradient="from-amber-500 to-orange-500"
-              onClick={() => setActiveTool('prakriti')}
-              delay="0ms"
-            />
-            <ToolCard 
               title="Lifestyle Risk Audit" 
               desc="Don't wait for symptoms. Evaluate your daily habits against clinical parameters to calculate your risk for Diabetes and metabolic disorders."
               icon={AlertTriangle}
@@ -110,7 +94,7 @@ const Tools: React.FC = () => {
               iconBg="bg-red-100"
               gradient="from-red-500 to-rose-500"
               onClick={() => setActiveTool('risk')}
-              delay="100ms"
+              delay="0ms"
             />
             <ToolCard 
               title="Panchakarma Check" 
@@ -120,7 +104,7 @@ const Tools: React.FC = () => {
               iconBg="bg-orange-100"
               gradient="from-orange-500 to-amber-500"
               onClick={() => setActiveTool('panchakarma')}
-              delay="150ms"
+              delay="100ms"
             />
             <ToolCard 
               title="BMI & Meda Dhatu" 
@@ -130,7 +114,7 @@ const Tools: React.FC = () => {
               iconBg="bg-blue-100"
               gradient="from-blue-500 to-cyan-500"
               onClick={() => setActiveTool('meda')}
-              delay="200ms"
+              delay="150ms"
             />
             <ToolCard 
               title="Saara Pariksha" 
@@ -140,17 +124,7 @@ const Tools: React.FC = () => {
               iconBg="bg-purple-100"
               gradient="from-purple-500 to-violet-600"
               onClick={() => setActiveTool('saara')}
-              delay="300ms"
-            />
-            <ToolCard 
-              title="AI Diet Planner" 
-              desc="Your food is your medicine. Generate a location-specific, season-adjusted daily menu and food guide tailored precisely to your health condition."
-              icon={Utensils}
-              color="text-green-600"
-              iconBg="bg-green-100"
-              gradient="from-green-500 to-emerald-600"
-              onClick={() => setActiveTool('diet')}
-              delay="400ms"
+              delay="200ms"
             />
           </div>
         ) : (
