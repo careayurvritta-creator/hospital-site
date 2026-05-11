@@ -5,7 +5,13 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Services from './pages/Services';
 import ServiceDetail from './pages/ServiceDetail';
+import Programs from './pages/Programs';
+import Tools from './pages/Tools';
 import Booking from './pages/Booking';
+import Insurance from './pages/Insurance';
+import Blog from './pages/Blog';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Terms from './pages/Terms';
 
 const App: React.FC = () => {
   return (
@@ -16,7 +22,13 @@ const App: React.FC = () => {
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
           <Route path="/services/:id" element={<ServiceDetail />} />
+          <Route path="/programs" element={<Programs />} />
+          <Route path="/tools" element={<Tools />} />
           <Route path="/booking" element={<Booking />} />
+          <Route path="/insurance" element={<Insurance />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<Terms />} />
         </Routes>
       </Layout>
     </HashRouter>
