@@ -22,8 +22,10 @@ export const TRANSLATIONS = {
             services: "Services",
             programs: "Programs",
             tools: "Tools",
+            blog: "Blog",
+            insurance: "Insurance",
             contact: "Contact",
-            book: "Book"
+            book: "Book Now"
         },
         hero: {
             tagline: "Vadodara's Premier Center",
@@ -84,8 +86,10 @@ export const TRANSLATIONS = {
             services: "सेवाएं",
             programs: "कार्यक्रम",
             tools: "टूल्स",
+            blog: "ब्लॉग",
+            insurance: "बीमा",
             contact: "संपर्क",
-            book: "बुक"
+            book: "बुक करें"
         },
         hero: {
             tagline: "वडोदरा का प्रमुख केंद्र",
@@ -146,8 +150,10 @@ export const TRANSLATIONS = {
             services: "સેવાઓ",
             programs: "પ્રોગ્રામ્સ",
             tools: "ટૂલ્સ",
+            blog: "બ્લોગ",
+            insurance: "ઇન્શ્યોરન્સ",
             contact: "સંપર્ક",
-            book: "બુક"
+            book: "બુક કરો"
         },
         hero: {
             tagline: "વડોદરાનું અગ્રણી કેન્દ્ર",
