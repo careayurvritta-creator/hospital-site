@@ -92,22 +92,39 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({ children }
     const [chatConversationId] = useState(() => `chat_${Date.now()}`);
     const [chatMessageIndex, setChatMessageIndex] = useState(0);
 
-    // Initialize analytics on mount
+    // Initialize analytics on mount - non-blocking
     useEffect(() => {
-        initializeAnalytics();
+        // Initialize asynchronously to not block UI
+        Promise.resolve().then(() => {
+            try {
+                initializeAnalytics();
+            } catch (e) {
+                console.warn('Analytics init failed:', e);
+            }
+        });
 
-        // Load third-party scripts if consent is given
+        // Load third-party scripts if consent is given - async
         if (consent.analytics) {
-            loadGA4();
-            loadClarity();
+            Promise.resolve().then(() => {
+                try {
+                    loadGA4();
+                    loadClarity();
+                } catch (e) {
+                    console.warn('GA4/Clarity load failed:', e);
+                }
+            });
         }
 
         // Subscribe to consent changes
         const unsubscribe = consentManager.subscribe((newConsent) => {
             setConsent(newConsent);
             if (newConsent.analytics) {
-                loadGA4();
-                loadClarity();
+                Promise.resolve().then(() => {
+                    try {
+                        loadGA4();
+                        loadClarity();
+                    } catch (e) { /* ignore */ }
+                });
             }
         });
 
@@ -123,10 +140,14 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({ children }
         };
         window.addEventListener('segmentAdded', handleSegmentUpdate);
 
-        // Initial state
-        setSegments(userSegmentation.getSegments());
-        setLeadScore(eventTracker.getLeadScore());
-        setSessionData(eventTracker.getSessionData());
+        // Initial state - wrapped in try-catch
+        try {
+            setSegments(userSegmentation.getSegments() || []);
+            setLeadScore(eventTracker.getLeadScore() || 0);
+            setSessionData(eventTracker.getSessionData());
+        } catch (e) {
+            console.warn('Analytics state init failed:', e);
+        }
 
         return () => {
             unsubscribe();

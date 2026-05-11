@@ -22,14 +22,31 @@ const Terms = lazy(() => import('./pages/Terms'));
 const AnalyticsDashboard = lazy(() => import('./components/AnalyticsDashboard'));
 
 // Loading component for Suspense fallback
-const PageLoader: React.FC = () => (
-  <div className="min-h-screen flex items-center justify-center bg-[#F5F0E8]">
-    <div className="flex flex-col items-center gap-4">
-      <div className="w-12 h-12 border-4 border-[#009688]/20 border-t-[#009688] rounded-full animate-spin"></div>
-      <p className="text-[#1A3C34]/70 font-medium">Loading...</p>
+const PageLoader: React.FC = () => {
+  const [stuck, setStuck] = React.useState(false);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => setStuck(true), 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[#F5F0E8]">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-12 h-12 border-4 border-[#009688]/20 border-t-[#009688] rounded-full animate-spin"></div>
+        <p className="text-[#1A3C34]/70 font-medium">Loading...</p>
+        {stuck && (
+          <button
+            onClick={() => window.location.reload()}
+            className="text-[#009688] text-sm hover:underline"
+          >
+            Taking too long? Click to reload
+          </button>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 interface ErrorBoundaryProps {
   children?: ReactNode;
