@@ -1,4 +1,4 @@
-import React, { useEffect, ReactNode, Component, Suspense } from 'react';
+import React, { useEffect, ReactNode, Component } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
 import SEOHead from './components/SEOHead';
@@ -98,22 +98,20 @@ const App: React.FC = () => {
           <ScrollToTop />
           <SEOHead />
           <ErrorBoundary>
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/services/:id" element={<ServiceDetail />} />
-                <Route path="/programs" element={<Programs />} />
-                <Route path="/tools" element={<Tools />} />
-                <Route path="/booking" element={<Booking />} />
-                <Route path="/insurance" element={<Insurance />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/privacy" element={<PrivacyPolicy />} />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/analytics-dashboard" element={<AnalyticsDashboard />} />
-              </Routes>
-            </Suspense>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/services/:id" element={<ServiceDetail />} />
+              <Route path="/programs" element={<Programs />} />
+              <Route path="/tools" element={<Tools />} />
+              <Route path="/booking" element={<Booking />} />
+              <Route path="/insurance" element={<Insurance />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/analytics-dashboard" element={<AnalyticsDashboard />} />
+            </Routes>
           </ErrorBoundary>
         </Layout>
         <CookieConsent />
