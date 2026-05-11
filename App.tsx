@@ -1,4 +1,4 @@
-import React, { useEffect, ReactNode, Component, Suspense, lazy } from 'react';
+import React, { useEffect, ReactNode, Component, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
 import SEOHead from './components/SEOHead';
@@ -7,46 +7,28 @@ import CookieConsent from './components/CookieConsent';
 import MobileCTABar from './components/MobileCTABar';
 import { captureError } from './analytics/errorTracker';
 
-// Lazy loaded page components for code splitting
-const Home = lazy(() => import('./pages/Home'));
-const About = lazy(() => import('./pages/About'));
-const Services = lazy(() => import('./pages/Services'));
-const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
-const Programs = lazy(() => import('./pages/Programs'));
-const Tools = lazy(() => import('./pages/Tools'));
-const Booking = lazy(() => import('./pages/Booking'));
-const Insurance = lazy(() => import('./pages/Insurance'));
-const Blog = lazy(() => import('./pages/Blog'));
-const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
-const Terms = lazy(() => import('./pages/Terms'));
-const AnalyticsDashboard = lazy(() => import('./components/AnalyticsDashboard'));
+// Static imports - no lazy loading
+import Home from './pages/Home';
+import About from './pages/About';
+import Services from './pages/Services';
+import ServiceDetail from './pages/ServiceDetail';
+import Programs from './pages/Programs';
+import Tools from './pages/Tools';
+import Booking from './pages/Booking';
+import Insurance from './pages/Insurance';
+import Blog from './pages/Blog';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Terms from './pages/Terms';
+import AnalyticsDashboard from './components/AnalyticsDashboard';
 
-// Loading component for Suspense fallback
-const PageLoader: React.FC = () => {
-  const [stuck, setStuck] = React.useState(false);
-
-  React.useEffect(() => {
-    const timer = setTimeout(() => setStuck(true), 5000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F5F0E8]">
-      <div className="flex flex-col items-center gap-4">
-        <div className="w-12 h-12 border-4 border-[#009688]/20 border-t-[#009688] rounded-full animate-spin"></div>
-        <p className="text-[#1A3C34]/70 font-medium">Loading...</p>
-        {stuck && (
-          <button
-            onClick={() => window.location.reload()}
-            className="text-[#009688] text-sm hover:underline"
-          >
-            Taking too long? Click to reload
-          </button>
-        )}
-      </div>
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-[#F5F0E8]">
+    <div className="flex flex-col items-center gap-4">
+      <div className="w-12 h-12 border-4 border-[#009688]/20 border-t-[#009688] rounded-full animate-spin"></div>
+      <p className="text-[#1A3C34]/70 font-medium">Loading...</p>
     </div>
-  );
-};
+  </div>
+);
 
 interface ErrorBoundaryProps {
   children?: ReactNode;
@@ -57,7 +39,6 @@ interface ErrorBoundaryState {
   errorMessage?: string;
 }
 
-// Robust Error Boundary with Analytics Integration
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   public state: ErrorBoundaryState = {
     hasError: false,
@@ -69,7 +50,6 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-    // Track error to analytics
     captureError(error, {
       severity: 'high',
       source: 'ErrorBoundary',
@@ -86,7 +66,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
             <p className="text-[#1A3C34]/70 mb-6">We apologize for the inconvenience. Please try again.</p>
             <button
               onClick={() => window.location.reload()}
-              className="bg-[#009688] text-white px-6 py-3 rounded-full font-bold hover:bg-[#00796B] transition-colors min-h-[48px]"
+              className="bg-[#009688] text-white px-6 py-3 rounded-full font-bold hover:bg-[#00796B] transition-colors"
             >
               Reload Page
             </button>
@@ -103,10 +83,7 @@ const ScrollToTop = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'auto'
-    });
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }, [pathname]);
 
   return null;
@@ -138,9 +115,7 @@ const App: React.FC = () => {
             </Suspense>
           </ErrorBoundary>
         </Layout>
-        {/* Cookie Consent Banner */}
         <CookieConsent />
-        {/* Mobile CTA Bar - Call/WhatsApp priority */}
         <MobileCTABar showBooking={false} />
       </AnalyticsProvider>
     </Router>
