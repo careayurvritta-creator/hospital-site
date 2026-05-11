@@ -1,34 +1,20 @@
 import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
-import Home from './pages/Home';
-import About from './pages/About';
-import Services from './pages/Services';
-import Booking from './pages/Booking';
-import Insurance from './pages/Insurance';
-import Programs from './pages/Programs';
-import Tools from './pages/Tools';
-import Blog from './pages/Blog';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import Terms from './pages/Terms';
+import { HashRouter } from 'react-router-dom';
 
+// Ultra minimal - no Layout, no pages - just to test if React itself works
 const App: React.FC = () => {
   return (
     <HashRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/programs" element={<Programs />} />
-          <Route path="/tools" element={<Tools />} />
-          <Route path="/booking" element={<Booking />} />
-          <Route path="/insurance" element={<Insurance />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/terms" element={<Terms />} />
-        </Routes>
-      </Layout>
+      <div style={{ 
+        minHeight: '100vh', 
+        background: '#F5F0E8', 
+        padding: 40,
+        fontFamily: 'Arial, sans-serif'
+      }}>
+        <h1 style={{ color: '#009688' }}>Ayurvritta Hospital</h1>
+        <p>If you see this, React is working!</p>
+        <p>HashRouter: {window.location.hash}</p>
+      </div>
     </HashRouter>
   );
 };
