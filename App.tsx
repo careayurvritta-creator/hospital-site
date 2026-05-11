@@ -7,6 +7,7 @@ import Services from './pages/Services';
 import ServiceDetail from './pages/ServiceDetail';
 import Programs from './pages/Programs';
 import Booking from './pages/Booking';
+import Insurance from './pages/Insurance';
 
 const App: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const App: React.FC = () => {
           <Route path="/services/:id" element={<ServiceDetail />} />
           <Route path="/programs" element={<Programs />} />
           <Route path="/booking" element={<Booking />} />
+          <Route path="/insurance" element={<Insurance />} />
         </Routes>
       </Layout>
     </HashRouter>
