@@ -206,10 +206,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   '/programs': 'programs',
                   '/tools': 'tools',
                   '/booking': 'contact',
-                  '/insurance': 'insurance'
+                  '/insurance': 'insurance',
+                  '/blog': 'blog'
                 };
-                const key = keyMap[item.path] || 'home';
-                const label = (t.nav && (t.nav as Record<string, string>)[key]) || item.label;
+                const key = keyMap[item.path];
+                const label = key ? (t.nav && (t.nav as Record<string, string>)[key]) || item.label : item.label;
                 
                 return (
                   <NavLink
@@ -321,11 +322,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     '/programs': 'programs',
                     '/tools': 'tools',
                     '/booking': 'contact',
-                    '/insurance': 'insurance'
+                    '/insurance': 'insurance',
+                    '/blog': 'blog'
                   };
-                  const key = keyMap[item.path] || 'home';
+                  const key = keyMap[item.path];
                   const navItem = t.nav as Record<string, string> | undefined;
-                  return (navItem?.[key]) || item.label;
+                  return (key && navItem?.[key]) || item.label;
                 })()}
               </NavLink>
             ))}
