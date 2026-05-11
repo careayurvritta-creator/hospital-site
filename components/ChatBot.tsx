@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { GoogleGenAI } from "@google/genai";
 import { MessageCircle, X, Send, Bot, User, Loader2, ChevronDown } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 import VoiceInput from './VoiceInput';
@@ -71,9 +70,10 @@ const ChatBot: React.FC = () => {
 
   // Initialize Chat Session (Re-init on language change to prompt correct context)
   useEffect(() => {
-    if (isOpen) {
+    if (!isOpen) return;
+    let cancelled = false;
+    (async () => {
       try {
-        // Use Vite's import.meta.env for client-side environment variables
         const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
         if (!apiKey) {
           captureError(new Error('API Key missing'), { severity: 'high', source: 'ChatBot:init' });
@@ -82,6 +82,9 @@ const ChatBot: React.FC = () => {
 
         const langInstruction = language === 'hi' ? "Reply in Hindi (हिंदी में उत्तर दें)." : language === 'gu' ? "Reply in Gujarati (ગુજરાતીમાં જવાબ આપો)." : "Reply in English.";
 
+        const { GoogleGenAI } = await import("@google/genai");
+        if (cancelled) return;
+        
         const ai = new GoogleGenAI({ apiKey });
         const newChat = ai.chats.create({
           model: 'gemini-2.0-flash',
@@ -134,12 +137,17 @@ You understand:
 - End with a helpful suggestion or call-to-action`,
           },
         });
-        setChatSession(newChat);
+        if (!cancelled) {
+          setChatSession(newChat);
+        }
       } catch (e) {
-        captureError(e, { severity: 'medium', source: 'ChatBot:initSession' });
-        chatBotAnalytics.trackError('Failed to initialize chat session');
+        if (!cancelled) {
+          captureError(e, { severity: 'medium', source: 'ChatBot:initSession' });
+          chatBotAnalytics.trackError('Failed to initialize chat session');
+        }
       }
-    }
+    })();
+    return () => { cancelled = true; };
   }, [isOpen, language]);
 
   const handleSend = async () => {
