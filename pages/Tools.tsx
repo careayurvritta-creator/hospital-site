@@ -1,22 +1,12 @@
-import React, { useState, useEffect, Suspense, lazy } from 'react';
+import React, { useState } from 'react';
 import { Activity, AlertTriangle, Shield, Scale, Moon, ChevronRight, Utensils, Layers, ArrowLeft, Sparkles } from 'lucide-react';
 import { useIntersectionObserver } from '../hooks';
-
-const PrakritiTool = lazy(() => import('../components/tools/PrakritiTool'));
-const LifestyleTool = lazy(() => import('../components/tools/LifestyleTool'));
-const DietGenerator = lazy(() => import('../components/tools/DietGenerator'));
-const MedaTool = lazy(() => import('../components/tools/MedaTool'));
-const SaaraTool = lazy(() => import('../components/tools/SaaraTool'));
-const PanchakarmaTool = lazy(() => import('../components/tools/PanchakarmaTool'));
-
-const toolComponents: Record<string, React.ComponentType<{ onBack: () => void }>> = {
-  prakriti: PrakritiTool,
-  risk: LifestyleTool,
-  diet: DietGenerator,
-  meda: MedaTool,
-  saara: SaaraTool,
-  panchakarma: PanchakarmaTool,
-};
+import PrakritiTool from '../components/tools/PrakritiTool';
+import LifestyleTool from '../components/tools/LifestyleTool';
+import DietGenerator from '../components/tools/DietGenerator';
+import MedaTool from '../components/tools/MedaTool';
+import SaaraTool from '../components/tools/SaaraTool';
+import PanchakarmaTool from '../components/tools/PanchakarmaTool';
 
 const ToolCard: React.FC<{
   title: string;
@@ -48,22 +38,30 @@ const ToolCard: React.FC<{
   </button>
 );
 
-const ToolLoader = () => (
-  <div className="min-h-[400px] flex items-center justify-center">
-    <div className="flex flex-col items-center gap-4">
-      <div className="w-12 h-12 border-4 border-[#009688]/20 border-t-[#009688] rounded-full animate-spin"></div>
-      <p className="text-[#1A3C34]/70 font-medium">Loading tool...</p>
-    </div>
-  </div>
-);
-
 const Tools: React.FC = () => {
   const [activeTool, setActiveTool] = useState<string | null>(null);
   
   const headerObserver = useIntersectionObserver({ threshold: 0.2, rootMargin: '-50px' });
   const cardsObserver = useIntersectionObserver({ threshold: 0.1, rootMargin: '-50px' });
 
-  const ActiveToolComponent = activeTool ? toolComponents[activeTool] : null;
+  const renderTool = () => {
+    switch (activeTool) {
+      case 'prakriti':
+        return <PrakritiTool onBack={() => setActiveTool(null)} />;
+      case 'risk':
+        return <LifestyleTool onBack={() => setActiveTool(null)} />;
+      case 'diet':
+        return <DietGenerator onBack={() => setActiveTool(null)} />;
+      case 'meda':
+        return <MedaTool onBack={() => setActiveTool(null)} />;
+      case 'saara':
+        return <SaaraTool onBack={() => setActiveTool(null)} />;
+      case 'panchakarma':
+        return <PanchakarmaTool onBack={() => setActiveTool(null)} />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-ayur-cream via-white to-ayur-cream/30 pb-24">
@@ -160,9 +158,7 @@ const Tools: React.FC = () => {
              <div className="md:hidden p-4 border-b border-gray-100 flex items-center text-ayur-green font-bold gap-2 hover:bg-ayur-cream/30 transition-colors cursor-pointer" onClick={() => setActiveTool(null)}>
                 <ArrowLeft size={20}/> Back to Tools
              </div>
-             <Suspense fallback={<ToolLoader />}>
-               {ActiveToolComponent && <ActiveToolComponent onBack={() => setActiveTool(null)} />}
-             </Suspense>
+             {renderTool()}
           </div>
         )}
       </div>
