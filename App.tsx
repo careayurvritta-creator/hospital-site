@@ -1,4 +1,4 @@
-import React, { useEffect, ReactNode, Component, Suspense } from 'react';
+import React, { useEffect, ReactNode, Component, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
 import SEOHead from './components/SEOHead';
@@ -7,19 +7,19 @@ import CookieConsent from './components/CookieConsent';
 import MobileCTABar from './components/MobileCTABar';
 import { captureError } from './analytics/errorTracker';
 
-// Static imports - no lazy loading
-import Home from './pages/Home';
-import About from './pages/About';
-import Services from './pages/Services';
-import ServiceDetail from './pages/ServiceDetail';
-import Programs from './pages/Programs';
-import Tools from './pages/Tools';
-import Booking from './pages/Booking';
-import Insurance from './pages/Insurance';
-import Blog from './pages/Blog';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import Terms from './pages/Terms';
-import AnalyticsDashboard from './components/AnalyticsDashboard';
+// Lazy loaded pages for code splitting - better performance
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+const Services = lazy(() => import('./pages/Services'));
+const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
+const Programs = lazy(() => import('./pages/Programs'));
+const Tools = lazy(() => import('./pages/Tools'));
+const Booking = lazy(() => import('./pages/Booking'));
+const Insurance = lazy(() => import('./pages/Insurance'));
+const Blog = lazy(() => import('./pages/Blog'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const Terms = lazy(() => import('./pages/Terms'));
+const AnalyticsDashboard = lazy(() => import('./components/AnalyticsDashboard'));
 
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-[#F5F0E8]">
