@@ -12,8 +12,8 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [react()],
     build: {
+      outDir: 'dist',
       rollupOptions: {
-        input: './index.tsx',
         output: {
           manualChunks: (id) => {
             if (id.includes('node_modules')) {
