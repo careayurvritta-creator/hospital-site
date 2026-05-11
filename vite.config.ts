@@ -5,22 +5,17 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
   return {
+    root: '.',
     server: {
       port: 3000,
       host: '0.0.0.0',
     },
     plugins: [react()],
-    envPrefix: 'VITE_',
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, '.'),
-      }
-    },
     build: {
       rollupOptions: {
+        input: './index.tsx',
         output: {
           manualChunks: (id) => {
-            // Vendor chunks - optimized splitting
             if (id.includes('node_modules')) {
               if (id.includes('react-dom') || id.includes('react/')) {
                 return 'vendor-react';
@@ -39,7 +34,6 @@ export default defineConfig(({ mode }) => {
               }
               return 'vendor-misc';
             }
-            // Page-based chunks for better caching
             if (id.includes('/pages/')) {
               const pageName = id.split('/pages/')[1]?.split('.')[0];
               return `page-${pageName}`;
@@ -53,6 +47,12 @@ export default defineConfig(({ mode }) => {
       chunkSizeWarningLimit: 500,
       sourcemap: false,
       manifest: true,
+    },
+    envPrefix: 'VITE_',
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, '.'),
+      }
     },
     optimizeDeps: {
       include: ['react', 'react-dom', 'react-router-dom'],
