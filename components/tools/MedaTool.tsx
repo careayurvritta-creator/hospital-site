@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { MEDA_DHATU_QUESTIONS } from '../../constants';
-import { Scale, Ruler, Activity, ArrowRight, AlertTriangle, CheckCircle2, RotateCw, Feather, Layers, Heart } from 'lucide-react';
 import { NavLink } from '../Layout';
 import ShareResults from '../ShareResults';
 import { useIntersectionObserver } from '../../hooks';
 import { MedaResult } from '../../types/index';
+import Icons from '../Icons';
 
 const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   const [step, setStep] = useState(1);
@@ -120,9 +120,9 @@ const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   }, [step, result]);
 
   const getMedaVisual = (status: string) => {
-    if (status.includes("Kshaya")) return <Feather size={48} className="text-yellow-500" />;
-    if (status.includes("Vriddhi") || status.includes("Risk")) return <Layers size={48} className="text-red-500" />;
-    return <Scale size={48} className="text-green-500" />;
+    if (status.includes("Kshaya")) return <Icons.Feather size={48} className="text-yellow-500" />;
+    if (status.includes("Vriddhi") || status.includes("Risk")) return <Icons.Layers size={48} className="text-red-500" />;
+    return <Icons.Scale size={48} className="text-green-500" />;
   };
 
   const inputStyle = "w-full pl-12 p-4 bg-white text-ayur-green placeholder-gray-400 border border-ayur-subtle rounded-xl focus:border-ayur-accent focus:ring-2 focus:ring-ayur-accent/20 outline-none transition-all shadow-sm hover:shadow-md";
@@ -133,9 +133,9 @@ const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
         <div className="absolute top-0 right-0 w-40 h-40 bg-ayur-accent/20 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
         <div className="relative z-10">
-          <h2 className="font-serif text-3xl font-bold flex items-center gap-3">
-             <Scale className="text-ayur-accent" /> Meda Dhatu & BMI
-           </h2>
+<h2 className="font-serif text-3xl font-bold flex items-center gap-3">
+              <Icons.Scale className="text-ayur-accent" /> Meda Dhatu & BMI
+            </h2>
           <p className="opacity-80 mt-2">Research-based assessment of Adipose Tissue & Metabolic Health.</p>
         </div>
       </div>
@@ -149,21 +149,21 @@ const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
               <div className="relative group">
                 <label className="block text-sm font-bold text-ayur-gray mb-2">Height (cm) <span className="text-red-500">*</span></label>
                 <div className="relative">
-                   <Ruler className="absolute top-4 left-3 text-ayur-accent group-focus-within:animate-pulse" size={20} />
+                   <Icons.Ruler className="absolute top-4 left-3 text-ayur-accent group-focus-within:animate-pulse" size={20} />
                    <input 
                      type="number" 
                      name="height" 
                      value={metrics.height} 
                      onChange={handleMetricChange} 
-                     className={inputStyle} 
-                     placeholder="e.g. 170" 
-                   />
-                </div>
-              </div>
-              <div className="relative group">
-                <label className="block text-sm font-bold text-ayur-gray mb-2">Weight (kg) <span className="text-red-500">*</span></label>
-                <div className="relative">
-                   <Scale className="absolute top-4 left-3 text-ayur-accent group-focus-within:animate-pulse" size={20} />
+className={inputStyle} 
+                      placeholder="e.g. 170" 
+                    />
+                 </div>
+               </div>
+               <div className="relative group">
+                 <label className="block text-sm font-bold text-ayur-gray mb-2">Weight (kg) <span className="text-red-500">*</span></label>
+                 <div className="relative">
+                    <Icons.Scale className="absolute top-4 left-3 text-ayur-accent group-focus-within:animate-pulse" size={20} />
                    <input 
                      type="number" 
                      name="weight" 
@@ -177,7 +177,7 @@ const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
               <div className="relative group">
                 <label className="block text-sm font-bold text-ayur-gray mb-2">Waist Circumference (cm) <span className="text-gray-400 font-normal">(Optional)</span></label>
                 <div className="relative">
-                  <Activity className="absolute top-4 left-3 text-gray-400 group-focus-within:text-ayur-accent" size={20} />
+                  <Icons.Activity className="absolute top-4 left-3 text-gray-400 group-focus-within:text-ayur-accent" size={20} />
                   <input 
                     type="number" 
                     name="waist" 
@@ -192,7 +192,7 @@ const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
               <div className="relative group">
                 <label className="block text-sm font-bold text-ayur-gray mb-2">Hip Circumference (cm) <span className="text-gray-400 font-normal">(Optional)</span></label>
                 <div className="relative">
-                  <Activity className="absolute top-4 left-3 text-gray-400 group-focus-within:text-ayur-accent" size={20} />
+                  <Icons.Activity className="absolute top-4 left-3 text-gray-400 group-focus-within:text-ayur-accent" size={20} />
                   <input 
                     type="number" 
                     name="hip" 
@@ -211,7 +211,7 @@ const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
                 disabled={!metrics.height || !metrics.weight}
                 className="bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white px-8 py-3 rounded-full font-bold hover:from-ayur-accent hover:to-amber-500 disabled:opacity-50 transition-all flex items-center gap-2 shadow-lg hover:shadow-xl hover:scale-[1.02]"
               >
-                Next <ArrowRight size={18} />
+                Next <Icons.ArrowRight size={18} />
               </button>
             </div>
           </div>
@@ -245,7 +245,7 @@ const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
                  disabled={Object.keys(symptoms).length < 5}
                  className="bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white px-8 py-3 rounded-full font-bold hover:from-ayur-accent hover:to-amber-500 disabled:opacity-50 transition-all flex items-center gap-2 shadow-lg hover:shadow-xl hover:scale-[1.02]"
                >
-                 Analyze Tissue Status <Activity size={18} />
+                 Analyze Tissue Status <Icons.Activity size={18} />
                </button>
              </div>
            </div>
@@ -266,7 +266,7 @@ const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
              <div className="bg-white p-8 rounded-3xl border border-ayur-subtle shadow-lg mb-8 animate-fadeIn" style={{ animationDelay: '200ms' }}>
                  <div className="flex items-center justify-between mb-6">
                      <span className="font-bold text-ayur-green text-xl flex items-center gap-2">
-                        <Activity className="text-ayur-accent" /> Body Mass Index
+                        <Icons.Activity className="text-ayur-accent" /> Body Mass Index
                      </span>
                      <span className="text-3xl font-serif font-bold text-ayur-green">{animatedBmi}</span>
                  </div>
@@ -309,7 +309,7 @@ const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
                         <p className="text-xs text-gray-500 mt-1">Visceral Fat Indicator</p>
                     </div>
                     <div className="w-14 h-14 bg-gradient-to-br from-ayur-cream to-amber-100 rounded-full flex items-center justify-center text-ayur-accent shadow-md">
-                        <Ruler size={24} />
+                        <Icons.Ruler size={24} />
                     </div>
                 </div>
                 <div className="bg-white p-6 rounded-2xl border border-ayur-subtle shadow-sm flex items-center justify-between hover:shadow-lg hover:-translate-y-1 transition-all duration-300 animate-fadeIn" style={{ animationDelay: '400ms' }}>
@@ -319,14 +319,14 @@ const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
                         <p className="text-xs text-gray-500 mt-1">Symptom Severity</p>
                     </div>
                     <div className="w-14 h-14 bg-gradient-to-br from-ayur-cream to-amber-100 rounded-full flex items-center justify-center text-ayur-accent shadow-md">
-                       <Heart size={24} />
+                       <Icons.Heart size={24} />
                     </div>
                 </div>
             </div>
              
              <div className="text-left bg-gradient-to-br from-ayur-cream/30 to-white p-6 rounded-2xl border border-ayur-subtle hover:shadow-lg transition-shadow animate-fadeIn" style={{ animationDelay: '500ms' }}>
                 <h4 className="font-bold text-ayur-green mb-2 flex items-center gap-2">
-                  <Heart size={18} className="text-ayur-accent" /> Ayurvedic Clinical Note:
+                  <Icons.Heart size={18} className="text-ayur-accent" /> Ayurvedic Clinical Note:
                 </h4>
                 <p className="text-ayur-gray text-sm leading-relaxed">
                   Even if BMI is normal, a high Waist-to-Hip ratio or presence of symptoms like excessive sweating (Ati Sweda) indicates <strong>"Sthaulya"</strong> (Metabolic Obesity). This requires correction of <em>Meda Dhatvagni</em> (Fat metabolism) rather than just calorie restriction.

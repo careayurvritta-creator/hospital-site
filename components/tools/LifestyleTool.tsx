@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { LIFESTYLE_RISK_QUESTIONS } from '../../constants';
-import { AlertTriangle, CheckCircle2, Info, ArrowRight, ShieldAlert, Activity, Coffee, Moon } from 'lucide-react';
 import { NavLink } from '../Layout';
 import ShareResults from '../ShareResults';
 import { useIntersectionObserver } from '../../hooks';
 import { Insight } from '../../types/index';
+import Icons from '../Icons';
 
 const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   const [answers, setAnswers] = useState<Record<number, number>>({});
@@ -71,7 +71,7 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
 
     if ((answers[3] || 0) >= 20) {
       insights.push({
-        icon: Activity,
+        icon: Icons.Activity,
         text: "Sedentary Lifestyle: Lack of movement increases 'Kapha' and 'Meda Dhatu' (fat tissue), leading to insulin resistance.",
         color: "text-blue-500 bg-blue-100"
       });
@@ -79,7 +79,7 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
 
     if ((answers[5] || 0) >= 10) {
       insights.push({
-        icon: Coffee,
+        icon: Icons.Coffee,
         text: "Dietary Indiscipline: Excess sweets/fried foods creates 'Ama' (toxins) that block metabolic channels (Srotas).",
         color: "text-amber-500 bg-amber-100"
       });
@@ -87,7 +87,7 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
 
     if ((answers[6] || 0) >= 10) {
       insights.push({
-        icon: Moon,
+        icon: Icons.Moon,
         text: "Poor Sleep Hygiene: Disturbed sleep aggravates 'Vata', leading to hormonal imbalance and stress accumulation.",
         color: "text-indigo-500 bg-indigo-100"
       });
@@ -95,7 +95,7 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
 
     if ((answers[7] || 0) >= 10) {
       insights.push({
-        icon: ShieldAlert,
+        icon: Icons.ShieldAlert,
         text: "High Stress: Psychological stress (Manasika Roga) directly impairs digestion (Agni) and immunity (Ojas).",
         color: "text-red-500 bg-red-100"
       });
@@ -106,12 +106,12 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
         
         <div className="relative inline-block mb-8 animate-bounceIn">
           <div className={`w-28 h-28 rounded-full flex items-center justify-center mx-auto border-4 border-white shadow-2xl bg-gradient-to-br ${gradient}`}>
-            <AlertTriangle size={56} className="text-white" />
+            <Icons.AlertTriangle size={56} className="text-white" />
           </div>
           <div className={`absolute -top-2 -right-2 w-8 h-8 rounded-full bg-white shadow-lg flex items-center justify-center animate-pulse`}>
-            {score < 40 && <CheckCircle2 size={16} className="text-green-500" />}
-            {score >= 40 && score < 90 && <AlertTriangle size={14} className="text-yellow-500" />}
-            {score >= 90 && <ShieldAlert size={14} className="text-red-500" />}
+            {score < 40 && <Icons.CheckCircle2 size={16} className="text-green-500" />}
+            {score >= 40 && score < 90 && <Icons.AlertTriangle size={14} className="text-yellow-500" />}
+            {score >= 90 && <Icons.ShieldAlert size={14} className="text-red-500" />}
           </div>
         </div>
 
@@ -125,7 +125,7 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
            <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${gradient}`}></div>
            <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-ayur-green to-transparent opacity-20"></div>
            <h4 className="font-bold text-ayur-green mb-4 flex items-center gap-2 text-xl">
-             <Info size={24} className="text-ayur-accent" /> Clinical Interpretation
+             <Icons.Info size={24} className="text-ayur-accent" /> Clinical Interpretation
            </h4>
            <p className="text-ayur-gray text-lg leading-relaxed">
              {score < 40 ? "Your lifestyle is conducive to good health (Swasthya). Keep maintaining these habits." :
@@ -224,7 +224,7 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
           disabled={!isComplete}
           className="bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white px-10 py-4 rounded-full font-bold shadow-lg hover:from-ayur-accent hover:to-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 hover:scale-[1.02] hover:shadow-xl"
         >
-          Generate Analysis <ArrowRight size={20} />
+          Generate Analysis <Icons.ArrowRight size={20} />
         </button>
       </div>
     </div>
