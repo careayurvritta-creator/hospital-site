@@ -17,7 +17,6 @@ export default defineConfig(({ mode }) => {
       target: 'esnext',
       rollupOptions: {
         output: {
-          // Simple vendor chunking only - no page splitting to avoid Vercel issues
           manualChunks: (id) => {
             if (id.includes('node_modules')) {
               // React and ReactDOM together
@@ -32,11 +31,13 @@ export default defineConfig(({ mode }) => {
               if (id.includes('recharts') || id.includes('d3-')) {
                 return 'vendor-charts';
               }
-              // Everything else (including AI SDK, Sentry, etc.)
+              // AI SDK - this must be its OWN chunk to not block initial load
+              if (id.includes('@google/genai')) {
+                return 'vendor-ai';
+              }
+              // Everything else (including other deps)
               return 'vendor-misc';
             }
-            // No page-based chunking - pages stay in main bundle
-            // This avoids React.lazy() issues on Vercel
           },
         },
       },

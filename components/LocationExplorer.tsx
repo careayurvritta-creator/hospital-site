@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { GoogleGenAI } from "@google/genai";
 import { MapPin, Navigation, Search, Loader2, ExternalLink } from 'lucide-react';
 import { captureError } from '../analytics/errorTracker';
 
@@ -20,6 +19,7 @@ const LocationExplorer: React.FC = () => {
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
       if (!apiKey) throw new Error("API Key missing");
 
+      const { GoogleGenAI } = await import("@google/genai");
       const ai = new GoogleGenAI({ apiKey });
       // Using gemini-2.5-flash with googleMaps tool as requested
       const result = await ai.models.generateContent({

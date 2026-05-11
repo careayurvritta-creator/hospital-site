@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import {
-   ShieldCheck, FileText, CheckCircle2, Upload, AlertCircle,
-   Loader2, Search, Stethoscope, FileCheck, Building2,
-   CreditCard, ChevronDown, ChevronUp, X, Check,
-   ArrowRight, Landmark, Filter, Heart, Briefcase, Sparkles, Phone, Calendar
+    ShieldCheck, FileText, CheckCircle2, Upload, AlertCircle,
+    Loader2, Search, Stethoscope, FileCheck, Building2,
+    CreditCard, ChevronDown, ChevronUp, X, Check,
+    ArrowRight, Landmark, Filter, Heart, Briefcase, Sparkles, Phone, Calendar
 } from 'lucide-react';
-import { GoogleGenAI } from "@google/genai";
 import { INSURANCE_PARTNERS } from '../constants';
 import { NavLink } from '../components/Layout';
 import { useIntersectionObserver } from '../hooks';
@@ -104,21 +103,22 @@ const Insurance: React.FC = () => {
       setAnalysisResult(null);
    };
 
-   const handleAnalyze = async () => {
-      if (!selectedFile) return;
-      setLoading(true);
-      setAnalysisResult(null);
+    const handleAnalyze = async () => {
+       if (!selectedFile) return;
+       setLoading(true);
+       setAnalysisResult(null);
 
-      try {
-         const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-         
-         if (!apiKey) {
-            throw new Error('API key not configured');
-         }
+       try {
+          const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+          
+          if (!apiKey) {
+             throw new Error('API key not configured');
+          }
 
-         const ai = new GoogleGenAI(apiKey);
-         
-         // Read the file as base64
+          const { GoogleGenAI } = await import("@google/genai");
+          const ai = new GoogleGenAI(apiKey);
+          
+          // Read the file as base64
          const base64Promise = new Promise<string>((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = () => {
