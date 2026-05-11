@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import { GoogleGenAI, Type } from "@google/genai";
 import {
   Utensils, Search, Loader2, ChevronRight, ExternalLink,
   Calendar, Sun, CloudRain, Snowflake, Wind, Leaf, Coffee,
@@ -102,6 +101,7 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
       if (!apiKey) throw new Error("API Key missing");
 
+      const { GoogleGenAI } = await import("@google/genai");
       const ai = new GoogleGenAI({ apiKey });
 
       const prompt = `
