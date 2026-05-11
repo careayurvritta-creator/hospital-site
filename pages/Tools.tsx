@@ -1,12 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Activity, AlertTriangle, Shield, Scale, Moon, ChevronRight, Utensils, Layers, ArrowLeft, Sparkles } from 'lucide-react';
 import { useIntersectionObserver } from '../hooks';
-import type { ComponentType } from 'react';
+
+const PrakritiTool = lazy(() => import('../components/tools/PrakritiTool'));
+const LifestyleTool = lazy(() => import('../components/tools/LifestyleTool'));
+const DietGenerator = lazy(() => import('../components/tools/DietGenerator'));
+const MedaTool = lazy(() => import('../components/tools/MedaTool'));
+const SaaraTool = lazy(() => import('../components/tools/SaaraTool'));
+const PanchakarmaTool = lazy(() => import('../components/tools/PanchakarmaTool'));
+
+const toolComponents: Record<string, React.ComponentType<{ onBack: () => void }>> = {
+  prakriti: PrakritiTool,
+  risk: LifestyleTool,
+  diet: DietGenerator,
+  meda: MedaTool,
+  saara: SaaraTool,
+  panchakarma: PanchakarmaTool,
+};
 
 const ToolCard: React.FC<{
   title: string;
   desc: string;
-  icon: ComponentType<{ size?: number; className?: string }>;
+  icon: React.ElementType;
   color: string;
   iconBg: string;
   onClick: () => void;
@@ -33,57 +48,22 @@ const ToolCard: React.FC<{
   </button>
 );
 
+const ToolLoader = () => (
+  <div className="min-h-[400px] flex items-center justify-center">
+    <div className="flex flex-col items-center gap-4">
+      <div className="w-12 h-12 border-4 border-[#009688]/20 border-t-[#009688] rounded-full animate-spin"></div>
+      <p className="text-[#1A3C34]/70 font-medium">Loading tool...</p>
+    </div>
+  </div>
+);
+
 const Tools: React.FC = () => {
   const [activeTool, setActiveTool] = useState<string | null>(null);
-  const [loadedTools, setLoadedTools] = useState<Record<string, ComponentType<{ onBack: () => void }>>>({});
-  const [loadingTool, setLoadingTool] = useState<string | null>(null);
   
   const headerObserver = useIntersectionObserver({ threshold: 0.2, rootMargin: '-50px' });
   const cardsObserver = useIntersectionObserver({ threshold: 0.1, rootMargin: '-50px' });
 
-  useEffect(() => {
-    if (activeTool && !loadedTools[activeTool] && !loadingTool) {
-      setLoadingTool(activeTool);
-      let modulePath: string;
-      switch (activeTool) {
-        case 'prakriti': modulePath = '../components/tools/PrakritiTool'; break;
-        case 'risk': modulePath = '../components/tools/LifestyleTool'; break;
-        case 'diet': modulePath = '../components/tools/DietGenerator'; break;
-        case 'meda': modulePath = '../components/tools/MedaTool'; break;
-        case 'saara': modulePath = '../components/tools/SaaraTool'; break;
-        case 'panchakarma': modulePath = '../components/tools/PanchakarmaTool'; break;
-        default: return;
-      }
-      import(modulePath).then((mod) => {
-        const defaultExport = mod.default || mod;
-        setLoadedTools(prev => ({ ...prev, [activeTool]: defaultExport }));
-        setLoadingTool(null);
-      }).catch(err => {
-        console.error('Failed to load tool:', err);
-        setLoadingTool(null);
-      });
-    }
-  }, [activeTool, loadedTools, loadingTool]);
-
-  const ActiveToolComponent = activeTool ? loadedTools[activeTool] : null;
-
-  const renderActiveTool = () => {
-    if (loadingTool) {
-      return (
-        <div className="min-h-[400px] flex items-center justify-center">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-[#009688]/20 border-t-[#009688] rounded-full animate-spin"></div>
-            <p className="text-[#1A3C34]/70 font-medium">Loading tool...</p>
-          </div>
-        </div>
-      );
-    }
-    if (ActiveToolComponent) {
-      const Tool = ActiveToolComponent;
-      return <Tool onBack={() => setActiveTool(null)} />;
-    }
-    return null;
-  };
+  const ActiveToolComponent = activeTool ? toolComponents[activeTool] : null;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-ayur-cream via-white to-ayur-cream/30 pb-24">
@@ -180,7 +160,9 @@ const Tools: React.FC = () => {
              <div className="md:hidden p-4 border-b border-gray-100 flex items-center text-ayur-green font-bold gap-2 hover:bg-ayur-cream/30 transition-colors cursor-pointer" onClick={() => setActiveTool(null)}>
                 <ArrowLeft size={20}/> Back to Tools
              </div>
-             {renderActiveTool()}
+             <Suspense fallback={<ToolLoader />}>
+               {ActiveToolComponent && <ActiveToolComponent onBack={() => setActiveTool(null)} />}
+             </Suspense>
           </div>
         )}
       </div>
