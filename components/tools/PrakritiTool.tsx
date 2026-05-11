@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { GoogleGenAI } from "@google/genai";
 import { PRAKRITI_SECTIONS, DOSHA_ADVICE } from '../../constants';
 import { ArrowRight, Check, Download, Loader2, Sparkles, AlertCircle, Wind, Flame, Droplets, Utensils, Coffee, Sun, Moon } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
@@ -78,6 +77,7 @@ const PrakritiTool: React.FC<PrakritiToolProps> = ({ onBack }) => {
     try {
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
       if (!apiKey) throw new Error("API Key missing");
+      const { GoogleGenAI } = await import("@google/genai");
       const ai = new GoogleGenAI({ apiKey });
 
       const prompt = `A beautiful, artistic, abstract circular mandala illustration representing Ayurveda constitution: ${type}. 
