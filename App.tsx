@@ -1,11 +1,8 @@
 import React from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
-import SEOHead from './components/SEOHead';
-import CookieConsent from './components/CookieConsent';
-import MobileCTABar from './components/MobileCTABar';
 
-// Import all pages
+// Pages only - no SEOHead, CookieConsent, MobileCTABar
 import Home from './pages/Home';
 import About from './pages/About';
 import Services from './pages/Services';
@@ -22,7 +19,6 @@ const App: React.FC = () => {
   return (
     <HashRouter>
       <Layout>
-        <SEOHead />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -37,8 +33,6 @@ const App: React.FC = () => {
           <Route path="/terms" element={<Terms />} />
         </Routes>
       </Layout>
-      <CookieConsent />
-      <MobileCTABar showBooking={false} />
     </HashRouter>
   );
 };
