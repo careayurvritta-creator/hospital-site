@@ -1,122 +1,43 @@
-import React, { useEffect, ReactNode, Component } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import Layout from './components/Layout';
-import SEOHead from './components/SEOHead';
-import CookieConsent from './components/CookieConsent';
-import MobileCTABar from './components/MobileCTABar';
+import React, { useEffect, Component } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-// Temporarily disable AnalyticsProvider to debug loading issue
-// import { AnalyticsProvider } from './components/AnalyticsProvider';
-
-// Static imports - no React.lazy() to avoid Vercel chunk ordering issues
-// Code splitting handled via Vite manualChunks in vite.config.ts
-import Home from './pages/Home';
-import About from './pages/About';
-import Services from './pages/Services';
-import ServiceDetail from './pages/ServiceDetail';
-import Programs from './pages/Programs';
-import Tools from './pages/Tools';
-import Booking from './pages/Booking';
-import Insurance from './pages/Insurance';
-import Blog from './pages/Blog';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import Terms from './pages/Terms';
-import AnalyticsDashboard from './components/AnalyticsDashboard';
-
-const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-[#F5F0E8]">
-    <div className="flex flex-col items-center gap-4">
-      <div className="w-12 h-12 border-4 border-[#009688]/20 border-t-[#009688] rounded-full animate-spin"></div>
-      <p className="text-[#1A3C34]/70 font-medium">Loading...</p>
+// Debug version - minimal components to find loading issue
+// Create a simple loading indicator
+const DebugLoader = () => (
+  <div style={{ 
+    minHeight: '100vh', 
+    display: 'flex', 
+    alignItems: 'center', 
+    justifyContent: 'center',
+    background: '#F5F0E8',
+    fontFamily: 'system-ui, sans-serif'
+  }}>
+    <div style={{ textAlign: 'center' }}>
+      <div style={{ 
+        width: 40, height: 40, 
+        border: '4px solid #00968820', 
+        borderTopColor: '#009688',
+        borderRadius: '50%',
+        animation: 'spin 1s linear infinite',
+        margin: '0 auto 16px'
+      }} />
+      <p style={{ color: '#1A3C34' }}>Loading Ayurvritta...</p>
     </div>
   </div>
 );
 
-interface ErrorBoundaryProps {
-  children?: ReactNode;
-}
-
-interface ErrorBoundaryState {
-  hasError: boolean;
-  errorMessage?: string;
-}
-
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  public state: ErrorBoundaryState = {
-    hasError: false,
-    errorMessage: undefined
-  };
-
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { hasError: true, errorMessage: error?.message || 'Unknown error' };
-  }
-
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-    captureError(error, {
-      severity: 'high',
-      source: 'ErrorBoundary',
-      componentStack: errorInfo?.componentStack,
-    });
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div className="min-h-screen flex items-center justify-center bg-[#F5F0E8] p-4">
-          <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md text-center border border-[#E8E4D9]">
-            <h2 className="font-serif text-2xl font-bold text-[#0F3D3E] mb-4">Something went wrong</h2>
-            <p className="text-[#1A3C34]/70 mb-6">We apologize for the inconvenience. Please try again.</p>
-            <button
-              onClick={() => window.location.reload()}
-              className="bg-[#009688] text-white px-6 py-3 rounded-full font-bold hover:bg-[#00796B] transition-colors"
-            >
-              Reload Page
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    return this.props.children;
-  }
-}
-
-const ScrollToTop = () => {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'auto' });
-  }, [pathname]);
-
-  return null;
-};
+// Simple placeholder pages
+const PlaceholderPage = ({ name }: { name: string }) => (
+  <div style={{ padding: 40, minHeight: '100vh', background: '#F5F0E8' }}>
+    <h1 style={{ color: '#0F3D3E', fontFamily: 'Philosopher, serif' }}>{name}</h1>
+    <p>This is a debug placeholder. If you see this, the basic routing works.</p>
+  </div>
+);
 
 const App: React.FC = () => {
   return (
     <Router>
-      {/* AnalyticsProvider temporarily disabled for debugging */}
-      <Layout>
-        <ScrollToTop />
-        <SEOHead />
-        <ErrorBoundary>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/services/:id" element={<ServiceDetail />} />
-            <Route path="/programs" element={<Programs />} />
-            <Route path="/tools" element={<Tools />} />
-            <Route path="/booking" element={<Booking />} />
-            <Route path="/insurance" element={<Insurance />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/analytics-dashboard" element={<AnalyticsDashboard />} />
-          </Routes>
-        </ErrorBoundary>
-      </Layout>
-      <CookieConsent />
-      <MobileCTABar showBooking={false} />
+      <DebugLoader />
     </Router>
   );
 };
