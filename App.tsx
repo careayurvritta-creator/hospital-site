@@ -2,10 +2,11 @@ import React, { useEffect, ReactNode, Component } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
 import SEOHead from './components/SEOHead';
-import { AnalyticsProvider } from './components/AnalyticsProvider';
 import CookieConsent from './components/CookieConsent';
 import MobileCTABar from './components/MobileCTABar';
-import { captureError } from './analytics/errorTracker';
+
+// Temporarily disable AnalyticsProvider to debug loading issue
+// import { AnalyticsProvider } from './components/AnalyticsProvider';
 
 // Static imports - no React.lazy() to avoid Vercel chunk ordering issues
 // Code splitting handled via Vite manualChunks in vite.config.ts
@@ -93,30 +94,29 @@ const ScrollToTop = () => {
 const App: React.FC = () => {
   return (
     <Router>
-      <AnalyticsProvider>
-        <Layout>
-          <ScrollToTop />
-          <SEOHead />
-          <ErrorBoundary>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/services/:id" element={<ServiceDetail />} />
-              <Route path="/programs" element={<Programs />} />
-              <Route path="/tools" element={<Tools />} />
-              <Route path="/booking" element={<Booking />} />
-              <Route path="/insurance" element={<Insurance />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/privacy" element={<PrivacyPolicy />} />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/analytics-dashboard" element={<AnalyticsDashboard />} />
-            </Routes>
-          </ErrorBoundary>
-        </Layout>
-        <CookieConsent />
-        <MobileCTABar showBooking={false} />
-      </AnalyticsProvider>
+      {/* AnalyticsProvider temporarily disabled for debugging */}
+      <Layout>
+        <ScrollToTop />
+        <SEOHead />
+        <ErrorBoundary>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/services/:id" element={<ServiceDetail />} />
+            <Route path="/programs" element={<Programs />} />
+            <Route path="/tools" element={<Tools />} />
+            <Route path="/booking" element={<Booking />} />
+            <Route path="/insurance" element={<Insurance />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/analytics-dashboard" element={<AnalyticsDashboard />} />
+          </Routes>
+        </ErrorBoundary>
+      </Layout>
+      <CookieConsent />
+      <MobileCTABar showBooking={false} />
     </Router>
   );
 };
