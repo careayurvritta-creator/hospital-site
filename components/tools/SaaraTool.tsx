@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { SAARA_DOMAINS } from '../../constants';
-import { Layers, ArrowRight, RotateCw, CheckCircle2, Droplet, Activity, Brain, Heart, Bone, Smile, Zap, Eye, Check, Minus, X } from 'lucide-react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import { NavLink } from '../Layout';
 import ShareResults from '../ShareResults';
+import Icons from '../Icons';
 
 const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   const [activeStep, setActiveStep] = useState(0);
