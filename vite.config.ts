@@ -13,26 +13,26 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     build: {
       outDir: 'dist',
+      minify: 'esbuild',
+      target: 'esnext',
+      sourcemap: false,
       rollupOptions: {
         output: {
           manualChunks: (id) => {
             if (id.includes('node_modules')) {
-              if (id.includes('react-dom') || id.includes('react/')) {
+              if (id.includes('react') && !id.includes('react-dom')) {
                 return 'vendor-react';
               }
+              if (id.includes('react-dom')) {
+                return 'vendor-react-dom';
+              }
               if (id.includes('lucide-react')) {
-                return 'vendor-ui';
+                return 'vendor-lucide';
               }
-              if (id.includes('recharts') || id.includes('d3-') || id.includes('victory')) {
-                return 'vendor-charts';
+              if (id.includes('recharts')) {
+                return 'vendor-recharts';
               }
-              if (id.includes('@sentry')) {
-                return 'vendor-sentry';
-              }
-              if (id.includes('@google/genai')) {
-                return 'vendor-ai';
-              }
-              return 'vendor-misc';
+              return 'vendor';
             }
             if (id.includes('/pages/')) {
               const pageName = id.split('/pages/')[1]?.split('.')[0];
@@ -41,12 +41,6 @@ export default defineConfig(({ mode }) => {
           },
         },
       },
-      cssCodeSplit: true,
-      minify: 'esbuild',
-      target: 'es2020',
-      chunkSizeWarningLimit: 500,
-      sourcemap: false,
-      manifest: true,
     },
     envPrefix: 'VITE_',
     resolve: {
@@ -55,8 +49,7 @@ export default defineConfig(({ mode }) => {
       }
     },
     optimizeDeps: {
-      include: ['react', 'react-dom', 'react-router-dom'],
-      exclude: ['@sentry/react'],
+      include: ['react', 'react-dom', 'react-router-dom', 'recharts', 'lucide-react'],
     },
     test: {
       globals: true,
