@@ -8,8 +8,24 @@ export const NAV_ITEMS: NavItem[] = [
   { label: 'Programs', path: '/programs' },
   { label: 'Cashless / Insurance', path: '/insurance' },
   { label: 'Ayurveda Tools', path: '/tools' },
+  { label: 'Blog', path: '/blog' },
   { label: 'Contact', path: '/booking' },
 ];
+
+export const FOOTER_LINKS = {
+  quickLinks: [
+    { label: 'About Us', path: '/about' },
+    { label: 'Services', path: '/services' },
+    { label: 'Programs', path: '/programs' },
+    { label: 'Insurance', path: '/insurance' },
+    { label: 'Tools', path: '/tools' },
+    { label: 'Blog', path: '/blog' },
+  ],
+  legalLinks: [
+    { label: 'Privacy Policy', path: '/privacy' },
+    { label: 'Terms of Service', path: '/terms' },
+  ],
+};
 
 export const INSURANCE_PARTNERS: InsurancePartner[] = [
   // --- Public Sector Insurers (PSUs) ---
