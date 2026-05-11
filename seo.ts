@@ -295,6 +295,54 @@ export const FAQ_SCHEMA = {
                 "@type": "Answer",
                 "text": "Ayurvritta combines classical Ayurvedic traditions with modern diagnostic facilities. Our hospital has 70+ therapy rooms, 24/7 medical care, experienced physicians, and evidence-based treatment protocols. We specialize in lifestyle disorders and offer integrated care under one roof."
             }
+        },
+        {
+            "@type": "Question",
+            "name": "Can Ayurveda help with Thyroid conditions like Hypothyroidism?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, Ayurveda effectively manages Hypothyroidism ( hypothyroid) through herbal medications (Kanchanara Guggulu, Ashwagandha), dietary modifications to balance Kapha and Vata, and Panchakarma therapies like Virechana. Our Thyroid Reset Program has helped patients reduce TSH levels naturally. Consult our specialists for personalized treatment."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "How does Ayurveda treat PCOD/PCOS without hormones?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ayurveda treats PCOD/PCOS through root-cause approach: balancing hormones with herbal formulations (Shatavari, Lodhra, Dashamoola), detox Panchakarma therapies, diet changes to reduce Kapha, yoga, and lifestyle modifications. Our PCOD reversal program focuses on restoring regular periods and improving fertility naturally without side effects."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Is Ayurveda safe for Chronic Kidney Disease (CKD) patients?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, Ayurvedic treatments can support CKD management through herbal formulations (Chandraprabha Vati, Punarnava), specialized diets to reduce creatinine, and Panchakarma to detoxify. At Ayurvritta, we work alongside nephrologists to provide complementary care. Early-stage CKD patients often see improved kidney function markers."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "How effective is Ayurveda for weight loss and obesity?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ayurveda offers sustainable weight loss through personalized diet plans (based on Prakriti), herbal supplements (Triphala, Guggulu), detox therapies, and lifestyle changes. Our Weight Management Program targets root causes like poor digestion (Agni mandya) and toxin accumulation (Ama). Results vary but 3-6 months of consistent treatment typically shows significant improvement."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "What is the cost of Panchakarma treatment at Ayurvritta?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Panchakarma costs at Ayurvritta range from ₹15,000 to ₹50,000 depending on therapy type and duration. A 7-day basic detox starts at ₹15,000, while comprehensive 21-day programs for chronic conditions cost ₹40,000-50,000. Prices include consultation, therapies, medicines, and meals. Cashless insurance coverage is available with 50+ partners."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Do you offer online consultations for out-of-town patients?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, Ayurvritta offers video consultations for patients across India and globally. Our online Ayurvedic consultation includes Prakriti assessment, personalized diet plans, herbal prescriptions, and follow-up care. For treatment requiring Panchakarma, patients can travel to Vadodara for the therapy duration while initial preparations are done online."
+            }
         }
     ]
 };
