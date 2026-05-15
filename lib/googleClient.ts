@@ -139,19 +139,25 @@ export class GoogleClient {
     console.log('[GoogleClient] generateContentWithImage called');
     const client = await this.getClient();
 
-    const result = await client.models.generateContent({
-      model: options.model || 'gemini-1.5-flash',
-      contents: [
-        { text: prompt },
-        { inlineData: { data: imageBase64, mimeType } }
-      ],
-      config: {
-        temperature: options.temperature ?? 0.7,
-        maxOutputTokens: options.max_tokens ?? 2048,
-      },
-    });
+    try {
+      const result = await client.models.generateContent({
+        model: options.model || 'gemini-2.0-flash',
+        contents: [
+          { text: prompt },
+          { inlineData: { data: imageBase64, mimeType } }
+        ],
+        config: {
+          temperature: options.temperature ?? 0.7,
+          maxOutputTokens: options.max_tokens ?? 4096,
+        },
+      });
 
-    return result.text || '';
+      console.log('[GoogleClient] generateContentWithImage success');
+      return result.text || '';
+    } catch (error) {
+      console.error('[GoogleClient] generateContentWithImage error:', error);
+      throw error;
+    }
   }
 
   async generateImage(prompt: string): Promise<{ base64: string; mimeType: string } | null> {

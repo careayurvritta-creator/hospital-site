@@ -173,14 +173,21 @@ Provide your response in this markdown format:
 If the document is not readable or is not an insurance policy, say "Unable to analyze - Please upload a clear insurance policy document."`;
 
            console.log('[Insurance] Calling aiService.analyzeDocument...');
+           console.log('[Insurance] File size:', (base64Data.length / 1024).toFixed(2), 'KB');
+           console.log('[Insurance] MIME type:', mimeType);
            
            // Use unified AI service with automatic fallback
            const responseText = await aiService.analyzeDocument(base64Data, mimeType, prompt);
           
-           console.log('[Insurance] Analysis successful');
+           console.log('[Insurance] Analysis successful, response length:', responseText.length);
           setAnalysisResult(responseText);
        } catch (error) {
           console.error('[Insurance] AI Analysis Error:', error);
+          console.error('[Insurance] Error details:', {
+            message: error instanceof Error ? error.message : 'Unknown',
+            stack: error instanceof Error ? error.stack : 'N/A',
+            name: error instanceof Error ? error.name : 'Unknown'
+          });
           captureError(error instanceof Error ? error : new Error(String(error)), {
              severity: 'high',
              source: 'InsurancePage:handleAnalyze'
