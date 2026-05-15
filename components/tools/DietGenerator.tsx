@@ -7,7 +7,6 @@ import {
   Flower, Zap, MapPin, Printer, Download, ThumbsUp, ThumbsDown,
   Clock, Sparkles, Bug
 } from 'lucide-react';
-import { Type } from '@google/generativeai';
 import ShareResults from '../ShareResults';
 import { useLanguage } from '../LanguageContext';
 import { useIntersectionObserver } from '../../hooks';
@@ -120,37 +119,37 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       `;
 
       const schema = {
-        type: Type.OBJECT,
+        type: 'object',
         properties: {
-          rituName: { type: Type.STRING, description: "Name of the Ayurvedic season (e.g. Sisira, Grishma)" },
-          seasonalContext: { type: Type.STRING, description: "Explanation of the season and its effect on the patient's condition" },
+          rituName: { type: 'string', description: "Name of the Ayurvedic season (e.g. Sisira, Grishma)" },
+          seasonalContext: { type: 'string', description: "Explanation of the season and its effect on the patient's condition" },
           dietChart: {
-            type: Type.ARRAY,
+            type: 'array',
             items: {
-              type: Type.OBJECT,
+              type: 'object',
               properties: {
-                time: { type: Type.STRING },
-                category: { type: Type.STRING },
-                food: { type: Type.STRING },
-                benefit: { type: Type.STRING }
+                time: { type: 'string' },
+                category: { type: 'string' },
+                food: { type: 'string' },
+                benefit: { type: 'string' }
               }
             }
           },
           foodTable: {
-            type: Type.ARRAY,
+            type: 'array',
             items: {
-              type: Type.OBJECT,
+              type: 'object',
               properties: {
-                category: { type: Type.STRING },
-                good: { type: Type.STRING },
-                bad: { type: Type.STRING }
+                category: { type: 'string' },
+                good: { type: 'string' },
+                bad: { type: 'string' }
               }
             }
           },
-          pathya: { type: Type.ARRAY, items: { type: Type.STRING }, description: "List of foods to favor" },
-          apathya: { type: Type.ARRAY, items: { type: Type.STRING }, description: "List of foods to avoid" },
-          lifestyle: { type: Type.ARRAY, items: { type: Type.STRING }, description: "List of recommended daily habits" },
-          yoga: { type: Type.ARRAY, items: { type: Type.STRING }, description: "List of recommended Asanas and Pranayama" }
+          pathya: { type: 'array', items: { type: 'string' }, description: "List of foods to favor" },
+          apathya: { type: 'array', items: { type: 'string' }, description: "List of foods to avoid" },
+          lifestyle: { type: 'array', items: { type: 'string' }, description: "List of recommended daily habits" },
+          yoga: { type: 'array', items: { type: 'string' }, description: "List of recommended Asanas and Pranayama" }
         },
         required: ["rituName", "seasonalContext", "dietChart", "foodTable", "pathya", "apathya", "lifestyle", "yoga"]
       };
