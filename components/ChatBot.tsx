@@ -169,7 +169,7 @@ You understand:
       // We append a hidden instruction to ensure language consistency in ongoing chats
       const prompt = `${userMessage} (Please reply in ${language === 'hi' ? 'Hindi' : language === 'gu' ? 'Gujarati' : 'English'})`;
       
-      // Use unified AI service with automatic fallback
+      // Use unified AI service (Nvidia)
       const fullText = await aiService.chat(chatSession, prompt);
 
       setMessages(prev => [...prev, { role: 'model', text: fullText }]);

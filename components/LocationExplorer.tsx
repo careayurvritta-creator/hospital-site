@@ -33,7 +33,7 @@ const LocationExplorer: React.FC = () => {
       );
 
       setResponse(result.text || "No details found.");
-      setMapLinks(result.mapLinks);
+      // mapLinks will be empty array from Nvidia
 
     } catch (error) {
       captureError(error, { severity: 'low', source: 'LocationExplorer:handleSearch' });

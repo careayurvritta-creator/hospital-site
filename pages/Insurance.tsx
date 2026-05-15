@@ -10,6 +10,7 @@ import { NavLink } from '../components/Layout';
 import { useIntersectionObserver } from '../hooks';
 import { captureError } from '../analytics/errorTracker';
 import { aiService } from '../lib/aiService';
+import { extractTextFromFile } from '../lib/textExtractor';
 
 const FAQS = [
    {
@@ -129,24 +130,14 @@ const handleAnalyze = async () => {
               throw new Error('AI service not configured');
            }
 
-           // Read the file as base64
-           const base64Promise = new Promise<string>((resolve, reject) => {
-              const reader = new FileReader();
-              reader.onload = () => {
-                 const result = reader.result as string;
-                 const base64 = result.split(',')[1];
-                 resolve(base64);
-              };
-              reader.onerror = reject;
-              reader.readAsDataURL(selectedFile);
-           });
-
-           const base64Data = await base64Promise;
-
-           // Determine MIME type
-           const mimeType = selectedFile.type === 'application/pdf' 
-              ? 'application/pdf' 
-              : selectedFile.type || 'image/jpeg';
+           // Step 1: Extract text from file
+           console.log('[Insurance] Extracting text from file...');
+           const extractedText = await extractTextFromFile(selectedFile);
+           console.log('[Insurance] Text extracted, length:', extractedText.length);
+           
+           if (!extractedText || extractedText.length < 10) {
+              throw new Error('Could not extract enough text from the document. Please ensure the document is clear and readable.');
+           }
 
            const prompt = `You are an insurance expert specializing in Indian health insurance policies and AYUSH (Ayurveda, Yoga, Unani, Siddha, Homeopathy) coverage. Analyze this insurance policy document and provide:
 
@@ -173,11 +164,9 @@ Provide your response in this markdown format:
 If the document is not readable or is not an insurance policy, say "Unable to analyze - Please upload a clear insurance policy document."`;
 
            console.log('[Insurance] Calling aiService.analyzeDocument...');
-           console.log('[Insurance] File size:', (base64Data.length / 1024).toFixed(2), 'KB');
-           console.log('[Insurance] MIME type:', mimeType);
            
-           // Use unified AI service with automatic fallback
-           const responseText = await aiService.analyzeDocument(base64Data, mimeType, prompt);
+           // Step 2: Analyze extracted text with Nvidia
+           const responseText = await aiService.analyzeDocument(extractedText, selectedFile.type, prompt);
           
            console.log('[Insurance] Analysis successful, response length:', responseText.length);
           setAnalysisResult(responseText);
@@ -195,8 +184,10 @@ If the document is not readable or is not an insurance policy, say "Unable to an
           
           // Check if it's a quota error
           const errorMessage = error instanceof Error ? error.message : '';
-          if (errorMessage === 'AI_QUOTA_EXCEEDED') {
-             setAnalysisResult("### AI Service Temporarily Busy\n\nOur AI analysis service has reached its daily usage limit. This resets automatically.\n\n**No worries! You can still proceed with cashless treatment:**\n\n1. **Call our TPA desk**: +91 94266 84047\n2. **Email your policy**: insurance@ayurvritta.in\n3. **Visit us**: Our team will verify your policy manually\n\nWe accept cashless treatment with 50+ insurance partners including Star Health, HDFC ERGO, ICICI Lombard, and more.");
+          if (errorMessage.includes('quota') || errorMessage.includes('429') || errorMessage.includes('RESOURCE_EXHAUSTED')) {
+             setAnalysisResult("### AI Service Temporarily Busy\n\nOur AI analysis service has reached its usage limit. This resets automatically.\n\n**No worries! You can still proceed with cashless treatment:**\n\n1. **Call our TPA desk**: +91 94266 84047\n2. **Email your policy**: insurance@ayurvritta.in\n3. **Visit us**: Our team will verify your policy manually\n\nWe accept cashless treatment with 50+ insurance partners including Star Health, HDFC ERGO, ICICI Lombard, and more.");
+          } else if (errorMessage.includes('Could not extract') || errorMessage.includes('text from')) {
+             setAnalysisResult("### Document Text Extraction Failed\n\nWe couldn't extract text from your document. This may happen if:\n\n- The document is image-based (scanned)\n- The PDF is password protected\n- The image quality is too low\n\n**Try these alternatives:**\n1. Upload a clearer image or text-based PDF\n2. Copy-paste the policy text directly\n3. Call our TPA desk: +91 94266 84047");
           } else {
              // Enhanced fallback response with better user guidance
              setAnalysisResult("### Analysis Service Unavailable\n\nWe apologize - our AI analysis service is temporarily unavailable. However, you can still proceed with cashless treatment at our hospital.\n\n**Recommended Next Steps:**\n1. Contact our TPA desk at +91 94266 84047\n2. Provide your policy documents for manual verification\n3. Our team will assist with pre-authorization\n\nWe accept cashless treatment with 50+ insurance partners including Star Health, HDFC ERGO, ICICI Lombard, and more.");
