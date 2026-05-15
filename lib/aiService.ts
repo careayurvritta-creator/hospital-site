@@ -298,8 +298,14 @@ class AIService {
           base64Image,
           mimeType
         );
-      } catch (error) {
+      } catch (error: any) {
         console.error('[AI Service] Google document analysis failed:', error);
+        
+        // Check if it's a quota/rate limit error
+        if (error?.message?.includes('429') || error?.message?.includes('RESOURCE_EXHAUSTED') || error?.message?.includes('quota')) {
+          throw new Error('AI_QUOTA_EXCEEDED');
+        }
+        
         throw new Error(getFallbackMessage('document'));
       }
     }

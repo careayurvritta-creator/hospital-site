@@ -139,25 +139,48 @@ export class GoogleClient {
     console.log('[GoogleClient] generateContentWithImage called');
     const client = await this.getClient();
 
-    try {
-      const result = await client.models.generateContent({
-        model: options.model || 'gemini-2.0-flash',
-        contents: [
-          { text: prompt },
-          { inlineData: { data: imageBase64, mimeType } }
-        ],
-        config: {
-          temperature: options.temperature ?? 0.7,
-          maxOutputTokens: options.max_tokens ?? 4096,
-        },
-      });
+    const maxRetries = 2;
+    let lastError: any = null;
 
-      console.log('[GoogleClient] generateContentWithImage success');
-      return result.text || '';
-    } catch (error) {
-      console.error('[GoogleClient] generateContentWithImage error:', error);
-      throw error;
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        if (attempt > 0) {
+          const delay = Math.pow(2, attempt) * 1000;
+          console.log(`[GoogleClient] Retry attempt ${attempt}/${maxRetries} after ${delay}ms`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+
+        const result = await client.models.generateContent({
+          model: options.model || 'gemini-2.0-flash',
+          contents: [
+            { text: prompt },
+            { inlineData: { data: imageBase64, mimeType } }
+          ],
+          config: {
+            temperature: options.temperature ?? 0.7,
+            maxOutputTokens: options.max_tokens ?? 4096,
+          },
+        });
+
+        console.log('[GoogleClient] generateContentWithImage success');
+        return result.text || '';
+      } catch (error: any) {
+        lastError = error;
+        
+        // Check if it's a rate limit error
+        if (error?.message?.includes('429') || error?.message?.includes('RESOURCE_EXHAUSTED')) {
+          console.warn('[GoogleClient] Rate limit hit, will retry...');
+          continue;
+        }
+        
+        // For non-rate-limit errors, throw immediately
+        throw error;
+      }
     }
+
+    // All retries exhausted
+    console.error('[GoogleClient] All retries failed:', lastError);
+    throw lastError;
   }
 
   async generateImage(prompt: string): Promise<{ base64: string; mimeType: string } | null> {
