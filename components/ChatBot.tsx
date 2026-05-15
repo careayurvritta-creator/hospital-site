@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Bot, User, Loader2, ChevronDown } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, User, Loader2, ChevronDown, Bug, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 import VoiceInput from './VoiceInput';
 import { chatBotAnalytics } from '../analytics';
 import { captureError } from '../analytics/errorTracker';
+import { aiService } from '../lib/aiService';
 
 interface Message {
   role: 'user' | 'model';
@@ -28,6 +29,13 @@ const ChatBot: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [chatSession, setChatSession] = useState<any>(null);
+  const [aiStatus, setAiStatus] = useState<{ nvidia: boolean; google: boolean; error: string | null } | null>(null);
+  const [showAiDebug, setShowAiDebug] = useState(false);
+
+  useEffect(() => {
+    const status = aiService.getStatus();
+    setAiStatus(status);
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -74,22 +82,16 @@ const ChatBot: React.FC = () => {
     let cancelled = false;
     (async () => {
       try {
-        const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-        if (!apiKey) {
-          captureError(new Error('API Key missing'), { severity: 'high', source: 'ChatBot:init' });
+        if (!aiService.isAvailable()) {
+          captureError(new Error('AI service not available'), { severity: 'high', source: 'ChatBot:init' });
           return;
         }
 
         const langInstruction = language === 'hi' ? "Reply in Hindi (हिंदी में उत्तर दें)." : language === 'gu' ? "Reply in Gujarati (ગુજરાતીમાં જવાબ આપો)." : "Reply in English.";
 
-        const { GoogleGenAI } = await import("@google/genai");
         if (cancelled) return;
         
-        const ai = new GoogleGenAI({ apiKey });
-        const newChat = ai.chats.create({
-          model: 'gemini-2.0-flash',
-          config: {
-            systemInstruction: `You are "Vaidya AI", an expert Ayurveda physician assistant for Ayurvritta Ayurveda Hospital & Panchakarma Center in Vadodara, Gujarat, India.
+        const systemInstruction = `You are "Vaidya AI", an expert Ayurveda physician assistant for Ayurvritta Ayurveda Hospital & Panchakarma Center in Vadodara, Gujarat, India.
 
 LANGUAGE: ${langInstruction}
 
@@ -134,9 +136,10 @@ You understand:
 - Keep responses concise (2-4 paragraphs max)
 - Use bullet points for lists
 - Include relevant Sanskrit terms with meanings
-- End with a helpful suggestion or call-to-action`,
-          },
-        });
+- End with a helpful suggestion or call-to-action`;
+
+        const newChat = await aiService.createChatSession(systemInstruction);
+        
         if (!cancelled) {
           setChatSession(newChat);
         }
@@ -165,23 +168,11 @@ You understand:
     try {
       // We append a hidden instruction to ensure language consistency in ongoing chats
       const prompt = `${userMessage} (Please reply in ${language === 'hi' ? 'Hindi' : language === 'gu' ? 'Gujarati' : 'English'})`;
-      const result = await chatSession.sendMessageStream({ message: prompt });
+      
+      // Use unified AI service with automatic fallback
+      const fullText = await aiService.chat(chatSession, prompt);
 
-      let fullText = "";
-      setMessages(prev => [...prev, { role: 'model', text: "" }]);
-
-      for await (const chunk of result) {
-        const text = chunk.text;
-        if (text) {
-          fullText += text;
-          setMessages(prev => {
-            const newMessages = [...prev];
-            // Ensure we update the last message which is the placeholder
-            newMessages[newMessages.length - 1].text = fullText;
-            return newMessages;
-          });
-        }
-      }
+      setMessages(prev => [...prev, { role: 'model', text: fullText }]);
 
       // Track bot response with response time
       const responseTime = Date.now() - sendStartTime;
@@ -246,10 +237,41 @@ You understand:
               </span>
             </div>
           </div>
-          <button onClick={() => setIsOpen(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
-            {window.innerWidth < 768 ? <ChevronDown size={24} /> : <X size={24} />}
-          </button>
+          <div className="flex items-center gap-2">
+            {aiStatus && (
+              <button 
+                onClick={() => setShowAiDebug(!showAiDebug)}
+                className="p-1.5 hover:bg-white/10 rounded-full transition-colors"
+                title="AI Service Status"
+              >
+                {aiStatus.nvidia || aiStatus.google ? (
+                  <CheckCircle2 size={16} className="text-green-400" />
+                ) : (
+                  <AlertCircle size={16} className="text-red-400" />
+                )}
+              </button>
+            )}
+            <button onClick={() => setIsOpen(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
+              {window.innerWidth < 768 ? <ChevronDown size={24} /> : <X size={24} />}
+            </button>
+          </div>
         </div>
+
+        {/* AI Debug Panel */}
+        {showAiDebug && aiStatus && (
+          <div className="bg-gray-900 text-green-400 text-xs p-3 font-mono border-b border-gray-700">
+            <div className="flex items-center gap-2 mb-2">
+              <Bug size={12} />
+              <span className="font-bold">AI Service Status</span>
+            </div>
+            <div className="space-y-1">
+              <div>Nvidia NIM: {aiStatus.nvidia ? '✅ Connected' : '❌ Not Available'}</div>
+              <div>Google Gemini: {aiStatus.google ? '✅ Connected' : '❌ Not Available'}</div>
+              <div>Preferred: {aiStatus.preferred}</div>
+              {aiStatus.error && <div className="text-red-400">Error: {aiStatus.error}</div>}
+            </div>
+          </div>
+        )}
 
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-ayur-cream/30 scroll-smooth chat-messages-mobile overscroll-contain">

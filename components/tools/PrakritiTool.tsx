@@ -6,6 +6,7 @@ import ShareResults from '../ShareResults';
 import { useIntersectionObserver } from '../../hooks';
 import { PrakritiResult } from '../../types/index';
 import { captureError } from '../../analytics/errorTracker';
+import { aiService } from '../../lib/aiService';
 
 interface PrakritiToolProps {
   onBack: () => void;
@@ -75,37 +76,21 @@ const PrakritiTool: React.FC<PrakritiToolProps> = ({ onBack }) => {
     setGeneratingImage(true);
     setImageError(null);
     try {
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-      if (!apiKey) throw new Error("API Key missing");
-      const { GoogleGenAI } = await import("@google/genai");
-      const ai = new GoogleGenAI({ apiKey });
+      if (!aiService.isAvailable()) {
+        throw new Error("AI service not configured");
+      }
 
       const prompt = `A beautiful, artistic, abstract circular mandala illustration representing Ayurveda constitution: ${type}. 
       Composition: ${v}% Blue (Air/Space), ${p}% Red (Fire), ${k}% Green (Earth/Water). 
       Style: Watercolor, spiritual, healing, high quality, white background. 
       Symbolizing balance and health.`;
 
-      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash-image',
-        contents: prompt,
-      });
+      const imageResult = await aiService.generateImage(prompt);
 
-      const candidates = response.candidates;
-      if (candidates && candidates[0].content.parts) {
-        let found = false;
-        for (const part of candidates[0].content.parts) {
-          if (part.inlineData) {
-            const base64Str = part.inlineData.data;
-            setAvatarUrl(`data:image/png;base64,${base64Str}`);
-            found = true;
-            break;
-          }
-        }
-        if (!found) {
-          setImageError("Could not generate image visualization.");
-        }
+      if (imageResult) {
+        setAvatarUrl(`data:${imageResult.mimeType};base64,${imageResult.base64}`);
       } else {
-        setImageError("No image generated.");
+        setImageError("Could not generate image visualization.");
       }
     } catch (e) {
       captureError(e, { severity: 'medium', source: 'PrakritiTool:generateHealthAvatar' });

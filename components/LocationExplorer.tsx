@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, Navigation, Search, Loader2, ExternalLink } from 'lucide-react';
 import { captureError } from '../analytics/errorTracker';
+import { aiService } from '../lib/aiService';
 
 const LocationExplorer: React.FC = () => {
   const [query, setQuery] = useState('');
@@ -15,41 +16,24 @@ const LocationExplorer: React.FC = () => {
     setMapLinks([]);
 
     try {
-      // Use Vite's import.meta.env for client-side environment variables
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-      if (!apiKey) throw new Error("API Key missing");
-
-      const { GoogleGenAI } = await import("@google/genai");
-      const ai = new GoogleGenAI({ apiKey });
-      // Using gemini-2.5-flash with googleMaps tool as requested
-      const result = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
-        contents: query,
-        config: {
-          tools: [{ googleMaps: {} }],
-          toolConfig: {
-            retrievalConfig: {
-              latLng: {
-                latitude: 22.322,
-                longitude: 73.155
-              }
-            }
-          },
-          systemInstruction: `You are a location assistant for Ayurvritta Ayurveda Hospital. 
-          The hospital is located at Lat: 22.322, Lng: 73.155 (New Alkapuri, Vadodara).
-          Help users find nearby landmarks, hotels, pharmacies, or understand the location. 
-          Focus on providing helpful, location-specific information relative to the hospital.`
-        },
-      });
-
-      const text = result.text;
-      setResponse(text || "No details found.");
-
-      // Extract grounding chunks for Maps
-      const chunks = result.candidates?.[0]?.groundingMetadata?.groundingChunks;
-      if (chunks) {
-        setMapLinks(chunks);
+      if (!aiService.isAvailable()) {
+        throw new Error("AI service not configured");
       }
+
+      const systemInstruction = `You are a location assistant for Ayurvritta Ayurveda Hospital. 
+      The hospital is located at Lat: 22.322, Lng: 73.155 (New Alkapuri, Vadodara).
+      Help users find nearby landmarks, hotels, pharmacies, or understand the location. 
+      Focus on providing helpful, location-specific information relative to the hospital.`;
+
+      const result = await aiService.locationSearch(
+        query,
+        22.322,
+        73.155,
+        systemInstruction
+      );
+
+      setResponse(result.text || "No details found.");
+      setMapLinks(result.mapLinks);
 
     } catch (error) {
       captureError(error, { severity: 'low', source: 'LocationExplorer:handleSearch' });
