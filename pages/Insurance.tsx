@@ -3,12 +3,13 @@ import {
     ShieldCheck, FileText, CheckCircle2, Upload, AlertCircle,
     Loader2, Search, Stethoscope, FileCheck, Building2,
     CreditCard, ChevronDown, ChevronUp, X, Check,
-    ArrowRight, Landmark, Filter, Heart, Briefcase, Sparkles, Phone, Calendar
+    ArrowRight, Landmark, Filter, Heart, Briefcase, Sparkles, Phone, Calendar, Bug
 } from 'lucide-react';
 import { INSURANCE_PARTNERS } from '../constants';
 import { NavLink } from '../components/Layout';
 import { useIntersectionObserver } from '../hooks';
 import { captureError } from '../analytics/errorTracker';
+import { aiService } from '../lib/aiService';
 
 const FAQS = [
    {
@@ -61,6 +62,15 @@ const Insurance: React.FC = () => {
    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
    const [analysisResult, setAnalysisResult] = useState<string | null>(null);
    const [loading, setLoading] = useState(false);
+   const [showDebug, setShowDebug] = useState(false);
+   const [debugInfo, setDebugInfo] = useState<any>(null);
+
+   const handleShowDebug = () => {
+      const status = aiService.getStatus();
+      aiService.debug();
+      setDebugInfo(status);
+      setShowDebug(!showDebug);
+   };
 
    const [searchTerm, setSearchTerm] = useState('');
    const [filterCategory, setFilterCategory] = useState<'All' | 'Insurer' | 'TPA'>('All');
@@ -103,44 +113,42 @@ const Insurance: React.FC = () => {
       setAnalysisResult(null);
    };
 
-    const handleAnalyze = async () => {
-       if (!selectedFile) return;
-       setLoading(true);
-       setAnalysisResult(null);
+const handleAnalyze = async () => {
+        if (!selectedFile) return;
+        setLoading(true);
+        setAnalysisResult(null);
 
-       try {
-          const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-          
-          if (!apiKey) {
-             throw new Error('API key not configured');
-          }
+        try {
+           // Debug: Check AI service status
+           console.log('[Insurance] AI Service Status:', aiService.getStatus());
+           aiService.debug();
+           
+           // Check if AI service is available
+           if (!aiService.isAvailable()) {
+              console.error('[Insurance] AI service not available');
+              throw new Error('AI service not configured');
+           }
 
-          const { GoogleGenAI } = await import("@google/genai");
-          const ai = new GoogleGenAI(apiKey);
-          
-          // Read the file as base64
-         const base64Promise = new Promise<string>((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-               const result = reader.result as string;
-               const base64 = result.split(',')[1];
-               resolve(base64);
-            };
-            reader.onerror = reject;
-            reader.readAsDataURL(selectedFile);
-         });
+           // Read the file as base64
+           const base64Promise = new Promise<string>((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => {
+                 const result = reader.result as string;
+                 const base64 = result.split(',')[1];
+                 resolve(base64);
+              };
+              reader.onerror = reject;
+              reader.readAsDataURL(selectedFile);
+           });
 
-         const base64Data = await base64Promise;
+           const base64Data = await base64Promise;
 
-         // Determine MIME type
-         const mimeType = selectedFile.type === 'application/pdf' 
-            ? 'application/pdf' 
-            : selectedFile.type || 'image/jpeg';
+           // Determine MIME type
+           const mimeType = selectedFile.type === 'application/pdf' 
+              ? 'application/pdf' 
+              : selectedFile.type || 'image/jpeg';
 
-         // Upload and analyze with Gemini
-         const model = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
-         
-         const prompt = `You are an insurance expert specializing in Indian health insurance policies and AYUSH (Ayurveda, Yoga, Unani, Siddha, Homeopathy) coverage. Analyze this insurance policy document and provide:
+           const prompt = `You are an insurance expert specializing in Indian health insurance policies and AYUSH (Ayurveda, Yoga, Unani, Siddha, Homeopathy) coverage. Analyze this insurance policy document and provide:
 
 1. Is AYUSH/Alternative Treatment covered?
 2. What is the coverage limit (percentage of sum insured)?
@@ -164,30 +172,26 @@ Provide your response in this markdown format:
 
 If the document is not readable or is not an insurance policy, say "Unable to analyze - Please upload a clear insurance policy document."`;
 
-         const imagePart = {
-            inlineData: {
-               data: base64Data,
-               mimeType: mimeType
-            }
-         };
-
-         const result = await model.generateContent([prompt, imagePart]);
-         const responseText = result.response.text();
-         
-         setAnalysisResult(responseText);
-      } catch (error) {
-         console.error('AI Analysis Error:', error);
-         captureError(error instanceof Error ? error : new Error(String(error)), {
-            severity: 'high',
-            source: 'InsurancePage:handleAnalyze'
-         });
-         
-         // Fallback response
-         setAnalysisResult("### Analysis Service Unavailable\n\nWe apologize - our AI analysis service is temporarily unavailable. However, you can proceed with cashless treatment at our hospital.\n\n**Recommended Next Steps:**\n1. Contact our TPA desk at +91 94266 84047\n2. Provide your policy documents for manual verification\n3. Our team will assist with pre-authorization\n\nWe accept cashless treatment with 50+ insurance partners including Star Health, HDFC ERGO, ICICI Lombard, and more.");
-      } finally {
-         setLoading(false);
-      }
-   };
+           console.log('[Insurance] Calling aiService.analyzeDocument...');
+           
+           // Use unified AI service with automatic fallback
+           const responseText = await aiService.analyzeDocument(base64Data, mimeType, prompt);
+          
+           console.log('[Insurance] Analysis successful');
+          setAnalysisResult(responseText);
+       } catch (error) {
+          console.error('[Insurance] AI Analysis Error:', error);
+          captureError(error instanceof Error ? error : new Error(String(error)), {
+             severity: 'high',
+             source: 'InsurancePage:handleAnalyze'
+          });
+          
+          // Enhanced fallback response with better user guidance
+          setAnalysisResult("### Analysis Service Unavailable\n\nWe apologize - our AI analysis service is temporarily unavailable. However, you can still proceed with cashless treatment at our hospital.\n\n**Recommended Next Steps:**\n1. Contact our TPA desk at +91 94266 84047\n2. Provide your policy documents for manual verification\n3. Our team will assist with pre-authorization\n\nWe accept cashless treatment with 50+ insurance partners including Star Health, HDFC ERGO, ICICI Lombard, and more.");
+       } finally {
+          setLoading(false);
+       }
+    };
 
    const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
 
@@ -309,19 +313,38 @@ If the document is not readable or is not an insurance policy, say "Unable to an
 
                <div className="flex flex-col lg:flex-row">
 
-                  {/* Left: Interactive Upload Area */}
-                  <div className="lg:w-5/12 bg-gradient-to-br from-gray-50 to-white p-8 md:p-12 border-b lg:border-b-0 lg:border-r border-gray-100 flex flex-col relative overflow-hidden">
-                     <div className="absolute top-0 right-0 w-64 h-64 bg-ayur-accent/5 rounded-full blur-3xl"></div>
-                     
-                     <div className="mb-8 relative z-10">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-100 text-blue-700 text-[10px] font-bold uppercase tracking-wider mb-3">
-                           <Sparkles size={12} /> AI Powered
-                        </div>
-                        <h2 className="font-serif text-3xl font-bold text-ayur-green mb-3">Check Eligibility Instantly</h2>
-                        <p className="text-gray-500 text-sm leading-relaxed">
-                           Unsure if your policy covers Ayurveda? Upload your policy schedule (first page) and our AI will extract the AYUSH benefit clause for you.
-                        </p>
-                     </div>
+                   {/* Left: Interactive Upload Area */}
+                   <div className="lg:w-5/12 bg-gradient-to-br from-gray-50 to-white p-8 md:p-12 border-b lg:border-b-0 lg:border-r border-gray-100 flex flex-col relative overflow-hidden">
+                      <div className="absolute top-0 right-0 w-64 h-64 bg-ayur-accent/5 rounded-full blur-3xl"></div>
+                      
+                      <div className="mb-8 relative z-10">
+                         <div className="flex items-center justify-between mb-3">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-100 text-blue-700 text-[10px] font-bold uppercase tracking-wider">
+                               <Sparkles size={12} /> AI Powered
+                            </div>
+                            <button 
+                               onClick={handleShowDebug}
+                               className="text-xs text-gray-400 hover:text-ayur-green flex items-center gap-1"
+                               title="Debug AI Service"
+                            >
+                               <Bug size={12} /> Debug
+                            </button>
+                         </div>
+                         
+                         {showDebug && debugInfo && (
+                            <div className="mb-4 p-3 bg-gray-900 text-green-400 text-xs rounded-lg font-mono">
+                               <div>Nvidia: {debugInfo.nvidia ? '✅' : '❌'}</div>
+                               <div>Google: {debugInfo.google ? '✅' : '❌'}</div>
+                               <div>Provider: {debugInfo.preferred}</div>
+                               {debugInfo.error && <div className="text-red-400">Error: {debugInfo.error}</div>}
+                            </div>
+                         )}
+                         
+                         <h2 className="font-serif text-3xl font-bold text-ayur-green mb-3">Check Eligibility Instantly</h2>
+                         <p className="text-gray-500 text-sm leading-relaxed">
+                            Unsure if your policy covers Ayurveda? Upload your policy schedule (first page) and our AI will extract the AYUSH benefit clause for you.
+                         </p>
+                      </div>
 
                      <div className="flex-1 flex flex-col justify-center relative z-10">
                         {!selectedFile ? (

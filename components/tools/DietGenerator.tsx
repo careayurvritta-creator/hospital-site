@@ -1,17 +1,19 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Utensils, Search, Loader2, ChevronRight, ExternalLink,
   Calendar, Sun, CloudRain, Snowflake, Wind, Leaf, Coffee,
   Moon, Sunrise, Sunset, AlertCircle, CheckCircle2, User,
   UserCircle, Activity, Wheat, Grape, Carrot, Milk, Bean,
   Flower, Zap, MapPin, Printer, Download, ThumbsUp, ThumbsDown,
-  Clock, Sparkles
+  Clock, Sparkles, Bug
 } from 'lucide-react';
+import { Type } from '@google/generativeai';
 import ShareResults from '../ShareResults';
 import { useLanguage } from '../LanguageContext';
 import { useIntersectionObserver } from '../../hooks';
 import { ActiveTab } from '../../types/index';
 import { captureError } from '../../analytics/errorTracker';
+import { aiService } from '../../lib/aiService';
 
 const getAyurvedicSeason = () => {
   const now = new Date();
@@ -98,11 +100,9 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     setParsedResult(null);
 
     try {
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-      if (!apiKey) throw new Error("API Key missing");
-
-      const { GoogleGenAI } = await import("@google/genai");
-      const ai = new GoogleGenAI({ apiKey });
+      if (!aiService.isAvailable()) {
+        throw new Error("AI service not configured");
+      }
 
       const prompt = `
       Act as a Senior Ayurvedic Physician.
@@ -155,17 +155,7 @@ const DietGenerator: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         required: ["rituName", "seasonalContext", "dietChart", "foodTable", "pathya", "apathya", "lifestyle", "yoga"]
       };
 
-      const result = await ai.models.generateContent({
-        model: 'gemini-3-pro-preview',
-        contents: prompt,
-        config: {
-          responseMimeType: 'application/json',
-          responseSchema: schema
-        },
-      });
-
-      const jsonStr = result.text;
-      const data = JSON.parse(jsonStr);
+      const data = await aiService.generateStructured(prompt, "You are a senior Ayurvedic physician specializing in diet and lifestyle planning.", schema);
 
       setParsedResult({
         seasonal: data.seasonalContext,
