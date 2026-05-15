@@ -193,8 +193,14 @@ If the document is not readable or is not an insurance policy, say "Unable to an
              source: 'InsurancePage:handleAnalyze'
           });
           
-          // Enhanced fallback response with better user guidance
-          setAnalysisResult("### Analysis Service Unavailable\n\nWe apologize - our AI analysis service is temporarily unavailable. However, you can still proceed with cashless treatment at our hospital.\n\n**Recommended Next Steps:**\n1. Contact our TPA desk at +91 94266 84047\n2. Provide your policy documents for manual verification\n3. Our team will assist with pre-authorization\n\nWe accept cashless treatment with 50+ insurance partners including Star Health, HDFC ERGO, ICICI Lombard, and more.");
+          // Check if it's a quota error
+          const errorMessage = error instanceof Error ? error.message : '';
+          if (errorMessage === 'AI_QUOTA_EXCEEDED') {
+             setAnalysisResult("### AI Service Temporarily Busy\n\nOur AI analysis service has reached its daily usage limit. This resets automatically.\n\n**No worries! You can still proceed with cashless treatment:**\n\n1. **Call our TPA desk**: +91 94266 84047\n2. **Email your policy**: insurance@ayurvritta.in\n3. **Visit us**: Our team will verify your policy manually\n\nWe accept cashless treatment with 50+ insurance partners including Star Health, HDFC ERGO, ICICI Lombard, and more.");
+          } else {
+             // Enhanced fallback response with better user guidance
+             setAnalysisResult("### Analysis Service Unavailable\n\nWe apologize - our AI analysis service is temporarily unavailable. However, you can still proceed with cashless treatment at our hospital.\n\n**Recommended Next Steps:**\n1. Contact our TPA desk at +91 94266 84047\n2. Provide your policy documents for manual verification\n3. Our team will assist with pre-authorization\n\nWe accept cashless treatment with 50+ insurance partners including Star Health, HDFC ERGO, ICICI Lombard, and more.");
+          }
        } finally {
           setLoading(false);
        }
