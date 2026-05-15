@@ -19,9 +19,9 @@ export default defineConfig(({ mode }) => {
         output: {
           manualChunks: (id) => {
             if (id.includes('node_modules')) {
-              // React and ReactDOM together
+// React and ReactDOM together
               if (id.includes('react') || id.includes('scheduler')) {
-                return 'vendor-react';
+                return 'vendor-react-v4';
               }
               // Icons - lucide-react causes issues when bundled normally
               if (id.includes('lucide-react')) {
