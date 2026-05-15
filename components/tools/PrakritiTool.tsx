@@ -80,21 +80,38 @@ const PrakritiTool: React.FC<PrakritiToolProps> = ({ onBack }) => {
         throw new Error("AI service not configured");
       }
 
-      const prompt = `A beautiful, artistic, abstract circular mandala illustration representing Ayurveda constitution: ${type}. 
-      Composition: ${v}% Blue (Air/Space), ${p}% Red (Fire), ${k}% Green (Earth/Water). 
-      Style: Watercolor, spiritual, healing, high quality, white background. 
-      Symbolizing balance and health.`;
-
-      const imageResult = await aiService.generateImage(prompt);
-
-      if (imageResult) {
-        setAvatarUrl(`data:${imageResult.mimeType};base64,${imageResult.base64}`);
-      } else {
-        setImageError("Could not generate image visualization.");
-      }
+      // Nvidia NIM free tier doesn't support image generation
+      // Show a colored placeholder based on dosha instead
+      const colors = {
+        'Vata Dominant': '#60A5FA',
+        'Pitta Dominant': '#EF4444',
+        'Kapha Dominant': '#10B981',
+        'Vata-Pitta': '#8B5CF6',
+        'Pitta-Kapha': '#F59E0B',
+        'Vata-Kapha': '#06B6D4',
+        'Tridoshic': '#10B981'
+      };
+      
+      // Generate a simple SVG avatar based on dosha
+      const color = colors[type] || '#10B981';
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+        <defs>
+          <radialGradient id="grad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" style="stop-color:${color};stop-opacity:0.8" />
+            <stop offset="100%" style="stop-color:${color};stop-opacity:0.2" />
+          </radialGradient>
+        </defs>
+        <circle cx="128" cy="128" r="120" fill="url(#grad)" stroke="${color}" stroke-width="4"/>
+        <circle cx="128" cy="128" r="80" fill="none" stroke="${color}" stroke-width="2" opacity="0.5"/>
+        <circle cx="128" cy="128" r="40" fill="none" stroke="${color}" stroke-width="2" opacity="0.3"/>
+        <text x="128" y="120" text-anchor="middle" fill="${color}" font-size="24" font-weight="bold">${type.split(' ')[0]}</text>
+        <text x="128" y="145" text-anchor="middle" fill="${color}" font-size="14" opacity="0.7">Ayurveda</text>
+      </svg>`;
+      
+      setAvatarUrl(`data:image/svg+xml;base64,${btoa(svg)}`);
     } catch (e) {
       captureError(e, { severity: 'medium', source: 'PrakritiTool:generateHealthAvatar' });
-      setImageError("Generation service unavailable.");
+      setImageError("Avatar generation unavailable.");
     } finally {
       setGeneratingImage(false);
     }

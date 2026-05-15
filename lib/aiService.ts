@@ -1,33 +1,26 @@
 /**
- * Unified AI Service - Smart Fallback between Nvidia and Google
- * Primary: Nvidia NIM (free tier)
- * Fallback: Google Gemini
+ * Unified AI Service - Nvidia NIM Only
+ * Uses Nvidia NIM for all AI operations
  * 
- * This service provides a unified interface for all AI features with automatic
- * fallback to ensure reliability. When Nvidia fails (rate limit, error), it
- * automatically tries Google Gemini.
+ * Nvidia NIM provides free access with ~40 requests/minute rate limit
+ * Base URL: https://integrate.api.nvidia.com/v1
  */
 
 import { NvidiaClient, getNvidiaErrorMessage } from './nvidiaClient';
-import { GoogleClient, getGoogleErrorMessage } from './googleClient';
 
-export type AIProvider = 'nvidia' | 'google';
+export type AIProvider = 'nvidia';
 
 export interface AIRequestOptions {
-  provider?: AIProvider;
   temperature?: number;
   max_tokens?: number;
 }
 
 export interface AIServiceConfig {
   nvidiaApiKey?: string;
-  googleApiKey?: string;
-  preferredProvider?: AIProvider;
 }
 
 class AIService {
   private nvidiaClient: NvidiaClient | null = null;
-  private googleClient: GoogleClient | null = null;
   private config: AIServiceConfig = {};
   private initialized = false;
   private initError: string | null = null;
@@ -39,15 +32,10 @@ class AIService {
 
     try {
       this.config = {
-        preferredProvider: 'nvidia',
         ...config,
       };
 
-      console.log('[AI Service] Initializing with config:', {
-        hasNvidiaKey: !!config.nvidiaApiKey,
-        hasGoogleKey: !!config.googleApiKey,
-        preferredProvider: this.config.preferredProvider,
-      });
+      console.log('[AI Service] Initializing with Nvidia NIM');
 
       if (this.config.nvidiaApiKey) {
         try {
@@ -58,18 +46,9 @@ class AIService {
         }
       }
 
-      if (this.config.googleApiKey) {
-        try {
-          this.googleClient = new GoogleClient(this.config.googleApiKey);
-          console.log('[AI Service] Google client initialized');
-        } catch (e) {
-          console.error('[AI Service] Failed to initialize Google client:', e);
-        }
-      }
-
-      if (!this.nvidiaClient && !this.googleClient) {
-        this.initError = 'No API keys configured. Please set VITE_NVIDIA_API_KEY or VITE_GEMINI_API_KEY';
-        console.warn('[AI Service]', this.initError);
+      if (!this.nvidiaClient) {
+        this.initError = 'Nvidia API key not configured. Please set VITE_NVIDIA_API_KEY';
+        console.error('[AI Service]', this.initError);
       }
     } catch (e) {
       console.error('[AI Service] Initialization error:', e);
@@ -85,18 +64,12 @@ class AIService {
     
     try {
       const nvidiaKey = import.meta.env.VITE_NVIDIA_API_KEY;
-      const googleKey = import.meta.env.VITE_GEMINI_API_KEY;
       
       console.log('[AI Service] Lazy initialization triggered');
-      console.log('[AI Service] Environment keys available:', {
-        hasNvidiaKey: !!nvidiaKey,
-        hasGoogleKey: !!googleKey,
-      });
+      console.log('[AI Service] Nvidia key available:', !!nvidiaKey);
       
       this.init({
         nvidiaApiKey: nvidiaKey,
-        googleApiKey: googleKey,
-        preferredProvider: nvidiaKey ? 'nvidia' : 'google',
       });
     } catch (e) {
       console.error('[AI Service] Lazy init error:', e);
@@ -105,12 +78,8 @@ class AIService {
     }
   }
 
-  private getActiveProvider(preferredProvider?: AIProvider): AIProvider {
-    return preferredProvider || this.config.preferredProvider || 'nvidia';
-  }
-
   /**
-   * Simple text generation with smart fallback
+   * Simple text generation
    */
   async generate(
     prompt: string,
@@ -123,49 +92,20 @@ class AIService {
       throw new Error(this.initError);
     }
 
-    const provider = this.getActiveProvider(options.provider);
-    console.log('[AI Service] generate() called with provider:', provider);
-
-    if (provider === 'nvidia' && this.nvidiaClient) {
-      try {
-        console.log('[AI Service] Trying Nvidia...');
-        return await this.nvidiaClient.generate(prompt, systemInstruction, {
-          temperature: options.temperature,
-          max_tokens: options.max_tokens,
-        });
-      } catch (error) {
-        console.warn('[AI Service] Nvidia failed, falling back to Google:', error);
-        
-        if (this.googleClient) {
-          try {
-            console.log('[AI Service] Trying Google fallback...');
-            return await this.googleClient.generateContent(prompt, {
-              systemInstruction,
-              temperature: options.temperature,
-              max_tokens: options.max_tokens,
-            });
-          } catch (googleError) {
-            console.error('[AI Service] Google fallback also failed:', googleError);
-            throw new Error(getFallbackMessage('text'));
-          }
-        }
-      }
+    if (!this.nvidiaClient) {
+      throw new Error('Nvidia client not available');
     }
 
-    if (this.googleClient) {
-      console.log('[AI Service] Using Google directly');
-      return await this.googleClient.generateContent(prompt, {
-        systemInstruction,
-        temperature: options.temperature,
-        max_tokens: options.max_tokens,
-      });
-    }
-
-    throw new Error('No AI provider configured');
+    console.log('[AI Service] generate() using Nvidia');
+    
+    return await this.nvidiaClient.generate(prompt, systemInstruction, {
+      temperature: options.temperature,
+      max_tokens: options.max_tokens,
+    });
   }
 
   /**
-   * Chat with streaming response
+   * Chat with streaming response (Nvidia doesn't support streaming, using regular generate)
    */
   async chat(
     session: any,
@@ -177,16 +117,32 @@ class AIService {
       throw new Error(this.initError);
     }
 
-    if (this.googleClient) {
-      console.log('[AI Service] chat() using Google');
-      return await this.googleClient.chat(session, message);
+    if (!this.nvidiaClient) {
+      throw new Error('Nvidia client not available');
     }
 
-    throw new Error('Chat requires Google Gemini (Nvidia NIM does not support streaming chat sessions)');
+    console.log('[AI Service] chat() using Nvidia');
+    
+    // Nvidia doesn't support streaming chat sessions, so we use regular generate
+    // We'll maintain conversation context in the session object
+    const history = session.history || [];
+    history.push({ role: 'user', content: message });
+    
+    const messages = [
+      { role: 'system' as const, content: session.systemInstruction || '' },
+      ...history.slice(-10), // Keep last 10 messages for context
+    ];
+    
+    const response = await this.nvidiaClient.chat(messages);
+    
+    history.push({ role: 'assistant', content: response });
+    session.history = history;
+    
+    return response;
   }
 
   /**
-   * Create a chat session (Google only for now)
+   * Create a chat session (Nvidia style - stores context)
    */
   async createChatSession(systemInstruction: string): Promise<any> {
     this.ensureInitialized();
@@ -195,16 +151,21 @@ class AIService {
       throw new Error(this.initError);
     }
 
-    if (this.googleClient) {
-      console.log('[AI Service] createChatSession() using Google');
-      return await this.googleClient.createChatSession(systemInstruction);
+    if (!this.nvidiaClient) {
+      throw new Error('Nvidia client not available');
     }
 
-    throw new Error('Chat sessions require Google Gemini');
+    console.log('[AI Service] createChatSession() using Nvidia');
+    
+    // Create a session object that stores conversation history
+    return {
+      systemInstruction,
+      history: [],
+    };
   }
 
   /**
-   * Generate structured JSON response (Google preferred - better schema support)
+   * Generate structured JSON response
    */
   async generateStructured<T>(
     prompt: string,
@@ -218,66 +179,36 @@ class AIService {
       throw new Error(this.initError);
     }
 
-    console.log('[AI Service] generateStructured() called');
-
-    // Use Google directly for structured output - better schema handling
-    if (this.googleClient) {
-      try {
-        console.log('[AI Service] Using Google for structured output');
-        return await this.googleClient.generateWithSchema<T>(prompt, schema, {
-          temperature: options.temperature,
-          max_tokens: options.max_tokens,
-        });
-      } catch (error) {
-        console.error('[AI Service] Google structured output failed:', error);
-        throw new Error(getFallbackMessage('structured'));
-      }
+    if (!this.nvidiaClient) {
+      throw new Error('Nvidia client not available');
     }
 
-    // Fallback to Nvidia only if Google is not available
-    if (this.nvidiaClient) {
-      try {
-        console.log('[AI Service] Using Nvidia for structured output');
-        return await this.nvidiaClient.generateStructured<T>(
-          prompt,
-          systemInstruction,
-          schema,
-          options
-        );
-      } catch (error) {
-        console.error('[AI Service] Nvidia structured output failed:', error);
-        throw new Error(getFallbackMessage('structured'));
-      }
-    }
-
-    throw new Error('No AI provider configured');
+    console.log('[AI Service] generateStructured() using Nvidia');
+    
+    return await this.nvidiaClient.generateStructured<T>(
+      prompt,
+      systemInstruction,
+      schema,
+      options
+    );
   }
 
   /**
-   * Generate image (Google only - Nvidia doesn't support image generation in free tier)
+   * Generate image - NOT SUPPORTED by Nvidia NIM free tier
+   * Returns null with error message
    */
   async generateImage(prompt: string): Promise<{ base64: string; mimeType: string } | null> {
     this.ensureInitialized();
-
-    if (this.initError) {
-      throw new Error(this.initError);
-    }
-
-    console.log('[AI Service] generateImage() called');
-
-    if (this.googleClient) {
-      console.log('[AI Service] Using Google for image generation');
-      return await this.googleClient.generateImage(prompt);
-    }
-
-    throw new Error('Image generation requires Google Gemini');
+    
+    console.warn('[AI Service] Image generation not supported by Nvidia NIM free tier');
+    throw new Error('Image generation requires a separate service. Please contact support.');
   }
 
   /**
-   * Analyze document/image with text extraction (Google only - Nvidia doesn't support image input)
+   * Analyze document - Extracts text first, then uses Nvidia for analysis
    */
   async analyzeDocument(
-    base64Image: string,
+    extractedText: string,
     mimeType: string,
     prompt: string
   ): Promise<string> {
@@ -287,34 +218,23 @@ class AIService {
       throw new Error(this.initError);
     }
 
-    console.log('[AI Service] analyzeDocument() called');
-
-    // Use Google directly - Nvidia doesn't support image input in free tier
-    if (this.googleClient) {
-      try {
-        console.log('[AI Service] Using Google for document analysis');
-        return await this.googleClient.generateContentWithImage(
-          prompt,
-          base64Image,
-          mimeType
-        );
-      } catch (error: any) {
-        console.error('[AI Service] Google document analysis failed:', error);
-        
-        // Check if it's a quota/rate limit error
-        if (error?.message?.includes('429') || error?.message?.includes('RESOURCE_EXHAUSTED') || error?.message?.includes('quota')) {
-          throw new Error('AI_QUOTA_EXCEEDED');
-        }
-        
-        throw new Error(getFallbackMessage('document'));
-      }
+    if (!this.nvidiaClient) {
+      throw new Error('Nvidia client not available');
     }
 
-    throw new Error('No AI provider configured for document analysis');
+    console.log('[AI Service] analyzeDocument() using Nvidia');
+    console.log('[AI Service] Extracted text length:', extractedText.length);
+
+    // Combine prompt with extracted text
+    const fullPrompt = `${prompt}\n\n--- Document Content ---\n\n${extractedText}\n\n--- End of Document ---\n\nPlease analyze the document content above and provide your response.`;
+
+    return await this.nvidiaClient.generate(fullPrompt, 'You are an insurance expert specializing in Indian health insurance policies and AYUSH coverage.', {
+      max_tokens: 4096,
+    });
   }
 
   /**
-   * Location search with Google Maps integration (Google only)
+   * Location search using Nvidia (no Maps integration)
    */
   async locationSearch(
     query: string,
@@ -328,14 +248,19 @@ class AIService {
       throw new Error(this.initError);
     }
 
-    console.log('[AI Service] locationSearch() called');
-
-    if (this.googleClient) {
-      console.log('[AI Service] Using Google for location search');
-      return await this.googleClient.generateWithGoogleMaps(query, lat, lng, systemInstruction);
+    if (!this.nvidiaClient) {
+      throw new Error('Nvidia client not available');
     }
 
-    throw new Error('Location search requires Google Gemini with Maps integration');
+    console.log('[AI Service] locationSearch() using Nvidia');
+
+    const prompt = `Location query: ${query}\nHospital location: Lat ${lat}, Lng ${lng}`;
+    const text = await this.nvidiaClient.generate(prompt, systemInstruction);
+
+    return {
+      text,
+      mapLinks: [], // No map links from Nvidia
+    };
   }
 
   /**
@@ -343,7 +268,7 @@ class AIService {
    */
   isAvailable(): boolean {
     this.ensureInitialized();
-    return !!(this.nvidiaClient || this.googleClient);
+    return !!this.nvidiaClient;
   }
 
   /**
@@ -353,8 +278,8 @@ class AIService {
     this.ensureInitialized();
     return {
       nvidia: !!this.nvidiaClient,
-      google: !!this.googleClient,
-      preferred: this.config.preferredProvider || 'nvidia',
+      google: false,
+      preferred: 'nvidia',
       error: this.initError,
     };
   }
@@ -367,7 +292,6 @@ class AIService {
     try {
       console.log('[AI Service Debug] Environment:', {
         VITE_NVIDIA_API_KEY: import.meta.env.VITE_NVIDIA_API_KEY ? '***' + import.meta.env.VITE_NVIDIA_API_KEY.slice(-4) : 'not set',
-        VITE_GEMINI_API_KEY: import.meta.env.VITE_GEMINI_API_KEY ? '***' + import.meta.env.VITE_GEMINI_API_KEY.slice(-4) : 'not set',
       });
     } catch (e) {
       console.log('[AI Service Debug] Cannot read env vars in debug mode');
