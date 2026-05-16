@@ -1,34 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import { LIFESTYLE_RISK_QUESTIONS } from '../../constants';
-import { NavLink } from '../Layout';
-import ShareResults from '../ShareResults';
 import { useIntersectionObserver } from '../../hooks';
 import { Insight } from '../../types/index';
 import Icons from '../Icons';
 
 const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [showResult, setShowResult] = useState(false);
   const [animatedScore, setAnimatedScore] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
+  const questions = LIFESTYLE_RISK_QUESTIONS[0].questions;
+  const totalQuestions = questions.length;
+  const progress = ((currentQuestion + 1) / totalQuestions) * 100;
+
+  const progressObserver = useIntersectionObserver({ threshold: 0.1 });
+  const questionObserver = useIntersectionObserver({ threshold: 0.2 });
   const resultObserver = useIntersectionObserver({ threshold: 0.1 });
-  const questionsObserver = useIntersectionObserver({ threshold: 0.05, rootMargin: '-50px' });
 
-  const handleSelect = (qId: number, val: number) => {
-    setAnswers(prev => ({...prev, [qId]: val}));
+  const handleSelect = (questionId: number, value: number) => {
+    setAnswers(prev => ({...prev, [questionId]: value}));
   };
 
-  const isComplete = LIFESTYLE_RISK_QUESTIONS[0].questions.every(q => answers[q.id] !== undefined);
-
-  const calculate = () => {
-    setShowResult(true);
+  const handleNext = () => {
+    if (currentQuestion < totalQuestions - 1) {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentQuestion(prev => prev + 1);
+        setIsTransitioning(false);
+      }, 300);
+    } else {
+      setShowResult(true);
+    }
   };
+
+  const handlePrevious = () => {
+    if (currentQuestion > 0) {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentQuestion(prev => prev - 1);
+        setIsTransitioning(false);
+      }, 300);
+    }
+  };
+
+  const isCurrentQuestionAnswered = answers[questions[currentQuestion].id] !== undefined;
 
   useEffect(() => {
     if (showResult) {
       const finalScore = (Object.values(answers) as number[]).reduce((a, b) => Number(a) + Number(b), 0);
-      const duration = 1500;
-      const steps = 60;
+      const duration = 2000;
+      const steps = 100;
       const increment = finalScore / steps;
       let current = 0;
       const timer = setInterval(() => {
@@ -52,6 +75,9 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
     let bg = "bg-green-50";
     let borderColor = "border-green-200";
     let gradient = "from-green-500 to-emerald-600";
+    let iconBg = "from-green-100 to-green-200";
+    let recommendation = "Maintain your current healthy lifestyle with regular exercise and balanced diet.";
+    let dosha = "Kapha-Vata Balance";
 
     if (score >= 40 && score < 90) {
       riskLevel = "Moderate Risk";
@@ -59,12 +85,18 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
       bg = "bg-yellow-50";
       borderColor = "border-yellow-200";
       gradient = "from-yellow-500 to-orange-500";
+      iconBg = "from-yellow-100 to-amber-200";
+      dosha = "Kapha Predominance";
+      recommendation = "Consider dietary modifications and increased physical activity. Early intervention can prevent progression.";
     } else if (score >= 90) {
       riskLevel = "High Metabolic Risk";
       color = "text-red-600";
       bg = "bg-red-50";
       borderColor = "border-red-200";
       gradient = "from-red-500 to-rose-600";
+      iconBg = "from-red-100 to-rose-200";
+      dosha = "Kapha-Medha Accumulation";
+      recommendation = "Immediate lifestyle intervention recommended. Consult our specialists for personalized management.";
     }
 
     const insights: Insight[] = [];
@@ -101,131 +133,255 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
       });
     }
 
+    if ((answers[2] || 0) >= 10) {
+      insights.push({
+        icon: Icons.AlertTriangle,
+        text: "Abdominal Obesity: Central adiposity indicates 'Meda Dhatu' accumulation, causing Srotorodha (channel blockage).",
+        color: "text-orange-500 bg-orange-100"
+      });
+    }
+
+    if (insights.length === 0) {
+      insights.push({
+        icon: Icons.CheckCircle2,
+        text: "Healthy Lifestyle: Your habits support proper Agni and balanced Doshas. Continue maintaining Swasthavritta.",
+        color: "text-green-500 bg-green-100"
+      });
+    }
+
     return (
-      <div className="p-8 md:p-12 text-center max-w-4xl mx-auto animate-fadeIn">
-        
-        <div className="relative inline-block mb-8 animate-bounceIn">
-          <div className={`w-28 h-28 rounded-full flex items-center justify-center mx-auto border-4 border-white shadow-2xl bg-gradient-to-br ${gradient}`}>
-            <Icons.AlertTriangle size={56} className="text-white" />
-          </div>
-          <div className={`absolute -top-2 -right-2 w-8 h-8 rounded-full bg-white shadow-lg flex items-center justify-center animate-pulse`}>
-            {score < 40 && <Icons.CheckCircle2 size={16} className="text-green-500" />}
-            {score >= 40 && score < 90 && <Icons.AlertTriangle size={14} className="text-yellow-500" />}
-            {score >= 90 && <Icons.ShieldAlert size={14} className="text-red-500" />}
-          </div>
-        </div>
+      <div className="p-6 md:p-10 max-w-4xl mx-auto">
+        <button 
+          onClick={onBack}
+          className="flex items-center gap-2 text-ayur-green font-semibold mb-6 hover:gap-3 transition-all"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
+          </svg>
+          Back to Tools
+        </button>
 
-        <h3 className="font-serif text-3xl font-bold text-ayur-green mb-2 animate-fadeInUp" style={{ animationDelay: '100ms' }}>Assessment Result</h3>
-        <p className={`text-4xl md:text-5xl font-serif font-bold mb-4 animate-bounceIn ${color}`} style={{ animationDelay: '200ms' }}>{riskLevel}</p>
-        <p className="text-xl font-bold text-gray-400 mb-8 animate-fadeInUp" style={{ animationDelay: '300ms' }}>
-          Composite Score: <span className={`text-2xl font-mono ${color}`}>{animatedScore}</span>
-        </p>
-        
-        <div className={`bg-white p-8 rounded-3xl border-2 ${borderColor} shadow-lg text-left mb-10 relative overflow-hidden animate-fadeInUp ${resultObserver.isVisible ? '' : 'translate-y-8'}`} style={{ animationDelay: '400ms' }}>
-           <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${gradient}`}></div>
-           <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-ayur-green to-transparent opacity-20"></div>
-           <h4 className="font-bold text-ayur-green mb-4 flex items-center gap-2 text-xl">
-             <Icons.Info size={24} className="text-ayur-accent" /> Clinical Interpretation
-           </h4>
-           <p className="text-ayur-gray text-lg leading-relaxed">
-             {score < 40 ? "Your lifestyle is conducive to good health (Swasthya). Keep maintaining these habits." :
-              score < 90 ? "Warning signs detected. Accumulation of Doshas (Chaya/Prakopa) has begun. Lifestyle correction is needed." :
-              "Significant imbalance (Sthanasamsraya). You are at high risk for diabetes/hypertension. Immediate consultation recommended."}
-           </p>
-        </div>
+        <div ref={resultObserver.ref} className={`space-y-8 ${resultObserver.isVisible ? 'animate-fadeInUp' : 'opacity-0'}`}>
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-ayur-cream rounded-full mb-4">
+              <Icons.Activity className="w-4 h-4 text-ayur-green" />
+              <span className="text-sm font-semibold text-ayur-green">Assessment Complete</span>
+            </div>
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-ayur-green mb-2">Your Risk Assessment</h2>
+            <p className="text-ayur-gray">Based on {totalQuestions} clinical & Ayurvedic parameters</p>
+          </div>
 
-        {insights.length > 0 && (
-          <div className="mb-10 text-left">
-            <h4 className="font-serif text-2xl font-bold text-ayur-green mb-6 text-center animate-fadeInUp" style={{ animationDelay: '500ms' }}>Root Cause Analysis</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {insights.map((insight, idx) => (
-                <div key={idx} className="bg-ayur-cream/40 p-5 rounded-2xl border border-ayur-subtle flex items-start hover:shadow-lg hover:-translate-y-1 transition-all duration-300 animate-fadeIn" style={{ animationDelay: `${600 + idx * 100}ms` }}>
-                  <div className={`p-2 rounded-lg shadow-sm mr-4 ${insight.color}`}>
-                    <insight.icon size={20} />
-                  </div>
-                  <p className="text-sm text-ayur-gray font-medium leading-relaxed">{insight.text}</p>
+          <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-100 overflow-hidden">
+            <div className={`bg-gradient-to-r ${gradient} p-8 text-white text-center`}>
+              <div className="relative inline-block">
+                <svg className="w-48 h-48 md:w-56 md:h-56" viewBox="0 0 200 200">
+                  <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="12"/>
+                  <circle 
+                    cx="100" 
+                    cy="100" 
+                    r="90" 
+                    fill="none" 
+                    stroke="white" 
+                    strokeWidth="12"
+                    strokeLinecap="round"
+                    strokeDasharray={`${(animatedScore / 150) * 565} 565`}
+                    transform="rotate(-90 100 100)"
+                    className="transition-all duration-1000 ease-out"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-5xl md:text-6xl font-bold">{animatedScore}</span>
+                  <span className="text-white/80 text-sm">out of 150</span>
                 </div>
-              ))}
+              </div>
+            </div>
+            
+            <div className="p-8">
+              <div className={`inline-flex items-center gap-3 px-6 py-3 ${bg} ${borderColor} border-2 rounded-2xl mb-6`}>
+                <div className={`w-12 h-12 bg-gradient-to-br ${iconBg} rounded-full flex items-center justify-center`}>
+                  {score < 40 ? (
+                    <Icons.CheckCircle2 className={`w-6 h-6 ${color}`} />
+                  ) : score < 90 ? (
+                    <Icons.AlertTriangle className={`w-6 h-6 ${color}`} />
+                  ) : (
+                    <Icons.ShieldAlert className={`w-6 h-6 ${color}`} />
+                  )}
+                </div>
+                <div>
+                  <span className={`font-bold text-xl ${color}`}>{riskLevel}</span>
+                  <p className="text-sm text-gray-600">{dosha}</p>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-ayur-cream to-white p-6 rounded-2xl border border-ayur-subtle mb-8">
+                <h4 className="font-bold text-ayur-green mb-2 flex items-center gap-2">
+                  <Icons.Info className="w-5 h-5" />
+                  Recommendation
+                </h4>
+                <p className="text-ayur-gray">{recommendation}</p>
+              </div>
+
+              <h4 className="font-bold text-ayur-green mb-4 text-lg">Ayurvedic Insights</h4>
+              <div className="space-y-4">
+                {insights.slice(0, 4).map((insight, idx) => (
+                  <div 
+                    key={idx}
+                    className={`flex items-start gap-4 p-4 ${insight.color.replace('text-', 'bg-').replace('bg-', 'bg-opacity-30 ')} rounded-xl animate-fadeInUp`}
+                    style={{ animationDelay: `${idx * 100}ms` }}
+                  >
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${insight.color.replace('text-', 'bg-').replace('bg-', 'bg-')}`}>
+                      {React.createElement(insight.icon, { className: "w-5 h-5" })}
+                    </div>
+                    <p className="text-gray-700 text-sm leading-relaxed">{insight.text}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        )}
 
-        <div className="mb-10 flex justify-center animate-fadeInUp" style={{ animationDelay: '700ms' }}>
-           <ShareResults 
-             title="My Lifestyle Risk Assessment" 
-             text={`I just checked my metabolic health risk score at Ayurvritta Hospital!\n\nRisk Level: ${riskLevel}\nScore: ${score}`} 
-           />
-        </div>
-
-        <div className="flex justify-center gap-4 animate-fadeInUp" style={{ animationDelay: '800ms' }}>
-           <button onClick={onBack} className="px-6 py-3 text-gray-500 font-medium hover:text-ayur-green transition-colors hover:bg-ayur-cream/50 rounded-full">Retake Test</button>
-           <NavLink to="/booking" className="px-10 py-4 bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white rounded-full font-bold shadow-xl hover:from-ayur-accent hover:to-amber-500 transition-all transform hover:-translate-y-1 hover:shadow-2xl">
-             Book Corrective Consultation
-           </NavLink>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button 
+              onClick={() => {
+                setAnswers({});
+                setCurrentQuestion(0);
+                setShowResult(false);
+                setAnimatedScore(0);
+              }}
+              className="px-8 py-4 bg-ayur-cream text-ayur-green font-bold rounded-full hover:bg-ayur-green/10 transition-all hover:scale-105"
+            >
+              Retake Assessment
+            </button>
+            <button 
+              onClick={onBack}
+              className="px-8 py-4 bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white font-bold rounded-full hover:shadow-lg hover:shadow-ayur-green/30 transition-all hover:scale-105"
+            >
+              Explore Other Tools
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
+  const question = questions[currentQuestion];
+
   return (
-    <div className="h-full flex flex-col bg-white">
-      <div className="bg-gradient-to-br from-ayur-green via-[#0a6b5a] to-ayur-green-dark text-white p-8 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-40 h-40 bg-ayur-accent/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-        <div className="relative z-10">
-          <h2 className="font-serif text-3xl font-bold">Comprehensive Lifestyle Audit</h2>
-          <p className="opacity-80 mt-2">Integrating IDRS standards with Ayurvedic parameters (Nidra, Ahara, Vihara).</p>
+    <div className="p-6 md:p-10 max-w-3xl mx-auto">
+      <div className="flex items-center justify-between mb-8">
+        <button 
+          onClick={onBack}
+          className="flex items-center gap-2 text-ayur-green font-semibold hover:gap-3 transition-all"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
+          </svg>
+          Exit
+        </button>
+        <div className="text-ayur-gray text-sm font-medium">
+          Question {currentQuestion + 1} of {totalQuestions}
         </div>
       </div>
 
-      <div ref={questionsObserver.ref} className="flex-1 overflow-y-auto p-8 md:p-12 max-w-4xl mx-auto w-full space-y-8">
-        {LIFESTYLE_RISK_QUESTIONS[0].questions.map((q, qIdx) => (
-          <div key={q.id} className="bg-gray-50 p-6 rounded-2xl border border-gray-100 hover:border-ayur-accent/30 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 animate-fadeIn" style={{ animationDelay: `${qIdx * 100}ms` }}>
-            <h3 className="font-bold text-ayur-green text-lg mb-4 flex items-center">
-              <span className="bg-gradient-to-br from-ayur-green to-ayur-green-dark w-8 h-8 rounded-full flex items-center justify-center text-sm text-white mr-3 shadow-md">{q.id}</span>
-              {q.text}
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              {q.options.map((opt, idx) => {
-                const isSelected = answers[q.id] === opt.value;
-                return (
-                  <label 
-                    key={idx} 
-                    className={`flex flex-col p-4 border rounded-xl cursor-pointer transition-all duration-200 group ${
-                      isSelected 
-                      ? 'bg-gradient-to-br from-ayur-green to-ayur-green-dark text-white border-ayur-green shadow-lg transform scale-[1.02]' 
-                      : 'bg-white border-gray-200 hover:border-ayur-green/50 text-gray-700 hover:bg-ayur-cream/30'
-                    }`}
-                  >
-                    <div className="flex items-center mb-1">
-                      <input 
-                        type="radio" 
-                        name={`q-${q.id}`} 
-                        className="hidden"
-                        onChange={() => handleSelect(q.id, Number(opt.value || 0))}
-                      />
-                      <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center transition-all ${isSelected ? 'border-white bg-white' : 'border-gray-300 group-hover:border-ayur-green'}`}>
-                        {isSelected && <div className="w-2.5 h-2.5 rounded-full bg-ayur-accent" />}
-                      </div>
-                      <span className="font-bold text-sm">{opt.value === 0 ? "Low Risk" : opt.value === 10 ? "Moderate" : "High"}</span>
-                    </div>
-                    <span className={`text-sm ${isSelected ? 'text-white/90' : 'text-gray-500'}`}>{opt.label}</span>
-                  </label>
-                );
-              })}
-            </div>
-          </div>
-        ))}
+      <div ref={progressObserver.ref} className="mb-10">
+        <div className="flex justify-between text-xs text-ayur-gray mb-2">
+          <span>Progress</span>
+          <span className="font-semibold">{Math.round(progress)}%</span>
+        </div>
+        <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-gradient-to-r from-ayur-green to-ayur-accent rounded-full transition-all duration-500 ease-out"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
       </div>
 
-      <div className="p-6 border-t border-gray-100 bg-white shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] flex justify-end">
-        <button 
-          onClick={calculate}
-          disabled={!isComplete}
-          className="bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white px-10 py-4 rounded-full font-bold shadow-lg hover:from-ayur-accent hover:to-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 hover:scale-[1.02] hover:shadow-xl"
-        >
-          Generate Analysis <Icons.ArrowRight size={20} />
-        </button>
+      <div ref={questionObserver.ref}>
+        <div className={`transition-all duration-300 ${isTransitioning ? 'opacity-0 translate-x-10' : 'opacity-100'}`}>
+          <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-100 p-6 md:p-10 mb-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-gradient-to-br from-ayur-green/10 to-ayur-accent/10 rounded-2xl flex items-center justify-center">
+                <Icons.Activity className="w-6 h-6 text-ayur-green" />
+              </div>
+              <span className="text-ayur-accent font-semibold text-sm uppercase tracking-wider">Assessment</span>
+            </div>
+            
+            <h3 className="font-serif text-2xl md:text-3xl font-bold text-ayur-green mb-3">
+              {question.text}
+            </h3>
+            <p className="text-ayur-gray mb-8">
+              Select the option that best describes you
+            </p>
+
+            <div className="space-y-4">
+              {question.options.map((option, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleSelect(question.id, option.value)}
+                  className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-300 hover:scale-[1.02] ${
+                    answers[question.id] === option.value
+                      ? 'border-ayur-green bg-ayur-green/5 shadow-md'
+                      : 'border-gray-100 hover:border-ayur-green/30 hover:bg-ayur-cream/50'
+                  }`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
+                      answers[question.id] === option.value
+                        ? 'border-ayur-green bg-ayur-green'
+                        : 'border-gray-300'
+                    }`}>
+                      {answers[question.id] === option.value && (
+                        <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                          <path d="M5 12l5 5L20 7"/>
+                        </svg>
+                      )}
+                    </div>
+                    <span className={`font-medium ${answers[question.id] === option.value ? 'text-ayur-green' : 'text-gray-700'}`}>
+                      {option.label}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex justify-between">
+            <button
+              onClick={handlePrevious}
+              disabled={currentQuestion === 0}
+              className={`px-6 py-3 rounded-full font-medium transition-all ${
+                currentQuestion === 0 
+                  ? 'text-gray-300 cursor-not-allowed' 
+                  : 'text-ayur-green hover:bg-ayur-cream'
+              }`}
+            >
+              ← Previous
+            </button>
+            <button
+              onClick={handleNext}
+              disabled={!isCurrentQuestionAnswered}
+              className={`px-8 py-3 rounded-full font-bold transition-all ${
+                !isCurrentQuestionAnswered
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white hover:shadow-lg hover:shadow-ayur-green/30 hover:scale-105'
+              }`}
+            >
+              {currentQuestion === totalQuestions - 1 ? 'See Results →' : 'Next →'}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-12 pt-8 border-t border-gray-100">
+        <div className="flex flex-wrap justify-center gap-4 text-xs text-ayur-gray">
+          <span className="flex items-center gap-1">
+            <Icons.CheckCircle2 className="w-4 h-4 text-green-500" />
+            Based on IDRS + Ayurveda
+          </span>
+          <span className="flex items-center gap-1">
+            <Icons.Info className="w-4 h-4 text-ayur-accent" />
+            {totalQuestions - Object.keys(answers).length} questions remaining
+          </span>
+        </div>
       </div>
     </div>
   );
