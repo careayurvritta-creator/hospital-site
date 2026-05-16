@@ -1,10 +1,10 @@
 /**
  * Nvidia NIM API Client
- * Free API access with ~40 requests/minute rate limit
- * Base URL: https://integrate.api.nvidia.com/v1
+ * Uses Vercel serverless proxy to avoid CORS issues
+ * Base URL: /api/nvidia (proxies to https://integrate.api.nvidia.com/v1)
  */
 
-const NIM_BASE_URL = 'https://integrate.api.nvidia.com/v1';
+const NIM_BASE_URL = '/api/nvidia';
 
 export interface NvidiaRequestOptions {
   model?: string;
@@ -53,15 +53,14 @@ export class NvidiaClient {
   }
 
   async chat(messages: ChatMessage[], options: NvidiaRequestOptions = {}): Promise<string> {
-    const response = await fetch(`${NIM_BASE_URL}/chat/completions`, {
+    const response = await fetch(NIM_BASE_URL, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${this.apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: options.model || this.model,
         messages,
+        model: options.model || this.model,
         temperature: options.temperature ?? 0.7,
         max_tokens: options.max_tokens ?? 2048,
         top_p: options.top_p ?? 0.9,
