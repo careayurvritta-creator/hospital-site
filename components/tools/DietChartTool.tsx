@@ -191,7 +191,7 @@ interface DietResult {
 interface AIAnalysis {
   loading: boolean;
   content: string;
-  error: string | null;
+  isLocal: boolean;
 }
 
 const DietChartTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
@@ -208,7 +208,7 @@ const DietChartTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   });
   const [result, setResult] = useState<DietResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [aiAnalysis, setAiAnalysis] = useState<AIAnalysis>({ loading: false, content: '', error: null });
+  const [aiAnalysis, setAiAnalysis] = useState<AIAnalysis>({ loading: false, content: '', isLocal: false });
   const [aiExpanded, setAiExpanded] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
@@ -225,8 +225,81 @@ const DietChartTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
     }
   }, [result]);
 
+  const generateLocalDietAnalysis = (dietResult: DietResult): string => {
+    const prakritiKey = dietResult.prakriti.includes('Vata') ? 'Vata' : dietResult.prakriti.includes('Pitta') ? 'Pitta' : 'Kapha';
+    
+    let analysis = '';
+    
+    analysis += `WHY THIS DIET WORKS\n`;
+    if (prakritiKey === 'Vata') {
+      analysis += `Your Vata constitution requires warm, moist, grounding foods. Every meal in your plan emphasizes Guru (heavy), Snigdha (oily), and Ushna (warm) qualities to counter Vata's Laghu, Ruksha, Sheeta nature. Ghee is used throughout as it is the best Anupana (vehicle) for Vata. Regular meal times stabilize Vishama Agni (irregular digestion).`;
+    } else if (prakritiKey === 'Pitta') {
+      analysis += `Your Pitta constitution requires cooling, sweet, and calming foods. Every meal emphasizes Sheetala (cooling), Madhura (sweet), and Snigdha (oily) qualities to counter Pitta's Ushna, Tikshna, Ruksha nature. Coconut, cucumber, and sweet fruits are emphasized. Spicy, sour, and fermented foods are avoided.`;
+    } else {
+      analysis += `Your Kapha constitution requires light, dry, and stimulating foods. Every meal emphasizes Laghu (light), Ruksha (dry), and Ushna (warm) qualities to counter Kapha's Guru, Snigdha, Sheeta nature. Barley, honey, and ginger are emphasized. Heavy, oily, and sweet foods are minimized.`;
+    }
+    analysis += `\n\n`;
+
+    analysis += `FOOD COMBINATIONS TO AVOID (Viruddha Ahara)\n`;
+    analysis += `Per Charaka Samhita, these incompatible combinations create Ama (toxins):\n`;
+    analysis += `1. Milk + Fish: Opposite energies create skin diseases and blood disorders\n`;
+    analysis += `2. Milk + Sour fruits: Curdles in stomach, creates blockages in Srotas\n`;
+    analysis += `3. Honey + Ghee in equal amounts: Creates toxic compounds per classical texts\n`;
+    analysis += `4. Hot honey: Heating honey above 60C makes it toxic (Ama-producing)\n`;
+    analysis += `5. Fruit + Dairy: Different digestion times cause fermentation and Ama`;
+    analysis += `\n\n`;
+
+    analysis += `COOKING METHODS\n`;
+    if (prakritiKey === 'Vata') {
+      analysis += `• Boiling and steaming: Best for Vata - adds moisture and softness\n• Slow cooking: Stews, soups, and khichdi are ideal\n• Use ghee generously in all cooking\n• Avoid raw, dry, or fried foods\n• Pressure cooking dal and grains makes them more digestible`;
+    } else if (prakritiKey === 'Pitta') {
+      analysis += `• Steaming and light sauteing: Best for Pitta - preserves cooling qualities\n• Avoid deep frying and charring\n• Cook at moderate temperatures\n• Use coconut oil or ghee (not sesame for Pitta)\n• Fresh is best - avoid leftovers and reheated food`;
+    } else {
+      analysis += `• Dry roasting and grilling: Best for Kapha - adds dryness\n• Light sauteing with minimal oil\n• Use mustard oil or minimal ghee\n• Avoid heavy, creamy preparations\n• Spices should be dry-roasted before adding`;
+    }
+    analysis += `\n\n`;
+
+    analysis += `SPICE GUIDE\n`;
+    if (prakritiKey === 'Vata') {
+      analysis += `1. Cumin (Jeera): Add to dal and rice - aids Vata digestion\n2. Asafoetida (Hing): Add to dal - reduces gas and bloating\n3. Ginger (fresh): Add to vegetables - kindles Agni without overheating\n4. Cardamom: Add to milk and desserts - calms Vata, adds flavor\n5. Cinnamon: Add to warm drinks - warming and grounding`;
+    } else if (prakritiKey === 'Pitta') {
+      analysis += `1. Fennel (Saunf): Add to rice and desserts - cooling and digestive\n2. Coriander: Add to curries and chutneys - Sheetala (cooling)\n3. Cardamom: Add to milk and tea - sweet and cooling\n4. Turmeric: Add to all cooking - anti-inflammatory, Pitta-friendly\n5. Saffron: Add to milk - cooling and enhances Ojas`;
+    } else {
+      analysis += `1. Ginger (dry): Add to all meals - kindles Mandagni (slow digestion)\n2. Black pepper: Add to soups and dal - Lekhana (scraping) for Kapha\n3. Mustard seeds: Temper vegetables - heating and stimulating\n4. Turmeric: Add to all cooking - anti-inflammatory and drying\n5. Long pepper (Pippali): Add to honey (not heated) - respiratory support`;
+    }
+    analysis += `\n\n`;
+
+    analysis += `HYDRATION PLAN\n`;
+    if (prakritiKey === 'Vata') {
+      analysis += `• Morning: Warm water with lemon upon waking\n• Throughout day: Sip warm water (not cold)\n• With meals: Small sips of warm water only\n• Evening: Warm milk with nutmeg before bed\n• Avoid: Ice water, cold drinks, excessive fluids during meals`;
+    } else if (prakritiKey === 'Pitta') {
+      analysis += `• Morning: Room temperature water with a little lime\n• Throughout day: Coconut water, room temp water\n• With meals: Moderate room temperature water\n• Evening: Cool (not cold) milk with cardamom\n• Avoid: Hot drinks, alcohol, excessive caffeine`;
+    } else {
+      analysis += `• Morning: Warm water with 1 tsp honey (never heat honey)\n• Throughout day: Sip warm water with ginger\n• With meals: Minimal water - Kapha already has excess moisture\n• Evening: Tulsi tea or warm water\n• Avoid: Cold drinks, excess fluids, smoothies`;
+    }
+    analysis += `\n\n`;
+
+    analysis += `WEEKLY VARIATION TIPS\n`;
+    analysis += `• Rotate between the 2-3 options provided for each meal slot\n`;
+    analysis += `• Change vegetables based on what is seasonal and local\n`;
+    if (prakritiKey === 'Vata') {
+      analysis += `• Vary your grains: rice, wheat, oats, quinoa (all cooked warm)\n`;
+      analysis += `• Rotate oils: ghee, sesame oil, olive oil\n`;
+    } else if (prakritiKey === 'Pitta') {
+      analysis += `• Vary your fruits: seasonal sweet fruits only\n`;
+      analysis += `• Rotate cooling grains: rice, barley, wheat\n`;
+    } else {
+      analysis += `• Vary your grains: barley, millet, quinoa, ragi (all light)\n`;
+      analysis += `• Rotate between dry and light preparations\n`;
+    }
+    analysis += `• Keep the timing and structure consistent - only rotate the specific foods\n`;
+    analysis += `• One meal per week can be a "treat" but stay within your Dosha guidelines`;
+
+    return analysis;
+  };
+
   const fetchAIDietAnalysis = async (dietResult: DietResult) => {
-    setAiAnalysis({ loading: true, content: '', error: null });
+    setAiAnalysis({ loading: true, content: '', isLocal: false });
     
     const planSummary = Object.entries(dietResult.dailyPlan).map(([time, meals]) => {
       const mealList = meals.map(m => `${m.meal}: ${m.food}`).join('; ');
@@ -271,7 +344,7 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'meta/llama-3.1-405b-instruct',
+          model: 'meta/llama-3.1-70b-instruct',
           messages: [{ role: 'user', content: prompt }],
           temperature: 0.7,
           max_tokens: 2500,
@@ -283,10 +356,16 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
       }
 
       const data = await response.json();
-      const content = data.choices?.[0]?.message?.content || 'AI analysis could not be generated.';
-      setAiAnalysis({ loading: false, content, error: null });
+      const content = data.choices?.[0]?.message?.content || '';
+      
+      if (content) {
+        setAiAnalysis({ loading: false, content, isLocal: false });
+      } else {
+        throw new Error('Empty response');
+      }
     } catch (err) {
-      setAiAnalysis({ loading: false, content: '', error: err instanceof Error ? err.message : 'Failed to fetch AI analysis' });
+      const localAnalysis = generateLocalDietAnalysis(dietResult);
+      setAiAnalysis({ loading: false, content: localAnalysis, isLocal: true });
     }
   };
 
@@ -319,7 +398,7 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
     setIsAnalyzing(true);
     setResult(null);
     setShowDetails(false);
-    setAiAnalysis({ loading: false, content: '', error: null });
+    setAiAnalysis({ loading: false, content: '', isLocal: false });
     setAiExpanded(false);
 
     setTimeout(() => {
@@ -501,10 +580,15 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
                         <div className="w-4 h-4 border-2 border-purple-300 border-t-purple-600 rounded-full animate-spin"></div>
                         <span className="text-sm">AI is analyzing your diet plan...</span>
                       </div>
-                    ) : aiAnalysis.error ? (
-                      <p className="text-sm text-red-600">AI analysis unavailable: {aiAnalysis.error}</p>
                     ) : (
-                      <div className="text-sm text-gray-700 whitespace-pre-line leading-relaxed">{aiAnalysis.content}</div>
+                      <div>
+                        {aiAnalysis.isLocal && (
+                          <div className="mb-2 px-3 py-1.5 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-700 inline-block">
+                            Based on classical Ayurvedic dietetics (EasyAyurveda, PlanetAyurveda, Charaka Samhita). Configure NVIDIA_API_KEY in Vercel for AI-enhanced insights.
+                          </div>
+                        )}
+                        <div className="text-sm text-gray-700 whitespace-pre-line leading-relaxed">{aiAnalysis.content}</div>
+                      </div>
                     )}
                   </div>
                 )}
@@ -514,7 +598,7 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
 
           <div className="flex gap-3 pt-2">
             <button 
-              onClick={() => { setStep(0); setResult(null); setShowDetails(false); setAiAnalysis({ loading: false, content: '', error: null }); setAiExpanded(false); }}
+              onClick={() => { setStep(0); setResult(null); setShowDetails(false); setAiAnalysis({ loading: false, content: '', isLocal: false }); setAiExpanded(false); }}
               className="flex-1 py-3 bg-ayur-cream text-ayur-green font-bold rounded-xl hover:bg-ayur-green/10 transition-all"
             >
               Regenerate

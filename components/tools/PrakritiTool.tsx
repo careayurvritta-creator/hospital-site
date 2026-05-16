@@ -308,7 +308,7 @@ const getPrakritiResult = (vCount: number, pCount: number, kCount: number): {
 interface AIAnalysis {
   loading: boolean;
   content: string;
-  error: string | null;
+  isLocal: boolean;
 }
 
 const PrakritiTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
@@ -321,7 +321,7 @@ const PrakritiTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   const [animatedV, setAnimatedV] = useState(0);
   const [animatedP, setAnimatedP] = useState(0);
   const [animatedK, setAnimatedK] = useState(0);
-  const [aiAnalysis, setAiAnalysis] = useState<AIAnalysis>({ loading: false, content: '', error: null });
+  const [aiAnalysis, setAiAnalysis] = useState<AIAnalysis>({ loading: false, content: '', isLocal: false });
   const [aiExpanded, setAiExpanded] = useState(false);
 
   const currentQuestion = questions[step];
@@ -354,6 +354,81 @@ const PrakritiTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
       return () => clearTimeout(timer);
     }
   }, [result, isAnalyzing]);
+
+  const generateLocalAnalysis = (prakritiResult: ReturnType<typeof getPrakritiResult>, userAnswers: Record<number, 'V' | 'P' | 'K'>): string => {
+    const { primary, secondary, vPercent, pPercent, kPercent } = prakritiResult;
+    
+    const answerInsights = questions.map(q => {
+      const ans = userAnswers[q.id];
+      const opt = q.options.find(o => o.value === ans);
+      return { question: q.text, answer: opt?.label || '', effect: opt?.effect || '', category: q.category };
+    });
+
+    const vataAnswers = answerInsights.filter(a => a.effect.includes('Vata'));
+    const pittaAnswers = answerInsights.filter(a => a.effect.includes('Pitta'));
+    const kaphaAnswers = answerInsights.filter(a => a.effect.includes('Kapha'));
+
+    let analysis = '';
+    
+    analysis += `CONSTITUTION ANALYSIS\n`;
+    analysis += `Your primary constitution is ${primary} (${vPercent}% Vata, ${pPercent}% Pitta, ${kPercent}% Kapha).`;
+    if (secondary) {
+      analysis += ` Your secondary Dosha is ${secondary}, which modifies your primary tendencies.`;
+    }
+    analysis += `\n\n`;
+
+    analysis += `CURRENT IMBALANCE RISK\n`;
+    if (primary === 'Vata') {
+      analysis += `As a Vata-dominant person, you are most at risk for Vishama Agni (irregular digestion), anxiety, insomnia, dry skin, constipation, and joint issues. Vata is the first Dosha to vitiate (Charaka Samhita). Watch for: irregular appetite, racing thoughts, cold extremities, and restlessness.`;
+    } else if (primary === 'Pitta') {
+      analysis += `As a Pitta-dominant person, you are most at risk for Tikshna Agni (overactive digestion), acidity, inflammation, skin rashes, anger, and premature graying. Pitta governs metabolism - when imbalanced, it creates excess heat. Watch for: heartburn, irritability, excessive sweating, and bloodshot eyes.`;
+    } else {
+      analysis += `As a Kapha-dominant person, you are most at risk for Manda Agni (slow digestion), weight gain, congestion, lethargy, water retention, and diabetes. Kapha is the most stable but hardest to reduce. Watch for: heaviness after meals, excessive sleep, mucus buildup, and lack of motivation.`;
+    }
+    analysis += `\n\n`;
+
+    analysis += `SEASONAL GUIDANCE\n`;
+    if (primary === 'Vata') {
+      analysis += `Vata aggravates in autumn and early winter (dry, cold, windy). During these seasons: increase warm, oily, cooked foods; daily Abhyanga with sesame oil; avoid raw salads and cold drinks; maintain strict routine. In summer, you will feel most balanced.`;
+    } else if (primary === 'Pitta') {
+      analysis += `Pitta aggravates in late summer and autumn (hot, sharp, intense). During these seasons: favor cooling foods (cucumber, coconut, melon); avoid spicy and fermented foods; practice Chandrasnana (moonlit walks); swim regularly. In winter, you will feel most balanced.`;
+    } else {
+      analysis += `Kapha aggravates in spring (wet, heavy, cold). During spring: practice Udvartana (dry powder massage); increase pungent, bitter, astringent tastes; avoid daytime sleep; wake before sunrise; exercise vigorously. In summer, you will feel most balanced.`;
+    }
+    analysis += `\n\n`;
+
+    analysis += `PERSONALIZED DAILY ROUTINE (DINACHARYA)\n`;
+    analysis += `• Wake time: ${primary === 'Kapha' ? 'Before 6 AM (Brahma Muhurta)' : primary === 'Pitta' ? 'By 6:30 AM' : 'By 6 AM'}\n`;
+    analysis += `• Morning: ${primary === 'Vata' ? 'Warm water + oil massage + gentle yoga' : primary === 'Pitta' ? 'Cool water + meditation + moderate exercise' : 'Warm water + dry massage + vigorous exercise'}\n`;
+    analysis += `• Breakfast: ${primary === 'Vata' ? 'Warm oatmeal with ghee and dates' : primary === 'Pitta' ? 'Sweet fruits with coconut' : 'Barley porridge with honey and ginger'}\n`;
+    analysis += `• Lunch (largest meal): 12:30-1:30 PM when Agni is strongest\n`;
+    analysis += `• Dinner: ${primary === 'Kapha' ? 'Light soup by 6:30 PM' : 'Light meal by 7 PM'}\n`;
+    analysis += `• Sleep: ${primary === 'Vata' ? 'By 9:30 PM (Vata needs extra rest)' : primary === 'Pitta' ? 'By 10 PM' : 'By 10 PM, avoid oversleeping'}\n`;
+    analysis += `\n`;
+
+    analysis += `WARNING SIGNS TO WATCH FOR\n`;
+    if (primary === 'Vata') {
+      analysis += `1. Irregular or skipped meals (Vishama Agni worsening)\n2. Racing thoughts or inability to sleep\n3. Dry, cracked skin or constipation\n4. Feeling ungrounded, anxious, or fearful\n5. Excessive talking or restlessness`;
+    } else if (primary === 'Pitta') {
+      analysis += `1. Heartburn or acid reflux after meals\n2. Irritability, anger, or impatience\n3. Red, inflamed skin or rashes\n4. Excessive body heat or sweating\n5. Bloodshot eyes or sensitivity to light`;
+    } else {
+      analysis += `1. Heaviness or lethargy after meals\n2. Weight gain despite normal eating\n3. Congestion, mucus, or sinus issues\n4. Oversleeping or difficulty waking\n5. Lack of motivation or mental fog`;
+    }
+    analysis += `\n\n`;
+
+    analysis += `KEY INSIGHTS FROM YOUR ANSWERS\n`;
+    if (vataAnswers.length > 0) {
+      analysis += `Vata indicators: ${vataAnswers.slice(0, 3).map(a => a.answer).join('; ')}.\n`;
+    }
+    if (pittaAnswers.length > 0) {
+      analysis += `Pitta indicators: ${pittaAnswers.slice(0, 3).map(a => a.answer).join('; ')}.\n`;
+    }
+    if (kaphaAnswers.length > 0) {
+      analysis += `Kapha indicators: ${kaphaAnswers.slice(0, 3).map(a => a.answer).join('; ')}.\n`;
+    }
+
+    return analysis;
+  };
 
   const fetchAIAnalysis = async (prakritiResult: ReturnType<typeof getPrakritiResult>, userAnswers: Record<number, 'V' | 'P' | 'K'>) => {
     setAiAnalysis({ loading: true, content: '', error: null });
@@ -390,7 +465,7 @@ Keep the response practical, actionable, and rooted in classical Ayurvedic princ
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'meta/llama-3.1-405b-instruct',
+          model: 'meta/llama-3.1-70b-instruct',
           messages: [{ role: 'user', content: prompt }],
           temperature: 0.7,
           max_tokens: 2000,
@@ -402,10 +477,16 @@ Keep the response practical, actionable, and rooted in classical Ayurvedic princ
       }
 
       const data = await response.json();
-      const content = data.choices?.[0]?.message?.content || 'AI analysis could not be generated.';
-      setAiAnalysis({ loading: false, content, error: null });
+      const content = data.choices?.[0]?.message?.content || '';
+      
+      if (content) {
+        setAiAnalysis({ loading: false, content, isLocal: false });
+      } else {
+        throw new Error('Empty response');
+      }
     } catch (err) {
-      setAiAnalysis({ loading: false, content: '', error: err instanceof Error ? err.message : 'Failed to fetch AI analysis' });
+      const localAnalysis = generateLocalAnalysis(prakritiResult, userAnswers);
+      setAiAnalysis({ loading: false, content: localAnalysis, isLocal: true });
     }
   };
 
@@ -437,7 +518,7 @@ Keep the response practical, actionable, and rooted in classical Ayurvedic princ
     setIsAnalyzing(true);
     setResult(null);
     setShowDetails(false);
-    setAiAnalysis({ loading: false, content: '', error: null });
+    setAiAnalysis({ loading: false, content: '', isLocal: false });
     setAiExpanded(false);
     
     setTimeout(() => {
@@ -576,10 +657,15 @@ Keep the response practical, actionable, and rooted in classical Ayurvedic princ
                         <div className="w-4 h-4 border-2 border-purple-300 border-t-purple-600 rounded-full animate-spin"></div>
                         <span className="text-sm">AI is analyzing your constitution...</span>
                       </div>
-                    ) : aiAnalysis.error ? (
-                      <p className="text-sm text-red-600">AI analysis unavailable: {aiAnalysis.error}</p>
                     ) : (
-                      <div className="text-sm text-gray-700 whitespace-pre-line leading-relaxed">{aiAnalysis.content}</div>
+                      <div>
+                        {aiAnalysis.isLocal && (
+                          <div className="mb-2 px-3 py-1.5 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-700 inline-block">
+                            Based on classical Ayurvedic analysis (Charaka Samhita). Configure NVIDIA_API_KEY in Vercel for AI-enhanced insights.
+                          </div>
+                        )}
+                        <div className="text-sm text-gray-700 whitespace-pre-line leading-relaxed">{aiAnalysis.content}</div>
+                      </div>
                     )}
                   </div>
                 )}
@@ -589,7 +675,7 @@ Keep the response practical, actionable, and rooted in classical Ayurvedic princ
 
           <div className="flex gap-3 pt-2">
             <button 
-              onClick={() => { setStep(0); setAnswers({}); setResult(null); setShowDetails(false); setAnimatedV(0); setAnimatedP(0); setAnimatedK(0); setAiAnalysis({ loading: false, content: '', error: null }); }}
+              onClick={() => { setStep(0); setAnswers({}); setResult(null); setShowDetails(false); setAnimatedV(0); setAnimatedP(0); setAnimatedK(0); setAiAnalysis({ loading: false, content: '', isLocal: false }); }}
               className="flex-1 py-3 bg-ayur-cream text-ayur-green font-bold rounded-xl hover:bg-ayur-green/10 transition-all"
             >
               Retake Assessment

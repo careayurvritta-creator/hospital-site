@@ -9,10 +9,16 @@ export const config = {
 
 const NVIDIA_API_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
 
+const MODELS = [
+  'meta/llama-3.1-70b-instruct',
+  'meta/llama-3.3-70b-instruct',
+  'meta/llama-3.1-8b-instruct',
+  'meta/llama3-70b-instruct',
+];
+
 export default async function handler(request: Request) {
   console.log('[Nvidia API] Request received');
   
-  // Only allow POST requests
   if (request.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
       status: 405,
@@ -21,8 +27,7 @@ export default async function handler(request: Request) {
   }
 
   try {
-    // Try both env var names for compatibility
-    const apiKey = process.env.NVIDIA_API_KEY || process.env.VITE_NVIDIA_API_KEY;
+    const apiKey = process.env.NVIDIA_API_KEY;
     
     console.log('[Nvidia API] API key present:', !!apiKey);
     
@@ -34,43 +39,53 @@ export default async function handler(request: Request) {
       });
     }
 
-    // Get the request body
     const body = await request.json();
     console.log('[Nvidia API] Body received, model:', body.model);
 
-    // Forward the request to Nvidia NIM
-    const response = await fetch(NVIDIA_API_URL, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
+    let lastError = null;
+    
+    for (const model of MODELS) {
+      try {
+        console.log('[Nvidia API] Trying model:', model);
+        const response = await fetch(NVIDIA_API_URL, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ...body, model }),
+        });
 
-    console.log('[Nvidia API] Nvidia response:', response.status);
+        console.log('[Nvidia API] Response status:', response.status);
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('[Nvidia API] Nvidia error:', errorText);
-      return new Response(JSON.stringify({ 
-        error: `Nvidia API error (${response.status})`, 
-        details: errorText 
-      }), {
-        status: response.status,
-        headers: { 'Content-Type': 'application/json' },
-      });
+        if (response.ok) {
+          const data = await response.json();
+          console.log('[Nvidia API] Success with model:', model);
+          return new Response(JSON.stringify(data), {
+            status: 200,
+            headers: { 
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+            },
+          });
+        }
+        
+        const errorText = await response.text();
+        console.log('[Nvidia API] Model failed:', model, response.status, errorText);
+        lastError = { status: response.status, text: errorText };
+      } catch (err) {
+        console.log('[Nvidia API] Model exception:', model, err);
+        lastError = err;
+      }
     }
 
-    const data = await response.json();
-    console.log('[Nvidia API] Success');
-    
-    return new Response(JSON.stringify(data), {
-      status: 200,
-      headers: { 
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
+    console.error('[Nvidia API] All models failed:', lastError);
+    return new Response(JSON.stringify({ 
+      error: `Nvidia API error: all models failed`, 
+      details: lastError 
+    }), {
+      status: lastError?.status || 500,
+      headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
     console.error('[Nvidia Proxy] Error:', error);
