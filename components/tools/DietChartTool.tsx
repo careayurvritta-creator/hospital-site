@@ -344,7 +344,7 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'meta/llama-3.1-70b-instruct',
+          model: 'meta/llama-3.1-8b-instruct',
           messages: [{ role: 'user', content: prompt }],
           temperature: 0.7,
           max_tokens: 2500,
