@@ -35,19 +35,19 @@ class AIService {
         ...config,
       };
 
-      console.log('[AI Service] Initializing with Nvidia NIM');
+      console.log('[AI Service] Initializing with Nvidia NIM (via Vercel proxy)');
 
-      if (this.config.nvidiaApiKey) {
-        try {
-          this.nvidiaClient = new NvidiaClient(this.config.nvidiaApiKey);
-          console.log('[AI Service] Nvidia client initialized');
-        } catch (e) {
-          console.error('[AI Service] Failed to initialize Nvidia client:', e);
-        }
+      // NvidiaClient routes through /api/nvidia Vercel proxy which handles auth server-side
+      // API key is NOT needed client-side - the proxy uses NVIDIA_API_KEY from Vercel env
+      try {
+        this.nvidiaClient = new NvidiaClient('proxy');
+        console.log('[AI Service] Nvidia client initialized (using Vercel proxy auth)');
+      } catch (e) {
+        console.error('[AI Service] Failed to initialize Nvidia client:', e);
       }
 
       if (!this.nvidiaClient) {
-        this.initError = 'Nvidia API key not configured. Please set VITE_NVIDIA_API_KEY';
+        this.initError = 'Failed to initialize AI client';
         console.error('[AI Service]', this.initError);
       }
     } catch (e) {
@@ -63,14 +63,8 @@ class AIService {
     if (this.initialized || this.initializing) return;
     
     try {
-      const nvidiaKey = import.meta.env.VITE_NVIDIA_API_KEY;
-      
       console.log('[AI Service] Lazy initialization triggered');
-      console.log('[AI Service] Nvidia key available:', !!nvidiaKey);
-      
-      this.init({
-        nvidiaApiKey: nvidiaKey,
-      });
+      this.init({});
     } catch (e) {
       console.error('[AI Service] Lazy init error:', e);
       this.initError = 'Failed to initialize AI service';
@@ -289,13 +283,7 @@ class AIService {
    */
   debug(): void {
     console.log('[AI Service Debug] Status:', this.getStatus());
-    try {
-      console.log('[AI Service Debug] Environment:', {
-        VITE_NVIDIA_API_KEY: import.meta.env.VITE_NVIDIA_API_KEY ? '***' + import.meta.env.VITE_NVIDIA_API_KEY.slice(-4) : 'not set',
-      });
-    } catch (e) {
-      console.log('[AI Service Debug] Cannot read env vars in debug mode');
-    }
+    console.log('[AI Service Debug] Auth: Vercel serverless proxy (NVIDIA_API_KEY set on server)');
   }
 }
 
