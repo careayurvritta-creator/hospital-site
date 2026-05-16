@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 interface DhatuQuestion {
   key: string;
   label: string;
-  sanskrit: string;
 }
 
 interface DhatuData {
@@ -20,94 +19,157 @@ interface DhatuData {
 
 const dhatuData: DhatuData[] = [
   {
-    name: 'Skin',
+    name: 'Twak',
     sanskrit: 'Twak Sara',
     icon: '✨',
     color: '#f59e0b',
     description: 'Twak (skin) reflects the quality of Rasa Dhatu. Clear, soft, glowing skin indicates excellent Rasa formation.',
     excellent: 'Soft, smooth, glowing, unblemished skin with natural lustre',
     moderate: 'Occasional dryness, minor blemishes, uneven tone',
-    poor: 'Dry, rough, cracked, premature wrinkles, chronic skin issues'
+    poor: 'Dry, rough, cracked, premature wrinkles, chronic skin issues',
+    questions: [
+      { key: 'q1', label: 'My skin is soft, smooth, and naturally glowing' },
+      { key: 'q2', label: 'I rarely experience skin problems like acne, rashes, or dryness' },
+      { key: 'q3', label: 'My complexion is clear and even-toned' },
+      { key: 'q4', label: 'My skin heals quickly from cuts or wounds' },
+      { key: 'q5', label: 'My skin feels well-moisturized without external products' }
+    ]
   },
   {
-    name: 'Plasma',
+    name: 'Rasa',
     sanskrit: 'Rasa Sara',
     icon: '💧',
     color: '#3b82f6',
     description: 'Rasa Dhatu is the first tissue formed from food essence. It nourishes all other Dhatus and governs hydration.',
     excellent: 'Well-hydrated, moist tissues, good circulation, calm mind',
     moderate: 'Occasional dryness, mild fatigue, slight dehydration',
-    poor: 'Severe dryness, fatigue, palpitations, anxiety, dehydration'
+    poor: 'Severe dryness, fatigue, palpitations, anxiety, dehydration',
+    questions: [
+      { key: 'q1', label: 'I feel well-hydrated throughout the day' },
+      { key: 'q2', label: 'My mouth and throat are naturally moist, not dry' },
+      { key: 'q3', label: 'I have good energy and vitality after meals' },
+      { key: 'q4', label: 'My pulse feels strong and regular' },
+      { key: 'q5', label: 'I feel emotionally calm and satisfied after eating' }
+    ]
   },
   {
-    name: 'Blood',
+    name: 'Rakta',
     sanskrit: 'Rakta Sara',
     icon: '🩸',
     color: '#ef4444',
     description: 'Rakta Dhatu governs blood quality, liver function, and Pitta balance. Pure Rakta gives courage and vitality.',
     excellent: 'Good complexion, strong digestion, sharp intellect, courage',
     moderate: 'Occasional acidity, mild skin issues, moderate energy',
-    poor: 'Anemia, chronic skin diseases, anger issues, liver disorders'
+    poor: 'Anemia, chronic skin diseases, anger issues, liver disorders',
+    questions: [
+      { key: 'q1', label: 'My complexion has a healthy, natural color' },
+      { key: 'q2', label: 'I rarely experience acidity, heartburn, or burning sensations' },
+      { key: 'q3', label: 'I feel confident, courageous, and mentally sharp' },
+      { key: 'q4', label: 'My eyes are clear, bright, and not bloodshot' },
+      { key: 'q5', label: 'I manage anger and frustration well' }
+    ]
   },
   {
-    name: 'Muscle',
+    name: 'Mamsa',
     sanskrit: 'Mamsa Sara',
     icon: '💪',
     color: '#8b5cf6',
     description: 'Mamsa Dhatu provides physical strength and covers vital organs. Strong muscles indicate good nutrition.',
     excellent: 'Well-developed, firm muscles, strong, good endurance',
     moderate: 'Moderate muscle tone, some weakness, average strength',
-    poor: 'Muscle wasting, weakness, poor stamina, frequent injuries'
+    poor: 'Muscle wasting, weakness, poor stamina, frequent injuries',
+    questions: [
+      { key: 'q1', label: 'My muscles are firm and well-developed' },
+      { key: 'q2', label: 'I have good physical strength and endurance' },
+      { key: 'q3', label: 'I recover quickly from physical exertion' },
+      { key: 'q4', label: 'My body feels stable and well-supported' },
+      { key: 'q5', label: 'I rarely experience muscle cramps or weakness' }
+    ]
   },
   {
-    name: 'Fat',
+    name: 'Meda',
     sanskrit: 'Meda Sara',
     icon: '⚖️',
     color: '#06b6d4',
     description: 'Meda Dhatu (adipose tissue) provides lubrication and energy reserve. Balanced Meda gives proper body contour.',
     excellent: 'Well-proportioned body, healthy weight, good energy reserve',
     moderate: 'Slight weight gain or loss, occasional fatigue',
-    poor: 'Obesity or emaciation, excessive sweating, body odor'
+    poor: 'Obesity or emaciation, excessive sweating, body odor',
+    questions: [
+      { key: 'q1', label: 'My body weight is stable and proportionate' },
+      { key: 'q2', label: 'My joints are well-lubricated and move smoothly' },
+      { key: 'q3', label: 'I have adequate energy reserves without excess fat' },
+      { key: 'q4', label: 'I do not experience excessive sweating or body odor' },
+      { key: 'q5', label: 'My abdomen is firm, not flabby or overly thin' }
+    ]
   },
   {
-    name: 'Bone',
+    name: 'Asthi',
     sanskrit: 'Asthi Sara',
     icon: '🦴',
     color: '#64748b',
     description: 'Asthi Dhatu provides structural support. Strong bones and teeth indicate excellent Asthi formation.',
     excellent: 'Strong bones, healthy teeth, good posture, large frame',
     moderate: 'Occasional joint pain, mild dental issues, average frame',
-    poor: 'Osteoporosis, frequent fractures, dental problems, weak nails'
+    poor: 'Osteoporosis, frequent fractures, dental problems, weak nails',
+    questions: [
+      { key: 'q1', label: 'My bones and teeth are strong and healthy' },
+      { key: 'q2', label: 'I have good posture and body structure' },
+      { key: 'q3', label: 'My nails are strong, not brittle or cracked' },
+      { key: 'q4', label: 'I rarely experience joint pain or bone aches' },
+      { key: 'q5', label: 'My hair is thick and strong (Asthi is related to hair per Ayurveda)' }
+    ]
   },
   {
-    name: 'Marrow',
+    name: 'Majja',
     sanskrit: 'Majja Sara',
     icon: '🧠',
     color: '#a855f7',
     description: 'Majja Dhatu fills bones and governs nervous system. Healthy Majja gives mental clarity and strong nerves.',
     excellent: 'Sharp mind, strong nerves, good memory, unctuous eyes',
     moderate: 'Occasional brain fog, mild anxiety, average memory',
-    poor: 'Neurological issues, severe anxiety, poor memory, tremors'
+    poor: 'Neurological issues, severe anxiety, poor memory, tremors',
+    questions: [
+      { key: 'q1', label: 'My memory is sharp and I recall things easily' },
+      { key: 'q2', label: 'I have good mental clarity and focus' },
+      { key: 'q3', label: 'My eyes feel well-nourished and clear' },
+      { key: 'q4', label: 'I do not experience tremors, numbness, or tingling' },
+      { key: 'q5', label: 'I sleep deeply and wake up feeling refreshed' }
+    ]
   },
   {
-    name: 'Reproductive',
+    name: 'Shukra',
     sanskrit: 'Shukra Sara',
     icon: '🌟',
     color: '#ec4899',
     description: 'Shukra/Artava Dhatu is the essence of all 7 Dhatus. It governs fertility, vitality, and Ojas (immunity).',
     excellent: 'High vitality, strong immunity, healthy reproductive system',
     moderate: 'Moderate vitality, occasional reproductive issues',
-    poor: 'Infertility, low immunity, sexual dysfunction, low Ojas'
+    poor: 'Infertility, low immunity, sexual dysfunction, low Ojas',
+    questions: [
+      { key: 'q1', label: 'I have high vitality and overall vigor' },
+      { key: 'q2', label: 'My immune system is strong; I rarely fall sick' },
+      { key: 'q3', label: 'My reproductive health is good' },
+      { key: 'q4', label: 'I have a healthy libido and sexual function' },
+      { key: 'q5', label: 'I feel a deep sense of well-being and zest for life' }
+    ]
   },
   {
-    name: 'Mind',
+    name: 'Satva',
     sanskrit: 'Satva Sara',
     icon: '🧘',
     color: '#10b981',
     description: 'Satva represents mental excellence. High Satva gives clarity, wisdom, compassion, and spiritual inclination.',
     excellent: 'Clear mind, wisdom, compassion, strong willpower, faith',
     moderate: 'Occasional confusion, moderate focus, average willpower',
-    poor: 'Mental confusion, fear, anger, attachment, poor judgment'
+    poor: 'Mental confusion, fear, anger, attachment, poor judgment',
+    questions: [
+      { key: 'q1', label: 'I maintain mental clarity and calmness under stress' },
+      { key: 'q2', label: 'I feel compassion and empathy towards others' },
+      { key: 'q3', label: 'I have strong willpower and self-discipline' },
+      { key: 'q4', label: 'I am not easily disturbed by fear, anger, or greed' },
+      { key: 'q5', label: 'I have a positive outlook and sense of purpose in life' }
+    ]
   }
 ];
 
@@ -299,12 +361,10 @@ const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   };
 
   const getCurrentDhatuAnswers = (): number => {
-    let total = 0;
     let count = 0;
     currentDhatu.questions.forEach(q => {
       const key = `${currentDhatu.name}_${q.key}`;
       if (answers[key] !== undefined) {
-        total += answers[key];
         count++;
       }
     });
@@ -406,7 +466,6 @@ const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
         </button>
 
         <div className="space-y-4">
-          {/* Overall Score Card */}
           <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-100 overflow-hidden">
             <div className={`bg-gradient-to-r ${result.color} p-6 text-white text-center`}>
               <div className="text-5xl font-bold mb-1">{animatedScore}%</div>
@@ -420,7 +479,6 @@ const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
             </div>
           </div>
 
-          {/* Strongest & Weakest */}
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-green-50 rounded-2xl p-4 border border-green-200">
               <div className="text-xs text-green-600 font-semibold uppercase mb-1">Strongest Dhatu</div>
@@ -436,7 +494,6 @@ const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
             </div>
           </div>
 
-          {/* Dhatu Radar Bars */}
           <div className="bg-white rounded-2xl shadow-lg p-4">
             <h3 className="font-bold text-ayur-green mb-3">Dhatu Excellence Profile</h3>
             <div className="space-y-2">
@@ -456,7 +513,6 @@ const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
             </div>
           </div>
 
-          {/* Toggle Details */}
           <button 
             onClick={() => setShowDetails(!showDetails)}
             className="w-full py-4 bg-ayur-green text-white rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:bg-ayur-green-dark transition-all"
@@ -464,7 +520,6 @@ const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
             <span>{showDetails ? '▼ Hide' : '▶ View'} Rasayana Recommendations</span>
           </button>
 
-          {/* Rasayana Recommendations */}
           {showDetails && (
             <div className="space-y-3">
               <h3 className="font-bold text-ayur-green text-lg">Personalized Rasayana Therapy</h3>
@@ -483,7 +538,6 @@ const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
             </div>
           )}
 
-          {/* Actions */}
           <div className="flex gap-3 pt-2">
             <button 
               onClick={() => { setCurrentDhatuIndex(0); setAnswers({}); setResult(null); setShowDetails(false); setAnimatedScore(0); }}
@@ -512,7 +566,6 @@ const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
         Exit
       </button>
 
-      {/* Progress */}
       <div className="mb-6">
         <div className="flex justify-between text-sm text-gray-500 mb-2">
           <span className="font-medium">{currentDhatu.sanskrit}</span>
@@ -526,7 +579,6 @@ const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
         </div>
       </div>
 
-      {/* Dhatu Card */}
       <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-100 p-5 mb-4">
         <div className="flex items-center gap-3 mb-4">
           <span className="text-4xl">{currentDhatu.icon}</span>
@@ -570,7 +622,6 @@ const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
           })}
         </div>
 
-        {/* Dhatu Quality Guide */}
         <div className="mt-4 p-3 bg-ayur-cream rounded-xl">
           <div className="text-xs font-semibold text-ayur-green mb-2">Quality Indicators:</div>
           <div className="space-y-1 text-xs text-gray-600">
@@ -581,7 +632,6 @@ const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
         </div>
       </div>
 
-      {/* Navigation */}
       <div className="flex justify-between">
         <button
           onClick={handlePrevious}
