@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { useIntersectionObserver } from '../hooks';
-import LifestyleTool from '../components/tools/LifestyleTool';
-import PanchakarmaTool from '../components/tools/PanchakarmaTool';
-import MedaTool from '../components/tools/MedaTool';
-import SaaraTool from '../components/tools/SaaraTool';
+
+const LifestyleTool = lazy(() => import('../components/tools/LifestyleTool'));
+const PanchakarmaTool = lazy(() => import('../components/tools/PanchakarmaTool'));
+const MedaTool = lazy(() => import('../components/tools/MedaTool'));
+const SaaraTool = lazy(() => import('../components/tools/SaaraTool'));
 
 const AlertIcon = () => (
   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -151,15 +152,26 @@ const Tools: React.FC = () => {
               </div>
             ))}
           </div>
-        ) : (
+) : (
           <div className="bg-white rounded-3xl shadow-2xl overflow-hidden min-h-[600px] border-2 border-ayur-subtle hover:border-ayur-green/30 transition-all duration-500 animate-fadeInUp">
              <div className="md:hidden p-4 border-b border-gray-100 flex items-center text-ayur-green font-bold gap-2 hover:bg-ayur-cream/30 transition-colors cursor-pointer" onClick={() => setActiveTool(null)}>
                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                  <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
                </svg>
-               Back to Tools
+                Back to Tools
             </div>
-            {activeToolData && activeToolData.component}
+            {activeToolData && (
+              <Suspense fallback={
+                <div className="flex items-center justify-center h-96">
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="w-12 h-12 border-4 border-ayur-green border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-ayur-gray font-medium">Loading tool...</p>
+                  </div>
+                </div>
+              }>
+                {activeToolData.component}
+              </Suspense>
+            )}
           </div>
         )}
       </div>
