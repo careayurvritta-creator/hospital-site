@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import LifestyleTool from '../components/tools/LifestyleTool';
 
 const AlertIcon = () => (
   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2">
@@ -33,13 +34,19 @@ const ToolCard: React.FC<{
   title: string;
   desc: string;
   icon: React.ReactNode;
+  badge?: string;
   onClick: () => void;
-}> = ({ title, desc, icon, onClick }) => (
+}> = ({ title, desc, icon, badge, onClick }) => (
   <button 
     onClick={onClick} 
-    className="bg-white p-6 rounded-2xl border-2 border-gray-100 hover:border-ayur-green shadow-md hover:shadow-xl hover:-translate-y-1 transition-all w-full text-left"
+    className="group relative bg-white p-6 rounded-2xl border-2 border-gray-100 hover:border-ayur-green shadow-md hover:shadow-xl hover:-translate-y-1 transition-all w-full text-left"
   >
-    <div className="w-12 h-12 bg-ayur-cream rounded-xl flex items-center justify-center mb-4">
+    {badge && (
+      <span className="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-ayur-accent to-amber-400 text-white text-xs font-bold rounded-full">
+        {badge}
+      </span>
+    )}
+    <div className="w-12 h-12 bg-ayur-cream rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
       {icon}
     </div>
     <h3 className="font-bold text-xl text-ayur-green mb-2">{title}</h3>
@@ -47,13 +54,17 @@ const ToolCard: React.FC<{
   </button>
 );
 
-import LifestyleTool from '../components/tools/LifestyleTool';
-
 const Tools: React.FC = () => {
   const [activeTool, setActiveTool] = useState<string | null>(null);
 
   const toolsData = [
-    { id: 'lifestyle', title: "Lifestyle Risk Audit", desc: "Calculate your metabolic risk based on IDRS + Ayurvedic parameters.", icon: <AlertIcon /> },
+    { 
+      id: 'lifestyle', 
+      title: "Lifestyle Risk Audit", 
+      desc: "Comprehensive 15-question assessment with AI-powered analysis of your Ayurvedic constitution and health risks.",
+      icon: <AlertIcon />,
+      badge: "AI Enhanced"
+    },
     { id: 'panchakarma', title: "Panchakarma Check", desc: "Check your eligibility for detoxification therapies.", icon: <ShieldIcon /> },
     { id: 'meda', title: "BMI & Meda Dhatu", desc: "Analyze body composition and adipose tissue.", icon: <ScaleIcon /> },
     { id: 'saara', title: "Saara Pariksha", desc: "Assess the 7 tissues (Dhatus) for immunity.", icon: <LayersIcon /> }
@@ -63,7 +74,7 @@ const Tools: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-b from-ayur-cream to-white pb-24">
       <section className="bg-gradient-to-br from-ayur-green to-ayur-green-dark pt-20 pb-16 text-white text-center px-4">
         <h1 className="font-serif text-4xl font-bold mb-2">Ayurveda <span className="text-ayur-accent">Health Tools</span></h1>
-        <p className="text-white/80">Interactive assessments for your wellbeing</p>
+        <p className="text-white/80">Interactive AI-powered assessments for your wellbeing</p>
       </section>
 
       <div className="max-w-4xl mx-auto px-4 mt-8">
@@ -75,13 +86,11 @@ const Tools: React.FC = () => {
           </div>
         ) : (
           <div className="bg-white rounded-2xl shadow-lg">
-            <div className="p-4 border-b border-gray-100 flex items-center text-ayur-green font-bold gap-2">
-              <button onClick={() => setActiveTool(null)}>← Back</button>
-            </div>
             {activeTool === 'lifestyle' && <LifestyleTool onBack={() => setActiveTool(null)} />}
             {activeTool !== 'lifestyle' && (
               <div className="p-8 text-center text-gray-500">
-                <p className="text-lg font-medium">Coming Soon</p>
+                <p className="text-lg font-medium mb-2">Coming Soon</p>
+                <p className="text-sm">This tool is under development</p>
               </div>
             )}
           </div>
