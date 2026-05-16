@@ -227,6 +227,24 @@ We still provide **free policy verification** through our Insurance Desk:
 - Pre-authorization requirements
 
 **50+ cashless partners:** Star Health, HDFC ERGO, ICICI Lombard, New India, Oriental, National, and more.`);
+            } else if (errorMessage.includes('504') || errorMessage.includes('timeout') || errorMessage.includes('FUNCTION_INVOCATION_TIMEOUT')) {
+               setAnalysisResult(`### AI Service Timeout ⚠️
+
+The AI document analysis took too long and timed out. This can happen with large documents or slow API responses.
+
+**Quick Solutions:**
+1. Try uploading a smaller/shorter policy document
+2. Try a text-based PDF (not scanned image)
+3. Try again in a few moments
+
+**Alternative - Manual Verification:**
+We still provide **free policy verification** instantly:
+
+📞 **Call**: +91 94266 84047
+📧 **Email**: insurance@ayurvritta.in  
+💬 **WhatsApp**: +91 94266 84047
+
+We'll check your coverage and help with cashless pre-authorization within minutes.`);
             } else {
               // Show actual error for debugging
               setAnalysisResult(`### Analysis Error\n\nSomething went wrong: ${errorMessage.substring(0, 100)}\n\n**Try again or contact:** +91 94266 84047`);
