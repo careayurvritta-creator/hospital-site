@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface Question {
   id: number;
@@ -207,11 +207,9 @@ const questions: Question[] = [
   }
 ];
 
-// Classical Ayurvedic recommendations based onCharaka/Sushruta principles
 const getAyurvedicRecommendations = (answers: Record<number, number>, score: number, doshaProfile: {vata: number; pitta: number; kapha: number}): {priority: string; title: string; description: string; category: string}[] => {
   const recommendations: {priority: string; title: string; description: string; category: string}[] = [];
   
-  // High risk - need immediate attention
   if (score >= 90) {
     recommendations.push({
       priority: 'high',
@@ -236,7 +234,6 @@ const getAyurvedicRecommendations = (answers: Record<number, number>, score: num
     });
   }
   
-  // Vata imbalance
   if (doshaProfile.vata > 40) {
     recommendations.push({
       priority: doshaProfile.vata > 60 ? 'high' : 'medium',
@@ -258,7 +255,6 @@ const getAyurvedicRecommendations = (answers: Record<number, number>, score: num
     });
   }
   
-  // Pitta imbalance
   if (doshaProfile.pitta > 40) {
     recommendations.push({
       priority: doshaProfile.pitta > 60 ? 'high' : 'medium',
@@ -280,7 +276,6 @@ const getAyurvedicRecommendations = (answers: Record<number, number>, score: num
     });
   }
   
-  // Kapha imbalance
   if (doshaProfile.kapha > 40) {
     recommendations.push({
       priority: doshaProfile.kapha > 60 ? 'high' : 'medium',
@@ -302,7 +297,6 @@ const getAyurvedicRecommendations = (answers: Record<number, number>, score: num
     });
   }
   
-  // Based on specific answers
   const weakDigestion = answers[3] >= 10;
   const poorSleep = answers[6] >= 10;
   const poorDiet = answers[10] >= 10;
@@ -374,7 +368,6 @@ const getAyurvedicRecommendations = (answers: Record<number, number>, score: num
     });
   }
   
-  // General for everyone
   recommendations.push({
     priority: 'low',
     title: 'Daily Abhyanga - Self Massage',
@@ -403,7 +396,6 @@ interface Result {
   dominantDosha: string;
   recommendations: {priority: string; title: string; description: string; category: string}[];
   summary: string;
-  prakritiInsight: string;
 }
 
 const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
@@ -414,9 +406,33 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   const [showReport, setShowReport] = useState(false);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [animatedScore, setAnimatedScore] = useState(0);
 
   const currentQuestion = questions[step];
   const progress = ((step + 1) / questions.length) * 100;
+
+  useEffect(() => {
+    if (result && !isAnalyzing) {
+      const timer = setTimeout(() => {
+        let current = 0;
+        const target = result.score;
+        const duration = 1500;
+        const steps = 60;
+        const increment = target / steps;
+        const animation = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            setAnimatedScore(target);
+            clearInterval(animation);
+          } else {
+            setAnimatedScore(Math.floor(current));
+          }
+        }, duration / steps);
+        return () => clearInterval(animation);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [result, isAnalyzing]);
 
   const handleSelect = (value: number) => {
     setSelectedOption(value);
@@ -453,12 +469,10 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
     setResult(null);
     setShowReport(false);
     
-    // Simulate brief processing with proper loading feedback
     setTimeout(() => {
       const score = Object.values(answers).reduce((a, b) => a + b, 0);
       const maxScore = 375;
       
-      // Calculate dosha profile
       let vataScore = 0, pittaScore = 0, kaphaScore = 0;
       questions.forEach(q => {
         const answerValue = answers[q.id];
@@ -508,8 +522,7 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
         doshaProfile,
         dominantDosha,
         recommendations,
-        summary: prakritiInsight,
-        prakritiInsight
+        summary: prakritiInsight
       });
       setIsAnalyzing(false);
     }, 1500);
@@ -540,7 +553,6 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
     return (
       <div className="p-6 max-w-2xl mx-auto min-h-[60vh] flex flex-col items-center justify-center">
         <div className="relative w-32 h-32 mb-6">
-          {/* Animated Ayurvedic symbol */}
           <div className="absolute inset-0 border-4 border-ayur-green/20 rounded-full"></div>
           <div className="absolute inset-0 border-4 border-transparent border-t-ayur-green rounded-full animate-spin" style={{ animationDuration: '2s' }}></div>
           <div className="absolute inset-0 border-4 border-transparent border-b-ayur-accent rounded-full animate-spin" style={{ animationDuration: '3s', animationDirection: 'reverse' }}></div>
@@ -565,7 +577,7 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   if (result) {
     return (
       <div className="p-4 md:p-6 max-w-2xl mx-auto">
-        <button onClick={onBack} className="flex items-center gap-2 text-ayur-green font-semibold mb-4">
+        <button onClick={onBack} className="flex items-center gap-2 text-ayur-green font-semibold mb-4 hover:gap-3 transition-all">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
           </svg>
@@ -576,7 +588,7 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
           {/* Score Card */}
           <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-100 overflow-hidden">
             <div className={`bg-gradient-to-r ${getRiskGradient()} p-6 text-white text-center`}>
-              <div className="text-5xl font-bold mb-1">{result.score}</div>
+              <div className="text-5xl font-bold mb-1">{animatedScore}</div>
               <div className="text-white/80 text-sm">out of {result.maxScore}</div>
             </div>
             <div className="p-4 text-center">
@@ -616,7 +628,7 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
           {/* Toggle Recommendations */}
           <button 
             onClick={() => setShowReport(!showReport)}
-            className="w-full py-4 bg-ayur-green text-white rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg"
+            className="w-full py-4 bg-ayur-green text-white rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:bg-ayur-green-dark transition-all"
           >
             <span>{showReport ? '▼ Hide' : '▶ View'} Ayurvedic Recommendations</span>
           </button>
@@ -642,14 +654,14 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
           {/* Actions */}
           <div className="flex gap-3 pt-2">
             <button 
-              onClick={() => { setStep(0); setAnswers({}); setResult(null); setShowReport(false); }}
-              className="flex-1 py-3 bg-ayur-cream text-ayur-green font-bold rounded-xl"
+              onClick={() => { setStep(0); setAnswers({}); setResult(null); setShowReport(false); setAnimatedScore(0); }}
+              className="flex-1 py-3 bg-ayur-cream text-ayur-green font-bold rounded-xl hover:bg-ayur-green/10 transition-all"
             >
               Retake Assessment
             </button>
             <button 
               onClick={onBack}
-              className="flex-1 py-3 bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white font-bold rounded-xl"
+              className="flex-1 py-3 bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white font-bold rounded-xl hover:shadow-lg transition-all"
             >
               More Tools
             </button>
@@ -662,7 +674,7 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   // Question View
   return (
     <div className="p-4 max-w-lg mx-auto">
-      <button onClick={onBack} className="flex items-center gap-2 text-ayur-green font-semibold mb-4">
+      <button onClick={onBack} className="flex items-center gap-2 text-ayur-green font-semibold mb-4 hover:gap-3 transition-all">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
         </svg>
