@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { aiService } from '../../lib/aiService';
+import React, { useState, useEffect } from 'react';
 
 interface Question {
   id: number;
@@ -208,31 +207,148 @@ const questions: Question[] = [
   }
 ];
 
+interface Recommendation {
+  title: string;
+  description: string;
+  priority: 'high' | 'medium' | 'low';
+  icon: string;
+}
+
 interface AnalysisResult {
   score: number;
+  maxScore: number;
   riskLevel: string;
   doshaProfile: { vata: number; pitta: number; kapha: number };
-  aiReport: string;
+  dominantDosha: string;
+  recommendations: Recommendation[];
+  summary: string;
 }
+
+// Generate recommendations based on score and dosha
+const generateRecommendations = (score: number, doshaProfile: { vata: number; pitta: number; kapha: number }, answers: Record<number, number>): Recommendation[] => {
+  const recommendations: Recommendation[] = [];
+  
+  // Based on risk level
+  if (score >= 90) {
+    recommendations.push({
+      title: "Consult Ayurvedic Doctor",
+      description: "Your score indicates high risk. Book appointment at +91 94266 84047 for personalized assessment.",
+      priority: 'high',
+      icon: "👨‍⚕️"
+    });
+    recommendations.push({
+      title: "Consider Panchakarma",
+      description: "You may benefit from supervised detoxification. Vamana/Virechana therapy recommended.",
+      priority: 'high',
+      icon: "🧘"
+    });
+  } else if (score >= 40) {
+    recommendations.push({
+      title: "Lifestyle Modification",
+      description: "Start with dietary adjustments and daily routine (Dinacharya) to prevent progression.",
+      priority: 'high',
+      icon: "📋"
+    });
+  }
+  
+  // Based on dominant dosha
+  if (doshaProfile.vata > 40) {
+    recommendations.push({
+      title: "Balance Vata (Motion)",
+      description: "Favor warm, moist, oily foods. Maintain consistent routine. Practice Abhyanga daily.",
+      priority: doshaProfile.vata > 60 ? 'high' : 'medium',
+      icon: "🫁"
+    });
+  }
+  
+  if (doshaProfile.pitta > 40) {
+    recommendations.push({
+      title: "Balance Pitta (Heat)",
+      description: "Avoid spicy/fried foods. Cool your body with coconut water, ghee, and meditation.",
+      priority: doshaProfile.pitta > 60 ? 'high' : 'medium',
+      icon: "❄️"
+    });
+  }
+  
+  if (doshaProfile.kapha > 40) {
+    recommendations.push({
+      title: "Balance Kapha (Structure)",
+      description: "Light, dry, warm foods. Regular exercise (30 min daily). Avoid daytime sleeping.",
+      priority: doshaProfile.kapha > 60 ? 'high' : 'medium',
+      icon: "🏃"
+    });
+  }
+  
+  // Based on specific answers
+  if ((answers[3] || 0) >= 15) {
+    recommendations.push({
+      title: "Improve Digestion (Agni)",
+      description: "Take ginger tea before meals. Avoid overeating. Eat your largest meal at midday.",
+      priority: 'medium',
+      icon: "🍵"
+    });
+  }
+  
+  if ((answers[6] || 0) >= 10) {
+    recommendations.push({
+      title: "Mental Clarity",
+      description: "Practice Nasya (oil in nose). Avoid screen time after 8 PM. Try yoga Nidra.",
+      priority: 'medium',
+      icon: "🧘"
+    });
+  }
+  
+  if ((answers[9] || 0) >= 15) {
+    recommendations.push({
+      title: "Dietary Correction",
+      description: "Reduce processed foods. Add warm cooked meals. Stop eating 3 hours before sleep.",
+      priority: 'medium',
+      icon: "🥗"
+    });
+  }
+  
+  if ((answers[14] || 0) >= 15) {
+    recommendations.push({
+      title: "Establish Routine",
+      description: "Wake up before 6 AM. Sleep by 10 PM. Eat meals at fixed times daily.",
+      priority: 'medium',
+      icon: "⏰"
+    });
+  }
+  
+  // General recommendations for all
+  recommendations.push({
+    title: "Daily Abhyanga",
+    description: "Self-massage with warm sesame oil for 5-10 minutes before bathing.",
+    priority: 'low',
+    icon: "🛁"
+  });
+  
+  recommendations.push({
+    title: "Seasonal Detox",
+    description: "Consider Virechana (therapeutic purgation) during spring (Vasanta Ritu).",
+    priority: 'low',
+    icon: "🌸"
+  });
+  
+  // Sort by priority
+  const priorityOrder = { high: 0, medium: 1, low: 2 };
+  recommendations.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+  
+  return recommendations.slice(0, 12); // Max 12 recommendations
+};
 
 const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [showDetailedResult, setShowDetailedResult] = useState(false);
+  const [showReport, setShowReport] = useState(false);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const progressRef = useRef<HTMLDivElement>(null);
 
   const currentQuestion = questions[step];
   const progress = ((step + 1) / questions.length) * 100;
-
-  useEffect(() => {
-    if (progressRef.current) {
-      progressRef.current.style.width = `${progress}%`;
-    }
-  }, [progress]);
 
   const handleSelect = (value: number) => {
     setSelectedOption(value);
@@ -241,9 +357,7 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
 
   const handleNext = () => {
     if (selectedOption === null) return;
-    
     setIsTransitioning(true);
-    
     setTimeout(() => {
       if (step < questions.length - 1) {
         setStep(step + 1);
@@ -266,111 +380,100 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
     }
   };
 
-  const calculateResult = async () => {
+  const calculateResult = () => {
     setIsAnalyzing(true);
     
-    const score = Object.values(answers).reduce((a, b) => a + b, 0);
-    
-    // Calculate dosha profile based on answers
-    let vataScore = 0, pittaScore = 0, kaphaScore = 0;
-    questions.forEach(q => {
-      const answerValue = answers[q.id];
-      if (answerValue !== undefined) {
-        const selectedOption = q.options.find(opt => opt.value === answerValue);
-        if (selectedOption) {
-          selectedOption.dosha.forEach(d => {
-            if (d === 'Vata' || d === 'Vata,') vataScore += answerValue;
-            if (d === 'Pitta' || d === 'Pitta,') pittaScore += answerValue;
-            if (d === 'Kapha' || d === 'Kapha,') kaphaScore += answerValue;
-          });
+    // Simulate loading for AI effect
+    setTimeout(() => {
+      const score = Object.values(answers).reduce((a, b) => a + b, 0);
+      const maxScore = 375;
+      
+      // Calculate dosha profile
+      let vataScore = 0, pittaScore = 0, kaphaScore = 0;
+      questions.forEach(q => {
+        const answerValue = answers[q.id];
+        if (answerValue !== undefined) {
+          const selectedOption = q.options.find(opt => opt.value === answerValue);
+          if (selectedOption) {
+            selectedOption.dosha.forEach(d => {
+              if (d.includes('Vata')) vataScore += answerValue;
+              if (d.includes('Pitta')) pittaScore += answerValue;
+              if (d.includes('Kapha')) kaphaScore += answerValue;
+            });
+          }
         }
+      });
+
+      const total = vataScore + pittaScore + kaphaScore || 1;
+      const doshaProfile = {
+        vata: Math.round((vataScore / total) * 100),
+        pitta: Math.round((pittaScore / total) * 100),
+        kapha: Math.round((kaphaScore / total) * 100)
+      };
+
+      // Determine dominant dosha
+      let dominantDosha = "Balanced";
+      if (doshaProfile.vata > doshaProfile.pitta && doshaProfile.vata > doshaProfile.kapha) {
+        dominantDosha = "Vata Dominant";
+      } else if (doshaProfile.pitta > doshaProfile.vata && doshaProfile.pitta > doshaProfile.kapha) {
+        dominantDosha = "Pitta Dominant";
+      } else if (doshaProfile.kapha > doshaProfile.vata && doshaProfile.kapha > doshaProfile.pitta) {
+        dominantDosha = "Kapha Dominant";
       }
-    });
 
-    const total = vataScore + pittaScore + kaphaScore || 1;
-    const doshaProfile = {
-      vata: Math.round((vataScore / total) * 100),
-      pitta: Math.round((pittaScore / total) * 100),
-      kapha: Math.round((kaphaScore / total) * 100)
-    };
+      let riskLevel = "Low Risk";
+      if (score >= 90) riskLevel = "High Risk";
+      else if (score >= 40) riskLevel = "Moderate Risk";
 
-    let riskLevel = "Low Risk";
-    if (score >= 40) riskLevel = "Moderate Risk";
-    if (score >= 90) riskLevel = "High Risk";
+      const recommendations = generateRecommendations(score, doshaProfile, answers);
 
-    // Generate AI-powered personalized report
-    let aiReport = "";
-    try {
-      const prompt = `You are a senior Ayurvedic doctor. Based on this patient assessment, provide a comprehensive analysis:
+      let summary = "";
+      if (score < 40) {
+        summary = "Your lifestyle shows good balance. Continue your current practices and focus on preventive care through Swasthavritta.";
+      } else if (score < 90) {
+        summary = "You show signs of early imbalance. Early intervention through diet and lifestyle modifications can restore balance.";
+      } else {
+        summary = "Your assessment indicates significant imbalance. Professional consultation recommended for personalized treatment.";
+      }
 
-SCORE: ${score}/375 (Risk Level: ${riskLevel})
-DOSHA PROFILE: Vata ${doshaProfile.vata}%, Pitta ${doshaProfile.pitta}%, Kapha ${doshaProfile.kapha}%
-
-ANSWERS SUMMARY:
-${questions.map(q => `${q.sanskrit} (${q.category}): ${q.options.find(o => o.value === answers[q.id])?.label || 'Not answered'}`).join('\n')}
-
-Provide a detailed report with these sections (10-15 points):
-1. DIAGNOSIS (Nidan) - Root cause based on Ayurvedic principles
-2. DOSHA IMBALANCE - Which doshas are disturbed and why
-3. DHATU AFFECTED - Which body tissues are impacted
-4. SROTAS BLOCKED - Which channels are affected
-5. DIETARY RECOMMENDATIONS (Ahara) - Specific foods to favor/avoid
-6. LIFESTYLE CHANGES (Vihara) - Daily routine modifications
-7. HERBAL SUPPORT - Specific herbs/formulations recommended
-8. DETOX NEEDED - Whether Panchakarma is indicated
-9. SEASONAL CARE - Current Ritu considerations
-10. WARNING SIGNS - What symptoms need immediate attention
-11. TREATMENT PRIORITY - Urgent/Moderate/Maintenance
-12. NEXT STEPS - Immediate actions to take
-
-Use Sanskrit terms where appropriate. Be specific and practical.`;
-
-      aiReport = await aiService.generate(prompt, "You are an Ayurvedic expert providing detailed health analysis.", { max_tokens: 2048 });
-    } catch (error) {
-      console.error("AI analysis failed:", error);
-      aiReport = generateFallbackReport(score, riskLevel, doshaProfile);
-    }
-
-    setResult({ score, riskLevel, doshaProfile, aiReport });
-    setIsAnalyzing(false);
+      setResult({
+        score,
+        maxScore,
+        riskLevel,
+        doshaProfile,
+        dominantDosha,
+        recommendations,
+        summary
+      });
+      setIsAnalyzing(false);
+    }, 2000); // 2 second "AI processing" simulation
   };
 
-  const generateFallbackReport = (score: number, riskLevel: string, doshaProfile: any): string => {
-    return `
-## Your Ayurvedic Assessment Report
-
-### 1. DIAGNOSIS (Nidan)
-Based on your score of ${score}, you show signs of ${riskLevel === 'High Risk' ? 'significant Ama (toxin) accumulation and Srotorodha (channel blockage)' : riskLevel === 'Moderate Risk' ? 'moderate Agni mandya (weak digestion) and early Ama formation' : 'balanced state with good Swasthavritta (wellness practices)'}.
-
-### 2. DOSHA IMBALANCE
-Your dominant imbalance appears to be:
-${doshaProfile.vata > 40 ? '- Vata: Motion, dryness, anxiety patterns detected' : ''}
-${doshaProfile.pitta > 40 ? '- Pitta: Heat, inflammation, sharpness patterns detected' : ''}
-${doshaProfile.kapha > 40 ? '- Kapha: Heaviness, congestion, lethargy patterns detected' : ''}
-
-### 3-12. RECOMMENDATIONS
-Please consult our Ayurvedic physicians for personalized treatment protocol based on your assessment.`;
-  };
-
-  const getScoreColor = () => {
-    if (!result) return 'text-ayur-green';
+  const getRiskColor = () => {
+    if (!result) return 'text-green-600';
     if (result.riskLevel === 'Low Risk') return 'text-green-600';
     if (result.riskLevel === 'Moderate Risk') return 'text-yellow-600';
     return 'text-red-600';
   };
 
-  const getScoreGradient = () => {
+  const getRiskGradient = () => {
     if (!result) return 'from-green-500 to-emerald-600';
     if (result.riskLevel === 'Low Risk') return 'from-green-500 to-emerald-600';
     if (result.riskLevel === 'Moderate Risk') return 'from-yellow-500 to-orange-500';
     return 'from-red-500 to-rose-600';
   };
 
+  const getPriorityColor = (priority: string) => {
+    if (priority === 'high') return 'bg-red-100 text-red-700 border-red-200';
+    if (priority === 'medium') return 'bg-yellow-100 text-yellow-700 border-yellow-200';
+    return 'bg-green-100 text-green-700 border-green-200';
+  };
+
   // Results View
   if (result) {
     return (
-      <div className="p-6 max-w-2xl mx-auto">
-        <button onClick={onBack} className="flex items-center gap-2 text-ayur-green font-semibold mb-6">
+      <div className="p-4 md:p-6 max-w-2xl mx-auto">
+        <button onClick={onBack} className="flex items-center gap-2 text-ayur-green font-semibold mb-4">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
           </svg>
@@ -379,88 +482,103 @@ Please consult our Ayurvedic physicians for personalized treatment protocol base
 
         {isAnalyzing ? (
           <div className="text-center py-16">
-            <div className="w-16 h-16 border-4 border-ayur-green border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+            <div className="relative w-24 h-24 mx-auto mb-6">
+              <div className="absolute inset-0 border-4 border-ayur-green/20 rounded-full"></div>
+              <div className="absolute inset-0 border-4 border-transparent border-t-ayur-green rounded-full animate-spin"></div>
+              <span className="absolute inset-0 flex items-center justify-center text-3xl">🧠</span>
+            </div>
             <h3 className="text-xl font-bold text-ayur-green mb-2">Analyzing Your Profile...</h3>
             <p className="text-gray-600">Generating personalized Ayurvedic recommendations</p>
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Score Card */}
             <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-100 overflow-hidden">
-              <div className={`bg-gradient-to-r ${getScoreGradient()} p-8 text-white text-center`}>
-                <div className="text-6xl font-bold mb-2">{result.score}</div>
-                <div className="text-xl font-semibold">out of 375</div>
+              <div className={`bg-gradient-to-r ${getRiskGradient()} p-6 text-white text-center`}>
+                <div className="text-5xl font-bold mb-1">{result.score}</div>
+                <div className="text-white/80 text-sm">out of {result.maxScore}</div>
               </div>
-              <div className="p-6 text-center">
-                <span className={`inline-block px-6 py-3 rounded-full font-bold text-lg ${getScoreColor()} bg-gray-50`}>
+              <div className="p-4 text-center">
+                <span className={`inline-block px-4 py-2 rounded-full font-bold ${getRiskColor()} bg-gray-50`}>
                   {result.riskLevel}
                 </span>
               </div>
             </div>
 
-            {/* Dosha Profile */}
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-              <h3 className="font-bold text-ayur-green mb-4">Your Doshic Profile</h3>
+            {/* Doshic Profile */}
+            <div className="bg-white rounded-2xl shadow-lg p-4">
+              <h3 className="font-bold text-ayur-green mb-3">Your Doshic Profile</h3>
+              <div className="flex items-center gap-2 mb-3">
+                <div className="flex-1 h-4 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-full bg-yellow-500 rounded-full" style={{width: `${result.doshaProfile.vata}%`}} />
+                </div>
+                <span className="text-sm font-medium w-16">Vata {result.doshaProfile.vata}%</span>
+              </div>
+              <div className="flex items-center gap-2 mb-3">
+                <div className="flex-1 h-4 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-full bg-red-500 rounded-full" style={{width: `${result.doshaProfile.pitta}%`}} />
+                </div>
+                <span className="text-sm font-medium w-16">Pitta {result.doshaProfile.pitta}%</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="flex-1 h-4 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-full bg-blue-500 rounded-full" style={{width: `${result.doshaProfile.kapha}%`}} />
+                </div>
+                <span className="text-sm font-medium w-16">Kapha {result.doshaProfile.kapha}%</span>
+              </div>
+              <p className="text-center text-sm text-gray-500 mt-3">{result.dominantDosha}</p>
+            </div>
+
+            {/* Summary */}
+            <div className="bg-gradient-to-r from-ayur-cream to-white rounded-2xl p-4 border border-ayur-subtle">
+              <h3 className="font-bold text-ayur-green mb-2">Summary</h3>
+              <p className="text-gray-700 text-sm">{result.summary}</p>
+            </div>
+
+            {/* Recommendations Toggle */}
+            <button 
+              onClick={() => setShowReport(!showReport)}
+              className="w-full py-3 bg-ayur-green text-white rounded-xl font-bold flex items-center justify-center gap-2"
+            >
+              <span>{showReport ? 'Hide' : 'View'} Actionable Recommendations</span>
+              <svg className={`transition-transform ${showReport ? 'rotate-180' : ''}`} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="m6 9 6 6 6-6"/>
+              </svg>
+            </button>
+
+            {/* Recommendations List */}
+            {showReport && (
               <div className="space-y-3">
-                {[
-                  { name: 'Vata', value: result.doshaProfile.vata, color: 'bg-yellow-500' },
-                  { name: 'Pitta', value: result.doshaProfile.pitta, color: 'bg-red-500' },
-                  { name: 'Kapha', value: result.doshaProfile.kapha, color: 'bg-blue-500' }
-                ].map(d => (
-                  <div key={d.name} className="flex items-center gap-3">
-                    <span className="w-16 font-medium">{d.name}</span>
-                    <div className="flex-1 h-4 bg-gray-100 rounded-full overflow-hidden">
-                      <div className={`h-full ${d.color} rounded-full transition-all`} style={{ width: `${d.value}%` }} />
+                {result.recommendations.map((rec, idx) => (
+                  <div 
+                    key={idx}
+                    className={`p-4 rounded-xl border-2 ${getPriorityColor(rec.priority)}`}
+                  >
+                    <div className="flex items-start gap-3">
+                      <span className="text-2xl">{rec.icon}</span>
+                      <div className="flex-1">
+                        <h4 className="font-bold text-gray-800 mb-1">{rec.title}</h4>
+                        <p className="text-sm text-gray-600">{rec.description}</p>
+                      </div>
                     </div>
-                    <span className="w-12 text-right">{d.value}%</span>
                   </div>
                 ))}
               </div>
-            </div>
-
-            {/* AI Report Toggle */}
-            <div className="bg-gradient-to-r from-ayur-cream to-white rounded-2xl p-6 border border-ayur-subtle">
-              <h3 className="font-bold text-ayur-green mb-4 flex items-center gap-2">
-                <span>🧠</span> AI-Powered Detailed Analysis
-              </h3>
-              {!showDetailedResult ? (
-                <button 
-                  onClick={() => setShowDetailedResult(true)}
-                  className="w-full py-3 bg-ayur-green text-white rounded-xl font-bold hover:bg-ayur-green-dark transition-all"
-                >
-                  View Complete Report
-                </button>
-              ) : (
-                <div className="prose prose-ayur max-w-none">
-                  {result.aiReport.split('\n').map((line, i) => {
-                    if (line.startsWith('## ')) {
-                      return <h4 key={i} className="text-lg font-bold text-ayur-green mt-4 mb-2">{line.replace('## ', '')}</h4>;
-                    }
-                    if (line.startsWith('### ')) {
-                      return <h5 key={i} className="text-md font-semibold text-ayur-accent mt-3 mb-1">{line.replace('### ', '')}</h5>;
-                    }
-                    if (line.trim()) {
-                      return <p key={i} className="text-gray-700 mb-2">{line}</p>;
-                    }
-                    return null;
-                  })}
-                </div>
-              )}
-            </div>
+            )}
 
             {/* Actions */}
-            <div className="flex gap-4">
+            <div className="flex gap-3 pt-2">
               <button 
-                onClick={() => { setStep(0); setAnswers({}); setResult(null); setShowDetailedResult(false); }}
-                className="flex-1 py-4 bg-ayur-cream text-ayur-green font-bold rounded-2xl"
+                onClick={() => { setStep(0); setAnswers({}); setResult(null); setShowReport(false); }}
+                className="flex-1 py-3 bg-ayur-cream text-ayur-green font-bold rounded-xl"
               >
-                Retake Assessment
+                Retake
               </button>
               <button 
                 onClick={onBack}
-                className="flex-1 py-4 bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white font-bold rounded-2xl"
+                className="flex-1 py-3 bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white font-bold rounded-xl"
               >
-                Explore More Tools
+                More Tools
               </button>
             </div>
           </div>
@@ -471,8 +589,8 @@ Please consult our Ayurvedic physicians for personalized treatment protocol base
 
   // Question View
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <button onClick={onBack} className="flex items-center gap-2 text-ayur-green font-semibold mb-6">
+    <div className="p-4 max-w-lg mx-auto">
+      <button onClick={onBack} className="flex items-center gap-2 text-ayur-green font-semibold mb-4">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
         </svg>
@@ -480,14 +598,13 @@ Please consult our Ayurvedic physicians for personalized treatment protocol base
       </button>
 
       {/* Progress */}
-      <div className="mb-8">
+      <div className="mb-6">
         <div className="flex justify-between text-sm text-gray-500 mb-2">
           <span className="font-medium">{currentQuestion.category}</span>
           <span>{step + 1} / {questions.length}</span>
         </div>
         <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
           <div 
-            ref={progressRef}
             className="h-full bg-gradient-to-r from-ayur-green to-ayur-accent rounded-full transition-all duration-500"
             style={{ width: `${progress}%` }}
           />
@@ -496,7 +613,7 @@ Please consult our Ayurvedic physicians for personalized treatment protocol base
 
       {/* Question Card */}
       <div className={`transition-all duration-300 ${isTransitioning ? 'opacity-0 translate-x-10' : 'opacity-100'}`}>
-        <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-100 p-6 mb-6">
+        <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-100 p-5 mb-4">
           <div className="flex items-center gap-3 mb-4">
             <span className="text-3xl">{currentQuestion.icon}</span>
             <div>
@@ -504,32 +621,32 @@ Please consult our Ayurvedic physicians for personalized treatment protocol base
             </div>
           </div>
           
-          <h2 className="font-serif text-2xl font-bold text-ayur-green mb-6">{currentQuestion.text}</h2>
+          <h2 className="font-serif text-xl font-bold text-ayur-green mb-4">{currentQuestion.text}</h2>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             {currentQuestion.options.map((opt, i) => (
               <button
                 key={i}
                 onClick={() => handleSelect(opt.value)}
-                className={`w-full p-4 rounded-2xl border-2 text-left transition-all duration-300 hover:scale-[1.01] ${
+                className={`w-full p-3 rounded-xl border-2 text-left transition-all duration-200 ${
                   selectedOption === opt.value
                     ? 'border-ayur-green bg-ayur-green/5 shadow-md'
-                    : 'border-gray-100 hover:border-ayur-green/30 hover:bg-ayur-cream/50'
+                    : 'border-gray-100 hover:border-ayur-green/30 hover:bg-ayur-cream/30'
                 }`}
               >
-                <div className="flex items-center gap-4">
-                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
+                <div className="flex items-center gap-3">
+                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
                     selectedOption === opt.value
                       ? 'border-ayur-green bg-ayur-green'
                       : 'border-gray-300'
                   }`}>
                     {selectedOption === opt.value && (
-                      <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                      <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                         <path d="M5 12l5 5L20 7"/>
                       </svg>
                     )}
                   </div>
-                  <span className={`font-medium ${selectedOption === opt.value ? 'text-ayur-green' : 'text-gray-700'}`}>
+                  <span className={`text-sm font-medium ${selectedOption === opt.value ? 'text-ayur-green' : 'text-gray-700'}`}>
                     {opt.label}
                   </span>
                 </div>
@@ -543,7 +660,7 @@ Please consult our Ayurvedic physicians for personalized treatment protocol base
           <button
             onClick={handlePrevious}
             disabled={step === 0}
-            className={`px-6 py-3 rounded-full font-medium transition-all ${
+            className={`px-5 py-2 rounded-full font-medium transition-all ${
               step === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-ayur-green hover:bg-ayur-cream'
             }`}
           >
@@ -552,20 +669,19 @@ Please consult our Ayurvedic physicians for personalized treatment protocol base
           <button
             onClick={handleNext}
             disabled={selectedOption === null}
-            className={`px-8 py-3 rounded-full font-bold transition-all ${
+            className={`px-6 py-2 rounded-full font-bold transition-all ${
               selectedOption === null
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                : 'bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white hover:shadow-lg hover:shadow-ayur-green/30 hover:scale-105'
+                : 'bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white hover:shadow-lg'
             }`}
           >
-            {step === questions.length - 1 ? 'Analyze Results →' : 'Next →'}
+            {step === questions.length - 1 ? 'Get Results →' : 'Next →'}
           </button>
         </div>
       </div>
 
-      {/* Footer Info */}
-      <div className="mt-8 pt-6 border-t border-gray-100 text-center text-xs text-gray-400">
-        Based on IDRS + Ayurvedic Lifestyle Parameters
+      <div className="mt-6 pt-4 border-t border-gray-100 text-center text-xs text-gray-400">
+        Based on IDRS + Ayurvedic Parameters • 15 Questions
       </div>
     </div>
   );
