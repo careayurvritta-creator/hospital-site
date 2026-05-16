@@ -11,7 +11,10 @@ export default async function handler(req: Request) {
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
       status: 405,
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
     });
   }
 
@@ -27,7 +30,10 @@ export default async function handler(req: Request) {
       console.error('[Nvidia API] No API key configured');
       return new Response(JSON.stringify({ error: 'Nvidia API key not configured on server' }), {
         status: 500,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
       });
     }
 
@@ -56,7 +62,10 @@ export default async function handler(req: Request) {
       console.error('[Nvidia API] Nvidia error:', errorText);
       return new Response(JSON.stringify({ error: `Nvidia API error: ${nvidiaResponse.status}`, details: errorText }), {
         status: nvidiaResponse.status,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
       });
     }
 
@@ -65,14 +74,20 @@ export default async function handler(req: Request) {
     
     return new Response(JSON.stringify(data), {
       status: 200,
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
     });
 
   } catch (error) {
     console.error('[Nvidia API Proxy] Error:', error);
     return new Response(JSON.stringify({ error: 'Internal server error', details: String(error) }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
     });
   }
 }

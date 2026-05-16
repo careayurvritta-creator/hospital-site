@@ -163,13 +163,19 @@ Provide your response in this markdown format:
 
 If the document is not readable or is not an insurance policy, say "Unable to analyze - Please upload a clear insurance policy document."`;
 
-           console.log('[Insurance] Calling aiService.analyzeDocument...');
+            console.log('[Insurance] Calling aiService.analyzeDocument...');
+            
+            // Step 2: Analyze extracted text with Nvidia (with timeout)
+            let responseText;
+            const analysisPromise = aiService.analyzeDocument(extractedText, selectedFile.type, prompt);
+            const timeoutPromise = new Promise((_, reject) => 
+              setTimeout(() => reject(new Error('AI analysis timed out - please try again')), 45000)
+            );
+            
+            responseText = await Promise.race([analysisPromise, timeoutPromise]);
            
-           // Step 2: Analyze extracted text with Nvidia
-           const responseText = await aiService.analyzeDocument(extractedText, selectedFile.type, prompt);
-          
-           console.log('[Insurance] Analysis successful, response length:', responseText.length);
-          setAnalysisResult(responseText);
+            console.log('[Insurance] Analysis successful, response length:', responseText.length);
+           setAnalysisResult(responseText);
        } catch (error) {
           console.error('[Insurance] AI Analysis Error:', error);
           console.error('[Insurance] Error details:', {
