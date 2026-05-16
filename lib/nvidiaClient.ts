@@ -53,21 +53,32 @@ export class NvidiaClient {
   }
 
   async chat(messages: ChatMessage[], options: NvidiaRequestOptions = {}): Promise<string> {
-    const response = await fetch(NIM_BASE_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        messages,
-        model: options.model || this.model,
-        temperature: options.temperature ?? 0.7,
-        max_tokens: options.max_tokens ?? 2048,
-        top_p: options.top_p ?? 0.9,
-        stream: false,
-      }),
-    });
+    console.log('[NvidiaClient] Sending request to', NIM_BASE_URL);
+    console.log('[NvidiaClient] Model:', options.model || this.model);
+    
+    let response;
+    try {
+      response = await fetch(NIM_BASE_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages,
+          model: options.model || this.model,
+          temperature: options.temperature ?? 0.7,
+          max_tokens: options.max_tokens ?? 2048,
+          top_p: options.top_p ?? 0.9,
+          stream: false,
+        }),
+      });
+    } catch (fetchError) {
+      console.error('[NvidiaClient] Network error:', fetchError);
+      throw new Error(`Network error: ${fetchError instanceof Error ? fetchError.message : 'Failed to connect to AI service'}`);
+    }
 
+    console.log('[NvidiaClient] Response status:', response.status);
+    
     if (!response.ok) {
       const error = await response.text();
       throw new Error(`Nvidia API Error (${response.status}): ${error}`);
