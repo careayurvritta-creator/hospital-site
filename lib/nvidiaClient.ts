@@ -57,6 +57,9 @@ export class NvidiaClient {
     console.log('[NvidiaClient] Model:', options.model || this.model);
     
     let response;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+    
     try {
       response = await fetch(NIM_BASE_URL, {
         method: 'POST',
@@ -71,10 +74,17 @@ export class NvidiaClient {
           top_p: options.top_p ?? 0.9,
           stream: false,
         }),
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
     } catch (fetchError) {
+      clearTimeout(timeoutId);
       console.error('[NvidiaClient] Network error:', fetchError);
-      throw new Error(`Network error: ${fetchError instanceof Error ? fetchError.message : 'Failed to connect to AI service'}`);
+      const errorMsg = fetchError instanceof Error ? fetchError.message : 'Failed to connect to AI service';
+      if (errorMsg.includes('aborted') || errorMsg.includes('timeout')) {
+        throw new Error('AI service request timed out. Please try again.');
+      }
+      throw new Error(`Network error: ${errorMsg}`);
     }
 
     console.log('[NvidiaClient] Response status:', response.status);
