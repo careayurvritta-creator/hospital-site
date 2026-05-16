@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import { PK_ELIGIBILITY_SECTIONS } from '../../constants';
-import { Shield, Check, XCircle, AlertCircle, ArrowRight, Activity } from 'lucide-react';
-import { NavLink } from '../Layout';
 import { useIntersectionObserver } from '../../hooks';
+import Icons from '../Icons';
 
 const PanchakarmaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [result, setResult] = useState<string | null>(null);
+  const [showResult, setShowResult] = useState(false);
 
-  const questionsObserver = useIntersectionObserver({ threshold: 0.1 });
+  const questions = PK_ELIGIBILITY_SECTIONS[0].questions;
+  const totalQuestions = questions.length;
+  const answeredCount = Object.keys(answers).length;
+  const progress = (answeredCount / totalQuestions) * 100;
+
   const resultObserver = useIntersectionObserver({ threshold: 0.1 });
 
   const handleSelect = (qId: number, val: string) => {
@@ -18,130 +22,257 @@ const PanchakarmaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   const calculate = () => {
     if (answers[1] === 'unfit') {
       setResult("contraindicated");
-      return;
-    }
-
-    if (answers[2] === 'shaman' || answers[3] === 'shaman') {
+    } else if (answers[2] === 'shaman' || answers[3] === 'shaman') {
       setResult("shaman");
-      return;
+    } else {
+      setResult("shodhan");
     }
-
-    setResult("shodhan");
+    setShowResult(true);
   };
 
-  if (result) {
+  const isReady = answeredCount === totalQuestions;
+
+  if (showResult && result) {
     return (
-      <div className="p-8 md:p-16 text-center max-w-3xl mx-auto animate-fadeIn">
-        {result === 'contraindicated' && (
-          <>
-            <div className="w-24 h-24 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center mx-auto mb-6 text-red-600 shadow-xl animate-bounceIn">
-              <XCircle size={48} />
-            </div>
-            <h3 className="font-serif text-3xl md:text-4xl font-bold text-ayur-green mb-4 animate-fadeInUp" style={{ animationDelay: '100ms' }}>Not Suitable for Panchakarma</h3>
-            <p className="text-lg text-gray-600 mb-8 animate-fadeInUp" style={{ animationDelay: '200ms' }}>
-              Based on your inputs, intense detoxification is currently <strong className="text-red-600">unsafe</strong> for you. We recommend "Shamana Chikitsa" (Oral medication & external therapies) only.
-            </p>
-            <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg text-left mb-8 animate-fadeInUp" style={{ animationDelay: '300ms' }}>
-              <p className="text-red-800 font-medium">Contraindications detected. Please consult our doctors for safe alternative treatments.</p>
-            </div>
-          </>
-        )}
+      <div className="p-6 md:p-10 max-w-4xl mx-auto">
+        <button 
+          onClick={onBack}
+          className="flex items-center gap-2 text-ayur-green font-semibold mb-6 hover:gap-3 transition-all"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
+          </svg>
+          Back to Tools
+        </button>
 
-        {result === 'shaman' && (
-          <>
-            <div className="w-24 h-24 bg-gradient-to-br from-yellow-100 to-amber-200 rounded-full flex items-center justify-center mx-auto mb-6 text-yellow-600 shadow-xl animate-bounceIn">
-              <AlertCircle size={48} />
+        <div ref={resultObserver.ref} className={`space-y-8 ${resultObserver.isVisible ? 'animate-fadeInUp' : 'opacity-0'}`}>
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-ayur-cream rounded-full mb-4">
+              <Icons.Shield className="w-4 h-4 text-ayur-green" />
+              <span className="text-sm font-semibold text-ayur-green">Assessment Complete</span>
             </div>
-            <h3 className="font-serif text-3xl md:text-4xl font-bold text-ayur-green mb-4 animate-fadeInUp" style={{ animationDelay: '100ms' }}>Shamana (Palliative) Recommended</h3>
-            <p className="text-lg text-gray-600 mb-8 animate-fadeInUp" style={{ animationDelay: '200ms' }}>
-              Your digestive fire (Agni) or stamina may not support rigorous cleansing right now. Start with gentle oral corrections and external massages before attempting detox.
-            </p>
-            <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-lg text-left mb-8 animate-fadeInUp" style={{ animationDelay: '300ms' }}>
-              <p className="text-yellow-800 font-medium">Recommended: Abhyanga (oil massage), Swedana (herbal steam), and gentle herbal formulations to build up strength.</p>
-            </div>
-          </>
-        )}
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-ayur-green mb-2">Your Panchakarma Eligibility</h2>
+            <p className="text-ayur-gray">Based on {totalQuestions} Ayurvedic readiness parameters</p>
+          </div>
 
-        {result === 'shodhan' && (
-          <>
-            <div className="w-24 h-24 bg-gradient-to-br from-green-100 to-emerald-200 rounded-full flex items-center justify-center mx-auto mb-6 text-green-600 shadow-xl animate-bounceIn">
-              <Check size={48} />
-            </div>
-            <h3 className="font-serif text-3xl md:text-4xl font-bold text-ayur-green mb-4 animate-fadeInUp" style={{ animationDelay: '100ms' }}>Eligible for Panchakarma</h3>
-            <p className="text-lg text-gray-600 mb-8 animate-fadeInUp" style={{ animationDelay: '200ms' }}>
-              You appear fit for <strong className="text-green-600">Shodhan therapy</strong> (Deep Cellular Detox). A doctor's consultation is mandatory to finalize the procedure (Vaman/Virechan/Basti).
-            </p>
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 p-4 rounded-r-lg text-left mb-8 animate-fadeInUp" style={{ animationDelay: '300ms' }}>
-              <p className="text-green-800 font-medium">You have adequate strength (Bala) for deep purification. Our doctors will determine the best therapy for your constitution.</p>
-            </div>
-          </>
-        )}
+          <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-100 overflow-hidden">
+            {result === 'contraindicated' && (
+              <>
+                <div className="bg-gradient-to-r from-red-500 to-rose-600 p-8 text-white text-center">
+                  <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
+                    <Icons.XCircle className="w-12 h-12 text-white" />
+                  </div>
+                  <h3 className="font-serif text-2xl md:text-3xl font-bold">Not Suitable for Panchakarma</h3>
+                </div>
+                <div className="p-8">
+                  <p className="text-gray-600 mb-6 text-lg">
+                    Based on your inputs, intense detoxification is currently <strong className="text-red-600">unsafe</strong> for you. We recommend <strong>"Shamana Chikitsa"</strong> (Palliative treatment with oral medication & external therapies) only.
+                  </p>
+                  <div className="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-xl">
+                    <h4 className="font-bold text-red-800 mb-2 flex items-center gap-2">
+                      <Icons.AlertCircle className="w-5 h-5" />
+                      Contraindications Detected
+                    </h4>
+                    <p className="text-red-700">Please consult our doctors for safe alternative treatments. Your body needs preparation before undergoing purification therapies.</p>
+                  </div>
+                </div>
+              </>
+            )}
 
-        <div className="animate-fadeInUp" style={{ animationDelay: '400ms' }}>
-          <NavLink to="/booking" className="inline-block bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white px-10 py-4 rounded-full font-bold shadow-lg hover:from-ayur-accent hover:to-amber-500 transition-all hover:scale-[1.02] hover:shadow-xl">
-            Book Doctor Assessment <ArrowRight size={18} className="inline ml-2" />
-          </NavLink>
-        </div>
-        <div className="mt-6 animate-fadeInUp" style={{ animationDelay: '500ms' }}>
-            <button onClick={onBack} className="text-sm text-gray-500 hover:text-ayur-green transition-colors hover:underline">Back to Tools</button>
+            {result === 'shaman' && (
+              <>
+                <div className="bg-gradient-to-r from-yellow-500 to-orange-500 p-8 text-white text-center">
+                  <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
+                    <Icons.AlertCircle className="w-12 h-12 text-white" />
+                  </div>
+                  <h3 className="font-serif text-2xl md:text-3xl font-bold">Shamana (Palliative) Recommended</h3>
+                </div>
+                <div className="p-8">
+                  <p className="text-gray-600 mb-6 text-lg">
+                    Your digestive fire (Agni) or stamina may not support rigorous cleansing right now. Start with gentle oral corrections and external massages before attempting detox.
+                  </p>
+                  <div className="bg-yellow-50 border-l-4 border-yellow-500 p-6 rounded-r-xl">
+                    <h4 className="font-bold text-yellow-800 mb-4 flex items-center gap-2">
+                      <Icons.Info className="w-5 h-5" />
+                      Recommended Approach
+                    </h4>
+                    <ul className="space-y-3 text-yellow-700">
+                      <li className="flex items-start gap-2">
+                        <Icons.Check className="w-5 h-5 mt-0.5 shrink-0" />
+                        <span><strong>Abhyanga</strong> - Therapeutic oil massage</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Icons.Check className="w-5 h-5 mt-0.5 shrink-0" />
+                        <span><strong>Swedana</strong> - Herbal steam therapy</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Icons.Check className="w-5 h-5 mt-0.5 shrink-0" />
+                        <span><strong>Gentle herbal formulations</strong> to build up strength</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {result === 'shodhan' && (
+              <>
+                <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-8 text-white text-center">
+                  <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
+                    <Icons.CheckCircle2 className="w-12 h-12 text-white" />
+                  </div>
+                  <h3 className="font-serif text-2xl md:text-3xl font-bold">Eligible for Panchakarma</h3>
+                </div>
+                <div className="p-8">
+                  <p className="text-gray-600 mb-6 text-lg">
+                    You appear fit for <strong className="text-green-600">Shodhan therapy</strong> (Deep Cellular Detox). A doctor's consultation is mandatory to finalize the procedure.
+                  </p>
+                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 p-6 rounded-r-xl">
+                    <h4 className="font-bold text-green-800 mb-4 flex items-center gap-2">
+                      <Icons.ShieldCheck className="w-5 h-5" />
+                      You Have Adequate Strength (Bala)
+                    </h4>
+                    <p className="text-green-700 mb-4">Our doctors will determine the best therapy for your constitution:</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="bg-white p-4 rounded-xl border border-green-200 text-center">
+                        <span className="text-2xl mb-2 block">🤮</span>
+                        <span className="font-semibold text-green-800">Vamana</span>
+                        <p className="text-xs text-green-600">Therapeutic Emesis</p>
+                      </div>
+                      <div className="bg-white p-4 rounded-xl border border-green-200 text-center">
+                        <span className="text-2xl mb-2 block">💊</span>
+                        <span className="font-semibold text-green-800">Virechana</span>
+                        <p className="text-xs text-green-600">Therapeutic Purgation</p>
+                      </div>
+                      <div className="bg-white p-4 rounded-xl border border-green-200 text-center">
+                        <span className="text-2xl mb-2 block">🧘</span>
+                        <span className="font-semibold text-green-800">Basti</span>
+                        <p className="text-xs text-green-600">Medicated Enema</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button 
+              onClick={() => {
+                setAnswers({});
+                setResult(null);
+                setShowResult(false);
+              }}
+              className="px-8 py-4 bg-ayur-cream text-ayur-green font-bold rounded-full hover:bg-ayur-green/10 transition-all hover:scale-105"
+            >
+              Retake Assessment
+            </button>
+            <button 
+              onClick={onBack}
+              className="px-8 py-4 bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white font-bold rounded-full hover:shadow-lg hover:shadow-ayur-green/30 transition-all hover:scale-105"
+            >
+              Explore Other Tools
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="h-full flex flex-col bg-white">
-      <div className="bg-gradient-to-br from-orange-500 via-ayur-green to-ayur-green-dark text-white p-8 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-40 h-40 bg-ayur-accent/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-        <div className="relative z-10">
-          <h2 className="font-serif text-3xl font-bold flex items-center gap-3">
-            <Shield className="text-ayur-accent" /> Panchakarma Eligibility
-          </h2>
-          <p className="opacity-80 mt-2">Safety first. Check if you are ready for deep detox.</p>
+    <div className="p-6 md:p-10 max-w-3xl mx-auto">
+      <div className="flex items-center justify-between mb-8">
+        <button 
+          onClick={onBack}
+          className="flex items-center gap-2 text-ayur-green font-semibold hover:gap-3 transition-all"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
+          </svg>
+          Exit
+        </button>
+        <div className="text-ayur-gray text-sm font-medium">
+          {answeredCount} of {totalQuestions} answered
         </div>
       </div>
 
-      <div ref={questionsObserver.ref} className="flex-1 overflow-y-auto p-8 max-w-3xl mx-auto w-full space-y-8">
-        {PK_ELIGIBILITY_SECTIONS.map((section, sIdx) => (
-          <div key={section.id} className="space-y-6 animate-fadeIn" style={{ animationDelay: `${sIdx * 150}ms` }}>
-             <h3 className="font-bold text-ayur-accent uppercase tracking-widest text-xs border-b border-gray-100 pb-2 flex items-center gap-2">
-               <Activity size={14} /> {section.title}
-             </h3>
-             {section.questions.map(q => (
-               <div key={q.id} className="bg-gray-50 p-6 rounded-xl border border-gray-100 hover:border-ayur-accent/30 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                 <p className="font-bold text-ayur-green mb-4 text-lg">{q.text}</p>
-                 <div className="space-y-3">
-                   {q.options.map((opt, idx) => {
-                     const isSelected = answers[q.id] === opt.value;
-                     return (
-                       <label key={idx} className={`flex items-center p-4 bg-white border-2 rounded-lg cursor-pointer transition-all duration-200 ${isSelected ? 'border-ayur-accent bg-ayur-accent/5 shadow-md' : 'border-gray-200 hover:border-ayur-green hover:bg-ayur-cream/30'}`}>
-                         <input 
-                           type="radio" 
-                           name={`pk-q-${q.id}`} 
-                           className="w-5 h-5 text-ayur-accent focus:ring-ayur-accent"
-                           onChange={() => handleSelect(q.id, String(opt.value))}
-                         />
-                         <span className={`ml-3 font-medium ${isSelected ? 'text-ayur-green' : 'text-gray-700'}`}>{opt.label}</span>
-                       </label>
-                     );
-                   })}
-                 </div>
-               </div>
-             ))}
-          </div>
-        ))}
+      <div className="mb-10">
+        <div className="flex justify-between text-xs text-ayur-gray mb-2">
+          <span className="flex items-center gap-2">
+            <Icons.Shield className="w-4 h-4" />
+            Eligibility Progress
+          </span>
+          <span className="font-semibold">{Math.round(progress)}%</span>
+        </div>
+        <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-gradient-to-r from-ayur-accent to-orange-500 rounded-full transition-all duration-500 ease-out"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
       </div>
 
-      <div className="p-6 bg-white border-t border-gray-100 text-center shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
-        <button 
-           onClick={calculate}
-           disabled={Object.keys(answers).length < 3}
-           className="bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white px-10 py-4 rounded-full font-bold shadow-lg hover:from-ayur-accent hover:to-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-[1.02] hover:shadow-xl flex items-center gap-2 mx-auto"
-        >
-           Check Eligibility <Shield size={18} />
-        </button>
+      <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-100 p-6 md:p-8 mb-8">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-amber-100 rounded-2xl flex items-center justify-center">
+            <Icons.Shield className="w-6 h-6 text-orange-600" />
+          </div>
+          <span className="text-orange-600 font-semibold text-sm uppercase tracking-wider">Panchakarma Readiness</span>
+        </div>
+
+        <div className="space-y-6">
+          {questions.map((q) => (
+            <div key={q.id} className="animate-fadeInUp">
+              <p className="font-bold text-ayur-green mb-3 text-lg">{q.text}</p>
+              <div className="space-y-3">
+                {q.options.map((opt, idx) => {
+                  const isSelected = answers[q.id] === opt.value;
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => handleSelect(q.id, opt.value)}
+                      className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-300 hover:scale-[1.01] ${
+                        isSelected
+                          ? 'border-ayur-accent bg-ayur-accent/5 shadow-md'
+                          : 'border-gray-100 hover:border-ayur-green/30 hover:bg-ayur-cream/50'
+                      }`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
+                          isSelected
+                            ? 'border-ayur-accent bg-ayur-accent'
+                            : 'border-gray-300'
+                        }`}>
+                          {isSelected && (
+                            <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                              <path d="M5 12l5 5L20 7"/>
+                            </svg>
+                          )}
+                        </div>
+                        <span className={`font-medium ${isSelected ? 'text-ayur-green' : 'text-gray-700'}`}>
+                          {opt.label}
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
+
+      <button
+        onClick={calculate}
+        disabled={!isReady}
+        className={`w-full py-4 rounded-full font-bold text-lg transition-all ${
+          !isReady
+            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+            : 'bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white hover:shadow-lg hover:shadow-ayur-green/30 hover:scale-[1.02]'
+        }`}
+      >
+        {isReady ? 'Check Eligibility' : `Answer all ${totalQuestions} questions`}
+      </button>
     </div>
   );
 };
