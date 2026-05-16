@@ -188,16 +188,20 @@ If the document is not readable or is not an insurance policy, say "Unable to an
              source: 'InsurancePage:handleAnalyze'
           });
           
-          // Check if it's a quota error
-          const errorMessage = error instanceof Error ? error.message : '';
-          if (errorMessage.includes('quota') || errorMessage.includes('429') || errorMessage.includes('RESOURCE_EXHAUSTED')) {
-             setAnalysisResult("### AI Service Temporarily Busy\n\nOur AI analysis service has reached its usage limit. This resets automatically.\n\n**No worries! You can still proceed with cashless treatment:**\n\n1. **Call our TPA desk**: +91 94266 84047\n2. **Email your policy**: insurance@ayurvritta.in\n3. **Visit us**: Our team will verify your policy manually\n\nWe accept cashless treatment with 50+ insurance partners including Star Health, HDFC ERGO, ICICI Lombard, and more.");
-          } else if (errorMessage.includes('Could not extract') || errorMessage.includes('text from')) {
-             setAnalysisResult("### Document Text Extraction Failed\n\nWe couldn't extract text from your document. This may happen if:\n\n- The document is image-based (scanned)\n- The PDF is password protected\n- The image quality is too low\n\n**Try these alternatives:**\n1. Upload a clearer image or text-based PDF\n2. Copy-paste the policy text directly\n3. Call our TPA desk: +91 94266 84047");
-          } else {
-             // Enhanced fallback response with better user guidance
-             setAnalysisResult("### Analysis Service Unavailable\n\nWe apologize - our AI analysis service is temporarily unavailable. However, you can still proceed with cashless treatment at our hospital.\n\n**Recommended Next Steps:**\n1. Contact our TPA desk at +91 94266 84047\n2. Provide your policy documents for manual verification\n3. Our team will assist with pre-authorization\n\nWe accept cashless treatment with 50+ insurance partners including Star Health, HDFC ERGO, ICICI Lombard, and more.");
-          }
+// Check error type and show appropriate message
+           const errorMessage = error instanceof Error ? error.message : '';
+           console.log('[Insurance] Error caught:', errorMessage);
+           
+           if (errorMessage.includes('timed out')) {
+              setAnalysisResult("### AI Service Taking Too Long\n\nThe AI is taking longer than expected to analyze your document.\n\n**Options:**\n1. Try uploading a smaller document (less text)\n2. Try a text-based PDF instead of scanned\n3. Call our TPA desk: +91 94266 84047 for immediate help");
+           } else if (errorMessage.includes('quota') || errorMessage.includes('429') || errorMessage.includes('RESOURCE_EXHAUSTED')) {
+              setAnalysisResult("### AI Service Temporarily Busy\n\nOur AI analysis service has reached its usage limit. This resets automatically.\n\n**No worries! You can still proceed with cashless treatment:**\n\n1. **Call our TPA desk**: +91 94266 84047\n2. **Email your policy**: insurance@ayurvritta.in\n3. **Visit us**: Our team will verify your policy manually\n\nWe accept cashless treatment with 50+ insurance partners including Star Health, HDFC ERGO, ICICI Lombard, and more.");
+           } else if (errorMessage.includes('Could not extract') || errorMessage.includes('text from')) {
+              setAnalysisResult("### Document Text Extraction Failed\n\nWe couldn't extract text from your document. This may happen if:\n\n- The document is image-based (scanned)\n- The PDF is password protected\n- The image quality is too low\n\n**Try these alternatives:**\n1. Upload a clearer image or text-based PDF\n2. Copy-paste the policy text directly\n3. Call our TPA desk: +91 94266 84047");
+           } else {
+              // Show actual error for debugging
+              setAnalysisResult(`### Analysis Error\n\nSomething went wrong: ${errorMessage.substring(0, 100)}\n\n**Try again or contact:** +91 94266 84047`);
+           }
        } finally {
           setLoading(false);
        }
