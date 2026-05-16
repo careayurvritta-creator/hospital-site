@@ -226,10 +226,13 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
                 {insights.slice(0, 4).map((insight, idx) => (
                   <div 
                     key={idx}
-                    className={`flex items-start gap-4 p-4 ${insight.color.replace('text-', 'bg-').replace('bg-', 'bg-opacity-30 ')} rounded-xl animate-fadeInUp`}
-                    style={{ animationDelay: `${idx * 100}ms` }}
+                    className={`flex items-start gap-4 p-4 rounded-xl animate-fadeInUp`}
+                    style={{ 
+                      backgroundColor: insight.color.replace('text-', '').replace('500', '50').replace('bg-', ''),
+                      animationDelay: `${idx * 100}ms` 
+                    }}
                   >
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${insight.color.replace('text-', 'bg-').replace('bg-', 'bg-')}`}>
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${insight.color}`}>
                       {React.createElement(insight.icon, { className: "w-5 h-5" })}
                     </div>
                     <p className="text-gray-700 text-sm leading-relaxed">{insight.text}</p>
