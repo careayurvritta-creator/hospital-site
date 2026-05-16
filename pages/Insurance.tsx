@@ -199,7 +199,34 @@ If the document is not readable or is not an insurance policy, say "Unable to an
             } else if (errorMessage.includes('Could not extract') || errorMessage.includes('text from')) {
                setAnalysisResult("### Document Text Extraction Failed\n\nWe couldn't extract text from your document. This may happen if:\n\n- The document is image-based (scanned)\n- The PDF is password protected\n- The image quality is too low\n\n**Try these alternatives:**\n1. Upload a clearer image or text-based PDF\n2. Copy-paste the policy text directly\n3. Call our TPA desk: +91 94266 84047");
             } else if (errorMessage.includes('not configured') || errorMessage.includes('Nvidia API key') || errorMessage.includes('500')) {
-               setAnalysisResult("### Insurance Policy Verification\n\n**Our AI analysis service is currently being configured. In the meantime, here's what you need to know:**\n\n#### ✅ Cashless Treatment Available\nAyurvritta Hospital offers cashless Ayurvedic treatment with **50+ insurance partners** including:\n\n- Star Health Insurance\n- HDFC ERGO General Insurance\n- ICICI Lombard General Insurance\n- New India Assurance\n- Oriental Insurance\n- National Insurance\n- United India Insurance\n- Bajaj Allianz General Insurance\n- Religare Health Insurance\n- Max Bupa Health Insurance\n\n#### 📋 How to Verify Your Policy\n1. **Call our TPA desk**: +91 94266 84047\n2. **Email your policy**: insurance@ayurvritta.in\n3. **WhatsApp**: Send your policy document to +91 94266 84047\n4. **Visit us**: Our Insurance Desk will verify your policy manually\n\n#### 💡 AYUSH Coverage Note\nAs per IRDAI guidelines (2023), all general insurance companies in India are required to cover AYUSH treatments (Ayurveda, Yoga, Unani, Siddha, Homeopathy) up to the base sum insured, provided treatment is taken in a government-recognized hospital like Ayurvritta.\n\n#### 📄 Documents Required for Cashless\n- Insurance card / Policy document\n- Government ID proof (Aadhaar/PAN)\n- Doctor's recommendation letter\n- Pre-authorization form (we'll fill this for you)\n\nOur team will handle the entire pre-authorization process with your TPA.");
+               setAnalysisResult(`### AI Analysis Unavailable ⚠️
+
+**Status:** NVIDIA_API_KEY not configured in Vercel server environment.
+
+#### To Enable AI Document Analysis:
+The administrator must add the API key in Vercel:
+
+1. Go to **Vercel Dashboard** → Your Project → **Settings**
+2. Go to **Environment Variables**  
+3. Add: **NVIDIA_API_KEY** = your key from https://build.nvidia.com
+4. Redeploy the project
+
+#### Manual Verification Available Now:
+We still provide **free policy verification** through our Insurance Desk:
+
+📞 **Call**: +91 94266 84047
+📧 **Email**: insurance@ayurvritta.in  
+💬 **WhatsApp**: +91 94266 84047
+
+#### What We'll Check:
+- AYUSH treatment coverage
+- Coverage limits & percentage
+- Room rent caps
+- Co-payment requirements  
+- Pre-existing disease waiting periods
+- Pre-authorization requirements
+
+**50+ cashless partners:** Star Health, HDFC ERGO, ICICI Lombard, New India, Oriental, National, and more.`);
             } else {
               // Show actual error for debugging
               setAnalysisResult(`### Analysis Error\n\nSomething went wrong: ${errorMessage.substring(0, 100)}\n\n**Try again or contact:** +91 94266 84047`);
