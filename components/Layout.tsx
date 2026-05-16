@@ -189,7 +189,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   <span className={`font-serif text-xl md:text-3xl font-bold tracking-tight transition-colors ${styles.text}`}>
                     AYURVRITTA
                   </span>
-                  <span className={`text-[0.6rem] md:text-xs uppercase tracking-[0.2em] font-semibold transition-colors ${styles.logoSub}`}>
+                  <span className={`text-[0.7rem] sm:text-xs uppercase tracking-[0.2em] font-semibold transition-colors ${styles.logoSub}`}>
                     Ayurveda Hospital
                   </span>
                 </div>
@@ -244,10 +244,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </button>
 
                 {isLangMenuOpen && (
-                  <div className="absolute top-full right-0 mt-2 bg-white rounded-xl shadow-xl border border-ayur-subtle overflow-hidden w-32 py-1 flex flex-col animate-fadeIn">
-                    <button onClick={() => changeLanguage('en')} className={`px-4 py-2 text-left text-sm hover:bg-ayur-green-light ${language === 'en' ? 'font-bold text-ayur-green' : 'text-ayur-gray'}`}>English</button>
-                    <button onClick={() => changeLanguage('hi')} className={`px-4 py-2 text-left text-sm hover:bg-ayur-green-light ${language === 'hi' ? 'font-bold text-ayur-green' : 'text-ayur-gray'}`}>Hindi</button>
-                    <button onClick={() => changeLanguage('gu')} className={`px-4 py-2 text-left text-sm hover:bg-ayur-green-light ${language === 'gu' ? 'font-bold text-ayur-green' : 'text-ayur-gray'}`}>Gujarati</button>
+                  <div className="absolute top-full right-0 mt-2 bg-white rounded-xl shadow-xl border border-ayur-subtle overflow-hidden w-36 py-1 flex flex-col animate-fadeIn">
+                    <button onClick={() => changeLanguage('en')} className={`px-4 py-3 text-left text-sm hover:bg-ayur-green-light min-h-[44px] ${language === 'en' ? 'font-bold text-ayur-green' : 'text-ayur-gray'}`}>English</button>
+                    <button onClick={() => changeLanguage('hi')} className={`px-4 py-3 text-left text-sm hover:bg-ayur-green-light min-h-[44px] ${language === 'hi' ? 'font-bold text-ayur-green' : 'text-ayur-gray'}`}>हिन्दी</button>
+                    <button onClick={() => changeLanguage('gu')} className={`px-4 py-3 text-left text-sm hover:bg-ayur-green-light min-h-[44px] ${language === 'gu' ? 'font-bold text-ayur-green' : 'text-ayur-gray'}`}>ગુજરાતી</button>
                   </div>
                 )}
               </div>
@@ -260,18 +260,26 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </NavLink>
             </nav>
 
-            {/* Mobile Menu Button - Hidden on mobile, bottom nav handles it */}
-            <div className="flex items-center gap-4 lg:hidden">
+            {/* Mobile Menu Button */}
+            <div className="flex items-center gap-3 lg:hidden">
               {/* Mobile Lang Toggle */}
               <button
                 onClick={() => setLanguage(language === 'en' ? 'hi' : language === 'hi' ? 'gu' : 'en')}
-                className={`text-xs font-bold uppercase py-1 px-2 rounded border ${styles.text} border-current opacity-80`}
+                className={`text-xs font-bold uppercase py-1.5 px-2.5 rounded-lg border min-h-[40px] ${styles.text} border-current opacity-80`}
                 aria-label="Change language"
               >
                 {language}
               </button>
 
-              {/* Hamburger hidden - bottom nav handles navigation */}
+              {/* Hamburger Menu Button */}
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className={`p-2 rounded-lg min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors ${styles.text}`}
+                aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={isMenuOpen}
+              >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
             </div>
           </div>
         </div>
@@ -417,9 +425,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 {t.footer.tagline}
               </p>
               <div className="flex space-x-4 pt-2">
-                <a href="https://www.facebook.com/profile.php?id=61560024669845" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-ayur-accent hover:text-white transition-all" title="Facebook" aria-label="Ayurvritta on Facebook"><Facebook size={18} /></a>
-                <a href="https://www.instagram.com/ayurvritta/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-ayur-accent hover:text-white transition-all" title="Instagram" aria-label="Ayurvritta on Instagram"><Instagram size={18} /></a>
-                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-ayur-accent hover:text-white transition-all" title="Twitter" aria-label="Ayurvritta on Twitter"><Twitter size={18} /></a>
+                <a href="https://www.facebook.com/profile.php?id=61560024669845" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-ayur-accent hover:text-white transition-all min-h-[48px] min-w-[48px]" title="Facebook" aria-label="Ayurvritta on Facebook"><Facebook size={18} /></a>
+                <a href="https://www.instagram.com/ayurvritta/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-ayur-accent hover:text-white transition-all min-h-[48px] min-w-[48px]" title="Instagram" aria-label="Ayurvritta on Instagram"><Instagram size={18} /></a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-ayur-accent hover:text-white transition-all min-h-[48px] min-w-[48px]" title="Twitter" aria-label="Ayurvritta on Twitter"><Twitter size={18} /></a>
               </div>
             </div>
 

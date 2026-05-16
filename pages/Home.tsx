@@ -100,7 +100,7 @@ const Home: React.FC = () => {
           </div>
 
           {/* Hero Image */}
-          <div className="relative h-[400px] md:h-[500px] lg:h-[600px] w-full mx-auto max-w-md lg:max-w-none">
+          <div className="relative h-[300px] xs:h-[350px] md:h-[500px] lg:h-[600px] w-full mx-auto max-w-md lg:max-w-none">
             <div className="relative h-full w-full rounded-[2rem] overflow-hidden shadow-2xl group hover:shadow-aurora-lg transition-shadow duration-500">
               <div className="absolute inset-0 bg-gradient-to-t from-ayur-green/30 via-transparent to-transparent z-10"></div>
               <img
@@ -114,29 +114,29 @@ const Home: React.FC = () => {
             </div>
 
             {/* Floating Cards */}
-            <div className="absolute -bottom-6 left-4 md:left-8 z-30 animate-float">
-              <div className="bg-white/95 backdrop-blur-md px-6 py-4 rounded-2xl shadow-xl border border-white/50 hover:scale-105 hover:shadow-2xl transition-all duration-300 cursor-pointer">
-                <div className="flex items-center gap-3">
-                  <div className="bg-ayur-accent p-2.5 rounded-xl text-white shadow-lg group-hover:scale-110 transition-transform">
-                    <Stethoscope size={22} />
+            <div className="absolute bottom-2 left-2 md:-bottom-6 md:left-8 z-30 animate-float">
+              <div className="bg-white/95 backdrop-blur-md px-4 py-3 md:px-6 md:py-4 rounded-xl md:rounded-2xl shadow-xl border border-white/50 hover:scale-105 hover:shadow-2xl transition-all duration-300 cursor-pointer">
+                <div className="flex items-center gap-2 md:gap-3">
+                  <div className="bg-ayur-accent p-2 md:p-2.5 rounded-lg md:rounded-xl text-white shadow-lg">
+                    <Stethoscope size={18} className="md:w-5 md:h-5" />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-ayur-gray uppercase tracking-wider">{t.hero.float_approach}</p>
-                    <p className="text-base font-bold text-ayur-green">{t.hero.float_integrated}</p>
+                    <p className="text-[10px] md:text-xs font-semibold text-ayur-gray uppercase tracking-wider">{t.hero.float_approach}</p>
+                    <p className="text-xs md:text-base font-bold text-ayur-green">{t.hero.float_integrated}</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="absolute -top-4 right-4 md:right-0 z-30 animate-float" style={{ animationDelay: '0.5s' }}>
-              <div className="bg-white/95 backdrop-blur-md px-5 py-3 rounded-2xl shadow-xl border border-white/50 flex items-center gap-3 hover:scale-105 hover:shadow-2xl transition-all duration-300 cursor-pointer">
+            <div className="absolute top-2 right-2 md:-top-4 md:right-0 z-30 animate-float" style={{ animationDelay: '0.5s' }}>
+              <div className="bg-white/95 backdrop-blur-md px-3 py-2 md:px-5 md:py-3 rounded-xl md:rounded-2xl shadow-xl border border-white/50 flex items-center gap-2 md:gap-3 hover:scale-105 hover:shadow-2xl transition-all duration-300 cursor-pointer">
                 <div className="text-right">
-                  <p className="text-3xl font-bold text-ayur-green leading-none">15+</p>
-                  <p className="text-xs text-ayur-gray font-semibold uppercase">Years Exp.</p>
+                  <p className="text-xl md:text-3xl font-bold text-ayur-green leading-none">15+</p>
+                  <p className="text-[10px] md:text-xs text-ayur-gray font-semibold uppercase">Years Exp.</p>
                 </div>
-                <div className="w-px h-10 bg-gray-200"></div>
+                <div className="w-px h-6 md:h-10 bg-gray-200"></div>
                 <div className="text-ayur-accent">
-                  <AwardIcon size={28} />
+                  <AwardIcon size={20} className="md:w-7 md:h-7" />
                 </div>
               </div>
             </div>
@@ -154,16 +154,16 @@ const Home: React.FC = () => {
           <h3 className="text-sm font-bold text-ayur-gray/50 uppercase tracking-widest mb-6 text-center">
             Quick Access
           </h3>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-2 md:gap-4">
             {navItems.map((item, idx) => (
               <NavLink
                 key={item.path}
                 to={item.path}
-                className="group flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-white border-2 border-ayur-subtle text-ayur-green font-semibold text-sm hover:border-ayur-green hover:bg-ayur-green hover:text-white active:scale-95 transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-ayur-green/20 hover:-translate-y-1"
+                className="group flex items-center gap-2 md:gap-2.5 px-4 py-2.5 md:px-6 md:py-3.5 rounded-full bg-white border-2 border-ayur-subtle text-ayur-green font-semibold text-xs md:text-sm hover:border-ayur-green hover:bg-ayur-green hover:text-white active:scale-95 transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-ayur-green/20 hover:-translate-y-1"
                 style={{ animationDelay: `${idx * 50}ms` }}
               >
                 <span className="text-ayur-green group-hover:text-white group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
-                  <item.icon size={20} />
+                  <item.icon size={16} className="md:w-5 md:h-5" />
                 </span>
                 {item.label}
               </NavLink>

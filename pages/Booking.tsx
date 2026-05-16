@@ -85,10 +85,10 @@ const Booking: React.FC = () => {
     );
   }
 
-  const inputStyle = "w-full px-5 py-4 bg-gray-50 text-ayur-green placeholder-gray-400 border-2 border-transparent rounded-xl focus:bg-white focus:border-ayur-green focus:ring-2 focus:ring-ayur-green/20 outline-none transition-all shadow-sm hover:shadow-md";
+  const inputStyle = "w-full px-5 py-4 bg-gray-50 text-ayur-green placeholder-gray-400 border-2 border-transparent rounded-xl focus:bg-white focus:border-ayur-green focus:ring-2 focus:ring-ayur-green/20 outline-none transition-all shadow-sm hover:shadow-md min-h-[48px]";
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-ayur-cream via-white to-ayur-cream/30 flex flex-col lg:flex-row pt-14 lg:pt-20">
+    <div className="min-h-screen bg-gradient-to-b from-ayur-cream via-white to-ayur-cream/30 flex flex-col lg:flex-row pt-20 md:pt-24 lg:pt-20">
       
       {/* ENHANCED INFO SIDEBAR - DESKTOP */}
       <div ref={sidebarObserver.ref} className="hidden lg:flex lg:w-1/3 bg-gradient-to-br from-ayur-green via-[#0a6b5a] to-ayur-green-dark text-white p-10 lg:p-12 xl:p-16 flex-col justify-center relative overflow-hidden">
