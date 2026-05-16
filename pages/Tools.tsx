@@ -83,11 +83,11 @@ const ToolCard: React.FC<{
         </span>
       </div>
     )}
-    <div className="relative z-10 p-6">
-      <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-5 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-lg group-hover:shadow-xl">
+    <div className="relative z-10 p-4 sm:p-6">
+      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-lg group-hover:shadow-xl">
         {icon}
       </div>
-      <h3 className="font-serif text-xl font-bold text-ayur-green mb-2 group-hover:text-ayur-green-dark transition-colors">{title}</h3>
+      <h3 className="font-serif text-lg sm:text-xl font-bold text-ayur-green mb-2 group-hover:text-ayur-green-dark transition-colors">{title}</h3>
       <p className="text-gray-600 text-sm leading-relaxed mb-4">{desc}</p>
       <div className="flex items-center gap-2 text-ayur-green font-semibold text-sm group-hover:gap-3 transition-all duration-300">
         <span>Start Assessment</span>

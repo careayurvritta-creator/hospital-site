@@ -150,7 +150,7 @@ const About: React.FC = () => {
                         <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                     </div>
                     
-                    <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 animate-fadeInUp animation-delay-100 tracking-tight">
+                    <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-8 animate-fadeInUp animation-delay-100 tracking-tight">
                         About <span className="text-transparent bg-clip-text bg-gradient-to-r from-ayur-accent to-yellow-300">Ayurvritta</span>
                     </h1>
                     
@@ -224,14 +224,14 @@ const About: React.FC = () => {
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-ayur-green/40 via-ayur-green/10 to-transparent"></div>
                             </div>
-                            <div className="absolute -bottom-6 -left-6 bg-white px-6 py-4 rounded-2xl shadow-2xl animate-float border border-ayur-subtle">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-14 h-14 bg-gradient-to-br from-ayur-accent to-amber-500 rounded-xl flex items-center justify-center shadow-lg">
-                                        <Award size={24} className="text-white" />
+                            <div className="absolute bottom-2 left-2 md:-bottom-6 md:-left-6 bg-white px-4 py-3 md:px-6 md:py-4 rounded-xl md:rounded-2xl shadow-2xl animate-float border border-ayur-subtle">
+                                <div className="flex items-center gap-3 md:gap-4">
+                                    <div className="w-10 h-10 md:w-14 md:h-14 bg-gradient-to-br from-ayur-accent to-amber-500 rounded-lg md:rounded-xl flex items-center justify-center shadow-lg">
+                                        <Award size={18} className="md:w-6 md:h-6 text-white" />
                                     </div>
                                     <div>
-                                        <p className="text-xs text-ayur-gray uppercase font-bold tracking-wider">Certified</p>
-                                        <p className="text-lg font-bold text-ayur-green">AYUSH Verified</p>
+                                        <p className="text-[10px] md:text-xs text-ayur-gray uppercase font-bold tracking-wider">Certified</p>
+                                        <p className="text-sm md:text-lg font-bold text-ayur-green">AYUSH Verified</p>
                                     </div>
                                 </div>
                             </div>
