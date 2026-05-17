@@ -39,10 +39,10 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
- const [isMenuOpen, setIsMenuOpen] = useState(false);
- const [scrolled, setScrolled] = useState(false);
- const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
- const [scrollProgress, setScrollProgress] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
  const [showScrollTop, setShowScrollTop] = useState(false);
  const location = useLocation();
  const { language, setLanguage, t } = useLanguage();
@@ -89,10 +89,21 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
    setShowScrollTop(window.scrollY > 300);
    };
    
-   window.addEventListener('scroll', handleScroll, { passive: true });
-   return () => window.removeEventListener('scroll', handleScroll);
-   }, []);
-   const changeLanguage = (lang: Language) => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    // Listen for chatbot open/close events
+    useEffect(() => {
+      const handleChatbotToggle = (e: Event) => {
+        const customEvent = e as CustomEvent;
+        setIsChatbotOpen(customEvent.detail.isOpen);
+      };
+      window.addEventListener('chatbot-toggle', handleChatbotToggle);
+      return () => window.removeEventListener('chatbot-toggle', handleChatbotToggle);
+    }, []);
+
+    const changeLanguage = (lang: Language) => {
    setLanguage(lang);
    setIsLangMenuOpen(false);
    };
@@ -505,17 +516,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
        {/* WhatsApp Chat Bubble */}
        <WhatsAppBubble />
        
-        {/* Scroll to Top Button */}
-        <button
-        onClick={scrollToTop}
-        className={`fixed bottom-40 md:bottom-32 right-4 md:right-8 z-[70] p-3 rounded-full bg-ayur-green text-white shadow-lg hover:bg-ayur-green-dark transition-all duration-300 transform hover:scale-110 active:scale-95 ${
-        showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
-        }`}
-        aria-label="Scroll to top"
-        title="Back to top"
-        >
-        <ChevronUp size={24} className="animate-bounce-short" />
-        </button>
+         {/* Scroll to Top Button */}
+         <button
+         onClick={scrollToTop}
+         className={`fixed bottom-40 md:bottom-32 right-4 md:right-8 z-[70] p-3 rounded-full bg-ayur-green text-white shadow-lg hover:bg-ayur-green-dark transition-all duration-300 transform hover:scale-110 active:scale-95 ${
+         showScrollTop && !isChatbotOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+         }`}
+         aria-label="Scroll to top"
+         title="Back to top"
+         >
+         <ChevronUp size={24} className="animate-bounce-short" />
+         </button>
        </div>    </div>
   );
 };

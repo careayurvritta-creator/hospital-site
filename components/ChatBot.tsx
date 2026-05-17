@@ -76,6 +76,11 @@ const ChatBot: React.FC = () => {
     }
   }, [isOpen]);
 
+  // Notify Layout when chatbot opens/closes
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent('chatbot-toggle', { detail: { isOpen } }));
+  }, [isOpen]);
+
   // Initialize Chat Session (Re-init on language change to prompt correct context)
   useEffect(() => {
     if (!isOpen) return;
