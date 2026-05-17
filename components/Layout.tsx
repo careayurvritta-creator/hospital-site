@@ -43,6 +43,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
  const { language, setLanguage, t } = useLanguage();
  const headerRef = useRef<HTMLElement>(null);
