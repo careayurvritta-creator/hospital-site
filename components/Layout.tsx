@@ -505,17 +505,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
        {/* WhatsApp Chat Bubble */}
        <WhatsAppBubble />
        
-         {/* Scroll to Top Button */}
-         <button
-         onClick={scrollToTop}
-         className={`fixed bottom-40 md:bottom-20 right-4 md:right-8 z-[70] p-3 rounded-full bg-ayur-green text-white shadow-lg hover:bg-ayur-green-dark transition-all duration-300 transform hover:scale-110 active:scale-95 ${
-         showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
-         }`}
-         aria-label="Scroll to top"
-         title="Back to top"
-         >
-         <ChevronUp size={24} className="animate-bounce-short" />
-         </button>
+        {/* Scroll to Top Button */}
+        <button
+        onClick={scrollToTop}
+        className={`fixed bottom-40 md:bottom-32 right-4 md:right-8 z-[70] p-3 rounded-full bg-ayur-green text-white shadow-lg hover:bg-ayur-green-dark transition-all duration-300 transform hover:scale-110 active:scale-95 ${
+        showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+        }`}
+        aria-label="Scroll to top"
+        title="Back to top"
+        >
+        <ChevronUp size={24} className="animate-bounce-short" />
+        </button>
        </div>    </div>
   );
 };
