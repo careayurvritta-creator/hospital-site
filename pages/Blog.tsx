@@ -839,4 +839,120 @@ const Blog: React.FC = () => {
                       Featured
                     </span>
                   </div>
-                </div
+                </div>
+                <div className="p-6 lg:p-10 flex flex-col justify-center">
+                  <div className="flex items-center gap-4 text-xs md:text-sm text-gray-500 mb-4">
+                    <span className="flex items-center gap-1.5">
+                      <Calendar size={14} className="text-ayur-accent" />
+                      {featuredPost.date}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <Clock size={14} className="text-ayur-accent" />
+                      {featuredPost.readTime}
+                    </span>
+                  </div>
+                  <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-ayur-green mb-4">
+                    {featuredPost.title}
+                  </h2>
+                  <p className="text-ayur-gray text-base md:text-lg leading-relaxed mb-6">
+                    {featuredPost.excerpt}
+                  </p>
+                  <div className="flex items-center gap-2 mb-6">
+                    <div className="w-10 h-10 rounded-full bg-ayur-green/10 flex items-center justify-center">
+                      <User size={18} className="text-ayur-green" />
+                    </div>
+                    <span className="text-sm font-semibold text-ayur-green">{featuredPost.author}</span>
+                  </div>
+                  <span className="inline-flex items-center gap-2 text-ayur-accent font-bold text-sm md:text-base group-hover:gap-3 transition-all duration-300">
+                    Read Full Article <ArrowRight size={18} />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Search & Filter */}
+      <section className="mb-12 sticky top-24 z-20 -mt-8 pt-8 pb-4 bg-gradient-to-b from-ayur-cream/95 via-ayur-cream/95 to-transparent">
+        <div className="bg-white/90 backdrop-blur-md rounded-2xl p-4 md:p-6 shadow-lg border border-ayur-subtle/50">
+          <div className="relative mb-6">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+            <input
+              type="text"
+              placeholder="Search articles..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 md:py-4 bg-white border-2 border-ayur-subtle rounded-xl focus:border-ayur-green focus:ring-4 focus:ring-ayur-green/10 transition-all text-ayur-green placeholder-gray-400 min-h-[56px] md:min-h-[64px]"
+            />
+          </div>
+          <div className="flex flex-wrap gap-2 md:gap-3 mb-4">
+            {CATEGORIES.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-4 py-2 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 min-h-[44px] active:scale-95 ${
+                  selectedCategory === category
+                    ? 'bg-ayur-green text-white shadow-lg shadow-ayur-green/30'
+                    : 'bg-ayur-cream text-ayur-gray hover:bg-ayur-green/10 hover:text-ayur-green'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Blog Grid */}
+      <section>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {filteredPosts.map((post, index) => (
+            <article
+              key={post.id}
+              className="group relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-ayur-green/15 transition-all duration-500 flex flex-col h-full animate-fadeInUp border border-ayur-subtle/30 cursor-pointer"
+              onClick={() => setSelectedPost(post)}
+              style={{ animationDelay: `${index * 100}ms` } as React.CSSProperties}
+            >
+              <div className="relative h-56 overflow-hidden rounded-2xl m-3 md:m-4">
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                <div className="absolute top-4 left-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/95 backdrop-blur-sm text-ayur-green text-xs font-bold uppercase tracking-wider rounded-full shadow-lg">
+                    <Tag size={12} className="text-ayur-accent" />
+                    {post.category}
+                  </span>
+                </div>
+              </div>
+              <div className="p-5 md:p-6 flex flex-col flex-grow">
+                <div className="flex items-center gap-3 text-xs text-gray-400 mb-3">
+                  <span className="flex items-center gap-1"><Calendar size={12} /> {post.date}</span>
+                  <span className="flex items-center gap-1"><Clock size={12} /> {post.readTime}</span>
+                </div>
+                <h3 className="font-serif text-lg md:text-xl font-bold text-ayur-green mb-3 group-hover:text-ayur-accent transition-colors line-clamp-2">
+                  {post.title}
+                </h3>
+                <p className="text-ayur-gray text-sm leading-relaxed mb-4 flex-grow line-clamp-3">
+                  {post.excerpt}
+                </p>
+                <div className="pt-4 border-t border-gray-100">
+                  <span className="inline-flex items-center gap-2 text-ayur-accent font-bold text-sm min-h-[44px] px-3 group-hover:gap-3 transition-all duration-300">
+                    Read Article <ArrowRight size={16} />
+                  </span>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+  </div>
+);
+};
+
+export default Blog;
