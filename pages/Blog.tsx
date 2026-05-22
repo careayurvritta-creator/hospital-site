@@ -868,10 +868,8 @@ const Blog: React.FC = () => {
                   </span>
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-      )}
+            </section>
+          )}
 
       {/* Search & Filter */}
       <section className="mb-12 sticky top-24 z-20 -mt-8 pt-8 pb-4 bg-gradient-to-b from-ayur-cream/95 via-ayur-cream/95 to-transparent">
