@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
       host: '0.0.0.0',
     },
     plugins: [react()],
-    build: {
+build: {
       outDir: 'dist',
       minify: 'esbuild',
       target: 'esnext',
@@ -19,24 +19,14 @@ export default defineConfig(({ mode }) => {
         output: {
           manualChunks: (id) => {
             if (id.includes('node_modules')) {
-// React and ReactDOM together
-              if (id.includes('react') || id.includes('scheduler')) {
-                return 'vendor-react-v5';
-              }
-              // Icons - lucide-react causes issues when bundled normally
-              if (id.includes('lucide-react')) {
-                return 'vendor-icons';
-              }
-              // Charts
+              // Charts - load separately for better caching
               if (id.includes('recharts') || id.includes('d3-')) {
                 return 'vendor-charts';
               }
-              // AI SDK - this must be its OWN chunk to not block initial load
-              if (id.includes('@google/genai')) {
+              // AI SDK - load separately to not block initial render
+              if (id.includes('@google/generative-ai') || id.includes('@google/genai')) {
                 return 'vendor-ai';
               }
-              // Everything else (including other deps)
-              return 'vendor-misc';
             }
           },
         },
