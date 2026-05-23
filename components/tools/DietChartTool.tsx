@@ -486,7 +486,7 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
 
     return (
       <div className="p-4 md:p-6 max-w-2xl mx-auto">
-        <button onClick={onBack} className="flex items-center gap-2 text-ayur-green font-semibold mb-4 hover:gap-3 transition-all">
+<button onClick={onBack} className="flex items-center gap-2 text-ayur-green font-semibold mb-4 hover:gap-3 transition-all min-h-[48px] px-2">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
           </svg>
@@ -624,7 +624,7 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
               <label className="block text-sm font-medium text-gray-700 mb-2">Your Constitution (Prakriti)</label>
               <div className="space-y-2">
                 {['Vata Prakriti', 'Pitta Prakriti', 'Kapha Prakriti', 'Vata-Pitta Prakriti', 'Pitta-Kapha Prakriti', 'Vata-Kapha Prakriti', 'Not Sure - Balanced'].map(p => (
-                  <button key={p} onClick={() => setInputs(prev => ({ ...prev, prakriti: p }))} className={`w-full p-3 rounded-xl border-2 text-left transition-all ${
+                  <button key={p} onClick={() => setInputs(prev => ({ ...prev, prakriti: p }))} className={`w-full p-3 rounded-xl border-2 text-left transition-all min-h-[48px] flex items-center ${
                     inputs.prakriti === p ? 'border-ayur-green bg-ayur-green/5 shadow-md' : 'border-gray-100 hover:border-ayur-green/30'
                   }`}>
                     <span className={`text-sm font-medium ${inputs.prakriti === p ? 'text-ayur-green' : 'text-gray-700'}`}>{p}</span>
@@ -648,7 +648,7 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
                   { value: 'stress', label: 'Reduce Stress & Anxiety', icon: '🧘' },
                   { value: 'immunity', label: 'Build Immunity', icon: '🛡️' }
                 ].map(g => (
-                  <button key={g.value} onClick={() => setInputs(prev => ({ ...prev, healthGoal: g.value }))} className={`w-full p-3 rounded-xl border-2 text-left transition-all flex items-center gap-3 ${
+                  <button key={g.value} onClick={() => setInputs(prev => ({ ...prev, healthGoal: g.value }))} className={`w-full p-3 rounded-xl border-2 text-left transition-all flex items-center gap-3 min-h-[48px] ${
                     inputs.healthGoal === g.value ? 'border-ayur-green bg-ayur-green/5 shadow-md' : 'border-gray-100 hover:border-ayur-green/30'
                   }`}>
                     <span className="text-xl">{g.icon}</span>
@@ -671,7 +671,7 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
                   { value: 'winter', label: 'Winter', icon: '❄️' },
                   { value: 'spring', label: 'Spring/Fall', icon: '🌸' }
                 ].map(s => (
-                  <button key={s.value} onClick={() => setInputs(prev => ({ ...prev, season: s.value }))} className={`p-3 rounded-xl border-2 text-center transition-all ${
+                  <button key={s.value} onClick={() => setInputs(prev => ({ ...prev, season: s.value }))} className={`p-3 rounded-xl border-2 text-center transition-all min-h-[48px] min-h-[48px] ${
                     inputs.season === s.value ? 'border-ayur-green bg-ayur-green/5' : 'border-gray-100 hover:border-ayur-green/30'
                   }`}>
                     <span className="text-2xl block mb-1">{s.icon}</span>
@@ -688,7 +688,7 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
                   { value: 'middle', label: '30-50' },
                   { value: 'senior', label: '50+' }
                 ].map(a => (
-                  <button key={a.value} onClick={() => setInputs(prev => ({ ...prev, ageGroup: a.value }))} className={`p-2 rounded-xl border-2 text-center text-sm transition-all ${
+                  <button key={a.value} onClick={() => setInputs(prev => ({ ...prev, ageGroup: a.value }))} className={`p-2 rounded-xl border-2 text-center text-sm transition-all min-h-[48px] min-h-[48px] ${
                     inputs.ageGroup === a.value ? 'border-ayur-green bg-ayur-green/5 text-ayur-green font-medium' : 'border-gray-100 text-gray-600'
                   }`}>{a.label}</button>
                 ))}
@@ -702,7 +702,7 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
                   { value: 'moderate', label: 'Moderate' },
                   { value: 'active', label: 'Active' }
                 ].map(a => (
-                  <button key={a.value} onClick={() => setInputs(prev => ({ ...prev, activityLevel: a.value }))} className={`p-2 rounded-xl border-2 text-center text-sm transition-all ${
+                  <button key={a.value} onClick={() => setInputs(prev => ({ ...prev, activityLevel: a.value }))} className={`p-2 rounded-xl border-2 text-center text-sm transition-all min-h-[48px] ${
                     inputs.activityLevel === a.value ? 'border-ayur-green bg-ayur-green/5 text-ayur-green font-medium' : 'border-gray-100 text-gray-600'
                   }`}>{a.label}</button>
                 ))}
@@ -716,7 +716,7 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
                   { value: 'moderate', label: 'Moderate (Sama)' },
                   { value: 'strong', label: 'Strong (Tikshna)' }
                 ].map(a => (
-                  <button key={a.value} onClick={() => setInputs(prev => ({ ...prev, digestiveStrength: a.value }))} className={`p-2 rounded-xl border-2 text-center text-sm transition-all ${
+                  <button key={a.value} onClick={() => setInputs(prev => ({ ...prev, digestiveStrength: a.value }))} className={`p-2 rounded-xl border-2 text-center text-sm transition-all min-h-[48px] ${
                     inputs.digestiveStrength === a.value ? 'border-ayur-green bg-ayur-green/5 text-ayur-green font-medium' : 'border-gray-100 text-gray-600'
                   }`}>{a.label}</button>
                 ))}
@@ -736,7 +736,7 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
                   { value: 'non-vegetarian', label: 'Non-Vegetarian', icon: '🍗' },
                   { value: 'eggetarian', label: 'Eggetarian', icon: '🥚' }
                 ].map(d => (
-                  <button key={d.value} onClick={() => setInputs(prev => ({ ...prev, dietaryPreference: d.value }))} className={`p-3 rounded-xl border-2 text-center transition-all ${
+                  <button key={d.value} onClick={() => setInputs(prev => ({ ...prev, dietaryPreference: d.value }))} className={`p-3 rounded-xl border-2 text-center transition-all min-h-[48px] ${
                     inputs.dietaryPreference === d.value ? 'border-ayur-green bg-ayur-green/5' : 'border-gray-100 hover:border-ayur-green/30'
                   }`}>
                     <span className="text-2xl block mb-1">{d.icon}</span>
@@ -749,7 +749,7 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
               <label className="block text-sm font-medium text-gray-700 mb-2">Allergies / Restrictions</label>
               <div className="flex flex-wrap gap-2">
                 {ALLERGIES_LIST.map(a => (
-                  <button key={a} onClick={() => toggleAllergy(a)} className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all border ${
+                  <button key={a} onClick={() => toggleAllergy(a)} className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all border min-h-[48px] ${
                     inputs.allergies.includes(a)
                       ? 'bg-red-100 border-red-300 text-red-700'
                       : 'bg-gray-50 border-gray-200 text-gray-600 hover:border-red-300'

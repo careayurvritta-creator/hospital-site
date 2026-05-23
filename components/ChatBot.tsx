@@ -256,7 +256,7 @@ You understand:
                 )}
               </button>
             )}
-            <button onClick={() => setIsOpen(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
+            <button onClick={() => setIsOpen(false)} className="p-3 hover:bg-white/10 rounded-full transition-colors min-h-[48px] min-w-[48px] flex items-center justify-center">
               {window.innerWidth < 768 ? <ChevronDown size={24} /> : <X size={24} />}
             </button>
           </div>
