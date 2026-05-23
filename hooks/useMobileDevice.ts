@@ -99,7 +99,7 @@ export function useNetworkStatus(): {
  */
 export function useOrientation(): 'portrait' | 'landscape' {
     const [orientation, setOrientation] = useState<'portrait' | 'landscape'>(
-        window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'
+        typeof window !== 'undefined' && window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'
     );
 
     useEffect(() => {

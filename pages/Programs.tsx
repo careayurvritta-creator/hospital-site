@@ -140,7 +140,7 @@ const Programs: React.FC = () => {
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
                     <div className="absolute inset-0 bg-ayur-green/80 backdrop-blur-sm animate-fadeIn" onClick={closeModal}></div>
                     <div className="relative bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-zoomIn">
-                        <button onClick={closeModal} className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center text-ayur-gray hover:text-ayur-green hover:scale-110 transition-all shadow-lg"><X size={20} /></button>
+                        <button onClick={closeModal} className="absolute top-4 right-4 z-10 w-12 h-12 bg-white/90 rounded-full flex items-center justify-center text-ayur-gray hover:text-ayur-green hover:scale-110 transition-all shadow-lg min-h-[48px] min-w-[48px]"><X size={20} /></button>
                         <div className={`relative h-48 bg-gradient-to-br ${selectedTheme.glow}`}>
                             <img src={getProgramImage(selectedData.id)} alt={selectedData.title} className="w-full h-full object-cover" />
                             <div className="absolute inset-0 bg-gradient-to-t from-ayur-green/60 to-transparent"></div>
