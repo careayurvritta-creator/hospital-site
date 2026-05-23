@@ -3,9 +3,9 @@
  * Provides offline support, caching, and push notifications
  */
 
-const CACHE_NAME = 'ayurvritta-v1';
-const STATIC_CACHE = 'ayurvritta-static-v1';
-const DYNAMIC_CACHE = 'ayurvritta-dynamic-v1';
+const CACHE_NAME = 'ayurvritta-v2';
+const STATIC_CACHE = 'ayurvritta-static-v2';
+const DYNAMIC_CACHE = 'ayurvritta-dynamic-v2';
 
 // Assets to cache immediately
 const STATIC_ASSETS = [
@@ -13,14 +13,6 @@ const STATIC_ASSETS = [
     '/index.html',
     '/manifest.json',
     '/offline.html',
-];
-
-// Pages to cache for offline
-const OFFLINE_PAGES = [
-    '/',
-    '/#/services',
-    '/#/about',
-    '/#/booking',
 ];
 
 // Install event - cache static assets
@@ -54,7 +46,7 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - network first for images, cache-first for everything else
 self.addEventListener('fetch', (event) => {
     const { request } = event;
     const url = new URL(request.url);
@@ -65,36 +57,55 @@ self.addEventListener('fetch', (event) => {
     // Skip external requests
     if (url.origin !== location.origin) return;
 
-    // Skip API calls (let them go to network)
+    // Skip API calls
     if (url.pathname.startsWith('/api')) return;
 
+    // For images, always go to network and don't cache
+    if (request.destination === 'image') {
+        event.respondWith(
+            fetch(request).catch(() => {
+                // If network fails for image, return a transparent 1x1 pixel
+                return new Response(
+                    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
+                    { headers: { 'Content-Type': 'image/png' } }
+                );
+            })
+        );
+        return;
+    }
+
+    // For HTML pages, try network first
+    if (request.mode === 'navigate') {
+        event.respondWith(
+            fetch(request)
+                .then((response) => {
+                    // Cache successful responses
+                    if (response.ok) {
+                        const responseClone = response.clone();
+                        caches.open(DYNAMIC_CACHE)
+                            .then((cache) => cache.put(request, responseClone));
+                    }
+                    return response;
+                })
+                .catch(() => caches.match('/offline.html'))
+        );
+        return;
+    }
+
+    // For scripts/css, try cache first then network
     event.respondWith(
         caches.match(request)
             .then((cachedResponse) => {
-                if (cachedResponse) {
-                    // Return cached response and update cache in background
-                    event.waitUntil(updateCache(request));
-                    return cachedResponse;
-                }
+                if (cachedResponse) return cachedResponse;
 
-                // Not in cache, fetch from network
-                return fetch(request)
-                    .then((networkResponse) => {
-                        // Cache the new response
-                        if (networkResponse.ok) {
-                            const responseClone = networkResponse.clone();
-                            caches.open(DYNAMIC_CACHE)
-                                .then((cache) => cache.put(request, responseClone));
-                        }
-                        return networkResponse;
-                    })
-                    .catch(() => {
-                        // Network failed, return offline page for navigation
-                        if (request.mode === 'navigate') {
-                            return caches.match('/offline.html');
-                        }
-                        return new Response('Offline', { status: 503 });
-                    });
+                return fetch(request).then((networkResponse) => {
+                    if (networkResponse.ok) {
+                        const responseClone = networkResponse.clone();
+                        caches.open(DYNAMIC_CACHE)
+                            .then((cache) => cache.put(request, responseClone));
+                    }
+                    return networkResponse;
+                });
             })
     );
 });
