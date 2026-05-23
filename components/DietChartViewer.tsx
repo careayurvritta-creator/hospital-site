@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { 
-  ArrowLeft, Check, X, Clock, Leaf, TrendingUp, Activity, 
-  Heart, Droplet, ChevronRight, Download, Share2, Calendar,
-  Sun, Moon, Coffee, Utensils, Apple, BookOpen
-} from 'lucide-react';
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
+import { ArrowLeft, Check, X, Clock, Leaf, Download, Share2, BookOpen } from 'lucide-react';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { dietCharts } from '../data/dietCharts';
 import { useLanguage } from './LanguageContext';
 
@@ -45,14 +41,6 @@ const DietChartViewer: React.FC = () => {
     foodGroups = []
   } = dietChart;
 
-  const scheduleData = Object.entries(dietSchedule).map(([time, food]) => ({
-    time,
-    food,
-    icon: getTimeIcon(time)
-  }));
-
-  const COLORS = ['#0d8770', '#c9a227', '#f59e0b', '#10b981', '#3b82f6', '#ef4444'];
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-ayur-cream via-white to-ayur-green/5">
       {/* Hero Section */}
@@ -65,7 +53,6 @@ const DietChartViewer: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-ayur-green/90" />
         </div>
         
-        {/* Back Button */}
         <button
           onClick={() => navigate('/diet-charts')}
           className="absolute top-6 left-6 z-10 flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-md text-white rounded-full hover:bg-white/30 transition-all duration-300"
@@ -74,7 +61,6 @@ const DietChartViewer: React.FC = () => {
           <span className="font-semibold">Back</span>
         </button>
 
-        {/* Title */}
         <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
           <div className="max-w-6xl mx-auto">
             <div className="flex items-center gap-3 mb-4">
@@ -126,42 +112,35 @@ const DietChartViewer: React.FC = () => {
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
-        {/* Overview Tab */}
         {activeTab === 'overview' && (
           <div className="space-y-8 animate-fadeIn">
-            {/* Quick Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <StatCard
-                icon={Apple}
-                value={Object.keys(foodsToConsume).reduce((acc, key) => acc + foodsToConsume[key].length, 0).toString()}
-                label="Foods to Eat"
-                color="text-green-600"
-                bgColor="bg-green-50"
-              />
-              <StatCard
-                icon={X}
-                value={Object.keys(foodsToAvoid).reduce((acc, key) => acc + foodsToAvoid[key].length, 0).toString()}
-                label="Foods to Avoid"
-                color="text-red-600"
-                bgColor="bg-red-50"
-              />
-              <StatCard
-                icon={Clock}
-                value={Object.keys(dietSchedule).length.toString()}
-                label="Meal Times"
-                color="text-blue-600"
-                bgColor="bg-blue-50"
-              />
-              <StatCard
-                icon={Leaf}
-                value={lifestyleTips.length.toString()}
-                label="Lifestyle Tips"
-                color="text-purple-600"
-                bgColor="bg-purple-50"
-              />
+              <div className="bg-green-50 rounded-2xl p-6 text-center">
+                <Check className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                <div className="text-3xl font-bold text-green-600 mb-1">
+                  {Object.keys(foodsToConsume).reduce((acc, key) => acc + foodsToConsume[key].length, 0)}
+                </div>
+                <div className="text-sm text-ayur-gray font-semibold">Foods to Eat</div>
+              </div>
+              <div className="bg-red-50 rounded-2xl p-6 text-center">
+                <X className="w-8 h-8 text-red-600 mx-auto mb-2" />
+                <div className="text-3xl font-bold text-red-600 mb-1">
+                  {Object.keys(foodsToAvoid).reduce((acc, key) => acc + foodsToAvoid[key].length, 0)}
+                </div>
+                <div className="text-sm text-ayur-gray font-semibold">Foods to Avoid</div>
+              </div>
+              <div className="bg-blue-50 rounded-2xl p-6 text-center">
+                <Clock className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                <div className="text-3xl font-bold text-blue-600 mb-1">{Object.keys(dietSchedule).length}</div>
+                <div className="text-sm text-ayur-gray font-semibold">Meal Times</div>
+              </div>
+              <div className="bg-purple-50 rounded-2xl p-6 text-center">
+                <Leaf className="w-8 h-8 text-purple-600 mx-auto mb-2" />
+                <div className="text-3xl font-bold text-purple-600 mb-1">{lifestyleTips.length}</div>
+                <div className="text-sm text-ayur-gray font-semibold">Lifestyle Tips</div>
+              </div>
             </div>
 
-            {/* Food Groups Pie Chart */}
             {foodGroups.length > 0 && (
               <div className="bg-white rounded-3xl shadow-soft p-8">
                 <h3 className="text-2xl font-serif font-bold text-ayur-text mb-6">Food Group Distribution</h3>
@@ -215,13 +194,11 @@ const DietChartViewer: React.FC = () => {
               </div>
             )}
 
-            {/* Description */}
             <div className="bg-white rounded-3xl shadow-soft p-8">
               <h3 className="text-2xl font-serif font-bold text-ayur-text mb-4">About This Diet Plan</h3>
               <p className="text-ayur-gray leading-relaxed text-lg">{description}</p>
             </div>
 
-            {/* Action Buttons */}
             <div className="flex flex-wrap gap-4">
               <button className="flex items-center gap-2 px-6 py-3 bg-ayur-green text-white rounded-full font-semibold hover:bg-ayur-green-dark transition-colors shadow-lg">
                 <Download className="w-5 h-5" />
@@ -235,7 +212,6 @@ const DietChartViewer: React.FC = () => {
           </div>
         )}
 
-        {/* Foods to Consume Tab */}
         {activeTab === 'consume' && (
           <div className="animate-fadeIn">
             <div className="bg-white rounded-3xl shadow-soft p-8 mb-8">
@@ -270,7 +246,6 @@ const DietChartViewer: React.FC = () => {
           </div>
         )}
 
-        {/* Foods to Avoid Tab */}
         {activeTab === 'avoid' && (
           <div className="animate-fadeIn">
             <div className="bg-white rounded-3xl shadow-soft p-8 mb-8">
@@ -288,107 +263,4 @@ const DietChartViewer: React.FC = () => {
                   >
                     <h3 className="text-lg font-bold text-red-800 mb-4 capitalize flex items-center gap-2">
                       <div className="w-2 h-2 bg-red-500 rounded-full" />
-                      {categoryName}
-                    </h3>
-                    <ul className="space-y-2">
-                      {items.map((item, itemIdx) => (
-                        <li key={itemIdx} className="flex items-start gap-2">
-                          <X className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                          <span className="text-ayur-text">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Diet Schedule Tab */}
-        {activeTab === 'schedule' && (
-          <div className="animate-fadeIn">
-            <div className="bg-white rounded-3xl shadow-soft p-8">
-              <h2 className="text-3xl font-serif font-bold text-ayur-text mb-8 flex items-center gap-3">
-                <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full">
-                  <Clock className="w-6 h-6 text-blue-600" />
-                </div>
-                Daily Diet Schedule
-              </h2>
-              <div className="relative">
-                {/* Timeline */}
-                <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-ayur-green via-ayur-accent to-ayur-green/50" />
-                
-                <div className="space-y-6">
-                  {scheduleData.map((slot, idx) => (
-                    <div key={idx} className="relative flex items-start gap-6 pl-4">
-                      {/* Timeline dot */}
-                      <div className="absolute left-6 top-6 w-4 h-4 -translate-x-1/2 bg-white border-4 border-ayur-green rounded-full z-10" />
-                      
-                      {/* Time */}
-                      <div className="flex-shrink-0 w-32 bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white px-4 py-3 rounded-xl font-bold shadow-lg">
-                        {slot.time}
-                      </div>
-                      
-                      {/* Food */}
-                      <div className="flex-1 bg-gradient-to-r from-ayur-surface to-white rounded-xl p-4 border border-ayur-subtle">
-                        <p className="text-ayur-text font-medium">{slot.food}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Lifestyle Tips Tab */}
-        {activeTab === 'tips' && (
-          <div className="animate-fadeIn">
-            <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl shadow-xl p-8 md:p-12 text-white mb-8">
-              <h2 className="text-3xl font-serif font-bold mb-8 flex items-center gap-3">
-                <Leaf className="w-8 h-8" />
-                Lifestyle Tips
-              </h2>
-              <div className="grid md:grid-cols-2 gap-4">
-                {lifestyleTips.map((tip, idx) => (
-                  <div key={idx} className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                    <div className="flex-shrink-0 w-6 h-6 bg-white/20 rounded-full flex items-center justify-center mt-0.5">
-                      <Check className="w-4 h-4" />
-                    </div>
-                    <span className="text-lg">{tip}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-function getTimeIcon(time: string) {
-  const hour = parseInt(time.split(':')[0]);
-  if (hour >= 5 && hour < 9) return Sunrise;
-  if (hour >= 9 && hour < 12) return Sun;
-  if (hour >= 12 && hour < 17) return Sun;
-  if (hour >= 17 && hour < 21) return Moon;
-  return Moon;
-}
-
-const StatCard: React.FC<{
-  icon: any;
-  value: string;
-  label: string;
-  color: string;
-  bgColor: string;
-}> = ({ icon: Icon, value, label, color, bgColor }) => (
-  <div className={`${bgColor} rounded-2xl p-6 text-center`}>
-    <Icon className={`w-8 h-8 ${color} mx-auto mb-2`} />
-    <div className={`text-3xl font-bold ${color} mb-1`}>{value}</div>
-    <div className="text-sm text-ayur-gray font-semibold">{label}</div>
-  </div>
-);
-
-export default DietChartViewer;
+        
