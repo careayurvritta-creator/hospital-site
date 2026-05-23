@@ -13,7 +13,7 @@ import Blog from './pages/Blog';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms';
 import DietCharts from './pages/DietCharts';
-// import DietChartViewer from './components/DietChartViewer'; // Temp - fixing icon issue
+// import DietChartViewer from './components/DietChartViewer';
 
 const App: React.FC = () => {
   return (
@@ -32,7 +32,7 @@ const App: React.FC = () => {
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/diet-charts" element={<DietCharts />} />
-          {/* <Route path="/diet-charts/:slug" element={<DietChartViewer />} /> */} {/* Temp disabled */}
+          <Route path="/diet-charts/:slug" element={<DietChartViewer />} />
         </Routes>
       </Layout>
     </HashRouter>
