@@ -210,17 +210,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex space-x-6 items-center">
-              {NAV_ITEMS.map((item) => {
-                const keyMap: Record<string, string> = {
-                  '/': 'home',
-                  '/about': 'about',
-                  '/services': 'services',
-                  '/programs': 'programs',
-                  '/tools': 'tools',
-                  '/booking': 'contact',
-                  '/insurance': 'insurance',
-                  '/blog': 'blog'
-                };
+        {NAV_ITEMS.map((item) => {
+          const keyMap: Record<string, string> = {
+            '/': 'home',
+            '/about': 'about',
+            '/services': 'services',
+            '/programs': 'programs',
+            '/diet-charts': 'dietCharts',
+            '/tools': 'tools',
+            '/booking': 'contact',
+            '/insurance': 'insurance',
+            '/blog': 'blog'
+          };
                 const key = keyMap[item.path];
                 const label = key ? (t.nav && (t.nav as Record<string, string>)[key]) || item.label : item.label;
                 
