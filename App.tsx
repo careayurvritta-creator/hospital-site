@@ -9,7 +9,7 @@ import Programs from './pages/Programs';
 import Tools from './pages/Tools';
 import Booking from './pages/Booking';
 import Insurance from './pages/Insurance';
-// import Blog from './pages/Blog'; // Temporarily removed - broken JSX
+import Blog from './pages/Blog';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms';
 import DietCharts from './pages/DietCharts';
@@ -28,7 +28,7 @@ const App: React.FC = () => {
           <Route path="/tools" element={<Tools />} />
           <Route path="/booking" element={<Booking />} />
           <Route path="/insurance" element={<Insurance />} />
-          {/* <Route path="/blog" element={<Blog />} /> */} {/* Temporarily disabled */}
+          <Route path="/blog" element={<Blog />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/diet-charts" element={<DietCharts />} />
