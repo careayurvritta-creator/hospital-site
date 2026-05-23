@@ -863,14 +863,13 @@ const Blog: React.FC = () => {
                     </div>
                     <span className="text-sm font-semibold text-ayur-green">{featuredPost.author}</span>
                   </div>
-                  <span className="inline-flex items-center gap-2 text-ayur-accent font-bold text-sm md:text-base group-hover:gap-3 transition-all duration-300">
-                    Read Full Article <ArrowRight size={18} />
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <span className="inline-flex items-center gap-2 text-ayur-accent font-bold text-sm md:text-base group-hover:gap-3 transition-all duration-300">
+          Read Full Article <ArrowRight size={18} />
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
       )}
 
       {/* Search & Filter */}
