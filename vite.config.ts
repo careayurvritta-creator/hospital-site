@@ -2,6 +2,17 @@ import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
+function markdownRawPlugin() {
+  return {
+    name: 'markdown-raw',
+    enforce: 'pre',
+    transform(code: string, id: string) {
+      if (!id.endsWith('.md')) return null;
+      return { code: `export default ${JSON.stringify(code)}`, map: null };
+    },
+  };
+}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
   return {
@@ -10,8 +21,8 @@ export default defineConfig(({ mode }) => {
       port: 3000,
       host: '0.0.0.0',
     },
-    plugins: [react()],
-build: {
+    plugins: [markdownRawPlugin(), react()],
+    build: {
       outDir: 'dist',
       minify: 'esbuild',
       target: 'esnext',
@@ -19,14 +30,8 @@ build: {
         output: {
           manualChunks: (id) => {
             if (id.includes('node_modules')) {
-              // Charts - load separately for better caching
-              if (id.includes('recharts') || id.includes('d3-')) {
-                return 'vendor-charts';
-              }
-              // AI SDK - load separately to not block initial render
-              if (id.includes('@google/generative-ai') || id.includes('@google/genai')) {
-                return 'vendor-ai';
-              }
+              if (id.includes('recharts') || id.includes('d3-')) return 'vendor-charts';
+              if (id.includes('@google/generative-ai') || id.includes('@google/genai')) return 'vendor-ai';
             }
           },
         },

@@ -179,7 +179,7 @@ const DietChartsPage: React.FC = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="text-4xl md:text-5xl font-bold text-ayur-green mb-2">
-                {allCharts.length}+
+                {allCharts.length}
               </div>
               <div className="text-ayur-gray font-semibold">Diet Charts</div>
             </div>
