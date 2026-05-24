@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Filter, X } from 'lucide-react';
 import DietChartCard from '../components/DietChartCard';
-import { dietCharts, getAllCategories } from '../data/dietCharts';
+import { getAllParsedDietCharts, getDietChartCategories } from '../lib/diet-charts';
 import { useLanguage } from '../components/LanguageContext';
 
 const DietChartsPage: React.FC = () => {
@@ -10,16 +10,17 @@ const DietChartsPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [showFilters, setShowFilters] = useState(false);
 
-  const categories = useMemo(() => ['All', ...getAllCategories()], []);
+  const allCharts = useMemo(() => getAllParsedDietCharts(), []);
+  const categories = useMemo(() => ['All', ...getDietChartCategories()], []);
 
   const filteredCharts = useMemo(() => {
-    return dietCharts.filter(chart => {
+    return allCharts.filter(chart => {
       const matchesSearch = chart.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            chart.description.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory = selectedCategory === 'All' || chart.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
-  }, [searchTerm, selectedCategory]);
+  }, [searchTerm, selectedCategory, allCharts]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-ayur-cream via-white to-ayur-green/5">
@@ -37,9 +38,12 @@ const DietChartsPage: React.FC = () => {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
           <div className="text-center">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-white mb-6">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-white mb-4">
               Diet Charts
             </h1>
+            <div className="inline-block bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 mb-6">
+              <span className="text-white font-bold text-lg">{allCharts.length} Comprehensive Plans</span>
+            </div>
             <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-8">
               Discover personalized Ayurvedic diet plans for optimal health and wellness
             </p>
@@ -80,14 +84,43 @@ const DietChartsPage: React.FC = () => {
       </div>
 
       {/* Category Filters */}
-      {(showFilters || window.innerWidth < 768) && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
-          <div className="flex flex-wrap gap-2">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
+        <div className="flex items-center justify-between mb-4">
+          <span className="text-sm font-medium text-ayur-gray sm:hidden">
+            {filteredCharts.length} of {allCharts.length} charts
+          </span>
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-soft hover:shadow-card transition-all duration-300 sm:hidden min-h-[48px]"
+          >
+            <Filter className="w-5 h-5 text-ayur-gray" />
+            <span className="font-semibold text-ayur-gray text-sm">
+              {showFilters ? 'Hide' : 'Show'} Filters
+            </span>
+          </button>
+        </div>
+        <div className="hidden sm:flex flex-wrap gap-2">
+          {categories.map((category) => (
+            <button
+              key={category}
+              onClick={() => setSelectedCategory(category)}
+              className={`px-4 py-2 rounded-full font-semibold transition-all duration-300 ${
+                selectedCategory === category
+                  ? 'bg-ayur-green text-white shadow-lg transform scale-105'
+                  : 'bg-white text-ayur-gray hover:bg-ayur-subtle border border-ayur-subtle'
+              }`}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+        {showFilters && (
+          <div className="flex sm:hidden flex-wrap gap-2 mt-3">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
+                className={`px-4 py-2 rounded-full font-semibold transition-all duration-300 ${
                   selectedCategory === category
                     ? 'bg-ayur-green text-white shadow-lg transform scale-105'
                     : 'bg-white text-ayur-gray hover:bg-ayur-subtle border border-ayur-subtle'
@@ -97,8 +130,8 @@ const DietChartsPage: React.FC = () => {
               </button>
             ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Diet Charts Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
@@ -146,7 +179,7 @@ const DietChartsPage: React.FC = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="text-4xl md:text-5xl font-bold text-ayur-green mb-2">
-                {dietCharts.length}+
+                {allCharts.length}+
               </div>
               <div className="text-ayur-gray font-semibold">Diet Charts</div>
             </div>

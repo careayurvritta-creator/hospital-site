@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Check, X, Clock, Leaf, Download, Share2, BookOpen, Utensils, AlertTriangle, Calendar, Sparkles, ChevronRight, Printer, Heart } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { dietCharts } from '../data/dietCharts';
+import { getDietChartsFromKnowledgeBySlug } from '../lib/diet-charts';
 
 const DietChartViewer: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -12,7 +13,7 @@ const DietChartViewer: React.FC = () => {
   const [animatedStats, setAnimatedStats] = useState<Record<string, number>>({});
   const heroRef = useRef<HTMLDivElement>(null);
 
-  const dietChart = dietCharts.find(chart => chart.slug === slug);
+  const dietChart = getDietChartsFromKnowledgeBySlug(slug || '') || dietCharts.find(chart => chart.slug === slug);
 
   useEffect(() => {
     if (dietChart) {
