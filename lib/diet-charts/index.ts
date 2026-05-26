@@ -135,7 +135,15 @@ function loadAllDietCharts(): DietChart[] {
   return _allCharts;
 }
 
+// Instant access to hardcoded charts only (no parsing)
+export const getHardcodedDietCharts = (): DietChart[] => hardcodedCharts;
+
+// Get categories from a pre-loaded chart array
+export const getDietChartCategoriesFromAll = (charts: DietChart[]): string[] =>
+  Array.from(new Set(charts.map(c => c.category))).sort();
+
 export const getAllParsedDietCharts = (): DietChart[] => loadAllDietCharts();
+export const getDietChartsFromKnowledge = (): DietChart[] => loadAllDietCharts();
 
 export const getDietChartsFromKnowledgeBySlug = (slug: string): DietChart | undefined =>
   loadAllDietCharts().find(chart => chart.slug === slug);
