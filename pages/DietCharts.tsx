@@ -105,6 +105,8 @@ const CATEGORY_GRADIENTS: Record<string, string> = {
   'General Health': 'from-teal-500 to-emerald-600',
 };
 
+const ITEMS_PER_PAGE = 16;
+
 const DietCharts: React.FC = () => {
   const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
@@ -114,6 +116,7 @@ const DietCharts: React.FC = () => {
   const [sortBy, setSortBy] = useState<'default' | 'a-z' | 'category'>('default');
   const [animatedCounters, setAnimatedCounters] = useState({ charts: 0, categories: 0, foods: 0 });
   const [countersAnimated, setCountersAnimated] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
 
   const heroObserver = useIntersectionObserver({ threshold: 0.2 });
   const statsObserver = useIntersectionObserver({ threshold: 0.3 });
@@ -191,12 +194,20 @@ const DietCharts: React.FC = () => {
     return charts;
   }, [allCharts, selectedCategory, selectedPrakriti, searchQuery, sortBy]);
 
+  // Reset visible count when filters change
+  useEffect(() => {
+    setVisibleCount(ITEMS_PER_PAGE);
+  }, [searchQuery, selectedCategory, selectedPrakriti, sortBy]);
+
   const clearFilters = () => {
     setSearchQuery('');
     setSelectedCategory('All');
     setSelectedPrakriti('All');
     setSortBy('default');
   };
+
+  const visibleCharts = filteredCharts.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredCharts.length;
 
   const hasActiveFilters = searchQuery || selectedCategory !== 'All' || selectedPrakriti !== 'All' || sortBy !== 'default';
 
@@ -422,29 +433,41 @@ const DietCharts: React.FC = () => {
         )}
 
         {filteredCharts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredCharts.map((chart, idx) => (
-              <div
-                key={chart.id}
-                className={`transition-all duration-500 ${gridObserver.hasBeenVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-                style={{ transitionDelay: `${Math.min(idx * 50, 400)}ms` }}
-              >
-                <DietChartCard
-                  title={chart.title}
-                  slug={chart.slug}
-                  category={chart.category}
-                  description={chart.description}
-                  image={chart.image}
-                  foodGroups={chart.foodGroups}
-                  foodsToConsume={chart.foodsToConsume}
-                  foodsToAvoid={chart.foodsToAvoid}
-                  lifestyleTips={chart.lifestyleTips}
-                  featured={false}
-                  index={idx}
-                />
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {visibleCharts.map((chart, idx) => (
+                <div
+                  key={chart.id}
+                  className={`transition-all duration-500 ${gridObserver.hasBeenVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                  style={{ transitionDelay: `${Math.min(idx * 50, 400)}ms` }}
+                >
+                  <DietChartCard
+                    title={chart.title}
+                    slug={chart.slug}
+                    category={chart.category}
+                    description={chart.description}
+                    image={chart.image}
+                    foodGroups={chart.foodGroups}
+                    foodsToConsume={chart.foodsToConsume}
+                    foodsToAvoid={chart.foodsToAvoid}
+                    lifestyleTips={chart.lifestyleTips}
+                    featured={false}
+                    index={idx}
+                  />
+                </div>
+              ))}
+            </div>
+            {hasMore && (
+              <div className="text-center mt-10">
+                <button
+                  onClick={() => setVisibleCount(prev => prev + ITEMS_PER_PAGE)}
+                  className="px-8 py-3 bg-white text-ayur-green border-2 border-ayur-green/20 rounded-2xl font-bold hover:border-ayur-green hover:bg-ayur-green hover:text-white transition-all shadow-sm"
+                >
+                  Load More ({filteredCharts.length - visibleCount} remaining)
+                </button>
               </div>
-            ))}
-          </div>
+            )}
+          </>
         ) : (
           /* Empty State */
           <div className="text-center py-20">
