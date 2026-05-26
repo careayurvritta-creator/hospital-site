@@ -73,7 +73,7 @@ export const useScrollProgress = (): UseScrollProgressReturn => {
  * Tracks scroll progress relative to a specific element
  */
 export const useScrollProgressElement = (
-  elementRef: React.RefObject<HTMLElement>,
+  elementRef: import('react').RefObject<HTMLElement>,
   options: { offset?: number; triggerOnTop?: boolean } = {}
 ): { progress: number; isVisible: boolean; isFullyVisible: boolean } => {
   const [progress, setProgress] = useState(0);

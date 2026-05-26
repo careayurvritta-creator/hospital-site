@@ -64,13 +64,15 @@ export const captureError = (
 
   // Track to analytics
   try {
-    eventTracker.trackError(
-      error instanceof Error ? error : new Error(errorMessage),
-      {
-        componentStack: context.componentStack,
-        source: context.source,
-      }
-    );
+    eventTracker.trackError({
+      errorType: context.source || 'unknown',
+      errorMessage: errorMessage,
+      errorStack: stackTrace,
+      severity: context.severity || 'medium',
+      path: window.location.pathname,
+      componentName: context.source,
+      timestamp: Date.now(),
+    });
   } catch {
     // Silent fail - don't break on tracking failure
   }

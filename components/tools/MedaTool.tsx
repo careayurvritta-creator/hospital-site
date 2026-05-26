@@ -247,7 +247,7 @@ const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
       const heightM = parseFloat(height) / 100;
       const bmi = parseFloat(weight) / (heightM * heightM);
       const whrVal = waist && hip ? parseFloat(waist) / parseFloat(hip) : 0;
-      const symptomScore = Object.values(symptoms).reduce((a, b) => a + b, 0);
+      const symptomScore = (Object.values(symptoms) as number[]).reduce((a, b) => a + b, 0);
       
       const medaClass = getMedaClassification(bmi, whrVal, symptomScore);
       const bmiGauge = getBMIGaugePosition(bmi);

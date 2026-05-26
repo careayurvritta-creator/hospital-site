@@ -54,7 +54,8 @@ Element.prototype.getBoundingClientRect = vi.fn(() => ({
   height: 0,
   x: 0,
   y: 0,
-}));
+  toJSON: () => '',
+})) as unknown as () => DOMRect;
 
 // Mock localStorage
 const localStorageMock = {

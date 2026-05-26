@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react';
 function markdownRawPlugin() {
   return {
     name: 'markdown-raw',
-    enforce: 'pre',
+    enforce: 'pre' as const,
     transform(code: string, id: string) {
       if (!id.endsWith('.md')) return null;
       return { code: `export default ${JSON.stringify(code)}`, map: null };

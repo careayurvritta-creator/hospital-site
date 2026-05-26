@@ -58,7 +58,6 @@ Kapha provides structure and stability. When balanced, it manifests as love and 
     readTime: '5 min read',
     category: 'Ayurveda',
     image: 'https://images.unsplash.com/photo-1615486511484-92e172cc4fe0?w=1200&auto=format&fit=crop',
-    featured: true
   },
   {
     id: '2',

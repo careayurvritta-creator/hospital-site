@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { TRANSLATIONS, Language } from '../../translations';
+import { TRANSLATIONS, Language } from '../translations';
 
 describe('translations', () => {
   const languages: Language[] = ['en', 'hi', 'gu'];
@@ -13,22 +13,22 @@ describe('translations', () => {
         expect(TRANSLATIONS[lang].nav.services).toBeDefined();
         expect(TRANSLATIONS[lang].nav.programs).toBeDefined();
         expect(TRANSLATIONS[lang].nav.tools).toBeDefined();
-        expect(TRANSLATIONS[lang].nav.booking).toBeDefined();
+        expect(TRANSLATIONS[lang].nav.book).toBeDefined();
       });
 
-      it('should have home section', () => {
-        expect(TRANSLATIONS[lang].home).toBeDefined();
-        expect(TRANSLATIONS[lang].home.hero).toBeDefined();
+      it('should have hero section', () => {
+        expect(TRANSLATIONS[lang].hero).toBeDefined();
+        expect(TRANSLATIONS[lang].hero.tagline).toBeDefined();
       });
 
       it('should have footer section', () => {
         expect(TRANSLATIONS[lang].footer).toBeDefined();
-        expect(TRANSLATIONS[lang].footer.contact).toBeDefined();
+        expect(TRANSLATIONS[lang].footer.explore).toBeDefined();
       });
 
-      it('should have booking section', () => {
-        expect(TRANSLATIONS[lang].booking).toBeDefined();
-        expect(TRANSLATIONS[lang].booking.form).toBeDefined();
+      it('should have common section', () => {
+        expect(TRANSLATIONS[lang].common).toBeDefined();
+        expect(TRANSLATIONS[lang].common.book_consultation).toBeDefined();
       });
     });
   });

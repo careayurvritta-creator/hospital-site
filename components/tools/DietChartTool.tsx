@@ -504,7 +504,7 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
           <div className="bg-white rounded-2xl shadow-lg p-4">
             <h3 className="font-bold text-ayur-green mb-3">Daily Meal Plan</h3>
             <div className="space-y-4">
-              {Object.entries(result.dailyPlan).map(([key, meals]) => (
+              {(Object.entries(result.dailyPlan) as [string, {meal: string; food: string; reasoning: string; time: string}[]][]).map(([key, meals]) => (
                 <div key={key} className="border-b border-gray-100 pb-3 last:border-0 last:pb-0">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-lg">{mealEmojis[key]}</span>
