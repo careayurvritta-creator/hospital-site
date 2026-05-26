@@ -127,20 +127,20 @@ const DietCharts: React.FC = () => {
 
   // Load charts asynchronously to avoid blocking main thread
   useEffect(() => {
-    // Use requestIdleCallback if available, otherwise setTimeout
-    const load = () => {
-      const charts = getAllParsedDietCharts();
-      const cats = getDietChartCategories();
-      setAllCharts(charts);
-      setCategories(cats);
-      setIsLoading(false);
-    };
-
-    if ('requestIdleCallback' in window) {
-      (window as any).requestIdleCallback(load, { timeout: 2000 });
-    } else {
-      setTimeout(load, 0);
-    }
+    // Defer heavy parsing to next frame so skeleton renders first
+    const timer = setTimeout(() => {
+      try {
+        const charts = getAllParsedDietCharts();
+        const cats = getDietChartCategories();
+        setAllCharts(charts);
+        setCategories(cats);
+      } catch (e) {
+        console.error('Failed to load diet charts:', e);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 50);
+    return () => clearTimeout(timer);
   }, []);
 
   // Category counts
