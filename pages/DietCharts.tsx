@@ -1,11 +1,13 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { Search, Filter, X, Leaf, Heart, Sparkles, ChevronDown, ChevronRight, Star, TrendingUp, BookOpen, ArrowRight, Utensils, Activity, Droplet, Shield, Brain, Eye, Baby, Bone, Wind, Flower2, Sun, Stethoscope, Pill, Clock, ChefHat } from 'lucide-react';
+import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
+import { Search, Filter, X, Leaf, Heart, Sparkles, ChevronDown, ChevronRight, Star, TrendingUp, BookOpen, ArrowRight, Utensils, Activity, Droplet, Shield, Brain, Eye, Baby, Bone, Wind, Flower2, Sun, Stethoscope, Pill, Clock, ChefHat, Loader2 } from 'lucide-react';
 import DietChartCard from '../components/DietChartCard';
 import { getAllParsedDietCharts, getDietChartCategories, getFeaturedDietCharts } from '../lib/diet-charts';
 import { useLanguage } from '../components/LanguageContext';
 import { useIntersectionObserver } from '../hooks';
+import type { DietChart } from '../data/dietCharts';
 
 const PRAKRITI_OPTIONS = ['All', 'Vata', 'Pitta', 'Kapha', 'Vata-Pitta', 'Pitta-Kapha', 'Vata-Kapha'];
+const ITEMS_PER_PAGE = 16;
 
 function getPrakritiFromTitle(title: string): string | null {
   const t = title.toLowerCase();
@@ -105,8 +107,6 @@ const CATEGORY_GRADIENTS: Record<string, string> = {
   'General Health': 'from-teal-500 to-emerald-600',
 };
 
-const ITEMS_PER_PAGE = 16;
-
 const DietCharts: React.FC = () => {
   const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
@@ -117,14 +117,31 @@ const DietCharts: React.FC = () => {
   const [animatedCounters, setAnimatedCounters] = useState({ charts: 0, categories: 0, foods: 0 });
   const [countersAnimated, setCountersAnimated] = useState(false);
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+  const [isLoading, setIsLoading] = useState(true);
+  const [allCharts, setAllCharts] = useState<DietChart[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
 
   const heroObserver = useIntersectionObserver({ threshold: 0.2 });
   const statsObserver = useIntersectionObserver({ threshold: 0.3 });
   const gridObserver = useIntersectionObserver({ threshold: 0.05 });
 
-  const allCharts = useMemo(() => getAllParsedDietCharts(), []);
-  const categories = useMemo(() => getDietChartCategories(), []);
-  const featuredCharts = useMemo(() => getFeaturedDietCharts(), []);
+  // Load charts asynchronously to avoid blocking main thread
+  useEffect(() => {
+    // Use requestIdleCallback if available, otherwise setTimeout
+    const load = () => {
+      const charts = getAllParsedDietCharts();
+      const cats = getDietChartCategories();
+      setAllCharts(charts);
+      setCategories(cats);
+      setIsLoading(false);
+    };
+
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(load, { timeout: 2000 });
+    } else {
+      setTimeout(load, 0);
+    }
+  }, []);
 
   // Category counts
   const categoryCounts = useMemo(() => {
@@ -135,9 +152,19 @@ const DietCharts: React.FC = () => {
     return counts;
   }, [allCharts]);
 
+  // Featured charts
+  const featuredCharts = useMemo(() => {
+    const seen = new Set<string>();
+    return allCharts.filter(c => {
+      if (seen.has(c.category)) return false;
+      seen.add(c.category);
+      return true;
+    }).slice(0, 3);
+  }, [allCharts]);
+
   // Animated counters
   useEffect(() => {
-    if (statsObserver.hasBeenVisible && !countersAnimated) {
+    if (statsObserver.hasBeenVisible && !countersAnimated && allCharts.length > 0) {
       setCountersAnimated(true);
       const targets = { charts: allCharts.length, categories: categories.length, foods: allCharts.length * 12 };
       const duration = 1500;
@@ -208,24 +235,54 @@ const DietCharts: React.FC = () => {
 
   const visibleCharts = filteredCharts.slice(0, visibleCount);
   const hasMore = visibleCount < filteredCharts.length;
-
   const hasActiveFilters = searchQuery || selectedCategory !== 'All' || selectedPrakriti !== 'All' || sortBy !== 'default';
+
+  // Loading skeleton
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-ayur-cream via-white to-ayur-cream/30">
+        <section className="relative bg-gradient-to-br from-ayur-green via-[#0a6b5a] to-ayur-green-dark py-20 md:py-32 text-white">
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 mb-6">
+              <Loader2 className="w-4 h-4 animate-spin text-ayur-accent" />
+              <span className="text-sm font-semibold text-white/90">Loading diet charts...</span>
+            </div>
+            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
+              <span className="text-white">Nourish Your Body,</span><br />
+              <span className="bg-gradient-to-r from-ayur-accent via-yellow-300 to-ayur-accent bg-clip-text text-transparent">Balance Your Dosha</span>
+            </h1>
+          </div>
+        </section>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="bg-white rounded-3xl overflow-hidden border border-gray-100 animate-pulse">
+                <div className="h-52 bg-gray-200" />
+                <div className="p-5 space-y-3">
+                  <div className="h-5 bg-gray-200 rounded w-3/4" />
+                  <div className="h-4 bg-gray-100 rounded w-full" />
+                  <div className="h-4 bg-gray-100 rounded w-2/3" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-ayur-cream via-white to-ayur-cream/30">
 
       {/* HERO SECTION */}
       <section ref={heroObserver.ref} className="relative bg-gradient-to-br from-ayur-green via-[#0a6b5a] to-ayur-green-dark py-20 md:py-32 text-white overflow-hidden">
-        {/* Decorative Orbs */}
         <div className="absolute top-10 left-10 w-64 h-64 bg-emerald-400/10 rounded-full blur-3xl animate-float" />
         <div className="absolute bottom-10 right-10 w-80 h-80 bg-amber-400/10 rounded-full blur-3xl animate-floatSlow" />
         <div className="absolute top-1/2 left-1/2 w-40 h-40 bg-teal-300/10 rounded-full blur-2xl animate-breathe" />
 
-        {/* Food pattern overlay */}
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M30 0c-5 0-10 5-10 15s5 15 10 15 10 15 10-5 10-15-5-15-10-15zm0 40c-5 0-10 5-10 15s5 15 10 15 10-5 10-15-5-15-10-15z\' fill=\'%23ffffff\' fill-rule=\'evenodd\'/%3E%3C/svg%3E")' }} />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 text-center">
-          {/* Animated badge */}
           <div className={`inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 mb-6 transition-all duration-700 ${heroObserver.hasBeenVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <Utensils className="w-4 h-4 text-ayur-accent" />
             <span className="text-sm font-semibold text-white/90">{allCharts.length} Ayurvedic Diet Plans</span>
@@ -242,7 +299,6 @@ const DietCharts: React.FC = () => {
             From diabetes management to pregnancy care — find the perfect nutrition plan.
           </p>
 
-          {/* Quick Stats */}
           <div className={`flex flex-wrap justify-center gap-6 mb-8 transition-all duration-700 delay-300 ${heroObserver.hasBeenVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
             {[
               { icon: BookOpen, label: 'Diet Plans', value: allCharts.length },
@@ -259,7 +315,6 @@ const DietCharts: React.FC = () => {
             ))}
           </div>
 
-          {/* Search Bar */}
           <div className={`max-w-2xl mx-auto transition-all duration-700 delay-400 ${heroObserver.hasBeenVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -268,12 +323,12 @@ const DietCharts: React.FC = () => {
                 placeholder="Search diet charts (e.g., diabetes, thyroid, pregnancy...)"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white/95 backdrop-blur-sm text-ayur-text placeholder-gray-400 text-base shadow-xl border-2 border-transparent focus:border-ayur-accent focus:outline-none transition-all"
+                className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white/95 backdrop-blur-sm text-gray-800 placeholder-gray-400 text-base shadow-xl border-2 border-transparent focus:border-ayur-accent focus:outline-none transition-all"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-ayur-text transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-800 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -291,7 +346,7 @@ const DietCharts: React.FC = () => {
             className={`flex-shrink-0 flex items-center gap-2 px-5 py-3 rounded-2xl font-semibold text-sm transition-all duration-300 border-2 ${
               selectedCategory === 'All'
                 ? 'bg-ayur-green text-white border-ayur-green shadow-lg shadow-ayur-green/20'
-                : 'bg-white text-ayur-text border-gray-200 hover:border-ayur-green/30 hover:shadow-md'
+                : 'bg-white text-gray-800 border-gray-200 hover:border-ayur-green/30 hover:shadow-md'
             }`}
           >
             <Sparkles className="w-4 h-4" />
@@ -310,7 +365,7 @@ const DietCharts: React.FC = () => {
                 className={`flex-shrink-0 flex items-center gap-2 px-4 py-3 rounded-2xl font-semibold text-sm transition-all duration-300 border-2 ${
                   isSelected
                     ? `bg-gradient-to-r ${CATEGORY_GRADIENTS[cat] || 'from-teal-500 to-emerald-600'} text-white border-transparent shadow-lg`
-                    : 'bg-white text-ayur-text border-gray-200 hover:border-ayur-green/30 hover:shadow-md'
+                    : 'bg-white text-gray-800 border-gray-200 hover:border-ayur-green/30 hover:shadow-md'
                 }`}
               >
                 <span className="text-base">{CATEGORY_EMOJIS[cat] || '🌿'}</span>
@@ -331,7 +386,7 @@ const DietCharts: React.FC = () => {
             <button
               onClick={() => setShowFilters(!showFilters)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 border-2 ${
-                showFilters ? 'bg-ayur-green text-white border-ayur-green' : 'bg-white text-ayur-text border-gray-200 hover:border-ayur-green/30'
+                showFilters ? 'bg-ayur-green text-white border-ayur-green' : 'bg-white text-gray-800 border-gray-200 hover:border-ayur-green/30'
               }`}
             >
               <Filter className="w-4 h-4" />
@@ -351,11 +406,11 @@ const DietCharts: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-sm text-ayur-gray">{filteredCharts.length} results</span>
+            <span className="text-sm text-gray-500">{filteredCharts.length} results</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="px-3 py-2 rounded-xl border-2 border-gray-200 text-sm font-medium text-ayur-text bg-white focus:border-ayur-green focus:outline-none transition-colors"
+              className="px-3 py-2 rounded-xl border-2 border-gray-200 text-sm font-medium text-gray-800 bg-white focus:border-ayur-green focus:outline-none transition-colors"
             >
               <option value="default">Default</option>
               <option value="a-z">A-Z</option>
@@ -364,10 +419,9 @@ const DietCharts: React.FC = () => {
           </div>
         </div>
 
-        {/* Expanded Filters */}
         {showFilters && (
           <div className="mt-4 p-5 bg-white rounded-2xl border border-gray-200 shadow-sm animate-fadeIn">
-            <h3 className="text-sm font-bold text-ayur-text mb-3">Filter by Prakriti (Constitution)</h3>
+            <h3 className="text-sm font-bold text-gray-800 mb-3">Filter by Prakriti (Constitution)</h3>
             <div className="flex flex-wrap gap-2">
               {PRAKRITI_OPTIONS.map(prakriti => (
                 <button
@@ -376,7 +430,7 @@ const DietCharts: React.FC = () => {
                   className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
                     selectedPrakriti === prakriti
                       ? 'bg-ayur-green text-white shadow-md'
-                      : 'bg-gray-50 text-ayur-gray hover:bg-ayur-green-light hover:text-ayur-green'
+                      : 'bg-gray-50 text-gray-500 hover:bg-ayur-green-light hover:text-ayur-green'
                   }`}
                 >
                   {prakriti}
@@ -395,10 +449,10 @@ const DietCharts: React.FC = () => {
               <Star className="w-4 h-4 text-ayur-accent fill-ayur-accent" />
               <span className="text-sm font-bold text-ayur-accent">Featured</span>
             </div>
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-ayur-text">Recommended Diet Plans</h2>
+            <h2 className="font-serif text-2xl md:text-3xl font-bold text-gray-800">Recommended Diet Plans</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredCharts.slice(0, 3).map((chart, idx) => (
+            {featuredCharts.map((chart, idx) => (
               <DietChartCard
                 key={chart.id}
                 title={chart.title}
@@ -422,13 +476,13 @@ const DietCharts: React.FC = () => {
       <section ref={gridObserver.ref} className="max-w-7xl mx-auto px-4 sm:px-6 mt-10 mb-12">
         {selectedCategory !== 'All' || searchQuery || selectedPrakriti !== 'All' ? (
           <div className="flex items-center gap-3 mb-6">
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-ayur-text">
+            <h2 className="font-serif text-2xl md:text-3xl font-bold text-gray-800">
               {searchQuery ? `Results for "${searchQuery}"` : selectedCategory !== 'All' ? selectedCategory : `${selectedPrakriti} Diet Charts`}
             </h2>
           </div>
         ) : (
           <div className="flex items-center gap-3 mb-6">
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-ayur-text">All Diet Charts</h2>
+            <h2 className="font-serif text-2xl md:text-3xl font-bold text-gray-800">All Diet Charts</h2>
           </div>
         )}
 
@@ -469,13 +523,12 @@ const DietCharts: React.FC = () => {
             )}
           </>
         ) : (
-          /* Empty State */
           <div className="text-center py-20">
             <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gray-100 flex items-center justify-center">
               <Search className="w-10 h-10 text-gray-300" />
             </div>
-            <h3 className="text-xl font-bold text-ayur-text mb-2">No diet charts found</h3>
-            <p className="text-ayur-gray mb-6 max-w-md mx-auto">
+            <h3 className="text-xl font-bold text-gray-800 mb-2">No diet charts found</h3>
+            <p className="text-gray-500 mb-6 max-w-md mx-auto">
               Try adjusting your search or filters to find the perfect diet plan for your needs.
             </p>
             <button
@@ -521,7 +574,7 @@ const DietCharts: React.FC = () => {
         <div className="bg-gradient-to-br from-ayur-accent/10 via-amber-50 to-ayur-accent/5 rounded-3xl p-8 md:p-12 border border-ayur-accent/20 text-center relative overflow-hidden">
           <div className="absolute top-4 right-4 text-6xl opacity-10 font-serif">"</div>
           <div className="relative z-10">
-            <p className="font-serif text-xl md:text-2xl text-ayur-text italic mb-4 max-w-3xl mx-auto leading-relaxed">
+            <p className="font-serif text-xl md:text-2xl text-gray-800 italic mb-4 max-w-3xl mx-auto leading-relaxed">
               "When diet is wrong, medicine is of no use. When diet is correct, medicine is of no need."
             </p>
             <p className="text-ayur-accent font-semibold text-sm mb-6">— Ayurvedic Proverb</p>
