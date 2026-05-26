@@ -4,7 +4,7 @@
  * Currently mocks data, but structured for API integration
  */
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 export interface TimeSlot {
     time: string;

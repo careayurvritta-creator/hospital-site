@@ -357,7 +357,7 @@ const PanchakarmaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
     setShowDetails(false);
     
     setTimeout(() => {
-      const score = Object.values(answers).reduce((a, b) => a + b, 0);
+      const score = (Object.values(answers) as number[]).reduce((a, b) => a + b, 0);
       const maxScore = 30;
       
       let eligibility = 'eligible';

@@ -48,7 +48,7 @@ const TrustBadges: React.FC = () => {
  // Cleanup animations
  return () => {
  Object.values(animationRef.current).forEach(ref => {
- cancelAnimationFrame(ref);
+ cancelAnimationFrame(ref as number);
  });
  };
  }, [observer.isVisible]);

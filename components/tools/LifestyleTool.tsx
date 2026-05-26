@@ -470,7 +470,7 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
     setShowReport(false);
     
     setTimeout(() => {
-      const score = Object.values(answers).reduce((a, b) => a + b, 0);
+      const score = (Object.values(answers) as number[]).reduce((a, b) => a + b, 0);
       const maxScore = 375;
       
       let vataScore = 0, pittaScore = 0, kaphaScore = 0;

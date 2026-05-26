@@ -6,7 +6,8 @@
 import { USER_SEGMENTS, LEAD_STATUS, LEAD_SCORING } from './config';
 import { getVisitCount, getWithExpiry, setWithExpiry } from './utils';
 import { eventTracker } from './eventTracker';
-import type { UserSegment, UserProfile } from './types';
+import type { UserSegment } from './config';
+import type { UserProfile } from './types';
 
 // Storage keys
 const PROFILE_KEY = 'ayurvritta_user_profile';

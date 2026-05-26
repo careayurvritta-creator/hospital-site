@@ -14,7 +14,7 @@ interface UseIntersectionObserverOptions {
 }
 
 interface UseIntersectionObserverReturn {
-  ref: React.RefObject<HTMLElement>;
+  ref: import('react').RefObject<HTMLElement>;
   isVisible: boolean;
   hasBeenVisible: boolean;
 }
@@ -95,7 +95,7 @@ export const useIntersectionObserverMultiple = (
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const index = elements.indexOf(entry.target);
+          const index = elements.indexOf(entry.target as HTMLElement);
           if (index !== -1) {
             const visible = entry.isIntersecting;
             
@@ -124,7 +124,7 @@ export const useIntersectionObserverMultiple = (
   }, [count, options.threshold, options.rootMargin]);
 
   return refs.current.map((_, index) => ({
-    ref: { current: refs.current[index] } as React.RefObject<HTMLElement>,
+    ref: { current: refs.current[index] } as import('react').RefObject<HTMLElement>,
     isVisible: visibilityStates[index],
     hasBeenVisible: hasBeenVisibleStates[index],
   }));
