@@ -24,6 +24,7 @@ const BLOG_POSTS: BlogPost[] = [
     slug: 'understanding-ayurveda-science-of-life',
     title: 'Understanding Ayurveda: The Science of Life',
     excerpt: 'Discover the ancient wisdom of Ayurveda and how it can transform your health through balanced living.',
+    featured: true,
     content: `Ayurveda, the ancient science of life, is a holistic healing system that originated in India over 5,000 years ago.
 
 ## The Five Elements
@@ -242,6 +243,331 @@ Always consult with a healthcare provider before starting herbal remedies.`,
     readTime: '6 min read',
     category: 'Ayurveda',
     image: 'https://images.unsplash.com/photo-1576001148957-4f4a4d3838b1?w=1200&auto=format&fit=crop'
+  },
+  {
+    id: '7',
+    slug: 'understanding-doshas-vata-pitta-kapha',
+    title: 'Understanding the Three Doshas: Vata, Pitta, Kapha',
+    excerpt: 'A comprehensive guide to the three fundamental energies that govern your body and mind in Ayurveda.',
+    content: `In Ayurveda, every person is born with a unique constitution called Prakriti, determined by three doshas.
+
+## Vata — The Energy of Movement
+
+Vata is composed of Air and Ether elements. It governs all movement in the body including breathing, blood circulation, and nerve impulses.
+
+**Characteristics:** Creative, quick-thinking, slender build, dry skin
+
+**When Imbalanced:** Anxiety, insomnia, constipation, dry skin, joint pain
+
+**Balance Tips:** Regular routine, warm foods, oil massage, adequate rest
+
+## Pitta — The Energy of Transformation
+
+Pitta combines Fire and Water elements. It controls digestion, metabolism, and body temperature.
+
+**Characteristics:** Intelligent, focused, medium build, warm body
+
+**When Imbalanced:** Anger, acid reflux, skin rashes, inflammation
+
+**Balance Tips:** Cooling foods, avoid spicy food, spend time in nature
+
+## Kapha — The Energy of Structure
+
+Kapha is made of Earth and Water. It provides physical structure, lubrication, and immunity.
+
+**Characteristics:** Calm, loving, strong build, smooth skin
+
+**When Imbalanced:** Weight gain, lethargy, depression, congestion
+
+**Balance Tips:** Regular exercise, light foods, stay active and motivated
+
+## Finding Your Dosha
+
+Understanding your dosha helps you make better choices in diet, exercise, and lifestyle for optimal health and balance.`,
+    author: 'Dr. Jinendradutt Sharma',
+    authorImage: 'https://images.unsplash.com/photo-1615486511484-92e172cc4fe0?w=100&h=100&auto=format&fit=crop',
+    date: 'Apr 28, 2026',
+    readTime: '8 min read',
+    category: 'Ayurveda',
+    image: 'https://images.unsplash.com/photo-1612835781068-42b5e8a0cbd7?w=1200&auto=format&fit=crop',
+    featured: true
+  },
+  {
+    id: '8',
+    slug: 'panchakarma-detox-five-actions',
+    title: 'Panchakarma: The Five Purification Actions',
+    excerpt: 'Discover the ancient Ayurvedic detoxification system that cleanses the body at the deepest level.',
+    content: `Panchakarma is the cornerstone of Ayurvedic treatment — a five-fold purification therapy that eliminates toxins and restores balance.
+
+## The Five Actions
+
+### 1. Vamana (Therapeutic Emesis)
+Controlled vomiting to eliminate excess Kapha from the stomach and respiratory tract. Best for asthma, allergies, and skin disorders.
+
+### 2. Virechana (Therapeutic Purgation)
+Medicated purgation to cleanse Pitta from the liver and intestines. Effective for jaundice, skin diseases, and digestive disorders.
+
+### 3. Basti (Medicated Enema)
+Herbal decoctions and oils administered through the rectum. The most powerful of all five actions, especially for Vata disorders like arthritis and constipation.
+
+### 4. Nasya (Nasal Administration)
+Medicated oils or powders administered through the nose. Treats sinusitis, migraine, hair loss, and neurological conditions.
+
+### 5. Raktamokshana (Bloodletting)
+Purification of blood using leeches or other methods. Effective for skin diseases, gout, and localized inflammation.
+
+## Who Should Consider Panchakarma?
+
+- Chronic digestive issues
+- Joint and muscle pain
+- Skin conditions
+- Stress and anxiety
+- Recurring allergies
+- Metabolic disorders
+
+## Pre and Post Care
+
+Panchakarma requires careful preparation (Purvakarma) and follow-up care (Paschatkarma) including specific diet and lifestyle modifications for best results.
+
+Consult an experienced Ayurvedic physician to determine which Panchakarma therapy is right for you.`,
+    author: 'Dr. Sharlin Patel',
+    authorImage: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=100&h=100&auto=format&fit=crop',
+    date: 'Apr 20, 2026',
+    readTime: '7 min read',
+    category: 'Wellness',
+    image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1200&auto=format&fit=crop'
+  },
+  {
+    id: '9',
+    slug: 'ayurvedic-cooking-six-tastes',
+    title: 'The Six Tastes: A Guide to Ayurvedic Cooking',
+    excerpt: 'Learn how to incorporate all six Ayurvedic tastes (Rasas) into every meal for optimal nutrition and satisfaction.',
+    content: `Ayurveda recognizes six tastes (Rasas) that should be present in every meal for complete nourishment and satisfaction.
+
+## The Six Tastes
+
+### 1. Sweet (Madhura)
+**Sources:** Rice, milk, ghee, fruits, wheat, sugar
+**Effect:** Nourishing, grounding, builds tissues
+**Best for:** Vata constitution
+
+### 2. Sour (Amla)
+**Sources:** Lemon, yogurt, tamarind, tomato, fermented foods
+**Effect:** Stimulates digestion, improves appetite
+**Best for:** Kapha constitution
+
+### 3. Salty (Lavana)
+**Sources:** Salt, seaweed, celery, rock salt
+**Effect:** Retains moisture, improves taste, softens tissues
+**Best for:** Vata constitution
+
+### 4. Pungent (Katu)
+**Sources:** Ginger, black pepper, chili, garlic, onion
+**Effect:** Stimulates metabolism, clears sinuses, improves circulation
+**Best for:** Kapha constitution
+
+### 5. Bitter (Tikta)
+**Sources:** Turmeric, neem, bitter gourd, leafy greens
+**Effect:** Detoxifies, reduces inflammation, improves skin
+**Best for:** Pitta constitution
+
+### 6. Astringent (Kashaya)
+**Sources:** Green tea, pomegranate, lentils, turmeric
+**Effect:** Dries excess moisture, tightens tissues
+**Best for:** Pitta constitution
+
+## Balancing Tastes in Your Plate
+
+A simple rule: include at least 3-4 tastes in every meal. For example:
+- **Rice** (sweet) + **Dal** (astringent) + **Pickles** (sour/salty) + **Salad** (bitter)
+
+This ensures complete nutrition and natural satisfaction, reducing cravings and overeating.`,
+    author: 'Dr. Meera Singh',
+    authorImage: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=100&h=100&auto=format&fit=crop',
+    date: 'Apr 15, 2026',
+    readTime: '5 min read',
+    category: 'Nutrition',
+    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&auto=format&fit=crop'
+  },
+  {
+    id: '10',
+    slug: 'dinacharya-daily-routine-ayurveda',
+    title: 'Dinacharya: The Perfect Ayurvedic Daily Routine',
+    excerpt: 'Transform your health with this ancient daily routine prescribed by Ayurvedic sages for optimal wellness.',
+    content: `Dinacharya is the Ayurvedic concept of a daily routine that aligns your body with natural rhythms.
+
+## Early Morning (5:00 - 7:00 AM)
+
+### Wake Up Before Sunrise
+The Brahma Muhurta (4:30-6:00 AM) is the most auspicious time for waking. The atmosphere is calm and full of prana.
+
+### Oral Care
+- Scrape your tongue with a copper scraper
+- Oil pulling with sesame or coconut oil for 10-15 minutes
+- Brush teeth with herbal tooth powder
+
+### Self-Massage (Abhyanga)
+Warm sesame oil and massage your entire body before bathing. This nourishes the skin, calms the nervous system, and improves circulation.
+
+### Exercise & Yoga
+Practice yoga asanas or gentle exercise for 20-30 minutes. Follow with Pranayama (breathing exercises).
+
+## Morning (7:00 - 10:00 AM)
+
+### Breakfast
+Eat a warm, nourishing breakfast appropriate for your dosha. Avoid cold or heavy foods.
+
+### Work & Activity
+This is the Kapha time — ideal for focused, productive work.
+
+## Midday (10:00 AM - 2:00 PM)
+
+### Lunch — The Main Meal
+Digestive fire (Agni) is strongest at noon. Eat your largest meal now.
+
+## Evening (2:00 - 6:00 PM)
+
+### Light Snack
+A cup of herbal tea or light snack if needed.
+
+### Gentle Walk
+A 15-20 minute walk after work aids digestion.
+
+## Night (6:00 - 10:00 PM)
+
+### Light Dinner
+Eat at least 3 hours before bedtime. Keep it light and easy to digest.
+
+### Wind Down
+Avoid screens, practice gentle stretching, read, or meditate.
+
+### Sleep
+Be in bed by 10:00 PM during the Kapha time for deep, restful sleep.
+
+Following Dinacharya consistently is one of the most powerful things you can do for your health.`,
+    author: 'Yoga Master Rajesh',
+    authorImage: 'https://images.unsplash.com/photo-1544367563-12123d8965cd?w=100&h=100&auto=format&fit=crop',
+    date: 'Apr 10, 2026',
+    readTime: '6 min read',
+    category: 'Lifestyle',
+    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&auto=format&fit=crop'
+  },
+  {
+    id: '11',
+    slug: 'turmeric-golden-medicine',
+    title: 'Turmeric: The Golden Medicine of Ayurveda',
+    excerpt: 'Why turmeric has been the most revered healing spice in Ayurveda for over 4,000 years.',
+    content: `Turmeric (Curcuma longa) is perhaps the most important herb in Ayurveda, known as "the golden spice of life."
+
+## Properties in Ayurveda
+
+- **Rasa (Taste):** Bitter, Pungent, Astringent
+- **Virya (Potency):** Heating
+- **Vipaka (Post-digestive effect):** Pungent
+- **Dosha Effect:** Balances all three doshas (Tridoshahara)
+
+## Health Benefits
+
+### Anti-Inflammatory
+Curcumin, the active compound, is one of nature's most powerful anti-inflammatory agents. It works at the molecular level to fight inflammation.
+
+### Antioxidant
+Neutralizes free radicals and stimulates the body's own antioxidant mechanisms.
+
+### Digestive Support
+Stimulates bile production, improves gut health, and reduces bloating.
+
+### Immune Booster
+Modulates the immune system and has antimicrobial properties.
+
+### Joint Health
+Reduces joint pain and stiffness in arthritis.
+
+## How to Use Turmeric
+
+### Golden Milk (Haldi Doodh)
+Boil 1 tsp turmeric + pinch of black pepper + 1 cup milk. Drink warm before bed.
+
+### Turmeric Tea
+Add ½ tsp turmeric to boiling water with ginger and honey.
+
+### In Cooking
+Add to curries, soups, rice, and dal daily.
+
+### Topical Paste
+Mix with aloe vera for skin conditions and wounds.
+
+## Important Note
+Always combine turmeric with black pepper (increases absorption by 2000%) and a fat source for best results.`,
+    author: 'Dr. Jinendradutt Sharma',
+    authorImage: 'https://images.unsplash.com/photo-1615486511484-92e172cc4fe0?w=100&h=100&auto=format&fit=crop',
+    date: 'Apr 5, 2026',
+    readTime: '5 min read',
+    category: 'Ayurveda',
+    image: 'https://images.unsplash.com/photo-1615486262315-4f0deed53924?w=1200&auto=format&fit=crop'
+  },
+  {
+    id: '12',
+    slug: 'ayurveda-weight-management-natural',
+    title: 'Ayurvedic Weight Management: A Natural Approach',
+    excerpt: 'Sustainable weight management through Ayurvedic principles that address root causes, not just symptoms.',
+    content: `Ayurveda approaches weight management by understanding your body type and addressing the root cause of weight gain.
+
+## Understanding Weight Gain in Ayurveda
+
+Weight gain is primarily a Kapha disorder caused by:
+- Weak digestive fire (Mandagni)
+- Excess Kapha accumulation
+- Improper diet and lifestyle
+- Emotional eating
+- Sedentary habits
+
+## The Ayurvedic Approach
+
+### 1. Strengthen Agni (Digestive Fire)
+- Drink warm water throughout the day
+- Include ginger, black pepper, and cumin in meals
+- Avoid cold drinks and ice water
+- Eat only when hungry
+
+### 2. Follow Your Prakriti Diet
+- **Vata:** Warm, nourishing foods with healthy fats
+- **Pitta:** Cooling, moderate foods with bitter taste
+- **Kapha:** Light, warm, spicy foods
+
+### 3. Exercise Regularly
+- Kapha types need vigorous exercise daily
+- Yoga Surya Namaskar (Sun Salutations) is excellent
+- Walking, swimming, cycling are all beneficial
+
+### 4. Lifestyle Modifications
+- Wake up before 6 AM
+- Avoid daytime sleeping
+- Eat dinner before 7 PM
+- Practice Abhyanga (oil massage)
+- Stay warm and active
+
+### 5. Herbal Support
+- **Triphala:** Gentle detoxification and digestion
+- **Guggulu:** Supports fat metabolism
+- **Garcinia:** Suppresses appetite naturally
+- **Trikatu:** Stimulates digestion
+
+## Avoid These
+
+- Crash diets (they weaken Agni)
+- Cold, heavy, oily foods
+- Excessive sweets and dairy
+- Late-night eating
+- Sedentary lifestyle
+
+The key is consistency and patience — Ayurveda promotes gradual, sustainable weight loss.`,
+    author: 'Dr. Priya Patel',
+    authorImage: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=100&h=100&auto=format&fit=crop',
+    date: 'Mar 30, 2026',
+    readTime: '7 min read',
+    category: 'Nutrition',
+    image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200&auto=format&fit=crop'
   }
 ];
 
@@ -546,6 +872,55 @@ const Blog: React.FC = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Featured Post */}
+        {BLOG_POSTS.filter(p => p.featured).length > 0 && selectedCategory === 'All' && !searchQuery && (
+          <div className="mb-12 animate-fadeIn">
+            {BLOG_POSTS.filter(p => p.featured).slice(0, 1).map(featured => (
+              <div
+                key={featured.id}
+                onClick={() => navigate(`/blog/${featured.slug}`)}
+                className="group cursor-pointer relative rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500"
+                style={{ minHeight: '400px' }}
+              >
+                <div
+                  className="absolute inset-0 bg-cover bg-center transform group-hover:scale-105 transition-transform duration-700"
+                  style={{ backgroundImage: `url(${featured.image})` }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
+                <div className="relative flex flex-col justify-end h-full p-8 md:p-12">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="px-4 py-1.5 bg-ayur-accent text-white text-sm font-bold rounded-full flex items-center gap-2">
+                      <Sparkles className="w-4 h-4" /> Featured
+                    </span>
+                    <span className={`px-4 py-1.5 bg-gradient-to-r ${CATEGORY_COLORS[featured.category]} text-white text-sm font-semibold rounded-full`}>
+                      {featured.category}
+                    </span>
+                    <span className="text-white/70 text-sm flex items-center gap-1">
+                      <Clock size={14} /> {featured.readTime}
+                    </span>
+                  </div>
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white mb-4 group-hover:text-ayur-accent transition-colors">
+                    {featured.title}
+                  </h2>
+                  <p className="text-white/80 text-lg max-w-2xl mb-6 line-clamp-2">
+                    {featured.excerpt}
+                  </p>
+                  <div className="flex items-center gap-4">
+                    <img src={featured.authorImage} alt={featured.author} className="w-12 h-12 rounded-full border-2 border-white/30" />
+                    <div className="text-white">
+                      <div className="font-bold">{featured.author}</div>
+                      <div className="text-white/70 text-sm">{featured.date}</div>
+                    </div>
+                    <div className="ml-auto flex items-center gap-2 text-ayur-accent font-bold text-lg group-hover:gap-3 transition-all">
+                      Read Article <ArrowRight className="w-5 h-5" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
         {/* Category Filter Pills */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex flex-wrap gap-2">
@@ -688,6 +1063,41 @@ const Blog: React.FC = () => {
             </article>
           ))}
         </div>
+
+        {/* Newsletter Section */}
+        {filteredPosts.length > 0 && (
+          <div className="mt-16 mb-8">
+            <div className="relative bg-gradient-to-r from-ayur-green via-teal-600 to-ayur-accent rounded-3xl overflow-hidden p-8 md:p-12">
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute inset-0" style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                }} />
+              </div>
+              <div className="relative text-center max-w-2xl mx-auto">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-semibold mb-4">
+                  <Heart className="w-4 h-4" />
+                  Stay Connected
+                </div>
+                <h3 className="text-3xl md:text-4xl font-serif font-bold text-white mb-4">
+                  Get Ayurvedic Health Tips
+                </h3>
+                <p className="text-white/90 text-lg mb-8">
+                  Join our community and receive weekly insights on Ayurveda, nutrition, and holistic wellness from Dr. Sharma.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    className="flex-1 px-6 py-4 rounded-full text-ayur-text text-base focus:outline-none focus:ring-4 focus:ring-white/30 shadow-lg"
+                  />
+                  <button className="px-8 py-4 bg-ayur-accent text-white rounded-full font-bold hover:bg-ayur-accent-hover transition-all shadow-lg hover:shadow-xl hover:scale-105 whitespace-nowrap">
+                    Subscribe
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Empty State */}
         {filteredPosts.length === 0 && (
