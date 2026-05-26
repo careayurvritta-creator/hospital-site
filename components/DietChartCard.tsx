@@ -156,7 +156,7 @@ const DietChartCard: React.FC<DietChartCardProps> = ({
 
   // Staggered entrance animation
   useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), index * 80);
+    const timer = setTimeout(() => setIsVisible(true), Math.min(index * 60, 600));
     return () => clearTimeout(timer);
   }, [index]);
 
