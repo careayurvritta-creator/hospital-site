@@ -93,38 +93,34 @@ function getImageForCategory(category: string, index: number): string {
 function loadAllDietCharts(): DietChart[] {
   if (_allCharts) return _allCharts;
 
-  const parsedCharts: DietChart[] = [];
-
-  // Parse all markdown files
-  for (const [filePath, module] of Object.entries(markdownModules)) {
-    try {
-      const content = typeof module === 'string' ? module : (module as any).default;
-      if (!content || content.length < 100) continue;
-
-      const filename = filePath.split('/').pop() || '';
-      // Skip README and non-diet files
-      if (filename === 'README.md') continue;
-
-      const parsed = parseMarkdown(content, filename);
-      const chart = parsedToDietChart(parsed);
-
-      // Assign unique image based on category
-      chart.image = getImageForCategory(chart.category, parsedCharts.length);
-
-      parsedCharts.push(chart);
-    } catch (e) {
-      console.warn(`Failed to parse diet chart: ${filePath}`, e);
-    }
-  }
-
-  // Merge hardcoded charts (high quality, custom foodGroups) with parsed ones
-  // Hardcoded charts take priority (they have better data)
+  // 1) Start with hardcoded charts (instant, high quality)
   const hardcodedSlugs = new Set(hardcodedCharts.map(c => c.slug));
-  const merged = [...hardcodedCharts];
+  const merged: DietChart[] = [...hardcodedCharts];
 
-  for (const parsed of parsedCharts) {
-    if (!hardcodedSlugs.has(parsed.slug)) {
-      merged.push(parsed);
+  // 2) Parse markdown charts in batches to avoid blocking main thread
+  const entries = Object.entries(markdownModules);
+  const BATCH_SIZE = 10;
+
+  for (let i = 0; i < entries.length; i += BATCH_SIZE) {
+    const batch = entries.slice(i, i + BATCH_SIZE);
+    for (const [filePath, module] of batch) {
+      try {
+        const content = typeof module === 'string' ? module : (module as any).default;
+        if (!content || content.length < 100) continue;
+
+        const filename = filePath.split('/').pop() || '';
+        if (filename === 'README.md') continue;
+
+        const parsed = parseMarkdown(content, filename);
+        const chart = parsedToDietChart(parsed);
+        chart.image = getImageForCategory(chart.category, merged.length);
+
+        if (!hardcodedSlugs.has(chart.slug)) {
+          merged.push(chart);
+        }
+      } catch (e) {
+        console.warn(`Failed to parse diet chart: ${filePath}`, e);
+      }
     }
   }
 
@@ -170,7 +166,6 @@ export const getDietChartsByCategory = (category: string): DietChart[] =>
 
 export const getFeaturedDietCharts = (): DietChart[] => {
   const all = loadAllDietCharts();
-  // Return the first chart from each category
   const seen = new Set<string>();
   return all.filter(c => {
     if (seen.has(c.category)) return false;
