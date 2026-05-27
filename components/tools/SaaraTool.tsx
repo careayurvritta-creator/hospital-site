@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { aiService } from '../../lib/aiService';
 
 interface DhatuQuestion {
   key: string;
@@ -329,6 +330,9 @@ const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [animatedScore, setAnimatedScore] = useState(0);
+  const [aiRecommendation, setAiRecommendation] = useState<string>('');
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState(false);
 
   const currentDhatu = dhatuData[currentDhatuIndex];
   const progress = ((currentDhatuIndex + 1) / dhatuData.length) * 100;
@@ -387,11 +391,61 @@ const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
     }
   };
 
+  const generateAIRecommendation = async (dhatuScores: {name: string; score: number}[], overallScore: number, weakestDhatu: string, strongestDhatu: string, classification: string) => {
+    setAiLoading(true);
+    setAiError(false);
+    setAiRecommendation('');
+
+    const dhatuBreakdown = dhatuScores.map(d => `${d.name}: ${d.score}%`).join(', ');
+
+    const prompt = `You are an expert Ayurvedic physician specializing in Rasayana (rejuvenation) therapy.
+
+A patient has completed Saara Pariksha (tissue excellence assessment) with these results:
+
+- Overall Tissue Excellence Score: ${overallScore}%
+- Classification: ${classification}
+- Dhatu Scores: ${dhatuBreakdown}
+- Weakest Dhatu: ${weakestDhatu}
+- Strongest Dhatu: ${strongestDhatu}
+
+Based on this assessment, provide a personalized Rasayana therapy plan. Include:
+
+1. **Priority Focus**: Which 2-3 Dhatus need the most attention and why
+2. **Rasayana Herbs**: Specific classical Rasayana formulations with dosage
+3. **Dietary Rasayana**: Foods that nourish the weak Dhatus
+4. **Lifestyle Rasayana**: Daily routine (Dinacharya) recommendations
+5. **Panchakarma**: Any preparatory or supportive therapies recommended
+6. **Duration & Timeline**: Expected timeline for improvement
+
+Keep recommendations practical, rooted in classical Ayurvedic texts (Charaka Chikitsasthana, Ashtanga Hridayam Uttara Tantra), and specific to this patient's weak Dhatus. Use proper Ayurvedic terminology. Format with clear headers and bullet points.`;
+
+    const systemInstruction = 'You are a senior Ayurvedic physician at Ayurvritta Hospital specializing in Rasayana therapy and Dhatu Pariksha. Provide evidence-based Ayurvedic recommendations referencing classical texts. Be specific with herb names (Sanskrit and botanical), dosages, and preparation methods. Always include a disclaimer about consulting a physician before starting any regimen.';
+
+    try {
+      const generatePromise = aiService.generate(prompt, systemInstruction, {
+        temperature: 0.6,
+        max_tokens: 800,
+      });
+      const timeoutPromise = new Promise<string>((_, reject) =>
+        setTimeout(() => reject(new Error('AI generation timed out')), 45000)
+      );
+      const content = await Promise.race([generatePromise, timeoutPromise]);
+      setAiRecommendation(content);
+    } catch (err) {
+      console.error('[SaaraTool] AI recommendation failed:', err);
+      setAiError(true);
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
   const calculateResult = () => {
     setIsAnalyzing(true);
     setResult(null);
     setShowDetails(false);
-    
+    setAiRecommendation('');
+    setAiError(false);
+
     setTimeout(() => {
       const dhatuScores = dhatuData.map(d => ({
         name: d.name,
@@ -402,7 +456,7 @@ const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
       }));
 
       const overallScore = Math.round(dhatuScores.reduce((sum, d) => sum + d.score, 0) / dhatuScores.length);
-      
+
       let weakest = dhatuScores[0];
       let strongest = dhatuScores[0];
       dhatuScores.forEach(d => {
@@ -424,6 +478,9 @@ const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
         rasayanaRecs
       });
       setIsAnalyzing(false);
+
+      // Fire AI recommendation in background
+      generateAIRecommendation(dhatuScores, overallScore, weakest.name, strongest.name, classification.classification);
     }, 2000);
   };
 
@@ -538,9 +595,72 @@ const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
             </div>
           )}
 
+          {/* AI-Powered Rasayana Recommendation */}
+          <div className="bg-white rounded-2xl shadow-lg border-2 border-purple-100 overflow-hidden">
+            <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-4 flex items-center gap-3">
+              <span className="text-2xl">🤖</span>
+              <div>
+                <h3 className="font-bold text-white text-sm">AI-Enhanced Rasayana Plan</h3>
+                <p className="text-purple-200 text-xs">Personalized by analyzing your complete Dhatu profile</p>
+              </div>
+            </div>
+            <div className="p-4">
+              {aiLoading && (
+                <div className="flex flex-col items-center py-6">
+                  <div className="relative w-16 h-16 mb-4">
+                    <div className="absolute inset-0 border-3 border-purple-200 rounded-full"></div>
+                    <div className="absolute inset-0 border-3 border-transparent border-t-purple-600 rounded-full animate-spin" style={{ animationDuration: '1.5s' }}></div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-xl">🌿</span>
+                    </div>
+                  </div>
+                  <p className="text-sm font-medium text-gray-700">Generating personalized Rasayana plan...</p>
+                  <p className="text-xs text-gray-400 mt-1">Analyzing your Dhatu scores with AI</p>
+                  <div className="mt-3 flex gap-1">
+                    {[0,1,2,3,4].map(i => (
+                      <div key={i} className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-pulse" style={{ animationDelay: `${i * 0.15}s` }}></div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {aiError && !aiLoading && (
+                <div className="flex items-center gap-3 py-4 px-3 bg-amber-50 rounded-xl border border-amber-200">
+                  <span className="text-xl">⚠️</span>
+                  <div>
+                    <p className="text-sm font-medium text-amber-800">AI enhancement unavailable</p>
+                    <p className="text-xs text-amber-600">The classical recommendations above are still available for your reference.</p>
+                  </div>
+                </div>
+              )}
+              {aiRecommendation && !aiLoading && !aiError && (
+                <div className="prose prose-sm max-w-none text-gray-700 leading-relaxed space-y-2">
+                  {aiRecommendation.split('\n').map((line, i) => {
+                    const trimmed = line.trim();
+                    if (!trimmed) return <div key={i} className="h-2" />;
+                    if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
+                      return <h4 key={i} className="font-bold text-purple-800 text-sm mt-3 mb-1">{trimmed.replace(/\*\*/g, '')}</h4>;
+                    }
+                    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+                      return (
+                        <div key={i} className="flex gap-2 text-sm">
+                          <span className="text-purple-500 mt-0.5 shrink-0">•</span>
+                          <span>{trimmed.slice(2)}</span>
+                        </div>
+                      );
+                    }
+                    if (trimmed.match(/^\d+\.\s/)) {
+                      return <h4 key={i} className="font-bold text-purple-700 text-sm mt-3 mb-1">{trimmed}</h4>;
+                    }
+                    return <p key={i} className="text-sm">{trimmed}</p>;
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+
           <div className="flex gap-3 pt-2">
             <button 
-              onClick={() => { setCurrentDhatuIndex(0); setAnswers({}); setResult(null); setShowDetails(false); setAnimatedScore(0); }}
+              onClick={() => { setCurrentDhatuIndex(0); setAnswers({}); setResult(null); setShowDetails(false); setAnimatedScore(0); setAiRecommendation(''); setAiError(false); setAiLoading(false); }}
               className="flex-1 py-3 bg-ayur-cream text-ayur-green font-bold rounded-xl hover:bg-ayur-green/10 transition-all"
             >
               Retake Assessment
