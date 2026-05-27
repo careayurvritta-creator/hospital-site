@@ -206,28 +206,71 @@ const DietChartTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     setMatchedFiles(matched);
 
     const knowledgeContent = matched
-      .map(e => `${e.label}:\n${(knowledgeModules[e.rawPath] || '').substring(0, 500)}`)
+      .map(e => `${e.label}:\n${(knowledgeModules[e.rawPath] || '').substring(0, 800)}`)
       .join('\n\n');
 
-    const prompt = `Create a personalized Ayurvedic diet plan for:
-${inputs.patient.name}, ${inputs.patient.age}y, ${inputs.patient.gender}${inputs.patient.occupation ? `, ${inputs.patient.occupation}` : ''}
-Prakriti: ${inputs.prakriti || 'Not assessed'} | Diet: ${inputs.dietaryPref || 'Veg'}${inputs.allergies.length > 0 ? ` | Allergies: ${inputs.allergies.join(', ')}` : ''}
-Condition: ${complaintText || 'General wellness'}
+    const prompt = `Create a detailed, personalized Ayurvedic diet plan for this patient at Ayurvritta Ayurveda Hospital, Vadodara:
 
-${knowledgeContent ? `Ref:\n${knowledgeContent}\n\n` : ''}Sections (ALL CAPS, one per line): EARLY MORNING, BREAKFAST, MID-MORNING, LUNCH, EVENING SNACK, DINNER, BEDTIME, FOODS TO FAVOR, FOODS TO AVOID, BENEFICIAL HERBS, LIFESTYLE TIPS, PRECAUTIONS.
+Patient: ${inputs.patient.name}
+Age: ${inputs.patient.age} | Gender: ${inputs.patient.gender}${inputs.patient.occupation ? ` | Occupation: ${inputs.patient.occupation}` : ''}
+Prakriti (Constitution): ${inputs.prakriti || 'Not yet assessed'}
+Dietary Preference: ${inputs.dietaryPref || 'Vegetarian'}
+${inputs.allergies.length > 0 ? `Allergies/Restrictions: ${inputs.allergies.join(', ')}` : ''}
+Health Condition: ${complaintText || 'General wellness and preventive care'}
 
-Each: 2-3 Indian foods with brief Ayurvedic reasoning. Include 5 herbs with dosage. Under 800 words.`;
+${knowledgeContent ? `Reference Knowledge Base (use this to guide your recommendations):
+${knowledgeContent}
+
+` : ''}Generate a complete diet plan with ALL of the following sections. Write each section header in ALL CAPS on its own line, followed by specific recommendations:
+
+EARLY MORNING
+(Include 1-2 items with timing, e.g. "6:00 AM - Warm water with lemon and honey")
+
+BREAKFAST
+(Include 3-4 food items with portions and Ayurvedic reasoning)
+
+MID-MORNING
+(Include 1-2 snacks or drinks)
+
+LUNCH
+(Include 4-5 items - this should be the largest meal. Specify rice/roti, dal, vegetables, salad, buttermilk)
+
+EVENING SNACK
+(Include 1-2 items with tea or drinks)
+
+DINNER
+(Include 3-4 items - lighter than lunch, specify timing before 8 PM)
+
+BEDTIME
+(Include 1 item - warm milk with herbs or similar)
+
+FOODS TO FAVOR
+(List 8-10 specific foods beneficial for this condition with brief reasoning)
+
+FOODS TO AVOID
+(List 6-8 specific foods to avoid with reasoning)
+
+BENEFICIAL HERBS
+(List 5 Ayurvedic herbs with Sanskrit name, dosage, and how to use)
+
+LIFESTYLE TIPS
+(List 5-6 daily routine recommendations including wake time, exercise, meal timing)
+
+PRECAUTIONS
+(List 3-4 important precautions specific to this condition)
+
+Make all recommendations practical, using common Indian food names. Include specific quantities where possible. Root all advice in classical Ayurvedic principles from Charaka Samhita and Ashtanga Hridayam.`;
 
     try {
       const systemInstruction = 'You are an Ayurvedic dietitian at Ayurvritta Ayurveda Hospital, Vadodara. Create practical, personalized diet plans rooted in classical Ayurvedic principles. Use Indian food names. Format sections in ALL CAPS on separate lines.';
 
       // Add timeout wrapper (matching Insurance page pattern)
       const generatePromise = aiService.generate(prompt, systemInstruction, {
-        temperature: 0.6,
-        max_tokens: 1000,
+        temperature: 0.7,
+        max_tokens: 1500,
       });
       const timeoutPromise = new Promise<string>((_, reject) =>
-        setTimeout(() => reject(new Error('AI generation timed out - please try again')), 45000)
+        setTimeout(() => reject(new Error('AI generation timed out - please try again')), 60000)
       );
 
       const content = await Promise.race([generatePromise, timeoutPromise]);
