@@ -1,6 +1,5 @@
 import React, { useRef, useCallback, useEffect, useState } from 'react';
 
-// html2pdf.js loaded via CDN script tag
 declare global {
   interface Window {
     html2pdf: any;
@@ -53,7 +52,7 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
     try {
       const element = contentRef.current;
       const opt = {
-        margin: [10, 10, 10, 10],
+        margin: [0, 0, 0, 0],
         filename: `Diet_Chart_${patientName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true, logging: false },
@@ -77,18 +76,15 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
       if (!t) continue;
 
       // Strip markdown bold markers
-      t = t.replace(/\*\*/g, '').trim();
-
-      // Check if this is a section header (ALL CAPS, 3-80 chars)
-      const isHeader = /^[A-Z][A-Z\s&()\-:]+$/.test(t) && t.length >= 3 && t.length <= 80;
+      const stripped = t.replace(/\*\*/g, '').trim();
+      const isHeader = /^[A-Z][A-Z\s&()\-:]+$/.test(stripped) && stripped.length >= 3 && stripped.length <= 80;
 
       if (isHeader) {
         if (current) sections.push(current);
-        current = { header: t, items: [] };
+        current = { header: stripped, items: [] };
       } else if (current) {
         current.items.push(line.trim());
       } else {
-        // Content before first section - create OVERVIEW
         if (!current) {
           current = { header: 'OVERVIEW', items: [] };
         }
@@ -101,54 +97,40 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
 
   const sections = parseSections(aiResult);
 
-  const getSectionIcon = (header: string): string => {
-    const icons: Record<string, string> = {
-      'EARLY MORNING': '🌅',
-      'BREAKFAST': '🥣',
-      'MID-MORNING': '⏰',
-      'LUNCH': '🍛',
-      'EVENING SNACK': '🍵',
-      'DINNER': '🥘',
-      'BEDTIME': '🌙',
-      'FOODS TO FAVOR': '✅',
-      'FOODS TO AVOID': '🚫',
-      'BENEFICIAL HERBS': '🌿',
-      'LIFESTYLE TIPS': '💡',
-      'PRECAUTIONS': '⚠️',
-    };
-    return icons[header] || '📌';
+  const sectionConfig: Record<string, { icon: string; color: string; bg: string; border: string }> = {
+    'EARLY MORNING': { icon: '🌅', color: '#ea580c', bg: '#fff7ed', border: '#fb923c' },
+    'BREAKFAST': { icon: '🥣', color: '#ca8a04', bg: '#fefce8', border: '#facc15' },
+    'MID-MORNING': { icon: '⏰', color: '#d97706', bg: '#fffbeb', border: '#fbbf24' },
+    'LUNCH': { icon: '🍛', color: '#16a34a', bg: '#f0fdf4', border: '#4ade80' },
+    'EVENING SNACK': { icon: '🍵', color: '#0d9488', bg: '#f0fdfa', border: '#2dd4bf' },
+    'DINNER': { icon: '🥘', color: '#059669', bg: '#ecfdf5', border: '#34d399' },
+    'BEDTIME': { icon: '🌙', color: '#4f46e5', bg: '#eef2ff', border: '#818cf8' },
+    'FOODS TO FAVOR': { icon: '✅', color: '#15803d', bg: '#f0fdf4', border: '#22c55e' },
+    'FOODS TO AVOID': { icon: '🚫', color: '#dc2626', bg: '#fef2f2', border: '#f87171' },
+    'BENEFICIAL HERBS': { icon: '🌿', color: '#059669', bg: '#ecfdf5', border: '#10b981' },
+    'LIFESTYLE TIPS': { icon: '💡', color: '#2563eb', bg: '#eff6ff', border: '#60a5fa' },
+    'PRECAUTIONS': { icon: '⚠️', color: '#d97706', bg: '#fffbeb', border: '#f59e0b' },
+    'OVERVIEW': { icon: '📋', color: '#6b7280', bg: '#f9fafb', border: '#9ca3af' },
   };
 
-  const getSectionColor = (header: string): string => {
-    const colors: Record<string, string> = {
-      'EARLY MORNING': '#f97316',
-      'BREAKFAST': '#eab308',
-      'MID-MORNING': '#f59e0b',
-      'LUNCH': '#22c55e',
-      'EVENING SNACK': '#14b8a6',
-      'DINNER': '#10b981',
-      'BEDTIME': '#6366f1',
-      'FOODS TO FAVOR': '#22c55e',
-      'FOODS TO AVOID': '#ef4444',
-      'BENEFICIAL HERBS': '#10b981',
-      'LIFESTYLE TIPS': '#3b82f6',
-      'PRECAUTIONS': '#f59e0b',
-    };
-    return colors[header] || '#6b7280';
+  const getSectionMeta = (header: string) => {
+    return sectionConfig[header] || { icon: '📌', color: '#6b7280', bg: '#f9fafb', border: '#d1d5db' };
   };
 
-  const formatItem = (item: string) => {
+  const formatItem = (item: string): string => {
     let text = item;
-    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    // Remove markdown bold
+    text = text.replace(/\*\*(.*?)\*\*/g, '$1');
+    // Remove markdown italic
+    text = text.replace(/\*(.*?)\*/g, '$1');
+    // Clean up list markers
+    text = text.replace(/^[-*•]\s*/, '');
+    text = text.replace(/^\d+[\.\)]\s*/, '');
+    return text.trim();
+  };
 
-    if (text.startsWith('- ') || text.startsWith('* ') || text.startsWith('• ')) {
-      return `<li style="margin-bottom: 6px; line-height: 1.5;">${text.replace(/^[-*•]\s*/, '')}</li>`;
-    }
-    if (/^\d+[\.\)]/.test(text)) {
-      return `<li style="margin-bottom: 6px; line-height: 1.5;">${text}</li>`;
-    }
-    return `<p style="margin-bottom: 6px; line-height: 1.5;">${text}</p>`;
+  const isListItem = (item: string): boolean => {
+    return /^[-*•]\s/.test(item) || /^\d+[\.\)]\s/.test(item);
   };
 
   return (
@@ -166,121 +148,258 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
 
       {/* Hidden PDF content */}
       <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
-        <div ref={contentRef} style={{ fontFamily: 'Arial, sans-serif', color: '#1f2937', padding: '20px', maxWidth: '800px' }}>
-          {/* Header */}
-          <div style={{ background: 'linear-gradient(135deg, #065f46, #047857)', borderRadius: '12px', padding: '24px', marginBottom: '20px', color: 'white' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div ref={contentRef} style={{
+          fontFamily: "'Segoe UI', Arial, sans-serif",
+          color: '#1f2937',
+          width: '210mm',
+          minHeight: '297mm',
+          background: 'white',
+        }}>
+
+          {/* ─── HEADER ─── */}
+          <div style={{
+            background: 'linear-gradient(135deg, #065f46 0%, #047857 50%, #059669 100%)',
+            padding: '28px 32px',
+            color: 'white',
+            position: 'relative',
+            overflow: 'hidden',
+          }}>
+            {/* Decorative circles */}
+            <div style={{ position: 'absolute', right: '-20px', top: '-20px', width: '120px', height: '120px', borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
+            <div style={{ position: 'absolute', right: '40px', bottom: '-30px', width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 1 }}>
               <div>
-                <h1 style={{ fontSize: '24px', fontWeight: 'bold', margin: '0 0 8px 0' }}>
-                  {patientName}'s Personalized Diet Chart
+                <div style={{ fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase', opacity: 0.8, marginBottom: '4px' }}>
+                  Ayurvritta Ayurveda Hospital
+                </div>
+                <h1 style={{ fontSize: '26px', fontWeight: 'bold', margin: '0 0 6px 0', letterSpacing: '-0.5px' }}>
+                  Personalized Diet Chart
                 </h1>
-                <p style={{ fontSize: '14px', opacity: 0.9, margin: 0 }}>
-                  Prepared by Ayurvritta Ayurveda Hospital, Vadodara
+                <p style={{ fontSize: '13px', opacity: 0.85, margin: 0 }}>
+                  Prepared by Dr. Jinendradutt Sharma • Vadodara, Gujarat
                 </p>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <p style={{ fontSize: '12px', opacity: 0.8, margin: '0 0 4px 0' }}>Date: {new Date().toLocaleDateString()}</p>
-                <p style={{ fontSize: '12px', opacity: 0.8, margin: 0 }}>Dr. Jinendradutt Sharma</p>
+                <div style={{ fontSize: '32px', marginBottom: '4px' }}>🌿</div>
+                <p style={{ fontSize: '11px', opacity: 0.8, margin: '0 0 2px 0' }}>
+                  {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </p>
+                <p style={{ fontSize: '10px', opacity: 0.7, margin: 0 }}>+91 94266 84047</p>
               </div>
             </div>
           </div>
 
-          {/* Patient Info */}
-          <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '10px', padding: '16px', marginBottom: '20px' }}>
-            <h2 style={{ fontSize: '16px', fontWeight: 'bold', color: '#065f46', margin: '0 0 12px 0' }}>
-              Patient Information
-            </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-              <p style={{ margin: 0, fontSize: '13px' }}><strong>Name:</strong> {patientName}</p>
-              <p style={{ margin: 0, fontSize: '13px' }}><strong>Age:</strong> {patientAge} years</p>
-              <p style={{ margin: 0, fontSize: '13px' }}><strong>Gender:</strong> {patientGender}</p>
-              {patientOccupation && <p style={{ margin: 0, fontSize: '13px' }}><strong>Occupation:</strong> {patientOccupation}</p>}
-              {prakriti && <p style={{ margin: 0, fontSize: '13px' }}><strong>Prakriti:</strong> {prakriti}</p>}
-              {dietaryPref && <p style={{ margin: 0, fontSize: '13px' }}><strong>Diet:</strong> {dietaryPref}</p>}
-              {allergies && allergies.length > 0 && (
-                <p style={{ margin: 0, fontSize: '13px' }}><strong>Allergies:</strong> {allergies.join(', ')}</p>
+          {/* ─── PATIENT INFO CARD ─── */}
+          <div style={{ padding: '0 24px', marginTop: '-12px', position: 'relative', zIndex: 2 }}>
+            <div style={{
+              background: 'white',
+              borderRadius: '12px',
+              padding: '18px 24px',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+              border: '1px solid #e5e7eb',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '12px' }}>
+                <div style={{
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #065f46, #059669)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '20px',
+                  color: 'white',
+                  fontWeight: 'bold',
+                }}>
+                  {patientName.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <h2 style={{ fontSize: '18px', fontWeight: 'bold', margin: '0 0 2px 0', color: '#065f46' }}>
+                    {patientName}
+                  </h2>
+                  <p style={{ fontSize: '12px', color: '#6b7280', margin: 0 }}>
+                    {patientAge} years • {patientGender}{patientOccupation ? ` • ${patientOccupation}` : ''}
+                  </p>
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
+                {prakriti && (
+                  <div style={{ background: '#f0fdf4', borderRadius: '8px', padding: '8px 12px' }}>
+                    <div style={{ fontSize: '10px', color: '#6b7280', marginBottom: '2px' }}>Prakriti</div>
+                    <div style={{ fontSize: '13px', fontWeight: '600', color: '#065f46' }}>{prakriti}</div>
+                  </div>
+                )}
+                {dietaryPref && (
+                  <div style={{ background: '#eff6ff', borderRadius: '8px', padding: '8px 12px' }}>
+                    <div style={{ fontSize: '10px', color: '#6b7280', marginBottom: '2px' }}>Diet</div>
+                    <div style={{ fontSize: '13px', fontWeight: '600', color: '#2563eb' }}>{dietaryPref}</div>
+                  </div>
+                )}
+                {condition && (
+                  <div style={{ background: '#fef2f2', borderRadius: '8px', padding: '8px 12px' }}>
+                    <div style={{ fontSize: '10px', color: '#6b7280', marginBottom: '2px' }}>Condition</div>
+                    <div style={{ fontSize: '13px', fontWeight: '600', color: '#dc2626' }}>{condition}</div>
+                  </div>
+                )}
+              </div>
+
+              {allergies && allergies.length > 0 && allergies[0] !== 'None' && (
+                <div style={{ marginTop: '10px', padding: '8px 12px', background: '#fffbeb', borderRadius: '8px', border: '1px solid #fde68a' }}>
+                  <span style={{ fontSize: '11px', color: '#92400e' }}>⚠️ Allergies: {allergies.join(', ')}</span>
+                </div>
               )}
-              <p style={{ margin: 0, fontSize: '13px' }}><strong>Condition:</strong> {condition}</p>
             </div>
           </div>
 
-          {/* Knowledge Sources */}
+          {/* ─── KNOWLEDGE SOURCES ─── */}
           {matchedFiles.length > 0 && (
-            <div style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: '10px', padding: '12px', marginBottom: '20px' }}>
-              <p style={{ margin: 0, fontSize: '12px', color: '#065f46' }}>
-                <strong>Based on:</strong> {matchedFiles.map(f => f.label).join(' • ')}
-              </p>
+            <div style={{ padding: '12px 24px 0' }}>
+              <div style={{
+                background: '#ecfdf5',
+                borderRadius: '8px',
+                padding: '10px 14px',
+                border: '1px solid #a7f3d0',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+              }}>
+                <span style={{ fontSize: '14px' }}>📚</span>
+                <span style={{ fontSize: '11px', color: '#065f46' }}>
+                  <strong>Based on:</strong> {matchedFiles.map(f => f.label).join(' • ')}
+                </span>
+              </div>
             </div>
           )}
 
-          {/* Diet Chart Sections */}
-          {sections.map((section, idx) => {
-            const color = getSectionColor(section.header);
-            const icon = getSectionIcon(section.header);
-            const isListSection = ['FOODS TO FAVOR', 'FOODS TO AVOID', 'BENEFICIAL HERBS', 'LIFESTYLE TIPS', 'PRECAUTIONS'].includes(section.header);
+          {/* ─── DIET CHART SECTIONS ─── */}
+          <div style={{ padding: '16px 24px' }}>
+            {sections.map((section, idx) => {
+              const meta = getSectionMeta(section.header);
+              const isMealSection = ['EARLY MORNING', 'BREAKFAST', 'MID-MORNING', 'LUNCH', 'EVENING SNACK', 'DINNER', 'BEDTIME'].includes(section.header);
+              const isListSection = ['FOODS TO FAVOR', 'FOODS TO AVOID', 'BENEFICIAL HERBS', 'LIFESTYLE TIPS', 'PRECAUTIONS'].includes(section.header);
 
-            return (
-              <div key={idx} style={{ marginBottom: '16px', pageBreakInside: 'avoid' }}>
-                {/* Section Header */}
-                <div style={{
-                  background: `${color}15`,
-                  borderLeft: `4px solid ${color}`,
-                  borderRadius: '8px',
-                  padding: '10px 14px',
-                  marginBottom: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                }}>
-                  <span style={{ fontSize: '18px' }}>{icon}</span>
-                  <h3 style={{ margin: 0, fontSize: '15px', fontWeight: 'bold', color: color }}>
-                    {section.header}
-                  </h3>
+              return (
+                <div key={idx} style={{ marginBottom: '14px', pageBreakInside: 'avoid' }}>
+                  {/* Section Header */}
+                  <div style={{
+                    background: meta.bg,
+                    borderLeft: `4px solid ${meta.color}`,
+                    borderRadius: '10px',
+                    padding: '12px 16px',
+                    marginBottom: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    borderBottom: `1px solid ${meta.border}40`,
+                  }}>
+                    <span style={{ fontSize: '22px' }}>{meta.icon}</span>
+                    <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 'bold', color: meta.color, letterSpacing: '0.5px' }}>
+                      {section.header}
+                    </h3>
+                  </div>
+
+                  {/* Section Content */}
+                  <div style={{ padding: '0 8px' }}>
+                    {section.items.map((item, i) => {
+                      const text = formatItem(item);
+                      if (!text) return null;
+
+                      if (isMealSection) {
+                        // Meal sections: show as cards
+                        const isTime = /^\d{1,2}:\d{2}\s*(AM|PM)/i.test(text);
+                        return (
+                          <div key={i} style={{
+                            background: isTime ? '#f9fafb' : 'white',
+                            borderRadius: '8px',
+                            padding: '10px 14px',
+                            marginBottom: '6px',
+                            border: '1px solid #f3f4f6',
+                            display: 'flex',
+                            alignItems: 'flex-start',
+                            gap: '10px',
+                          }}>
+                            <span style={{ color: meta.color, fontSize: '12px', marginTop: '2px' }}>●</span>
+                            <span style={{ fontSize: '12px', lineHeight: '1.5', color: '#374151' }}>{text}</span>
+                          </div>
+                        );
+                      }
+
+                      if (isListSection) {
+                        // List sections: show with bullets
+                        return (
+                          <div key={i} style={{
+                            display: 'flex',
+                            alignItems: 'flex-start',
+                            gap: '10px',
+                            marginBottom: '6px',
+                            padding: '8px 12px',
+                            background: '#fafafa',
+                            borderRadius: '6px',
+                          }}>
+                            <span style={{ color: meta.color, fontSize: '12px', marginTop: '2px' }}>●</span>
+                            <span style={{ fontSize: '12px', lineHeight: '1.5', color: '#374151' }}>{text}</span>
+                          </div>
+                        );
+                      }
+
+                      // Default
+                      return (
+                        <p key={i} style={{ fontSize: '12px', lineHeight: '1.6', color: '#4b5563', margin: '0 0 6px 4px' }}>
+                          {text}
+                        </p>
+                      );
+                    })}
+                  </div>
                 </div>
-
-                {/* Section Content */}
-                <div style={{ padding: '0 8px' }}>
-                  {isListSection ? (
-                    <ul style={{ margin: 0, paddingLeft: '20px' }}>
-                      {section.items.map((item, i) => (
-                        <span key={i} dangerouslySetInnerHTML={{ __html: formatItem(item) }} />
-                      ))}
-                    </ul>
-                  ) : (
-                    section.items.map((item, i) => (
-                      <div key={i} dangerouslySetInnerHTML={{ __html: formatItem(item) }} />
-                    ))
-                  )}
-                </div>
-              </div>
-            );
-          })}
-
-          {/* Disclaimer */}
-          <div style={{ background: '#fef3c7', border: '1px solid #fcd34d', borderRadius: '10px', padding: '14px', marginTop: '24px', marginBottom: '16px' }}>
-            <p style={{ margin: '0 0 8px 0', fontSize: '13px', fontWeight: 'bold', color: '#92400e' }}>
-              ⚠️ Important Disclaimer
-            </p>
-            <p style={{ margin: 0, fontSize: '11px', color: '#78350f', lineHeight: '1.5' }}>
-              This diet chart is prepared based on Ayurvedic principles and is intended as a general guideline.
-              Please consult with Dr. Jinendradutt Sharma at Ayurvritta Ayurveda Hospital before making significant
-              dietary changes, especially if you have existing medical conditions or are taking medications.
-              Individual results may vary based on your unique constitution and health status.
-            </p>
+              );
+            })}
           </div>
 
-          {/* Footer */}
-          <div style={{ background: '#065f46', borderRadius: '10px', padding: '16px', color: 'white', textAlign: 'center' }}>
-            <p style={{ margin: '0 0 4px 0', fontSize: '14px', fontWeight: 'bold' }}>
-              Ayurvritta Ayurveda Hospital
+          {/* ─── DISCLAIMER ─── */}
+          <div style={{ padding: '0 24px', marginBottom: '16px' }}>
+            <div style={{
+              background: '#fffbeb',
+              border: '1px solid #fde68a',
+              borderRadius: '10px',
+              padding: '14px 16px',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                <span style={{ fontSize: '16px' }}>⚠️</span>
+                <div>
+                  <p style={{ margin: '0 0 4px 0', fontSize: '12px', fontWeight: 'bold', color: '#92400e' }}>
+                    Important Disclaimer
+                  </p>
+                  <p style={{ margin: 0, fontSize: '10px', color: '#78350f', lineHeight: '1.5' }}>
+                    This diet chart is prepared based on Ayurvedic principles and is intended as a general guideline.
+                    Please consult with Dr. Jinendradutt Sharma at Ayurvritta Ayurveda Hospital before making significant
+                    dietary changes, especially if you have existing medical conditions or are taking medications.
+                    Individual results may vary based on your unique constitution and health status.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ─── FOOTER ─── */}
+          <div style={{
+            background: 'linear-gradient(135deg, #065f46, #047857)',
+            padding: '20px 24px',
+            color: 'white',
+            textAlign: 'center',
+          }}>
+            <p style={{ margin: '0 0 4px 0', fontSize: '15px', fontWeight: 'bold', letterSpacing: '0.5px' }}>
+              🌿 Ayurvritta Ayurveda Hospital
             </p>
             <p style={{ margin: '0 0 4px 0', fontSize: '12px', opacity: 0.9 }}>
               Authentic Ayurvedic Care by Dr. Jinendradutt Sharma
             </p>
-            <p style={{ margin: 0, fontSize: '11px', opacity: 0.8 }}>
+            <p style={{ margin: 0, fontSize: '11px', opacity: 0.75 }}>
               Vadodara, Gujarat • +91 94266 84047 • www.ayurvritta.com
             </p>
           </div>
+
         </div>
       </div>
     </div>
