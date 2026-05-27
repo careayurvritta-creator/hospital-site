@@ -1,4 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback, useEffect, useState } from 'react';
+
+// html2pdf.js loaded via CDN script tag
+declare global {
+  interface Window {
+    html2pdf: any;
+  }
+}
 
 interface DietChartPDFProps {
   patientName: string;
@@ -26,24 +33,39 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
   matchedFiles,
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
+  const [scriptLoaded, setScriptLoaded] = useState(false);
 
-  const handleDownload = async () => {
-    if (!contentRef.current) return;
+  useEffect(() => {
+    if (window.html2pdf) {
+      setScriptLoaded(true);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js';
+    script.async = true;
+    script.onload = () => setScriptLoaded(true);
+    document.head.appendChild(script);
+  }, []);
 
-    const html2pdf = (await import('html2pdf.js')).default;
-    const element = contentRef.current;
+  const handleDownload = useCallback(async () => {
+    if (!contentRef.current || !window.html2pdf) return;
 
-    const opt = {
-      margin: [10, 10, 10, 10],
-      filename: `Diet_Chart_${patientName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, logging: false },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const },
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
-    };
+    try {
+      const element = contentRef.current;
+      const opt = {
+        margin: [10, 10, 10, 10],
+        filename: `Diet_Chart_${patientName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, logging: false },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+      };
 
-    await html2pdf().set(opt).from(element).save();
-  };
+      await window.html2pdf().set(opt).from(element).save();
+    } catch (error) {
+      console.error('PDF generation failed:', error);
+    }
+  }, [patientName]);
 
   const parseSections = (text: string) => {
     const sections: { header: string; items: string[] }[] = [];
@@ -121,12 +143,13 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
     <div>
       <button
         onClick={handleDownload}
-        className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold rounded-xl hover:shadow-lg transition-all active:scale-[0.98] text-sm"
+        disabled={!scriptLoaded}
+        className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold rounded-xl hover:shadow-lg transition-all active:scale-[0.98] text-sm disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
-        Download PDF
+        {scriptLoaded ? 'Download PDF' : 'Loading PDF...'}
       </button>
 
       {/* Hidden PDF content */}
