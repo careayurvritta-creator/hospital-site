@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Check, X, Clock, Leaf, Download, Share2, BookOpen, Utensils, AlertTriangle, Calendar, Sparkles, ChevronRight, Printer, Heart, Sun, Sunrise, Sunset, Moon, Shield, Activity, Droplet, Brain, Star, ArrowRight, ChevronUp } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { dietCharts } from '../data/dietCharts';
@@ -229,8 +229,8 @@ const DietChartViewer: React.FC = () => {
                 <Activity className="w-5 h-5 text-ayur-green" />
                 Food Distribution
               </h3>
-              <div className="flex flex-col md:flex-row items-center gap-8">
-                <div className="w-64 h-64">
+              <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+                <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie data={pieData} cx="50%" cy="50%" outerRadius={100} innerRadius={50} dataKey="value" paddingAngle={3}>
@@ -448,7 +448,7 @@ const DietChartViewer: React.FC = () => {
             {dietChart.title}
           </h1>
 
-          <p className={`text-white/70 text-lg max-w-2xl leading-relaxed transition-all duration-500 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+          <p className={`text-white/70 text-base sm:text-lg max-w-2xl leading-relaxed transition-all duration-500 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
             {dietChart.description.slice(0, 150)}...
           </p>
 
@@ -477,13 +477,13 @@ const DietChartViewer: React.FC = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-5 py-4 text-sm font-semibold whitespace-nowrap transition-all duration-300 border-b-2 ${
+                  className={`flex items-center gap-1.5 sm:gap-2 px-3 py-3 sm:px-5 sm:py-4 text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-300 border-b-2 ${
                     isActive
                       ? 'text-ayur-green border-ayur-green bg-ayur-green-light/30'
                       : 'text-ayur-gray border-transparent hover:text-ayur-green hover:bg-gray-50'
                   }`}
                 >
-                  <tab.icon className="w-4 h-4" />
+                  <tab.icon className="w-4 h-4 flex-shrink-0" />
                   {tab.label}
                 </button>
               );
@@ -505,9 +505,9 @@ const DietChartViewer: React.FC = () => {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {relatedCharts.map(chart => (
-                <a
+                <Link
                   key={chart.id}
-                  href={`#/diet-charts/${chart.slug}`}
+                  to={`/diet-charts/${chart.slug}`}
                   className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group"
                 >
                   <div className="h-32 bg-gradient-to-br from-ayur-green-light to-emerald-50 flex items-center justify-center relative overflow-hidden">
@@ -520,7 +520,7 @@ const DietChartViewer: React.FC = () => {
                       View Plan <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
           </div>

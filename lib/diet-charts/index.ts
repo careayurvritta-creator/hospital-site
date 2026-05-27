@@ -84,10 +84,36 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
 
 let _allCharts: DietChart[] | null = null;
 let _categories: string[] | null = null;
+let _batchedCharts: DietChart[] | null = null;
+let _batchCancel: (() => void) | null = null;
 
 function getImageForCategory(category: string, index: number): string {
   const images = CATEGORY_IMAGES[category] || CATEGORY_IMAGES['default'];
   return images[index % images.length];
+}
+
+/**
+ * Parse a single markdown module entry into a DietChart, or null on failure.
+ */
+function parseOneMarkdown(filePath: string, module: unknown, existingSlugs: Set<string>, imageIndex: number): DietChart | null {
+  try {
+    const content = typeof module === 'string' ? module : (module as any).default;
+    if (!content || content.length < 100) return null;
+
+    const filename = filePath.split('/').pop() || '';
+    if (filename === 'README.md') return null;
+
+    const parsed = parseMarkdown(content, filename);
+    const chart = parsedToDietChart(parsed);
+    chart.image = getImageForCategory(chart.category, imageIndex);
+
+    if (existingSlugs.has(chart.slug)) return null;
+    existingSlugs.add(chart.slug);
+    return chart;
+  } catch (e) {
+    console.warn(`Failed to parse diet chart: ${filePath}`, e);
+    return null;
+  }
 }
 
 function loadAllDietCharts(): DietChart[] {
@@ -97,31 +123,12 @@ function loadAllDietCharts(): DietChart[] {
   const hardcodedSlugs = new Set(hardcodedCharts.map(c => c.slug));
   const merged: DietChart[] = [...hardcodedCharts];
 
-  // 2) Parse markdown charts in batches to avoid blocking main thread
+  // 2) Parse all markdown charts synchronously
   const entries = Object.entries(markdownModules);
-  const BATCH_SIZE = 10;
 
-  for (let i = 0; i < entries.length; i += BATCH_SIZE) {
-    const batch = entries.slice(i, i + BATCH_SIZE);
-    for (const [filePath, module] of batch) {
-      try {
-        const content = typeof module === 'string' ? module : (module as any).default;
-        if (!content || content.length < 100) continue;
-
-        const filename = filePath.split('/').pop() || '';
-        if (filename === 'README.md') continue;
-
-        const parsed = parseMarkdown(content, filename);
-        const chart = parsedToDietChart(parsed);
-        chart.image = getImageForCategory(chart.category, merged.length);
-
-        if (!hardcodedSlugs.has(chart.slug)) {
-          merged.push(chart);
-        }
-      } catch (e) {
-        console.warn(`Failed to parse diet chart: ${filePath}`, e);
-      }
-    }
+  for (const [filePath, module] of entries) {
+    const chart = parseOneMarkdown(filePath, module, hardcodedSlugs, merged.length);
+    if (chart) merged.push(chart);
   }
 
   // Deduplicate by slug
@@ -133,6 +140,77 @@ function loadAllDietCharts(): DietChart[] {
   });
 
   return _allCharts;
+}
+
+/**
+ * Load diet charts in batches, yielding to the browser between each batch.
+ * Calls `onBatch` with all charts loaded so far after each batch completes.
+ * Returns a cancel function.
+ */
+export function loadDietChartsBatched(
+  onBatch: (charts: DietChart[]) => void,
+  batchSize: number = 10
+): () => void {
+  // If already fully cached, return everything immediately
+  if (_allCharts) {
+    onBatch(_allCharts);
+    return () => {};
+  }
+
+  let cancelled = false;
+  const slugs = new Set(hardcodedCharts.map(c => c.slug));
+  const merged: DietChart[] = [...hardcodedCharts];
+  const entries = Object.entries(markdownModules);
+  let idx = 0;
+
+  // Yield first batch of hardcoded charts immediately
+  onBatch([...merged]);
+
+  function parseNextBatch() {
+    if (cancelled || idx >= entries.length) {
+      // All done — cache the full result for sync callers
+      if (!cancelled) {
+        _allCharts = merged;
+        _batchedCharts = null;
+        _batchCancel = null;
+      }
+      return;
+    }
+
+    const end = Math.min(idx + batchSize, entries.length);
+    for (let i = idx; i < end; i++) {
+      const [filePath, module] = entries[i];
+      const chart = parseOneMarkdown(filePath, module, slugs, merged.length);
+      if (chart) merged.push(chart);
+    }
+    idx = end;
+
+    onBatch([...merged]);
+
+    if (idx < entries.length) {
+      // Yield to browser before next batch
+      if (typeof requestIdleCallback !== 'undefined') {
+        requestIdleCallback(() => parseNextBatch(), { timeout: 150 });
+      } else {
+        setTimeout(parseNextBatch, 0);
+      }
+    } else {
+      _allCharts = merged;
+      _batchedCharts = null;
+      _batchCancel = null;
+    }
+  }
+
+  // Start first batch after a short delay to let initial render paint
+  const timer = setTimeout(parseNextBatch, 80);
+  _batchedCharts = merged;
+  _batchCancel = () => { cancelled = true; clearTimeout(timer); };
+
+  return () => {
+    cancelled = true;
+    clearTimeout(timer);
+    _batchCancel = null;
+  };
 }
 
 // Instant access to hardcoded charts only (no parsing)

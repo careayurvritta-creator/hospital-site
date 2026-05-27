@@ -156,7 +156,7 @@ const DietChartCard: React.FC<DietChartCardProps> = ({
 
   // Staggered entrance animation
   useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), Math.min(index * 60, 600));
+    const timer = setTimeout(() => setIsVisible(true), Math.min(index * 50, 300));
     return () => clearTimeout(timer);
   }, [index]);
 
@@ -166,8 +166,8 @@ const DietChartCard: React.FC<DietChartCardProps> = ({
       className="h-full"
       style={{
         opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translateY(0)' : 'translateY(24px)',
-        transition: `all 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.08}s`,
+        transform: isVisible ? 'translateY(0)' : 'translateY(16px)',
+        transition: `opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${Math.min(index * 0.04, 0.3)}s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${Math.min(index * 0.04, 0.3)}s`,
       }}
     >
       <Link to={`/diet-charts/${slug}`} className="group block h-full">
@@ -191,7 +191,7 @@ const DietChartCard: React.FC<DietChartCardProps> = ({
           }}
         >
           {/* Image Container */}
-          <div className="relative h-52 overflow-hidden">
+          <div className="relative h-40 sm:h-48 md:h-52 overflow-hidden">
             {!imgError ? (
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
@@ -285,7 +285,7 @@ const DietChartCard: React.FC<DietChartCardProps> = ({
               <div className="mb-4 space-y-1.5">
                 {foodGroups.slice(0, 3).map((group, idx) => (
                   <div key={idx} className="flex items-center gap-2">
-                    <span className="text-[10px] font-medium text-gray-400 w-16 truncate">{group.name}</span>
+                    <span className="text-[10px] font-medium text-gray-400 w-20 sm:w-16 truncate">{group.name}</span>
                     <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                       <div
                         className="h-full rounded-full transition-all duration-1000 ease-out"
