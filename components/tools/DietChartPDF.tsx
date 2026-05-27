@@ -47,22 +47,57 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
   }, []);
 
   const handleDownload = useCallback(async () => {
-    if (!contentRef.current || !window.html2pdf) return;
+    if (!contentRef.current || !window.html2pdf) {
+      console.error('html2pdf not loaded or content ref missing');
+      return;
+    }
 
     try {
       const element = contentRef.current;
+
+      // Temporarily make element visible for rendering
+      const parent = element.parentElement;
+      if (parent) {
+        parent.style.left = '0';
+        parent.style.opacity = '1';
+        parent.style.zIndex = '9999';
+      }
+
+      // Small delay to ensure rendering
+      await new Promise(resolve => setTimeout(resolve, 100));
+
       const opt = {
-        margin: [0, 0, 0, 0],
+        margin: [10, 10, 10, 10],
         filename: `Diet_Chart_${patientName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, logging: false },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          logging: true,
+          letterRendering: true,
+          allowTaint: false,
+        },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const },
         pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
       };
 
       await window.html2pdf().set(opt).from(element).save();
+
+      // Re-hide after generation
+      if (parent) {
+        parent.style.left = '-9999px';
+        parent.style.opacity = '0';
+        parent.style.zIndex = '-1';
+      }
     } catch (error) {
       console.error('PDF generation failed:', error);
+      // Re-hide on error
+      const parent = contentRef.current?.parentElement;
+      if (parent) {
+        parent.style.left = '-9999px';
+        parent.style.opacity = '0';
+        parent.style.zIndex = '-1';
+      }
     }
   }, [patientName]);
 
@@ -146,14 +181,15 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
         {scriptLoaded ? 'Download PDF' : 'Loading PDF...'}
       </button>
 
-      {/* Hidden PDF content */}
-      <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
+      {/* PDF content - hidden offscreen but renderable */}
+      <div style={{ position: 'fixed', left: '-9999px', top: 0, zIndex: -1, opacity: 0, pointerEvents: 'none', transition: 'none' }}>
         <div ref={contentRef} style={{
           fontFamily: "'Segoe UI', Arial, sans-serif",
           color: '#1f2937',
           width: '210mm',
           minHeight: '297mm',
           background: 'white',
+          padding: '0',
         }}>
 
           {/* ─── HEADER ─── */}
