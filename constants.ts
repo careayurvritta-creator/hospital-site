@@ -6,7 +6,6 @@ export const NAV_ITEMS: NavItem[] = [
   { label: 'About', path: '/about' },
   { label: 'Services', path: '/services' },
   { label: 'Programs', path: '/programs' },
-  { label: 'Diet Charts', path: '/diet-charts' },
   { label: 'Cashless / Insurance', path: '/insurance' },
   { label: 'Ayurveda Tools', path: '/tools' },
   { label: 'Blog', path: '/blog' },

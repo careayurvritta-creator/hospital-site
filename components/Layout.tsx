@@ -216,7 +216,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             '/about': 'about',
             '/services': 'services',
             '/programs': 'programs',
-            '/diet-charts': 'dietCharts',
             '/tools': 'tools',
             '/booking': 'contact',
             '/insurance': 'insurance',
