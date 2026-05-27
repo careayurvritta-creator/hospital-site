@@ -1,14 +1,5 @@
 # Ayurvedic Diet for Spring Season
 
-Published on:
-April 8, 2021
-Updated on:
-May 24, 2026
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Ah, the smell of the spring season is sweet as well as refreshing. The warmth of the sunshine on the skin feels so good and soothing. Spring is known as rebirth because at this time all the animals wake up from their hibernation and also have their breeding period. Spring season is the fourth season that comes after the winter season and the days are longer at this time. It is the season when blossom by blossom flowers start to grow and birds start to chirp.
 
 In India Spring is considered the season of fertility and this season is specially celebrated with the name Vasant Panchami. It is one of the promising Hindu festivals celebrated by everyone whether belonging to any caste, religion, or state. It is the season of celebration in India where each state celebrates different festivals like Gudi Padwa is celebrated as New year in Maharashtra Ugadi in Andhra Pradesh, Holi which is the festival of colors celebrated by each state in India, and many more.
@@ -97,4 +88,3 @@ Boiled rice with lentils of any type along with salads
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/ayurvedic-diet-for-spring-season/

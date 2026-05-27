@@ -1,14 +1,5 @@
 # DIET CHART FOR GOUT
 
-Published on:
-February 5, 2020
-Updated on:
-January 9, 2026
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-DIET CHART FOR GOUT
 INTRODUCTION
 Gout or Gouty Arthritis is a type of inflammatory arthritis that occurs when there is too much uric acid in the blood. It can cause crystals of uric acid to be formed, which will deposit in joints and cause pain, tenderness, irritation, inflammation and redness mostly in the bigger toe and fingers. Usually, high-purine foods, Seafood and fat-rich foods may cause the accumulation of uric acid in joints. A low-purine and low-fat diet can help to maintain a healthy weight and prevent it.
 DIET INSTRUCTIONS
@@ -94,4 +85,3 @@ Call
 
 ---
 
-**Source:** [https://www.planetayurveda.com/library/diet-chart-for-gout/](https://www.planetayurveda.com/library/diet-chart-for-gout/)

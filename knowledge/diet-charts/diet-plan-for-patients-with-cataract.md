@@ -1,13 +1,5 @@
 # Diet Plan for Cataract Patients
 
-Published on:
-February 5, 2020
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Plan for Cataract Patients
 Cataract is an eye problem in which a protein accumulates over eye lens and results in blurry vision. A diet rich in vitamin A, C and E is helpful in the prevention of cataract. According to Ayurveda, aggravated vata dosha leads to cataract. So, a balanced and proper diet and avoiding the use of foods which aggravates Vata dosha will help in the prevention as well as treatment of the Cataract.
 Eyes are the mirror of the soul, keep them clean and healthy!!
 DIET CHART FOR CATARACT
@@ -119,4 +111,3 @@ Call
 
 ---
 
-**Source:** [https://www.planetayurveda.com/library/diet-plan-for-patients-with-cataract/](https://www.planetayurveda.com/library/diet-plan-for-patients-with-cataract/)

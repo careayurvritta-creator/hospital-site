@@ -1,17 +1,5 @@
 # Diet Plan for Patients of Kidney Disease
 
-Published on:
-April 29, 2019
-
-Updated on:
-November 3, 2025
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Kidney disorders are usually inflammatory in origin, or degenerative in nature. With an increasing severity, these may result in renal failure. Kidney diseases may be acute or chronic and have several underlying causes. The main function of kidney is to eliminate waste products and extra fluid from blood. A well planned diet is one of the ways to control levels of protein, potassium, sodium, fluid and phosphorus in body. Renal diet is low in sodium, phosphorus, potassium and protein. Balanced diet is helpful to slow down certain complications like blood pressure, proteinuria, edema, anemia and kidney failure. Water is always the best way to hydrate and it helps to remove stones and toxins from body. Increase the intake of fruits and vegetables. A good lifestyle choice such as proper diet and medications can help to prevent the kidney disease.
 
 ## DIET CHART FOR KIDNEY DISEASE
@@ -139,4 +127,3 @@ Nuts and dry fruits like Peanuts, Almonds, Cashew nuts, Hazel nuts, Brown rice, 
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-plan-for-patients-of-kidney-disease/

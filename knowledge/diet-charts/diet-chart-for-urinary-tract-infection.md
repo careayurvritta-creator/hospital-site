@@ -1,17 +1,5 @@
 # DIET CHART FOR URINARY TRACT INFECTION
 
-Published on:
-February 11, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 Urinary tract infections are very common. They are caused by germs usually the bacteria E. Coli enter the urinary tract through the urethra and spread to the bladder causes infection and inflammation. A healthy diet of anti-inflammatory, antioxidant-rich foods and probiotic-rich foods is important and can help relieve a UTI by flushing out the toxins from the urinary tract.
@@ -130,4 +118,3 @@ Plain chapatti / Rice/ Vegetable + Dal
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-urinary-tract-infection/

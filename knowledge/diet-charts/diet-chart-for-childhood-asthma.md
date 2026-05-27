@@ -1,14 +1,5 @@
 # Diet Chart for Childhood Asthma
 
-Published on:
-April 29, 2020
-Updated on:
-April 18, 2025
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Chart for Childhood Asthma
 It is chronic inflammation of airways of the lungs. This inflammation cause more mucus production and difficulty in breathing. There are many causes of childhood asthma include allergens, irritants, change in weather and infection, inflammation of the airways of lungs.
 DIFFERENCE BETWEEN CHILDHOOD AND ADULT ASTHMA
 Children diagnose with asthma are more likely to have intermittent symptoms, though some children have daily symptoms as well. Children are typically more sensitive to allergens and more prone to an asthma attack because their bodies are still developing. In adults, symptoms are typically persistent. Daily treatment is often required in order to keep asthma symptoms and flare-ups under control.
@@ -103,4 +94,3 @@ Call
 
 ---
 
-**Source:** [https://www.planetayurveda.com/library/diet-chart-for-childhood-asthma/](https://www.planetayurveda.com/library/diet-chart-for-childhood-asthma/)

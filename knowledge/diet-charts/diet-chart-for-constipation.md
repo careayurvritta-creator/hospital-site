@@ -1,17 +1,5 @@
 # DIET CHART FOR CONSTIPATION
 
-Published on:
-January 29, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 It is a condition in which a person is passing less than 3 stools per week, whereas he is taking a high residue diet. The common causes of constipation are low fiber diet, poor elimination habit and less fluid intake. Even overuse of laxatives, stress and strains also leads to constipation. To relieve constipation, a high fiber diet is required as it will increase the weight and bulk of stool and promote a healthy digestive system.
@@ -145,4 +133,3 @@ It is a rich source of fiber. It helps in digestion and prevents constipation. 1
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-constipation/

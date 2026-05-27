@@ -1,13 +1,5 @@
 # Diet Plan for Patients of Infertility
 
-Published on:
-April 26, 2019
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Plan for Patients of Infertility
 A person with infertility problem must follow a diet that especially supports the body in making healthy reproductive fluids. Foods that are packed with dense nutrients are essential for hormonal production and functions. A diet must support fetal development, sperm health, egg health, blood purification and much more. Males and females should try to maintain a healthy body weight and follow a balanced eating pattern to create strong fertility.
 An Unhealthy diet and sedentary lifestyle, such as smoking, consumption of caffeine and alcohol, stress, chronic exposure to environmental pollutants and other nutritional habits has a negative impact on fertility and proves difficult to a female for conceiving. So a Well-balanced diet is needed to build up a healthy reproductive system.
 DIET CHART FOR INFERTILITY
@@ -123,4 +115,3 @@ Call
 
 ---
 
-**Source:** [https://www.planetayurveda.com/library/diet-plan-for-patients-of-infertility/](https://www.planetayurveda.com/library/diet-plan-for-patients-of-infertility/)

@@ -1,13 +1,5 @@
 # Diet Plan for Back Pain Patients
 
-Published on:
-February 6, 2020
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Plan for Back Pain Patients
 Back pain is a very common condition increasing day by day among the people irrespective to the age. Constant pain is felt in the back due to some activity, injury or other medical conditions. It is also known as Backache. The reasons behind this back pain varies person to person. Consuming a diet rich in calcium and vitamin D and avoiding the food that causes inflammation provides major relief from back pain. A balanced and nutritional diet is really very important to prevent and treat this majorly rising health problem.
 DIET CHART FOR BACK PAIN
 EARLY-MORNING
@@ -123,4 +115,3 @@ Call
 
 ---
 
-**Source:** [https://www.planetayurveda.com/library/diet-plan-for-patients-with-back-pain/](https://www.planetayurveda.com/library/diet-plan-for-patients-with-back-pain/)

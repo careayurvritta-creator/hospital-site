@@ -1,17 +1,5 @@
 # Diet Chart For Scleroderma Patients
 
-Published on:
-July 19, 2023
-
-Updated on:
-May 24, 2026
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Scleroderma is a chronic, rare, autoimmune disease in which normal tissues are replaced with thick fibrous tissues. In this condition, our immune system triggers cells to produce too much collagen which results in thickening and fibrosis of the skin. Scleroderma is usually a skin disorder but it also affects the lungs, kidneys, muscles, and joints. A balanced diet is very beneficial for scleroderma because people with scleroderma experience symptoms like poor appetite, weight loss, and malnutrition. This balanced diet helps to maintain the ideal weight and avoid the risk of heart, lung, and kidney problems. Here, we need to avoid foods that aggravate symptoms such as citrus fruit, greasy fried food, spicy food, carbonated beverages, and alcohol.
 
 AVOID
@@ -135,4 +123,3 @@ Things in this Diet Chart May Vary Patient to Patient due to the Associated Heal
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/scleroderma-patient-diet-chart/

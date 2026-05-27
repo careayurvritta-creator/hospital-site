@@ -1,13 +1,5 @@
 # DIET CHART FOR ADULTHOOD
 
-Published on:
-February 11, 2020
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-DIET CHART FOR ADULTHOOD
 INTRODUCTION
 During adulthood, nutrients are  required for energy, for replacement of worn-out tissues and maintenance of  body functions. A balanced diet in which all nutrients are present is required  for adults as it is the age when a person needs to be more energetic in order  to fulfill the new responsibilities coming in life. The diet should include  foods from all the food groups. If a balanced diet is not consumed then it  leads to various problems in adulthood as well as growing older.
 DAILY DIET SCHEDULE
@@ -109,4 +101,3 @@ Call
 
 ---
 
-**Source:** [https://www.planetayurveda.com/library/diet-chart-for-adulthood/](https://www.planetayurveda.com/library/diet-chart-for-adulthood/)

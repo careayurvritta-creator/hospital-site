@@ -1,14 +1,5 @@
 # Diet Chart For IBS – Irritable Bowel Syndrome
 
-Published on:
-March 23, 2023
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Chart For IBS – Irritable Bowel Syndrome
-
 It is a gastrointestinal disorder that results in diarrhea, constipation, abdominal pain, and bloating in severe cases, mucus is also found in the stool. Intake of dairy products, chocolate, citrus food, or alcohol can worsen the symptoms leading to severe constipation and diarrhea. Stress also serves as a major symptom of IBS. So, by managing our lifestyle and diet, we can control the symptoms more easily. A high-fiber diet is helpful in adding bulk to the stools and promoting normal bowel motility. Avoid overuse of laxatives, antibiotics, caffeine, and fat-rich foods as it disrupts the normal functioning of the digestive system.
 
 **AVOID**
@@ -62,4 +53,3 @@ Fennel, Turmeric, Cumin, Coriander Seeds, Thyme Leaves, Dried Fenugreek Leaves, 
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-ibs-irritable-bowel-syndrome/

@@ -1,14 +1,5 @@
 # Diet Chart For Skin Problems
 
-Published on:
-March 30, 2023
-Updated on:
-May 24, 2026
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Nutrition is important for health and the best foods for keeping the skin healthy. The skin problem is generally caused by oily food, processed and canned food, refined sugar, and spicy foods which can cause skin problems like acne, cold sore, and blisters. So, treat your skin by eating antioxidant-rich fruit and vegetables, healthy fats from oily fish and nuts as they are rich in antioxidants and fibers. You should take optimal levels of the nutrients that are crucial for radiant skin, including beta carotene, vitamins C and selenium.
 
 ## MILK PRODUCTS
@@ -113,4 +104,3 @@ Homemade Only, Rose Petals Juice (5-7 Petals), Tofu, Green Juice
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-skin-problems/

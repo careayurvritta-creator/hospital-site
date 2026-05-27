@@ -1,17 +1,5 @@
 # DIET FOR DENGUE PATIENTS
 
-Published on:
-February 7, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 Dengue is a mosquito-borne disease, a viral flu which is spread by the bite of an Aedes mosquito. The most common symptoms include fever, headache, skin rash, muscle and joint pains. It is important to have a healthy well-balanced diet comprising of all nutrients and healthy foods to reduce and eliminate these symptoms and treat Dengue. Avoiding oily and fried foods, caffeine, carbonated drinks, spicy and foods high in fats helps a lot to manage the same.
@@ -162,4 +150,3 @@ Boil 1-2 ginger slices, add 4-5 basil holy leaves, turmeric, cinnamon and cardam
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-dengue/

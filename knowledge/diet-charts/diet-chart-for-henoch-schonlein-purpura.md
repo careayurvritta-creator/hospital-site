@@ -1,17 +1,5 @@
 # Diet Plan for Henoch-Schonlein Purpura (HSP)
 
-Published on:
-April 4, 2020
-
-Updated on:
-April 19, 2025
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Henoch-Schönlein Purpura (HSP) is an autoimmune condition that leads to inflammation of the small blood vessels, affecting the skin, digestive tract, kidneys, and joints. Common symptoms include purplish spots or rashes on the skin, joint pain, and blood or protein detected in the urine. The disease mainly affects children between the age group 2-6. A well balanced diet is needed to manage the symptoms of the disease. Unhealthy diet such as bakery products, processed food, Citrus products and pitta aggravated food stuff increases the risk of HSP. So Person should avoid taking sugary drinks, junk food, desserts and refined carbohydrates and adopt well-balanced Diet habits.
 
 ## DIET CHART FOR HSP
@@ -135,4 +123,3 @@ Pastry, puddings made with whole milk and fat, packed soups, high fat dressing o
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-henoch-schonlein-purpura/

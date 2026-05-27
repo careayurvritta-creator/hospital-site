@@ -1,14 +1,5 @@
 # Liver Failure Diet Chart in Marathi Language
 
-Published on:
-November 11, 2021
-Updated on:
-May 24, 2026
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## भाजी
 
 ### हे खावे
@@ -141,4 +132,3 @@ Dr. Vikram Chauhan (M.D. - Ayurveda)
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/liver-failure-diet-chart-in-marathi-language/

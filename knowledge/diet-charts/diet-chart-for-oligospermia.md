@@ -1,17 +1,5 @@
 # DIET CHART FOR OLIGOSPERMIA (LOW SPERM COUNT)
 
-Published on:
-February 24, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 Oligospermia is a condition in which the sperm count is less than 15 million sperm per milliliter of semen. The common symptoms associated with Oligospermia are thin discharge and less discharge, sexual inability, pain and swelling in testicles area, less facial and body hairs. A balanced diet which is rich in Vitamin C, B12, Zinc, and Omega-3 fatty acid will help to promote the production of sperms. If the balanced diet is not consumed in oligospermia then it will result in infertility.
@@ -130,4 +118,3 @@ Chapatti / Boiled Rice / Vegetable + Dal
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-oligospermia/

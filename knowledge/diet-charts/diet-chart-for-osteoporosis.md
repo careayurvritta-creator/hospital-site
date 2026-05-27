@@ -1,14 +1,5 @@
 # Diet Chart for Osteoporosis
 
-Published on:
-February 1, 2020
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Chart for Osteoporosis
-
 It is a disorder in which bones become weak and fragile. It is more common in females as compared to males and mostly occurs after 40's. A diet rich in calcium, vitamin D, Magnesium, phosphorus helps to maintain the healthy bones. If this balanced diet is not consumed then it will increase the risk of fractures and other complications associated with osteoporosis.
 
 ## DAILY DIET SCHEDULE
@@ -165,4 +156,3 @@ Bakery and Processed foods, Packed soups, All fried foods, Junk foods, Sauces, F
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-osteoporosis/

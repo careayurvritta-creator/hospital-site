@@ -1,14 +1,5 @@
 # Diet Chart For Kidney Diseases
 
-Published on:
-March 28, 2023
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Chart For Kidney Diseases
-
 Low protein and low sodium diet is prescribed for patients with Chronic Renal Failure with progressive impairment of kidney function. When a kidney is not functioning normally, the toxic end products of metabolism cannot be excreted out and accumulate in the blood. Here, proteins are restricted in the diet but consumption of sufficient calories is essential so that tissue breakdown which again results in the elevation of the nitrogenous constituent of blood is minimized. Avoid eating high protein food, citrus fruits, fried food, junk food, processed foods, preserved foods, caffeine, alcohol, high sodium, and high potassium.
 
 **AVOID**
@@ -113,4 +104,3 @@ Mungdal Khichdi, Homemade Vegetable Soups, Homemade Fresh Green Tea, Herbal Tea
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-kidney-diseases/

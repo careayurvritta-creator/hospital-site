@@ -1,14 +1,5 @@
 # 9 Days Navratri Fast Special Diet Chart & Recipes
 
-Published on:
-September 30, 2022
-Updated on:
-May 24, 2026
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## MORNING TO EVENING DIET PLAN
 
 ### EARLY MORNING
@@ -93,4 +84,3 @@ Tea and coffee, Ginger mint tea, coconut water, peach tea, chamomile tea, Pumpki
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/9-days-navratri-fast-special-diet-chart-and-recipes/

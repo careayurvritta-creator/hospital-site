@@ -1,15 +1,5 @@
 # DIET FOR PREMENSTRUAL SYNDROME (PMS)
 
-**Published on:** February 6, 2020
-
-**Updated on:** 
-
-**Written By:** Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-**Reviewed by:** Dr. Vikram Chauhan (M.D. - Ayurveda)
-
-**Source URL:** https://www.planetayurveda.com/library/diet-chart-for-premenstrual-syndrome/
-
 ## INTRODUCTION
 
 Premenstrual syndrome is a group of symptoms that occur one to two weeks before a menstruation. It refers to physical, emotional and behavioral changes; common signs & symptoms include acne, tender breasts, bloating, feeling tired, irritability, and mood changes. A diet including high-fiber, complex carbohydrates, iron and calcium-rich foods with some physical activities can help a lot. The most common diet recommendations are to avoid high sugar and salt, high fats, fried food, junk food, caffeine, carbonated and artificial sweeteners in order to reduce bloating, water retention, and breast swelling and tenderness.

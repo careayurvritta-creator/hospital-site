@@ -1,13 +1,5 @@
 # Diet Plan For Amenorrhea
 
-Published on:
-July 20, 2020
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Plan For Amenorrhea
 Amenorrhea, the absence of menstruation or when a woman has missed at least three months of menstrual periods at a stretch that condition is called amenorrhea. This condition occurs due to imbalance of hormones, low levels of haemoglobin and any associated disease. For this a correct, well balanced and nutritious diet which is enriched with iron, folic acid and Vitamin B is an important factor to correct this condition.
 EARLY-MORNING
 Herbal tea / Luke warm  Water/ Saunf water/ Soaked almonds
@@ -133,4 +125,3 @@ Call
 
 ---
 
-**Source:** [https://www.planetayurveda.com/library/diet-plan-for-amenorrhea/](https://www.planetayurveda.com/library/diet-plan-for-amenorrhea/)

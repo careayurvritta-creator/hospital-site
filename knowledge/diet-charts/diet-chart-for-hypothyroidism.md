@@ -1,17 +1,5 @@
 # DIET CHART FOR HYPOTHYROIDISM
 
-Published on:
-February 11, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 Hypothyroidism is a condition which is increasing in society rapidly and its cause according to modern science is not clear. Ayurveda believes that hypothyroidism is due to angni mandya leading to kshaya of pitta, aggravation of vata and finally dushti of kapha giving rise to metabolic symptoms like weight gain, irregular menstrual cycle in females, puffiness of face and many others. Below is a specific diet chart which is being prepared keeping in mind the kshaya, vridhi and dushti of dosha as well as dhatu.
@@ -135,4 +123,3 @@ Mix chapati / Plain chapati / Vegetable + Dal
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-hypothyroidism/

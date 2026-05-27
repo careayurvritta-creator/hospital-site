@@ -1,13 +1,5 @@
 # Diet Plan for Anemia
 
-Published on:
-May 2, 2019
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Plan for Anemia
 Anemia is a nutritional disorder in which hemoglobin level reduces and this happens due to lack of iron and certain vitamins. Anemia is caused due to deficiency of iron, vitamin B – 12 and folic acid because these nutrients are required for production of red blood cells. Some people add these nutrients in their diet but still they are anemic. The reason behind it is that their intestine is not able to absorb these. Basically anemia has three main causes – Blood loss, Lack of RBC production and high RBC cell destruction. Certain disease affect small intestine and their ability to absorb nutrients like celiac disease, crohn’s disease. So a balanced diet is needed to maintain the good health.
 DIET CHART FOR ANEMIA
 EARLY-MORNING
@@ -117,4 +109,3 @@ Call
 
 ---
 
-**Source:** [https://www.planetayurveda.com/library/diet-plan-for-anemia/](https://www.planetayurveda.com/library/diet-plan-for-anemia/)

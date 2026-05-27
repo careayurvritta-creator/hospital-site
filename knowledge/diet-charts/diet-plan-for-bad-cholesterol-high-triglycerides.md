@@ -1,17 +1,5 @@
 # Diet Plan to Reduce Bad Cholesterol and High Triglycerides
 
-Published on:
-November 15, 2019
-
-Updated on:
-April 19, 2025
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## DIET CHART
 
 ### BREAKFAST
@@ -93,4 +81,3 @@ Missi chapatti / Plain chapatti / Boiled Rice / Vegetable+ Dal / Grilled Fish or
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-plan-for-bad-cholesterol-high-triglycerides/

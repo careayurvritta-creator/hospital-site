@@ -1,13 +1,5 @@
 # Diet Chart for Allergy
 
-Published on:
-October 27, 2020
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Chart for Allergy
 Allergies are the most common in daily life. These are the active immune response of body towards any foreign body and are not so harmful. These foreign particles like pollens, certain food products, dust etc. are known as allergens. In this, we can consider both skin and respiratory allergies. These allergies and their associated symptoms can be managed very well by following a proper diet along with some lifestyle changes.
 EARLY-MORNING
 Herbal tea / Lukewarm  water
@@ -108,4 +100,3 @@ Call
 
 ---
 
-**Source:** [https://www.planetayurveda.com/library/diet-plan-for-allergy/](https://www.planetayurveda.com/library/diet-plan-for-allergy/)

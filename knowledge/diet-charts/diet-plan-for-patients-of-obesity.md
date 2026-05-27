@@ -1,14 +1,5 @@
 # Diet Plan for Obesity
 
-Published on:
-May 2, 2019
-Updated on:
-January 27, 2026
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Plan for Obesity
 Obesity is a condition resulting from the accumulation of excess body fat, which increases the risk of several other Health issues. It is evaluated by body mass Index, if BMI is 30 or higher, then the person is obese. A low-fat, low-carbohydrate, and moderate-protein diet is very helpful in losing excess fat. Obesity causes almost all lifestyle diseases like Diabetes, Heart disease, Arthritis, Cancer, liver problems, infertility, and many more. Balancing Body weight is must to avoid the risk of these diseases, that is only possible with a balanced healthy diet.
 DIET INSTRUCTIONS
 CEREALS
@@ -115,4 +106,3 @@ Call
 
 ---
 
-**Source:** [https://www.planetayurveda.com/library/diet-plan-for-patients-of-obesity/](https://www.planetayurveda.com/library/diet-plan-for-patients-of-obesity/)

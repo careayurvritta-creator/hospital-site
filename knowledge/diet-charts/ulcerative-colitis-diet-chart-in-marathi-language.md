@@ -1,14 +1,5 @@
 # Ulcerative Colitis Diet Chart in Marathi Language
 
-Published on:
-November 11, 2021
-Updated on:
-May 24, 2026
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## Vegetables
 
 **To Consume:** Bottle gourd, Ridge gourd, Spinach, Pointed gourd, Bitter gourd
@@ -43,4 +34,3 @@ Note: All in small amounts
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/ulcerative-colitis-diet-chart-in-marathi-language/

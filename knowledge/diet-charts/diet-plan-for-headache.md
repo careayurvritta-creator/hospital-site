@@ -1,17 +1,5 @@
 # Diet Plan for Headache
 
-Published on:
-February 10, 2020
-
-Updated on:
-May 24, 2026
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Headache is one of the common medical complaints experienced by most of the people at some point of their life. Headache can be a sign of stress, either physical or mental. Skipping meals and fasting can trigger it. Diet is very important factor for preventing or treating headache. A healthy diet should consist of fruits, vegetables, grains, and lean proteins. Avoid fasting, skipping meals, delayed or irregular meals, high sugar foods, junk foods, fried foods, beverages, preserved foods, or alcohol. These actions will help to prevent the "hunger headache" and blood sugar levels falling too low.
 
 DIET CHART FOR HEADACHE
@@ -101,4 +89,3 @@ Things in this Diet Chart May Vary Patient to Patient due to the Associated Heal
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-plan-for-headache/

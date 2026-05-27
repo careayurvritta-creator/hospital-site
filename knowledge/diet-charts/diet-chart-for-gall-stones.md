@@ -1,17 +1,5 @@
 # DIET FOR GALL STONES
 
-Published on:
-February 10, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 Gall bladder is to collect and store bile, the fluid which helps the body to digest the fats. Gall stones are extra cholesterol stones which are present in gall bladder or bile duct. Gall stones affect women twice more than men, specially those suffering with obesity and diabetes. The general treatment to gall stones is to remove gall bladder by surgery. But, it is not healthy and have many complications that causes illness for life.
@@ -135,4 +123,3 @@ Mix chapatti / Plain chapatti / Vegetable + Dal + Curd
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-gall-stones/

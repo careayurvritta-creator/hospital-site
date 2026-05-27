@@ -1,15 +1,5 @@
 # Diet Chart For Pitta Prakriti
 
-**Published on:** March 23, 2023
-
-**Updated on:** 
-
-**Written By:** Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-**Reviewed by:** Dr. Vikram Chauhan (M.D. - Ayurveda)
-
-**Source URL:** https://www.planetayurveda.com/library/diet-chart-for-pitta-prakriti/
-
 ## INTRODUCTION
 
 Natural mild Sweet and Bitter Taste is Good for Pitta Dosha and all Salty, Pungent, and Sour Tastes are Not Good for Pitta. Prefer Bathing with Lukewarm Water. Consuming various spiced foods should be avoided. Stay Calm as Rage or Anger is not an Option. Pitta Prakriti people are generally aggressive in nature, Meditation calms down their mind and improves concentration. They are tremendously concentrated on achieving their goals which makes them work day and night, so a little or mild exercise is enough for them. They have a very good digestive fire so they should not stay empty stomach for a long time. Their Sleep usually suffers due to their ambitious characteristics, but sound sleep is very much important to perform efficiently, so, Pranayama and a glass of lukewarm water before going to sleep can help. It relaxes the mind and helps to sleep pleasantly. In case of excessive burning sensation in the body, keep water under the moonlight for one whole night, and drink it on an empty stomach, the following morning.

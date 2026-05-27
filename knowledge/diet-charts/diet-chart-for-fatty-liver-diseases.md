@@ -1,17 +1,5 @@
 # Diet Chart for Fatty Liver Disease
 
-Published on:
-February 5, 2020
-
-Updated on:
-May 24, 2026
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 In a healthy body, liver helps to remove toxins and produces bile to maintain the digestion. Some amount of fat is required in the liver but when the fat content is too high in the liver the condition is termed as fatty liver. In this condition, the diet that contains a low-fat, less calorie, complex carbohydrates, high-fiber, and protein can reduce the risk of fatty liver disease.
 
 DAILY DIET SCHEDULE
@@ -106,4 +94,3 @@ NOTE: If you are a Diabetic patient then the food high in sugar should be avoide
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-fatty-liver-diseases/

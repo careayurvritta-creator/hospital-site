@@ -1,17 +1,5 @@
 # DIET PLAN FOR HERNIA
 
-Published on:
-February 25, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 Hernia is a condition in which the internal organ or tissues protrude abnormally through cavity in which it resides. The main causes of hernia are obesity, smoking, heavy weight lifting, overexertion and poor nutrition. One of the most common hernias is inguinal and femoral hernia. Hernias are usually not life threatening but they have to be treated as they cannot go away on its own. Hernia usually causes mild to severe pain but if blood supply is cut off then it may leads to some major complications. Balanced diet rich in complex carbs, plant based proteins and unsaturated fats are beneficial in hernia. Avoid foods which are difficult to digest.
@@ -132,4 +120,3 @@ Chapatti / Boiled Rice / Vegetable + Dal
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-plan-for-hernia-patients/

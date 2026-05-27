@@ -1,14 +1,5 @@
 # ITP Diet Chart in Marathi Language
 
-Published on:
-November 13, 2021
-Updated on:
-May 24, 2026
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 हा चार्ट फक्त ITP Patients साठी केलेला आहे. खालील चार्ट मधील पदार्थांचा जास्तीत जास्त वापर करावा. तुमचा रोजच्या आहाराचे सर्व महत्वाचे घटक तुम्हाला या चार्ट मध्ये मिळतील. प्रत्येक गटात वेगवेगळे खाद्य पदार्थ नमूद केलेले आहेत. A या गटातली पदार्थ खाल्यास इतर गटातील पदार्थ घेण्याची गरज नाही. B गटातील पदार्थ या नंतर घ्यावयाचे 75 % गरज कमी होते. C गटातील पदार्थ ITP च्या Patients नि घेऊ नयेत.
 
 ## गट A
@@ -82,4 +73,3 @@ Brown rice एक वाटी उकडवून खावे.
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/itp-diet-chart-in-marathi-language/

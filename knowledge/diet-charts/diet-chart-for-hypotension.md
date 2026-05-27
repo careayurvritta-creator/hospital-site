@@ -1,17 +1,5 @@
 # DIET CHART FOR HYPOTENSION
 
-Published on:
-February 4, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 Low blood pressure or hypotension may cause inadequate blood flow to the heart, brain, and other vital organs. Low blood pressure is a condition where the systolic and diastolic pressure falls below 90 and 60 (mmHg) respectively. A low carbohydrate, high fiber, and low fat diet, is recommended to hypotension patients. Salty foods can increase blood pressure. A healthy and well balanced diet that is low in fat, high in fiber and moderate in calories is beneficial. Avoid eating lots of high carbs foods, unhealthy fats, fried food, junk food, processed foods, and preserved foods, caffeine, and alcohol as they can lead to low blood pressure.
@@ -154,4 +142,3 @@ Add two tablespoons of honey to a glass of carrot juice. Drink it on empty stoma
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-hypotension/

@@ -1,17 +1,5 @@
 # DIET CHART FOR RHEUMATOID ARTHRITIS (RA)
 
-Published on:
-March 29, 2023
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 It is an autoimmune, inflammatory disorder that can affect all joints. Rheumatoid arthritis occurs when your immune system mistakenly attacks your own body's tissues. The common symptoms of rheumatoid arthritis are joint pain, stiffness, tenderness, swelling, and redness. A balanced diet rich in antioxidants, and omega-3 fatty acids is very helpful to control inflammation.
@@ -99,4 +87,3 @@ It is an autoimmune, inflammatory disorder that can affect all joints. Rheumatoi
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-rheumatoid-arthritis/

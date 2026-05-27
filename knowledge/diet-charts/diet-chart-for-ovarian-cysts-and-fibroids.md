@@ -1,17 +1,5 @@
 # Diet Chart For Ovarian Cysts And Fibroids
 
-Published on:
-March 28, 2023
-
-Updated on:
-December 2, 2024
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 An Ovarian cyst can be defined simply as a small sac filled with fluid that forms within the ovaries of a woman. Ovarian cysts can be quite painful and cause unpleasant sensations. However, ovarian cysts can become malignant or cancerous in certain cases but most of them are benign. They can cause pain, and heavy menstrual bleeding and may result in infertility.
 
 ## AVOID / ALLOWED
@@ -84,4 +72,3 @@ An Ovarian cyst can be defined simply as a small sac filled with fluid that form
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-ovarian-cysts-and-fibroids/

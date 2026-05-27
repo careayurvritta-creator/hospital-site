@@ -1,17 +1,5 @@
 # DIET CHART FOR MIGRAINE
 
-Published on:
-February 6, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 Migraine is a neurological condition that appears as headache on one side of the head, often happens with nausea, vomiting, and sensitivity to light. A migraine episode may last from 4 hours to 3 days, and sometimes longer. A healthy diet with adequate protein, fiber, healthy fats consisting of fresh fruits, vegetables, whole grains, and pulses, can help reduce the frequency. Following strict diet and avoiding caffeine, alcohol, artificial sweeteners, high sodium, processed, carbonated, fried, cheese and junk foods, can really help to eliminate the pain, resulting in the relief from Migraine.
@@ -145,4 +133,3 @@ Boil ½ tsp each of fennel, coriander, cumin in cups of water till it's reduced 
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-migraine/

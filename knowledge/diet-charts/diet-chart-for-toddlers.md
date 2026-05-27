@@ -1,17 +1,5 @@
 # DIET CHART FOR TODDLERS
 
-Published on:
-February 8, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 A balanced diet with healthy foods have all those nutrients that are important for growth, development and learning. Toddler's nutrition needs are very different from other infants. The early age of life is the very right time for developing healthy habits to continue throughout life. It is necessary so that the toddlers can grow, develop, and stay healthy with growing years.
@@ -137,4 +125,3 @@ Low-fat milk / Fruit custard
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-toddlers/

@@ -122,4 +122,3 @@ People suffering from problem of gout have high levels of uric acid in the blood
 
 *Note: The menu for gout diet plan comprises plenty of fruits, vegetables, whole grains, and low-fat dairy products with randomly adding few other foods in your diet and include foods helpful in removing uric acid from the blood more efficiently.*
 
-**Source:** [Planet Ayurveda](https://www.planetayurveda.com/library/diet-plan-for-patients-of-gout/)

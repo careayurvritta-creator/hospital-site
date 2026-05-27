@@ -1,17 +1,5 @@
 # DIET CHART FOR PSORIASIS
 
-Published on:
-July 7, 2023
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 Psoriasis is a skin disease, which is non-contagious in nature. It is characterized by scaly patches, which are red in color. These patches appear on the scalp, elbows and knees. These lesions may vary from minor patches appearing at local points to the entire portion of the body. Dry skin, cracks in the skin, pink-colored lesions, bleeding skin, stiffened joints, inflammations, itching sensation, and burning in some places are the major symptoms of people suffering from psoriasis. It is highly advised that people suffering from this noncontagious skin infection must follow a strict diet regimen.
@@ -105,4 +93,3 @@ Psoriasis is a skin disease, which is non-contagious in nature. It is characteri
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-psoriasis-patients/

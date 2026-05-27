@@ -161,4 +161,3 @@ Nutrition is important in the management of gastro-esophageal reflux disease. Th
 
 ---
 
-**Source:** [Planet Ayurveda](https://www.planetayurveda.com/library/diet-chart-for-gerd-acidity/)

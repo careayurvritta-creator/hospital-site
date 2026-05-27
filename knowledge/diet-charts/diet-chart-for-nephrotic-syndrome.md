@@ -1,15 +1,5 @@
 # DIET CHART FOR NEPHROTIC SYNDROME
 
-**Published on:** February 1, 2020
-
-**Updated on:** 
-
-**Written By:** Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-**Reviewed by:** Dr. Vikram Chauhan (M.D. - Ayurveda)
-
-**Source URL:** https://www.planetayurveda.com/library/diet-chart-for-nephrotic-syndrome/
-
 ## INTRODUCTION
 
 Nephrotic syndrome is a kidney disorder which occurs when the filtering units of the kidney get damaged. It affects and makes the body to excrete too much protein in the urine. A healthy diet for Nephrotic patients consists of low salt, low-fat moderate protein and low cholesterol diet. Avoid eating high carb foods, high protein food, unhealthy fats, fried foods, junk foods, processed foods and preserved foods. Caffeine, alcohol and high sodium can contribute to high blood pressure and edema which is most common in this condition.

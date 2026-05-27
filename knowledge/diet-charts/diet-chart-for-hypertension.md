@@ -1,17 +1,5 @@
 # DIET FOR HYPERTENSION
 
-Published on:
-February 8, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 Hypertension is not a disease in itself, it is a risk factor. Hypertension or high blood pressure refers to the increased pressure of blood against artery walls. High blood pressure can cause blood vessel damage that leads to heart disease. It may increase the thickness of the heart muscle and reduce coronary circulation.
@@ -124,4 +112,3 @@ if you are Diabetic patient, food high in sugar should be avoided and intake of 
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-hypertension/

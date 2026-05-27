@@ -1,17 +1,5 @@
 # Diet Plan for Digestion Support
 
-Published on:
-April 8, 2020
-
-Updated on:
-April 19, 2025
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Digestion is the process of breakdown of food into small molecules so that they can be absorbed into the bloodstream. Indigestion happens when the taken meal is unable to digest in a stimulated time. And then the most common problems of the digestive tract arises such as discomfort, fullness, pain, bloating, indigestion, acidity, constipation and heart burn. An unhealthy diet or lifestyle can cause above digestive issues. Bad eating habits and unhealthy diet, such as eating too quickly or skipping meals are responsible for arising Digestive disorders.
 
 ## DIET CHART FOR DIGESTION SUPPORT
@@ -134,4 +122,3 @@ Fennel seeds with water
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-digestion-support/

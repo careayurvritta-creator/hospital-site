@@ -1,15 +1,5 @@
 # Diet Plan for Slipped Disc problem
 
-**Published on:** February 6, 2020
-
-**Updated on:** 
-
-**Written By:** Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-**Reviewed by:** Dr. Vikram Chauhan (M.D. - Ayurveda)
-
-**Source URL:** https://www.planetayurveda.com/library/diet-plan-for-slipped-disc-problems-patients/
-
 ## INTRODUCTION
 
 A herniated disc occurs when the gel-like center of a disc becomes weak or torn and allows the inner portion to slip out. This can happen with ageing or in case of any injury. Eating a balanced diet with right amount and variety of nutrients can reduce such back problems by nourishing the muscles, bones, discs and spinal structure. A balanced diet helps in building strong bones and strengthening the body.
