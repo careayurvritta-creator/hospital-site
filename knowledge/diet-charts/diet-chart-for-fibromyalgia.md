@@ -1,17 +1,5 @@
 # DIET CHART FOR FIBROMYALGIA
 
-Published on:
-February 4, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 It is a chronic musculoskeletal disorder which is represented with generalized severe body pain. It is characterized by disturbed sleep, weak memory and severe fatigue. A balanced diet rich in complex carbs, plants based protein and unsaturated fats are beneficial to get relief from body pain. In such condition, we need to avoid foods that trigger the pain like red meats, processed food and night shade vegetables.
@@ -149,4 +137,3 @@ It is a good source of vitamin D and reduces the intensity of pain
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-fibromyalgia/

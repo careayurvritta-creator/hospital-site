@@ -1,13 +1,5 @@
 # Diet Plan for Constipation Problem
 
-Published on:
-April 27, 2019
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Plan for Constipation Problem
 Constipation is most common and uncomfortable complaint nowadays. The  main cause of constipation is dehydration and lack of dietary fibres. Include high fibre diet and drink plenty of fluids to stay hydrated. Whole grain, pluses, green leafy vegetables and fruits are rich source of fibres. Avoid fried food as it can hamper your digestive system.
 DIET CHART FOR CONSTIPATION
 EARLY-MORNING
@@ -120,4 +112,3 @@ Call
 
 ---
 
-**Source:** [https://www.planetayurveda.com/library/diet-plan-for-constipation-problem/](https://www.planetayurveda.com/library/diet-plan-for-constipation-problem/)

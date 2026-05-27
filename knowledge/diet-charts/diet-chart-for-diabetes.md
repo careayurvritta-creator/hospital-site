@@ -1,14 +1,5 @@
 # Diet Chart for Diabetic Person
 
-Published on:
-February 17, 2020
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Chart for Diabetic Person
-
 Diabetes, a metabolic disorder which is characterized by raised sugar level in the bloodstream which is either occurred due to less production of Insulin or either due to unhealthy food habits and a sedentary lifestyle. When blood sugar raises it can damage kidneys, liver, eyes, heart, etc. Consistency in the diet on daily basis is one of the important factors to control diabetes. In diabetes particularly carbohydrate metabolism is abnormal that will lead to nutritional deficiency and results in weakness and fatigue. So, a balanced and proper diet is the first line of treatment itself to tackle diabetes.
 
 ## DIET CHART FOR DIABETIC PERSON
@@ -179,4 +170,3 @@ All bakery products, Sauces, Fruit jellies, Jams, Sweets, Artificial sweetener, 
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-diabetes/

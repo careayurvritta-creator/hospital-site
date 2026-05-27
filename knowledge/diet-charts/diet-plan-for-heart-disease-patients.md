@@ -1,14 +1,5 @@
 # Diet Plan for Heart Diseases
 
-Published on:
-May 1, 2019
-Updated on:
-May 24, 2026
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Heart diseases is a broad term comprising of spectrum of diseases associated with disorders of circulation, heart muscle and vessels of the heart. There are many types of heart diseases which affect different areas of the circulatory system. The common causes of heart disease are high cholesterol level, obesity, diabetes, hereditary, smoking, high- fat and high – sodium diet. So, the diet should be low in fat, especially saturated fat and low in sodium in case of Heart problems.
 
 ## DIET CHART FOR HEART DISEASES
@@ -71,4 +62,3 @@ Homemade foods only are recommended. Bakery products, processed foods, mayonnais
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-plan-for-heart-disease-patients/

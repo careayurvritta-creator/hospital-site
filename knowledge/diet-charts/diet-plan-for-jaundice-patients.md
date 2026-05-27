@@ -1,17 +1,5 @@
 # Diet Plan for Patients of Jaundice
 
-Published on:
-November 16, 2019
-
-Updated on:
-April 19, 2025
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## DIET CHART FOR JAUNDICE PATIENTS
 
 ### EARLY-MORNING
@@ -80,4 +68,3 @@ Chapatti / Plain chapatti / Boiled Rice / Vegetable + Dal / Grilled Fish or Chic
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-plan-for-jaundice-patients/

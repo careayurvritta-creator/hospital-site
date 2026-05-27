@@ -1,13 +1,5 @@
 # Diet Plan for Anal Fistula
 
-Published on:
-May 1, 2019
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Plan for Anal Fistula
 Anal fistula is a narrow tunnel with its internal opening in the anal canal and its external opening in the skin near the anus. If there is infection in the anal canal a channel is build and there is oozing of pus. The tract formed by this process is called fistula. It is very irritating and painful because of drainage of pus. Low fiber diet, poor and unhealthy life style and stress are the main causes to fistula. Constipation is one of the major causes to this and high fiber diet is beneficial in fighting with anal fistula.
 DIET CHART FOR ANAL FISTULA
 EARLY-MORNING
@@ -116,4 +108,3 @@ Call
 
 ---
 
-**Source:** [https://www.planetayurveda.com/library/diet-plan-for-patients-of-anal-fistula/](https://www.planetayurveda.com/library/diet-plan-for-patients-of-anal-fistula/)

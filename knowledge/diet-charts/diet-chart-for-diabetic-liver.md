@@ -1,17 +1,5 @@
 # DIET PLAN FOR DIABETIC LIVER DISEASES
 
-Published on:
-February 11, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Diabetes can cause large number of liver diseases. Liver is responsible for manufacturing and storing glucose depending upon the body needs. Excess accumulation of fat in the liver makes organ less responsive to insulin, leaving too much glucose in the blood, which can lead diabetes, on the other hand liver fat triggers harmful inflammation that creates scar tissue and other liver disease. Diet is one of the important components in managing diabetes and liver diseases. A moderate protein, low carbohydrate and low-fat diet are prescribed for diabetic with chronic liver disease as it seems to help manage both conditions. Avoid simple sugars and sweets, carbonated drinks, caffeine, alcohol, fried food, salty foods etc.
 
 ## DIET FOR DIABETIC LIVER DISEASES
@@ -131,4 +119,3 @@ Chapatti / Boiled Rice / Vegetable + Dal
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-diabetic-liver/

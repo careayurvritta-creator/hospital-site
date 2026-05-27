@@ -98,4 +98,3 @@ Pregnancy is a phase that places high nutritional demands on the body. The feeli
 
 *Note: Things in this Diet Chart May Vary Patient to Patient due to the Associated Health Issues, so Better to Consult Our Ayurveda Experts for Better Results.*
 
-**Source:** [Planet Ayurveda](https://www.planetayurveda.com/library/diet-plan-for-pregnant-women/)

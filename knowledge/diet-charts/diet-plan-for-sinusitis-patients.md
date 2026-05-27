@@ -1,17 +1,5 @@
 # DIET PLAN FOR SINUSITIS
 
-Published on:
-February 25, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 Sinusitis is a disorder in which the tissue that lining the sinus becomes inflamed due to any infection. Healthy sinus is filled with air but its blockage with fluid can result in growth of germs and eventually in infection. The common symptoms of sinusitis are runny nose, congestion, and facial pain. According to Ayurveda, imbalance of Prana Vata and Shelshaka Kapha leads to sinusitis. Healthy diet plays a major role in reducing inflammation and boosts the immunity. Anti-inflammatory diet is ideal for sinusitis.
@@ -133,4 +121,3 @@ Chapatti / Brown Rice / Vegetable + Dal
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-plan-for-sinusitis-patients/

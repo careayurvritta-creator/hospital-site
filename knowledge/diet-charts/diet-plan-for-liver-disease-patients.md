@@ -1,17 +1,5 @@
 # Diet Plan for Patients of Liver Disease
 
-Published on:
-May 3, 2019
-
-Updated on:
-April 24, 2025
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Liver is the most important organ of the human body. However, improper dietary intake, and unwholesome lifestyle will lead to lots of liver-related disorders occur. Many people lose their appetite and get upset stomachs, so, it is highly recommended to people suffering from liver diseases that they must maintain a proper dietary structure. The diet advised in the diet chart shall be followed with proper care so that the patients get relief from the liver diseases and associated symptoms to a huge extent.
 
 ## DIET CHART FOR LIVER DISEASE
@@ -145,4 +133,3 @@ All bakery products or processed, Sauces, Fruit jellies, Jams, White sugar, Ice-
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-plan-for-liver-disease-patients/

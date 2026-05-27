@@ -1,17 +1,5 @@
 # Diet Plan to Lower Triglycerides and Lower Cholesterol
 
-Published on:
-April 2, 2020
-
-Updated on:
-April 19, 2025
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Triglycerides and cholesterol are types of fats in the blood, collectively known as lipids. Elevated levels of these lipids are a major health concern among the Indian population. The higher the blood cholesterol level, the greater the risk of heart disease. Cholesterol is divided into different types: LDL (low-density lipoprotein), often referred to as 'bad' cholesterol, and HDL (high-density lipoprotein), known as 'good' cholesterol.
 
 A balanced diet is needed to maintain the lipid levels. A diet low in saturated fats, low cholesterol, and low-fat is recommended to reduce high triglycerides. All baked products, red meat, high-fat, refined carbohydrates, sugar beverages, junk food and fried food prepared in hydrogenated oil should be avoided as they may increase the triglyceride levels. Having healthy fats are beneficial in decreasing LDL and increasing HDL.
@@ -147,4 +135,3 @@ All bakery products or processed, Pastry, Pies, Doughnuts, Chips, Puddings, Cake
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-to-lower-triglycerides-cholesterol/

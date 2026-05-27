@@ -1,13 +1,5 @@
 # Diet Plan for Depression
 
-Published on:
-April 26, 2019
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Plan for Depression
 Depression is very common and serious problem among all emotional disorders. It is persistent feeling of sadness and loss of interest in daily activities. Common symptoms of depression are sadness, loss of appetite, constipation, low blood pressure and body aches. Indigestion is also one of the main causes of depression. Due to indigestion, gases are produced in digestive tract and it reduces the supply of oxygen to tissues which increases carbon dioxide level causing depression. Excessive intake of carbohydrates, caffeinated products may lead to indigestion. So a well-balanced Diet plan is needed to diminish the risk of this emotional disorder.
 DIET CHART FOR DEPRESSION
 EARLY-MORNING
@@ -113,4 +105,3 @@ Call
 
 ---
 
-**Source:** [https://www.planetayurveda.com/library/diet-plan-for-patients-of-depression/](https://www.planetayurveda.com/library/diet-plan-for-patients-of-depression/)

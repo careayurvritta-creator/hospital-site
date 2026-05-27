@@ -1,14 +1,5 @@
 # Diet Plan for Herpes
 
-Published on:
-June 24, 2021
-Updated on:
-May 24, 2026
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Herpes simplex virus is the most common viral infection which is contagious and mainly affects the genitals and oral cavity. It is of two types HSV-1 transmitted through oral contact and HSV-2 which is transmitted sexually and causes oral and genital herpes respectively. The primary symptom of this disease is the appearance of Painful blisters on the infectious site. Patients may also experience tingling, itching, and burning sensation on the affected site. Therefore, the patients need to take a Pitta-shamak Diet, which is without the citrus and spicy edibles, etc. as described below.
 
 ## DIET CHART FOR HERPES
@@ -89,4 +80,3 @@ Restrict the intake of Salt, Sugar, Spicy and fermented foods. Increase your wat
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/herpes-diet-plan/

@@ -1,17 +1,5 @@
 # DIET CHART FOR MENOPAUSE
 
-Published on:
-February 5, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 Menopause symptoms vary in every woman. Some changes related to menopause can lead to various long term problems in women such as bone density loss, weight gain, dry skin, sleep disturbances and other hormonal changes. A healthy menopause can be maintained with low-carbs diet and reducing the symptoms by including lots of vegetables, fruits, omega 3 fatty acids, and proteins. Avoiding certain foods like carbonated drinks, caffeine, alcohol, processed foods, salty, fried and junk foods may improve the symptoms of menopause.
@@ -157,4 +145,3 @@ Boil ½ tsp each of fennel, coriander, cumin in 3 cups of water till it's reduce
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-menopause/

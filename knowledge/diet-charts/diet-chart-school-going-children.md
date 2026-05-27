@@ -1,17 +1,5 @@
 # Healthy & Balanced Ayurvedic Diet Chart for School Going Children
 
-Published on:
-January 29, 2020
-
-Updated on:
-May 24, 2026
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 In the learning stage of life, i.e., school going age, children needs a proper care of their diet and nutrition as it directly affects the health and growth of the mind and the body. Balanced diet rich in all essential nutrients is much required for school going children. It helps in proper growth and development of the child. If a balanced diet is not consumed then it will result in malnutrition and various health issues in that stage or in the future stages of life.
 
 DIET CHART
@@ -95,4 +83,3 @@ Things in this Diet Chart May Vary Patient to Patient due to the Associated Heal
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-school-going-children/

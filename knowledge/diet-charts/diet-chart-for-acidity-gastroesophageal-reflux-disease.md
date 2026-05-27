@@ -1,17 +1,5 @@
 # DIET CHART FOR ACIDITY / GERD (GASTROESOPHAGEAL REFLUX DISEASE)
 
-Published on:
-June 29, 2023
-
-Updated on:
-October 6, 2025
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 Nutrition is important in the management of gastroesophageal reflux disease. The therapeutic approach to most GERD problems involves a combination of medication and nutritional therapy. Frequent feedings are important in the case of chronic gastric problems like acidity and GERD. Patients feel more comfortable with fewer spices and bland foods. It is best to avoid specific food or food habits that trigger acidity.
@@ -106,4 +94,3 @@ Nutrition is important in the management of gastroesophageal reflux disease. The
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-acidity-gastroesophageal-reflux-disease/

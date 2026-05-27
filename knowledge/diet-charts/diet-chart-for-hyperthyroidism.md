@@ -1,12 +1,5 @@
 # Diet Chart for Hyperthyroidism
 
-Published on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Chart for Hyperthyroidism
-
 Hyperthyroidism is a condition in which the thyroid gland produces excessive thyroid hormones. The thyroid gland is a butterfly-shaped gland located in front of the neck. This condition speeds up the body's metabolism and can cause weight loss, rapid heartbeat, sweating, irritability, and other symptoms. Proper diet and lifestyle modifications along with medications help in managing hyperthyroidism effectively.
 
 ## DIET CHART FOR HYPERTHYROIDISM
@@ -169,4 +162,3 @@ All bakery products, Processed foods, Fast food, Fried foods, Chocolate, Candy, 
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-hyperthyroidism/

@@ -1,15 +1,5 @@
 # Diet Chart For Vata Prakriti
 
-**Published on:** March 27, 2023
-
-**Updated on:** 
-
-**Written By:** Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-**Reviewed by:** Dr. Vikram Chauhan (M.D. - Ayurveda)
-
-**Source URL:** https://www.planetayurveda.com/library/diet-chart-for-vata-prakriti/
-
 ## INTRODUCTION
 
 Vata Prakriti people are very fast and are enthusiastic to perform any task. But such people have very thin bodies thus they should take care of their eating habits really well like eating on time and eating plenty. They feel generally really hungry due to their Vishama Agni (Odd Digestive Fire) so they should avoid Skipping Meals. People with the dominance of Vata Dosha must keep strict control on their physical activity as they have a tendency to perform more physical activity than their actual capacity. Vata dosha is responsible for movement and people with Vata dominance have really less sleep. It is necessary for them to avoid late night awakenings and consumption of cold foods as it may result in Vata aggravation. A person with Vata Prakriti must continue the intake of golden milk on a daily basis. Bathing should be done with hot water in winters and with mild to moderate hot water in springs and summers. Sitting under early morning sunlight reduces chances for Vata exacerbation Regular use of Asafoetida (Hinga) and all the Spices is recommended. Raw Salads should be avoided. Massage with Sesame and Olive Oil is Recommended. Try to eat vegetarian as the animals can be loaded with hormones, antibiotics, and stale / non-fresh food, thus aggravating Pitta and negative emotions in the mind and causing the dullness.

@@ -1,14 +1,5 @@
 # Diet Plan for Celiac Disease
 
-Published on:
-April 10, 2020
-Updated on:
-April 19, 2025
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Plan for Celiac Disease
 Celiac disease is a condition in which gluten triggers the immune system that damages the lining of the small intestine and the early symptoms include bowel disorders, weight loss or gain, Anemia, Joint pain and many more. Gluten is present in grains. The health benefits of a gluten-free diet are a motivation for other people to avoid wheat and other grains with gluten. A gluten-free diet requires careful attention to both the ingredients of foods and their nutritional content. A gluten-free diet is only recommended for people who have celiac disease, wheat allergy or intolerance. If a patient with celiac disease continues eating gluten, complications such as multiple sclerosis, infertility, and neurological conditions can arise.
 DIET CHART FOR CELIAC DISEASE
 EARLY-MORNING
@@ -102,4 +93,3 @@ Call
 
 ---
 
-**Source:** [https://www.planetayurveda.com/library/diet-plan-for-celiac-disease-patients/](https://www.planetayurveda.com/library/diet-plan-for-celiac-disease-patients/)

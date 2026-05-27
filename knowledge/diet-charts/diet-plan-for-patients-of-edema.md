@@ -79,4 +79,3 @@ Edema is a medical condition in which puffiness and swelling occurs in many area
 
 *Note: Things in this Diet Chart May Vary Patient to Patient due to the Associated Health Issues, so Better to Consult Our Ayurveda Experts for Better Results.*
 
-**Source:** [Planet Ayurveda](https://www.planetayurveda.com/library/diet-plan-for-patients-of-edema/)

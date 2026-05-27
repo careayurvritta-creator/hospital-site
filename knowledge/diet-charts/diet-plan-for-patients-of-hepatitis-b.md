@@ -1,15 +1,5 @@
 # Diet Plan for Hepatitis B
 
-**Published on:** February 8, 2020
-
-**Updated on:** 
-
-**Written By:** Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-**Reviewed by:** Dr. Vikram Chauhan (M.D. - Ayurveda)
-
-**Source URL:** https://www.planetayurveda.com/library/diet-plan-for-patients-of-hepatitis-b/
-
 ## INTRODUCTION
 
 Hepatitis B is an infectious viral disease that affects the liver. Diet plays an important role in maintaining liver health. In general, some obese patients develop fatty liver which also aggravates their HBV infection. Hepatitis patients may also suffer from fever, diarrhea, and joint pain. Some people with chronic hepatitis may develop cirrhosis or scarring of the liver.

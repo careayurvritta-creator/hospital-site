@@ -1,17 +1,5 @@
 # Diet Plan For Eczema Patients
 
-Published on:
-June 6, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Eczema is also known as dermatitis that causes inflammation of the skin which is characterized by dry and irritated skin which sometimes also becomes scaly, wet or blistered. The exact cause of eczema is not clear and the reason behind it may be many like allergic reactions, stress and fatigue. Temperature sometimes also plays a role in causation of this disease. Out of all these, diet is also one of the main causative factors in etiology of eczema. Various food items can trigger the eczema or aggravate the pre-existing condition, however the food that triggers the condition can vary in various people. So, it is very important to know about the diet in this disease because it helps to resolve it fastly.
 
 ## DIET CHART FOR ECZEMA PATIENTS
@@ -147,4 +135,3 @@ Vegetable curry + Chapati + Dal / Veg dalia / Khichdi
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-plan-for-eczema-patients/

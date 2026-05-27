@@ -1,14 +1,5 @@
 # Spring Season – Ayurvedic Diet & Lifestyle
 
-Published on:
-June 18, 2021
-Updated on:
-May 24, 2026
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Does the thought of spring remind you of Rhinitis? Why is it that you have to blow your nose around in spring alone?
 
 Poets often take immense observance, perseverance and honour to celebrate the seasonal swaps, especially the well awaited season of spring.
@@ -67,4 +58,3 @@ Let's honour this season of rebirth by embracing your highest potential and cele
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/spring-season-diet-lifestyle/

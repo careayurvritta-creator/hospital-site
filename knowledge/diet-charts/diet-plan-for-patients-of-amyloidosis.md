@@ -1,13 +1,5 @@
 # Diet Plan for Amyloidosis
 
-Published on:
-April 15, 2019
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Plan for Amyloidosis
 Amyloidosis is rare and very serious disease which occurs by accumulation of abnormal protein in various tissues and organs of the body .These abnormal protein are called amyloid. Amyloidosis occurs because of gene mutations.  These mutations change the properties of protein and make them insoluble. Amyloid protein deposits in organs like kidneys, heart, liver, intestines and disturbs the normal functioning of these organ and sometime cause the organ damage.
 There is no specific diet for amyloidosis because it can affect various organs and diet is according to that organ. Like low sodium diet for heart and kidney, low protein diet for kidney, high carbohydrate and low fat diet for the liver so healthy diet is beneficial as per symptoms of the person.
 DIET CHART FOR AMYLOIDOSIS
@@ -113,4 +105,3 @@ Call
 
 ---
 
-**Source:** [https://www.planetayurveda.com/library/diet-plan-for-patients-of-amyloidosis/](https://www.planetayurveda.com/library/diet-plan-for-patients-of-amyloidosis/)

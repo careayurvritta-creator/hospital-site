@@ -1,17 +1,5 @@
 # 5 Star Carb Cutting - Diabetes Reversal Diet
 
-Published on:
-July 6, 2023
-
-Updated on:
-January 5, 2026
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 This diet, if strictly followed can work wonders for a diabetic patient. It is a balanced diet that is enough to fuel the human body for proper functioning. There are different foods under all the three categories:
 
 1. If you eat the foods in PLATE A, you won't need the other plates.
@@ -94,4 +82,3 @@ Green Lentils, Black Grams, Beans, Fenugreek
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/5-star-carb-cutting-diabetes-reversal-diet/

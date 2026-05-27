@@ -1,14 +1,5 @@
 # Diet Chart For Prostate Problems
 
-Published on:
-March 29, 2023
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Chart For Prostate Problems
-
 The prostate gland is present in the male reproductive system. Enlarged prostate gland also called as BPH (benign hyperplasia) is not cancerous and does not raise risk for prostate cancer but it may raise the urinary problems such as dribbling of urine, blood and painful urination, painful ejaculation and many more. A diet with excess of calories, very high in animal-based protein is responsible to raise prostate issues. Diet must include food rich in antioxidants, Vitamin C, lutein, beta-carotene and zinc to control the symptoms. Daily consumption of red meat, caffeine, high sodium food, processed foods, alcohol, spicy foods, sugary foods, can increase urinary symptoms, including BPH. A balanced diet along with antioxidant rich food has positive impact on prostate health.
 
 **AVOID**
@@ -102,4 +93,3 @@ Pumpkin Seeds – 1 tsp Soaked in Warm Water, Roasted or Soaked Almonds, Peanuts
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-prostate-problems/

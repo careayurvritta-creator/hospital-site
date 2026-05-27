@@ -1,17 +1,5 @@
 # Diet Chart For Ulcerative Colitis, IBD & Crohn's Diseases
 
-Published on:
-March 31, 2023
-
-Updated on:
-September 11, 2025
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 These are inflammatory bowel disorders that involve the mucosa and submucosa of the large intestine. Symptoms of Ulcerative Colitis (UC), IBD, and Crohn's are bleeding, mucous & difficulty in passing stools. Intake of an unbalanced diet and heredity plays a major role to cause UC, IBD, and Crohn's. Low – fat, Low – fiber diet is recommended for IBD patients because it prevents bleeding while passing stool. This diet is also helpful to prevent ailments like diarrhea, Crohn's disease, and cramps. High–fiber diet can increase bowel movements, cramping, and bloating. Food rich in fat can trigger symptoms of ulcerative colitis and it takes a long time for digestion. Avoid raw fruits and vegetables as they are rich in fiber.
 
 ## AVOID / ALLOWED
@@ -104,4 +92,3 @@ These are inflammatory bowel disorders that involve the mucosa and submucosa of 
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-ulcerative-colitis-ibd-crohns-diseases/

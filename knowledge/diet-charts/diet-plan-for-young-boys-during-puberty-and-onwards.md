@@ -1,17 +1,5 @@
 # Diet Plan for Young boys during Puberty
 
-Published on:
-March 25, 2020
-
-Updated on:
-April 19, 2025
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Puberty is the natural process of growth and development during which a boy's body begins to mature into adulthood, involving physical, emotional, and hormonal changes. The amount of calories boys require each day depends on their size, growth rate, and age and activity level. Teenage boys grow at a faster pace, which makes their dietary requirements different as compared to younger boys or adults. Increased caloric, protein, iron, calcium, zinc and folate needs have to be fulfilled during this important period of rapid growth. The primary nutrient groups are proteins, carbohydrates, fats, vitamins, and minerals. Good nutrition, physical activity can build muscles, bones, and reduce teen's risk for chronic diseases such as type 2 diabetes, heart disease, and high blood pressure. Excessive eating of many processed, high-fat foods, may be the cause of this phenomenon. Overweight or obese children are more likely to enter puberty early. Over-nutrition and obesity seem to trigger pubertal onset.
 
 ## DIET CHART FOR YOUNG BOYS DURING PUBERTY
@@ -144,4 +132,3 @@ Bakery and Processed foods, Pastry, Puddings, Packed soups, Mayonnaise, Cream so
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-plan-for-young-boys-during-puberty-and-onwards/

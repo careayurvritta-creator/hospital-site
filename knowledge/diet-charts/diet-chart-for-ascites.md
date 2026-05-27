@@ -1,13 +1,5 @@
 # DIET CHART FOR ASCITES
 
-Published on:
-February 10, 2020
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-DIET CHART FOR ASCITES
 INTRODUCTION
 Ascites is the accumulation of fluid in  the peritoneal cavity, causing abdominal swelling and rapid weight gain.  Ascites causes body to retain sodium, which in turns leads to fluid retention.  A low-sodium, low-fat, and high-fiber diet that focuses on eating fresh vegetables and fruits, lean  proteins and legumes,  may help prevent a body from retaining extra  fluid. A high sodium diet, baked products, red meat,  high-fat, refined carbohydrates, sugar beverages, junk food and fried food prepared in hydrogenated  oil increases problem by causing  body to retain water.  Reducing  table salt intake is also important to treat ascites as salt leads to accumulation.
 DAILY DIET SCHEDULE
@@ -151,4 +143,3 @@ Call
 
 ---
 
-**Source:** [https://www.planetayurveda.com/library/diet-chart-for-ascites/](https://www.planetayurveda.com/library/diet-chart-for-ascites/)

@@ -1,17 +1,5 @@
 # DIET PLAN FOR VARICOSE VEINS
 
-Published on:
-February 25, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 Varicose veins are a condition in which veins become swollen and enlarged. It occurs when valve of vein did not work properly and blood did not flow in right direction. Varicose veins are commonly found in legs. Women are more prone to this problem. According to Ayurveda, the main cause of varicose veins is imbalance in Ranjaka Pitta and Vyana Vata. Pitta – Vata pacifying diet is beneficial in varicose veins.
@@ -132,4 +120,3 @@ Chapatti / Brown Rice / Vegetable + Dal + Tofu cheese
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-plan-for-varicose-veins-patients/

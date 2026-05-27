@@ -116,4 +116,3 @@ Liver is vital organ of the body and it plays important function in the body. It
 
 ---
 
-**Source:** [Planet Ayurveda](https://www.planetayurveda.com/library/diet-plan-for-patients-of-fatty-liver-disease/)

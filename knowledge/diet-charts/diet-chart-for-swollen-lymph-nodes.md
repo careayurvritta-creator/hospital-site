@@ -1,17 +1,5 @@
 # Diet Plan for Swollen Lymph Nodes
 
-Published on:
-March 25, 2020
-
-Updated on:
-April 19, 2025
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Lymph nodes are small, bean-shaped glands found throughout the body, especially in the neck, under the chin, behind the ears, armpits, and groin. They are part of the immune system and help filter out toxins, waste, and harmful microbes from the lymph fluid.
 
 Swollen lymph nodes can occur due to infections, injuries, or tumors, signaling that the body is fighting something. A balanced diet rich in vitamins and antioxidants helps boost immunity and reduce inflammation, supporting faster recovery.
@@ -140,4 +128,3 @@ Refined sugar, Fast food, Alcohol, Tobacco, Tea, Coffee
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-swollen-lymph-nodes/

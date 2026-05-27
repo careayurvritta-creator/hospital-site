@@ -1,17 +1,5 @@
 # Diet Plan for Endometriosis
 
-Published on:
-May 1, 2019
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Endometriosis occurs when the tissue that lines the uterus develops outside the uterus. Good nutrition is more important than eating any one specific food and certain nutrients can help to reduce inflammation, while other foods specifically make pains worse. For patients with endometriosis, high fiber diet, Omega 3 fatty acids are a good option. Fresh fruits and vegetables, whole grains and nuts are good to control the symptoms to some extent. Saturated fats should be taken in limited quantities.
 
 ## DIET CHART FOR ENDOMETRIOSIS
@@ -122,4 +110,3 @@ Chapatti / Vegetable + Dal + Steamed salad
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-plan-for-patients-of-endometriosis/

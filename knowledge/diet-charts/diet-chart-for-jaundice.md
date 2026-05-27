@@ -1,17 +1,5 @@
 # DIET CHART FOR JAUNDICE
 
-Published on:
-February 8, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 In Ayurveda, jaundice is known as Kamala. It is a common condition caused by the increase in Bilirubin level in the body. It can occur due to inflammation of liver or an obstructed bile duct. Symptoms may include fever, fatigue, and a yellow tinge on your skin and eyes or vomiting and body weakness. A balanced diet consisting of the food groups, low-fat, low-protein, high-fluid, and high-carbohydrate will help liver to recover and reduce jaundice quickly. It is strictly advised to avoid high-calorie, processed foods, bakery foods, meat, junk foods, fried foods, alcohol, and high salt intake as they are difficult to digest and may cause liver damage.
@@ -161,4 +149,3 @@ Boil ½ tsp each of fennels, coriander, cumin in cups of water till it's reduced
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-jaundice/

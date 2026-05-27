@@ -1,14 +1,5 @@
 # Diet Chart For Piles / Hemorrhoids
 
-Published on:
-March 29, 2023
-Updated on:
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-Diet Chart For Piles / Hemorrhoids
-
 Piles are Dilated or swollen veins around the rectum and anal opening. It is of two types- internal and external. High fiber diet is the ideal diet for persons suffering from piles. Fiber creates bulk in stools and gives relief from hard stools. Avoid spicy, oily food as they trigger gastrointestinal problems and worsen the condition.
 
 **AVOID**
@@ -113,4 +104,3 @@ Homemade Only, Tofu, Honey, Aloe Vera, Wheatgrass
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-piles-hemorrhoids/

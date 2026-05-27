@@ -1,17 +1,5 @@
 # Diet Chart For ITP – Idiopathic Thrombocytopenic Purpura
 
-Published on:
-March 27, 2023
-
-Updated on:
-September 11, 2025
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 This diet, if strictly followed can work wonders for an ITP patient. Consume the below-mentioned food items as much as possible. It is a balanced diet that is enough to fuel the human body for proper functioning. It is a blood disorder in which platelets get destructed due to our unwholesome diet, lifestyle, hereditary factors and the involvement of our immune system. Platelets are formed in the bone marrow which are responsible for clotting. Healthy eating and a balanced diet are important for all patients. So, here's the required dietary recommendations that can help you to increase the platelet count and manage ITP.
 
 ## AVOID / ALLOWED
@@ -129,4 +117,3 @@ Boil 1/2tsp. each of Fennel, Coriander, Cumin in 3 cups of Water till it's reduc
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-itp-idiopathic-thrombocytopenic-purpura/

@@ -1,17 +1,5 @@
 # DIET CHART FOR DIARRHOEA
 
-Published on:
-February 7, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 Diarrhoea is the passage of stools with increased frequency, fluidity or volume as compared to the usual. The BRAT diet is blend, low-fiber and low-fat which helps to restore the nutrients that have been lost due to Diarrhea, and is useful in this condition. But high-fiber diets, spicy foods, milk, artificial sweeteners, raw vegetables and fried foods may over stimulate the digestive system and worsen the situation.
@@ -140,4 +128,3 @@ Chop 1 or 2 ripe bananas into small pieces and add fresh curd.
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-diarrhoea/

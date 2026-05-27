@@ -1,17 +1,5 @@
 # DIET FOR CROHN'S DISEASE
 
-Published on:
-February 5, 2020
-
-Updated on:
-
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 ## INTRODUCTION
 
 Crohn Disease is a chronic condition that causes inflammation and irritation affecting the gastrointestinal tract anywhere from mouth to anus. Nutrition is very important for patients and diet should be soft, easy to digest, bland and low-fiber. It can help to reduce the frequency of bowel movements and abdominal cramps. A high-fiber or high-fat diet including whole-grains, whole pulses, fried foods, processed foods, alcohol, Carbonated Beverages can increase flare-up or worsen symptoms like abdominal cramps and pain.
@@ -137,4 +125,3 @@ Take peel of pomegranate fruit (1 piece) and boil in one cup of water for about 
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-chart-for-crohn-disease/

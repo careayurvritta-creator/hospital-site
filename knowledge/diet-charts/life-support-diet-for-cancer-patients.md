@@ -1,17 +1,5 @@
 # Life Support Diet For Cancer Patients
 
-Published on:
-January 1, 2011
-
-Updated on:
-April 24, 2025
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 This diet, if strictly followed, can work wonders for a cancer patient. It is a balanced diet that is enough to fuel the human body for proper functioning. There are different foods categorized in three Plates. If you eat the foods in PLATE A, you won't need the other plates. Even if you do, your tendency to eat the foods in PLATE B will go down by 75%. PLATE C has a list of foods that are not good for cancer.
 
 ## PLATE A (THE RESCUER) – 100% FOLLOW
@@ -75,4 +63,3 @@ Milk & Milk Products, Refined Sugar, Packaged, Processed, Fried and Bakery Produ
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/life-support-diet-for-cancer-patients/

@@ -1,17 +1,5 @@
 # Diet Plan for Patients of Liver Cirrhosis
 
-Published on:
-March 23, 2020
-
-Updated on:
-August 31, 2024
-
-Written By
-Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
-
-Reviewed by
-Dr. Vikram Chauhan (M.D. - Ayurveda)
-
 Cirrhosis is a chronic (ongoing, long-term) and serious disease of the liver. A good diet and healthy weight will limit the complications and progression of liver disease. Diet in cirrhosis of the liver is very important for proper nutrition and for living a healthy life. Nutrition plays an important role in not only improving liver health but also in preventing or reducing complications of the disease. A low-sodium, High-carbohydrates, high-protein diet is recommended for liver cirrhosis to prevent or slow complications of the disease and to promote liver health. It is important to have a well-balanced diet to ensure getting enough carbohydrates, protein, fat, vitamins and minerals. Low-fat, high carbohydrate diet is likely to be recommended to help a liver function. It is a good idea to cut out foods with very high salt content that can be harmful to a liver patient. Patients with liver cirrhosis have a poor appetite because of low digestive function.
 
 ## DIET CHART FOR LIVER CIRRHOSIS
@@ -195,4 +183,3 @@ All bakery products or processed, Pastry, Puddings, Cakes, Biscuits, Sauces, Fru
 
 ---
 
-**Source:** https://www.planetayurveda.com/library/diet-plan-for-liver-cirrhosis/
