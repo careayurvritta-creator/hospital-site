@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 
 declare global {
   interface Window {
-    html2pdf: any;
+    jspdf: any;
   }
 }
 
@@ -33,59 +33,18 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
 }) => {
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [generating, setGenerating] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
-    if (window.html2pdf) {
+    if (window.jspdf) {
       setScriptLoaded(true);
       return;
     }
     const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js';
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
     script.async = true;
     script.onload = () => setScriptLoaded(true);
     document.head.appendChild(script);
   }, []);
-
-  const handleDownload = useCallback(async () => {
-    if (!window.html2pdf) return;
-
-    setGenerating(true);
-    setShowPreview(true);
-
-    // Wait for render
-    await new Promise(resolve => setTimeout(resolve, 500));
-
-    const element = document.getElementById('pdf-content');
-    if (!element) {
-      setGenerating(false);
-      setShowPreview(false);
-      return;
-    }
-
-    try {
-      const opt = {
-        margin: [10, 10, 10, 10],
-        filename: `Diet_Chart_${patientName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: {
-          scale: 2,
-          useCORS: true,
-          logging: false,
-          letterRendering: true,
-        },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
-      };
-
-      await window.html2pdf().set(opt).from(element).save();
-    } catch (error) {
-      console.error('PDF generation failed:', error);
-    } finally {
-      setGenerating(false);
-      setShowPreview(false);
-    }
-  }, [patientName]);
 
   const parseSections = (text: string) => {
     const sections: { header: string; items: string[] }[] = [];
@@ -117,24 +76,24 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
 
   const sections = parseSections(aiResult);
 
-  const sectionConfig: Record<string, { icon: string; color: string; bg: string; border: string }> = {
-    'EARLY MORNING': { icon: '🌅', color: '#ea580c', bg: '#fff7ed', border: '#fb923c' },
-    'BREAKFAST': { icon: '🥣', color: '#ca8a04', bg: '#fefce8', border: '#facc15' },
-    'MID-MORNING': { icon: '⏰', color: '#d97706', bg: '#fffbeb', border: '#fbbf24' },
-    'LUNCH': { icon: '🍛', color: '#16a34a', bg: '#f0fdf4', border: '#4ade80' },
-    'EVENING SNACK': { icon: '🍵', color: '#0d9488', bg: '#f0fdfa', border: '#2dd4bf' },
-    'DINNER': { icon: '🥘', color: '#059669', bg: '#ecfdf5', border: '#34d399' },
-    'BEDTIME': { icon: '🌙', color: '#4f46e5', bg: '#eef2ff', border: '#818cf8' },
-    'FOODS TO FAVOR': { icon: '✅', color: '#15803d', bg: '#f0fdf4', border: '#22c55e' },
-    'FOODS TO AVOID': { icon: '🚫', color: '#dc2626', bg: '#fef2f2', border: '#f87171' },
-    'BENEFICIAL HERBS': { icon: '🌿', color: '#059669', bg: '#ecfdf5', border: '#10b981' },
-    'LIFESTYLE TIPS': { icon: '💡', color: '#2563eb', bg: '#eff6ff', border: '#60a5fa' },
-    'PRECAUTIONS': { icon: '⚠️', color: '#d97706', bg: '#fffbeb', border: '#f59e0b' },
-    'OVERVIEW': { icon: '📋', color: '#6b7280', bg: '#f9fafb', border: '#9ca3af' },
+  const sectionConfig: Record<string, { icon: string; color: [number, number, number] }> = {
+    'EARLY MORNING': { icon: '🌅', color: [234, 88, 12] },
+    'BREAKFAST': { icon: '🥣', color: [202, 138, 4] },
+    'MID-MORNING': { icon: '⏰', color: [217, 119, 6] },
+    'LUNCH': { icon: '🍛', color: [22, 163, 74] },
+    'EVENING SNACK': { icon: '🍵', color: [13, 148, 136] },
+    'DINNER': { icon: '🥘', color: [5, 150, 105] },
+    'BEDTIME': { icon: '🌙', color: [79, 70, 229] },
+    'FOODS TO FAVOR': { icon: '✅', color: [21, 128, 61] },
+    'FOODS TO AVOID': { icon: '🚫', color: [220, 38, 38] },
+    'BENEFICIAL HERBS': { icon: '🌿', color: [5, 150, 105] },
+    'LIFESTYLE TIPS': { icon: '💡', color: [37, 99, 235] },
+    'PRECAUTIONS': { icon: '⚠️', color: [217, 119, 6] },
+    'OVERVIEW': { icon: '📋', color: [107, 114, 128] },
   };
 
-  const getSectionMeta = (header: string) => {
-    return sectionConfig[header] || { icon: '📌', color: '#6b7280', bg: '#f9fafb', border: '#d1d5db' };
+  const getSectionConfig = (header: string) => {
+    return sectionConfig[header] || { icon: '📌', color: [107, 114, 128] };
   };
 
   const formatItem = (item: string): string => {
@@ -146,280 +105,321 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
     return text.trim();
   };
 
+  const handleDownload = useCallback(async () => {
+    if (!window.jspdf) {
+      console.error('[PDF] jsPDF not loaded');
+      return;
+    }
+
+    console.log('[PDF] Starting PDF generation with jsPDF...');
+    setGenerating(true);
+
+    try {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
+
+      const pageWidth = 210;
+      const pageHeight = 297;
+      const margin = 15;
+      const contentWidth = pageWidth - (margin * 2);
+      let y = margin;
+
+      // Helper function to add new page if needed
+      const checkPageBreak = (neededHeight: number) => {
+        if (y + neededHeight > pageHeight - margin) {
+          doc.addPage();
+          y = margin;
+          return true;
+        }
+        return false;
+      };
+
+      // Helper function to draw rounded rectangle
+      const drawRoundedRect = (x: number, y: number, w: number, h: number, r: number, fillColor?: [number, number, number], strokeColor?: [number, number, number]) => {
+        doc.roundedRect(x, y, w, h, r, r);
+        if (fillColor) {
+          doc.setFillColor(fillColor[0], fillColor[1], fillColor[2]);
+          doc.fill();
+        }
+        if (strokeColor) {
+          doc.setDrawColor(strokeColor[0], strokeColor[1], strokeColor[2]);
+          doc.stroke();
+        }
+      };
+
+      // ─── HEADER ───
+      doc.setFillColor(6, 95, 70); // #065f46
+      doc.rect(0, 0, pageWidth, 45, 'F');
+
+      // Decorative circles
+      doc.setFillColor(4, 120, 87); // #047857
+      doc.circle(pageWidth - 20, 10, 25, 'F');
+      doc.setFillColor(5, 150, 105); // #059669
+      doc.circle(pageWidth - 50, 40, 15, 'F');
+
+      // Header text
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text('AYURVRITTA AYURVEDA HOSPITAL', margin, 15);
+
+      doc.setFontSize(22);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Personalized Diet Chart', margin, 28);
+
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Prepared by Dr. Jinendradutt Sharma • Vadodara, Gujarat`, margin, 36);
+
+      // Right side
+      doc.setFontSize(28);
+      doc.text('🌿', pageWidth - margin - 20, 20);
+
+      doc.setFontSize(10);
+      doc.text(new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }), pageWidth - margin - 40, 30);
+      doc.text('+91 94266 84047', pageWidth - margin - 35, 36);
+
+      y = 50;
+
+      // ─── PATIENT INFO CARD ───
+      checkPageBreak(50);
+
+      // Card background
+      doc.setFillColor(255, 255, 255);
+      doc.setDrawColor(229, 231, 235); // #e5e7eb
+      doc.roundedRect(margin, y, contentWidth, 45, 3, 3);
+      doc.fill();
+      doc.stroke();
+
+      // Avatar circle
+      doc.setFillColor(6, 95, 70);
+      doc.circle(margin + 15, y + 15, 10, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text(patientName.charAt(0).toUpperCase(), margin + 15, y + 18, { align: 'center' });
+
+      // Patient name and info
+      doc.setTextColor(6, 95, 70);
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text(patientName, margin + 30, y + 12);
+
+      doc.setTextColor(107, 114, 128);
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      const patientInfo = `${patientAge} years • ${patientGender}${patientOccupation ? ` • ${patientOccupation}` : ''}`;
+      doc.text(patientInfo, margin + 30, y + 18);
+
+      y += 25;
+
+      // Info badges
+      const badgeY = y;
+      const badgeWidth = (contentWidth - 10) / 3;
+
+      if (prakriti) {
+        doc.setFillColor(240, 253, 244); // #f0fdf4
+        doc.roundedRect(margin, badgeY, badgeWidth, 15, 2, 2);
+        doc.fill();
+        doc.setTextColor(107, 114, 128);
+        doc.setFontSize(8);
+        doc.text('Prakriti', margin + 5, badgeY + 5);
+        doc.setTextColor(6, 95, 70);
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'bold');
+        doc.text(prakriti, margin + 5, badgeY + 12);
+      }
+
+      if (dietaryPref) {
+        doc.setFillColor(239, 246, 255); // #eff6ff
+        doc.roundedRect(margin + badgeWidth + 5, badgeY, badgeWidth, 15, 2, 2);
+        doc.fill();
+        doc.setTextColor(107, 114, 128);
+        doc.setFontSize(8);
+        doc.text('Diet', margin + badgeWidth + 10, badgeY + 5);
+        doc.setTextColor(37, 99, 235);
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'bold');
+        doc.text(dietaryPref, margin + badgeWidth + 10, badgeY + 12);
+      }
+
+      if (condition) {
+        doc.setFillColor(254, 242, 242); // #fef2f2
+        doc.roundedRect(margin + (badgeWidth + 5) * 2, badgeY, badgeWidth, 15, 2, 2);
+        doc.fill();
+        doc.setTextColor(107, 114, 128);
+        doc.setFontSize(8);
+        doc.text('Condition', margin + (badgeWidth + 5) * 2 + 5, badgeY + 5);
+        doc.setTextColor(220, 38, 38);
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'bold');
+        doc.text(condition, margin + (badgeWidth + 5) * 2 + 5, badgeY + 12);
+      }
+
+      y += 20;
+
+      // Allergies warning
+      if (allergies && allergies.length > 0 && allergies[0] !== 'None') {
+        checkPageBreak(10);
+        doc.setFillColor(255, 251, 235); // #fffbeb
+        doc.setDrawColor(253, 230, 138); // #fde68a
+        doc.roundedRect(margin, y, contentWidth, 8, 2, 2);
+        doc.fill();
+        doc.stroke();
+        doc.setTextColor(146, 64, 14); // #92400e
+        doc.setFontSize(9);
+        doc.text(`⚠️ Allergies: ${allergies.join(', ')}`, margin + 5, y + 5);
+        y += 12;
+      }
+
+      // ─── KNOWLEDGE SOURCES ───
+      if (matchedFiles.length > 0) {
+        checkPageBreak(10);
+        doc.setFillColor(236, 253, 245); // #ecfdf5
+        doc.setDrawColor(167, 243, 208); // #a7f3d0
+        doc.roundedRect(margin, y, contentWidth, 8, 2, 2);
+        doc.fill();
+        doc.stroke();
+        doc.setTextColor(6, 95, 70);
+        doc.setFontSize(9);
+        doc.text(`📚 Based on: ${matchedFiles.map(f => f.label).join(' • ')}`, margin + 5, y + 5);
+        y += 12;
+      }
+
+      // ─── DIET CHART SECTIONS ───
+      for (const section of sections) {
+        const config = getSectionConfig(section.header);
+        const isMealSection = ['EARLY MORNING', 'BREAKFAST', 'MID-MORNING', 'LUNCH', 'EVENING SNACK', 'DINNER', 'BEDTIME'].includes(section.header);
+
+        // Section header
+        checkPageBreak(15);
+
+        // Header background
+        const headerBg: [number, number, number] = [
+          Math.min(255, config.color[0] + 200),
+          Math.min(255, config.color[1] + 200),
+          Math.min(255, config.color[2] + 200),
+        ];
+        doc.setFillColor(headerBg[0], headerBg[1], headerBg[2]);
+        doc.setDrawColor(config.color[0], config.color[1], config.color[2]);
+        doc.setLineWidth(0.5);
+        doc.roundedRect(margin, y, contentWidth, 10, 2, 2);
+        doc.fill();
+        doc.stroke();
+
+        // Left border accent
+        doc.setFillColor(config.color[0], config.color[1], config.color[2]);
+        doc.rect(margin, y, 2, 10, 'F');
+
+        // Section title
+        doc.setTextColor(config.color[0], config.color[1], config.color[2]);
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`${config.icon} ${section.header}`, margin + 8, y + 7);
+
+        y += 14;
+
+        // Section items
+        for (const item of section.items) {
+          const text = formatItem(item);
+          if (!text) continue;
+
+          // Calculate text height
+          const textLines = doc.splitTextToSize(text, contentWidth - 15);
+          const textHeight = textLines.length * 5 + 4;
+
+          checkPageBreak(textHeight);
+
+          // Item background
+          if (isMealSection) {
+            doc.setFillColor(249, 250, 251); // #f9fafb
+            doc.roundedRect(margin + 5, y, contentWidth - 10, textHeight, 1, 1);
+            doc.fill();
+          }
+
+          // Bullet point
+          doc.setTextColor(config.color[0], config.color[1], config.color[2]);
+          doc.setFontSize(10);
+          doc.text('●', margin + 8, y + 4);
+
+          // Item text
+          doc.setTextColor(55, 65, 81); // #374151
+          doc.setFontSize(10);
+          doc.setFont('helvetica', 'normal');
+          doc.text(textLines, margin + 14, y + 4);
+
+          y += textHeight + 2;
+        }
+
+        y += 4;
+      }
+
+      // ─── DISCLAIMER ───
+      checkPageBreak(25);
+      doc.setFillColor(255, 251, 235); // #fffbeb
+      doc.setDrawColor(253, 230, 138); // #fde68a
+      doc.roundedRect(margin, y, contentWidth, 20, 2, 2);
+      doc.fill();
+      doc.stroke();
+
+      doc.setTextColor(146, 64, 14); // #92400e
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.text('⚠️ Important Disclaimer', margin + 5, y + 5);
+
+      doc.setTextColor(120, 53, 15); // #78350f
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'normal');
+      const disclaimerText = 'This diet chart is prepared based on Ayurvedic principles and is intended as a general guideline. Please consult with Dr. Jinendradutt Sharma at Ayurvritta Ayurveda Hospital before making significant dietary changes, especially if you have existing medical conditions or are taking medications. Individual results may vary based on your unique constitution and health status.';
+      const disclaimerLines = doc.splitTextToSize(disclaimerText, contentWidth - 10);
+      doc.text(disclaimerLines, margin + 5, y + 10);
+
+      y += 25;
+
+      // ─── FOOTER ───
+      checkPageBreak(20);
+      doc.setFillColor(6, 95, 70); // #065f46
+      doc.rect(0, y, pageWidth, 20, 'F');
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(13);
+      doc.setFont('helvetica', 'bold');
+      doc.text('🌿 Ayurvritta Ayurveda Hospital', pageWidth / 2, y + 7, { align: 'center' });
+
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Authentic Ayurvedic Care by Dr. Jinendradutt Sharma', pageWidth / 2, y + 12, { align: 'center' });
+
+      doc.setFontSize(9);
+      doc.text('Vadodara, Gujarat • +91 94266 84047 • www.ayurvritta.com', pageWidth / 2, y + 17, { align: 'center' });
+
+      // Save the PDF
+      const filename = `Diet_Chart_${patientName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+      doc.save(filename);
+
+      console.log('[PDF] PDF generated successfully with jsPDF');
+    } catch (error) {
+      console.error('[PDF] PDF generation failed:', error);
+    } finally {
+      setGenerating(false);
+    }
+  }, [patientName, patientAge, patientGender, patientOccupation, prakriti, dietaryPref, allergies, condition, aiResult, matchedFiles, sections]);
+
   return (
-    <>
-      <button
-        onClick={handleDownload}
-        disabled={!scriptLoaded || generating}
-        className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold rounded-xl hover:shadow-lg transition-all active:scale-[0.98] text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-        {generating ? 'Generating PDF...' : scriptLoaded ? 'Download PDF' : 'Loading PDF...'}
-      </button>
-
-      {/* PDF Preview Modal */}
-      {showPreview && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          background: 'rgba(0,0,0,0.7)',
-          zIndex: 99999,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'column',
-        }}>
-          <div style={{
-            background: 'white',
-            borderRadius: '12px',
-            padding: '24px',
-            maxWidth: '90vw',
-            maxHeight: '90vh',
-            overflow: 'auto',
-            boxShadow: '0 25px 50px rgba(0,0,0,0.25)',
-          }}>
-            <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-              <div style={{ fontSize: '24px', marginBottom: '8px' }}>📄</div>
-              <p style={{ fontSize: '16px', fontWeight: 'bold', color: '#1f2937' }}>
-                {generating ? 'Generating PDF...' : 'PDF Ready'}
-              </p>
-              <p style={{ fontSize: '13px', color: '#6b7280' }}>
-                {generating ? 'Please wait while we create your diet chart' : 'Download should start automatically'}
-              </p>
-            </div>
-
-            {/* Actual PDF Content */}
-            <div id="pdf-content" style={{
-              fontFamily: "'Segoe UI', Arial, sans-serif",
-              color: '#1f2937',
-              width: '210mm',
-              minHeight: '297mm',
-              background: 'white',
-              margin: '0 auto',
-            }}>
-              {/* Header */}
-              <div style={{
-                background: 'linear-gradient(135deg, #065f46 0%, #047857 50%, #059669 100%)',
-                padding: '28px 32px',
-                color: 'white',
-                position: 'relative',
-                overflow: 'hidden',
-              }}>
-                <div style={{ position: 'absolute', right: '-20px', top: '-20px', width: '120px', height: '120px', borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
-                <div style={{ position: 'absolute', right: '40px', bottom: '-30px', width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
-
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 1 }}>
-                  <div>
-                    <div style={{ fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase', opacity: 0.8, marginBottom: '4px' }}>
-                      Ayurvritta Ayurveda Hospital
-                    </div>
-                    <h1 style={{ fontSize: '26px', fontWeight: 'bold', margin: '0 0 6px 0', letterSpacing: '-0.5px' }}>
-                      Personalized Diet Chart
-                    </h1>
-                    <p style={{ fontSize: '13px', opacity: 0.85, margin: 0 }}>
-                      Prepared by Dr. Jinendradutt Sharma • Vadodara, Gujarat
-                    </p>
-                  </div>
-                  <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: '32px', marginBottom: '4px' }}>🌿</div>
-                    <p style={{ fontSize: '11px', opacity: 0.8, margin: '0 0 2px 0' }}>
-                      {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
-                    </p>
-                    <p style={{ fontSize: '10px', opacity: 0.7, margin: 0 }}>+91 94266 84047</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Patient Info Card */}
-              <div style={{ padding: '0 24px', marginTop: '-12px', position: 'relative', zIndex: 2 }}>
-                <div style={{
-                  background: 'white',
-                  borderRadius: '12px',
-                  padding: '18px 24px',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-                  border: '1px solid #e5e7eb',
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '12px' }}>
-                    <div style={{
-                      width: '48px',
-                      height: '48px',
-                      borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #065f46, #059669)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '20px',
-                      color: 'white',
-                      fontWeight: 'bold',
-                    }}>
-                      {patientName.charAt(0).toUpperCase()}
-                    </div>
-                    <div>
-                      <h2 style={{ fontSize: '18px', fontWeight: 'bold', margin: '0 0 2px 0', color: '#065f46' }}>
-                        {patientName}
-                      </h2>
-                      <p style={{ fontSize: '12px', color: '#6b7280', margin: 0 }}>
-                        {patientAge} years • {patientGender}{patientOccupation ? ` • ${patientOccupation}` : ''}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
-                    {prakriti && (
-                      <div style={{ background: '#f0fdf4', borderRadius: '8px', padding: '8px 12px' }}>
-                        <div style={{ fontSize: '10px', color: '#6b7280', marginBottom: '2px' }}>Prakriti</div>
-                        <div style={{ fontSize: '13px', fontWeight: '600', color: '#065f46' }}>{prakriti}</div>
-                      </div>
-                    )}
-                    {dietaryPref && (
-                      <div style={{ background: '#eff6ff', borderRadius: '8px', padding: '8px 12px' }}>
-                        <div style={{ fontSize: '10px', color: '#6b7280', marginBottom: '2px' }}>Diet</div>
-                        <div style={{ fontSize: '13px', fontWeight: '600', color: '#2563eb' }}>{dietaryPref}</div>
-                      </div>
-                    )}
-                    {condition && (
-                      <div style={{ background: '#fef2f2', borderRadius: '8px', padding: '8px 12px' }}>
-                        <div style={{ fontSize: '10px', color: '#6b7280', marginBottom: '2px' }}>Condition</div>
-                        <div style={{ fontSize: '13px', fontWeight: '600', color: '#dc2626' }}>{condition}</div>
-                      </div>
-                    )}
-                  </div>
-
-                  {allergies && allergies.length > 0 && allergies[0] !== 'None' && (
-                    <div style={{ marginTop: '10px', padding: '8px 12px', background: '#fffbeb', borderRadius: '8px', border: '1px solid #fde68a' }}>
-                      <span style={{ fontSize: '11px', color: '#92400e' }}>⚠️ Allergies: {allergies.join(', ')}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Knowledge Sources */}
-              {matchedFiles.length > 0 && (
-                <div style={{ padding: '12px 24px 0' }}>
-                  <div style={{
-                    background: '#ecfdf5',
-                    borderRadius: '8px',
-                    padding: '10px 14px',
-                    border: '1px solid #a7f3d0',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                  }}>
-                    <span style={{ fontSize: '14px' }}>📚</span>
-                    <span style={{ fontSize: '11px', color: '#065f46' }}>
-                      <strong>Based on:</strong> {matchedFiles.map(f => f.label).join(' • ')}
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {/* Diet Chart Sections */}
-              <div style={{ padding: '16px 24px' }}>
-                {sections.map((section, idx) => {
-                  const meta = getSectionMeta(section.header);
-                  const isMealSection = ['EARLY MORNING', 'BREAKFAST', 'MID-MORNING', 'LUNCH', 'EVENING SNACK', 'DINNER', 'BEDTIME'].includes(section.header);
-                  const isListSection = ['FOODS TO FAVOR', 'FOODS TO AVOID', 'BENEFICIAL HERBS', 'LIFESTYLE TIPS', 'PRECAUTIONS'].includes(section.header);
-
-                  return (
-                    <div key={idx} style={{ marginBottom: '14px' }}>
-                      {/* Section Header */}
-                      <div style={{
-                        background: meta.bg,
-                        borderLeft: `4px solid ${meta.color}`,
-                        borderRadius: '10px',
-                        padding: '12px 16px',
-                        marginBottom: '10px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '10px',
-                        borderBottom: `1px solid ${meta.border}40`,
-                      }}>
-                        <span style={{ fontSize: '22px' }}>{meta.icon}</span>
-                        <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 'bold', color: meta.color, letterSpacing: '0.5px' }}>
-                          {section.header}
-                        </h3>
-                      </div>
-
-                      {/* Section Content */}
-                      <div style={{ padding: '0 8px' }}>
-                        {section.items.map((item, i) => {
-                          const text = formatItem(item);
-                          if (!text) return null;
-
-                          return (
-                            <div key={i} style={{
-                              background: isMealSection ? '#f9fafb' : 'white',
-                              borderRadius: '8px',
-                              padding: '10px 14px',
-                              marginBottom: '6px',
-                              border: '1px solid #f3f4f6',
-                              display: 'flex',
-                              alignItems: 'flex-start',
-                              gap: '10px',
-                            }}>
-                              <span style={{ color: meta.color, fontSize: '12px', marginTop: '2px' }}>●</span>
-                              <span style={{ fontSize: '12px', lineHeight: '1.5', color: '#374151' }}>{text}</span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Disclaimer */}
-              <div style={{ padding: '0 24px', marginBottom: '16px' }}>
-                <div style={{
-                  background: '#fffbeb',
-                  border: '1px solid #fde68a',
-                  borderRadius: '10px',
-                  padding: '14px 16px',
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                    <span style={{ fontSize: '16px' }}>⚠️</span>
-                    <div>
-                      <p style={{ margin: '0 0 4px 0', fontSize: '12px', fontWeight: 'bold', color: '#92400e' }}>
-                        Important Disclaimer
-                      </p>
-                      <p style={{ margin: 0, fontSize: '10px', color: '#78350f', lineHeight: '1.5' }}>
-                        This diet chart is prepared based on Ayurvedic principles and is intended as a general guideline.
-                        Please consult with Dr. Jinendradutt Sharma at Ayurvritta Ayurveda Hospital before making significant
-                        dietary changes, especially if you have existing medical conditions or are taking medications.
-                        Individual results may vary based on your unique constitution and health status.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Footer */}
-              <div style={{
-                background: 'linear-gradient(135deg, #065f46, #047857)',
-                padding: '20px 24px',
-                color: 'white',
-                textAlign: 'center',
-              }}>
-                <p style={{ margin: '0 0 4px 0', fontSize: '15px', fontWeight: 'bold', letterSpacing: '0.5px' }}>
-                  🌿 Ayurvritta Ayurveda Hospital
-                </p>
-                <p style={{ margin: '0 0 4px 0', fontSize: '12px', opacity: 0.9 }}>
-                  Authentic Ayurvedic Care by Dr. Jinendradutt Sharma
-                </p>
-                <p style={{ margin: 0, fontSize: '11px', opacity: 0.75 }}>
-                  Vadodara, Gujarat • +91 94266 84047 • www.ayurvritta.com
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+    <button
+      onClick={handleDownload}
+      disabled={!scriptLoaded || generating}
+      className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold rounded-xl hover:shadow-lg transition-all active:scale-[0.98] text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+      {generating ? 'Generating PDF...' : scriptLoaded ? 'Download PDF' : 'Loading PDF...'}
+    </button>
   );
 };
 
