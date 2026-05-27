@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { aiService } from '../lib/aiService';
+import { aiService } from '../../lib/aiService';
 
 // ─── Knowledge file import via Vite ───
 const knowledgeModules = import.meta.glob('/knowledge/diet-charts/*.md', {
