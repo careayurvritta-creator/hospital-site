@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
+import { aiService } from '../lib/aiService';
 
 // ─── Knowledge file import via Vite ───
 const knowledgeModules = import.meta.glob('/knowledge/diet-charts/*.md', {
@@ -205,96 +206,31 @@ const DietChartTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     setMatchedFiles(matched);
 
     const knowledgeContent = matched
-      .map(e => `### ${e.label}\n${(knowledgeModules[e.rawPath] || '').substring(0, 1500)}`)
-      .join('\n\n---\n\n');
+      .map(e => `${e.label}:\n${(knowledgeModules[e.rawPath] || '').substring(0, 500)}`)
+      .join('\n\n');
 
-    const systemPrompt = `You are an expert Ayurvedic physician and nutritionist at Ayurvritta Ayurveda Hospital, Vadodara, Gujarat, India. You are trained in classical Ayurvedic texts including Charaka Samhita (Sutrasthana, Chikitsasthana), Ashtanga Hridayam by Vagbhata, Sushruta Samhita, and Bhavaprakasha Nighantu. You specialize in therapeutic diet planning combining classical Ayurvedic principles with modern nutritional science.
+    const prompt = `Create a personalized Ayurvedic diet plan for:
+${inputs.patient.name}, ${inputs.patient.age}y, ${inputs.patient.gender}${inputs.patient.occupation ? `, ${inputs.patient.occupation}` : ''}
+Prakriti: ${inputs.prakriti || 'Not assessed'} | Diet: ${inputs.dietaryPref || 'Veg'}${inputs.allergies.length > 0 ? ` | Allergies: ${inputs.allergies.join(', ')}` : ''}
+Condition: ${complaintText || 'General wellness'}
 
-IMPORTANT RULES:
-- NEVER mention Planet Ayurveda, Dr. Meenakshi Chauhan, Dr. Vikram Chauhan, or any external sources
-- All recommendations are from the Ayurvritta Ayurveda Hospital knowledge base
-- Reference classical Ayurvedic concepts: Rasa (6 tastes), Guna (20 qualities), Virya (potency), Vipaka (post-digestive effect)
-- Provide practical, Indian-friendly meals with specific quantities where possible
-- Consider Agni (digestive fire) strength at different meal times
-- Include specific Ayurvedic herbs and spices with dosage
-- Mention Pathya (wholesome) and Apathya (unwholesome) foods
-- Keep recommendations culturally appropriate for Indian patients`;
+${knowledgeContent ? `Ref:\n${knowledgeContent}\n\n` : ''}Sections (ALL CAPS, one per line): EARLY MORNING, BREAKFAST, MID-MORNING, LUNCH, EVENING SNACK, DINNER, BEDTIME, FOODS TO FAVOR, FOODS TO AVOID, BENEFICIAL HERBS, LIFESTYLE TIPS, PRECAUTIONS.
 
-    const userPrompt = `Create a comprehensive, personalized Ayurvedic diet plan:
-
-PATIENT DETAILS:
-- Name: ${inputs.patient.name}
-- Age: ${inputs.patient.age} years
-- Gender: ${inputs.patient.gender}
-- Occupation: ${inputs.patient.occupation}
-- Constitution (Prakriti): ${inputs.prakriti || 'Not assessed'}
-- Dietary Preference: ${inputs.dietaryPref || 'Vegetarian'}
-- Allergies/Restrictions: ${inputs.allergies.length > 0 ? inputs.allergies.join(', ') : 'None'}
-- Health Concerns: ${complaintText || 'General wellness'}
-
-${knowledgeContent ? `REFERENCE DIET CHARTS FROM KNOWLEDGE BASE:\n${knowledgeContent}\n\n` : ''}
-
-Provide a structured diet plan with these exact sections:
-
-WAKE UP & MORNING ROUTINE
-[Specific morning rituals with timing]
-
-EARLY MORNING (6:00 - 6:30 AM)
-[2-3 options with Ayurvedic reasoning]
-
-BREAKFAST (7:30 - 8:30 AM)
-[3 options with specific portions]
-
-MID-MORNING (10:00 - 10:30 AM)
-[Light options]
-
-LUNCH (12:00 - 1:00 PM) [Main meal - detailed]
-[Complete thali-style with specific items]
-
-EVENING SNACK (4:00 - 4:30 PM)
-[2-3 options]
-
-DINNER (7:00 - 7:30 PM) [Light meal]
-[2-3 options]
-
-BEDTIME (9:00 - 9:30 PM)
-[Warm drinks/tonics]
-
-FOODS TO FAVOR (Pathya)
-[Categorized: Grains, Vegetables, Fruits, Spices, Herbs]
-
-FOODS TO AVOID (Apathya)
-[Specific items with Ayurvedic reasoning]
-
-BENEFICIAL AYURVEDIC HERBS & SPICES
-[5-6 herbs with dosage and method of use]
-
-LIFESTYLE RECOMMENDATIONS (Dinacharya)
-[5 specific daily routine tips]
-
-PRECAUTIONS & NOTES
-[Important warnings for this patient's condition]
-
-Be specific, practical, and rooted in authentic Ayurvedic principles. Reference the knowledge base content but personalize for this patient. Under 2500 words.`;
+Each: 2-3 Indian foods with brief Ayurvedic reasoning. Include 5 herbs with dosage. Under 800 words.`;
 
     try {
-      const response = await fetch('/api/nvidia', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'meta/llama-3.1-8b-instruct',
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: userPrompt },
-          ],
-          temperature: 0.7,
-          max_tokens: 2500,
-        }),
-      });
+      const systemInstruction = 'You are an Ayurvedic dietitian at Ayurvritta Ayurveda Hospital, Vadodara. Create practical, personalized diet plans rooted in classical Ayurvedic principles. Use Indian food names. Format sections in ALL CAPS on separate lines.';
 
-      if (!response.ok) throw new Error(`API error: ${response.status}`);
-      const data = await response.json();
-      const content = data.choices?.[0]?.message?.content || '';
+      // Add timeout wrapper (matching Insurance page pattern)
+      const generatePromise = aiService.generate(prompt, systemInstruction, {
+        temperature: 0.6,
+        max_tokens: 1000,
+      });
+      const timeoutPromise = new Promise<string>((_, reject) =>
+        setTimeout(() => reject(new Error('AI generation timed out - please try again')), 45000)
+      );
+
+      const content = await Promise.race([generatePromise, timeoutPromise]);
 
       if (content) {
         setAiResult(content);
@@ -303,7 +239,31 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
       } else {
         throw new Error('Empty response');
       }
-    } catch {
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : '';
+      console.error('[DietChart] AI Error:', errorMsg);
+
+      // Show user-friendly error for timeout scenarios
+      if (errorMsg.includes('timed out') || errorMsg.includes('504') || errorMsg.includes('timeout')) {
+        setAiResult(`### AI Service Taking Too Long
+
+The AI is taking longer than expected to generate your diet plan.
+
+**Options:**
+1. Try selecting fewer conditions (1-2 max)
+2. Try again in a few moments
+3. Call us for a personalized plan: +91 94266 84047
+
+**Reference diet chart from our knowledge base:**
+
+${matched.length > 0
+  ? matched.map(e => knowledgeModules[e.rawPath] || '').join('\n\n---\n\n')
+  : 'No specific diet chart found for your condition.'}`);
+        setIsLocal(true);
+        goToPhase('result');
+        return;
+      }
+
       // Fallback: use raw knowledge
       const fallback = matched.length > 0
         ? matched.map(e => knowledgeModules[e.rawPath] || '').join('\n\n---\n\n')
@@ -668,22 +628,55 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
         {/* ═══ GENERATING PHASE ═══ */}
         {phase === 'generating' && (
           <div className="animate-fadeIn flex flex-col items-center justify-center min-h-[60vh]">
-            <div className="relative w-36 h-36 mb-8">
+            {/* Animated spinner with multiple rings */}
+            <div className="relative w-40 h-40 mb-8">
               <div className="absolute inset-0 border-4 border-ayur-green/20 rounded-full" />
               <div className="absolute inset-0 border-4 border-transparent border-t-ayur-green rounded-full animate-spin" style={{ animationDuration: '2s' }} />
-              <div className="absolute inset-0 border-4 border-transparent border-b-ayur-accent rounded-full animate-spin" style={{ animationDuration: '3s', animationDirection: 'reverse' }} />
+              <div className="absolute inset-2 border-4 border-transparent border-b-ayur-accent rounded-full animate-spin" style={{ animationDuration: '3s', animationDirection: 'reverse' }} />
+              <div className="absolute inset-4 border-4 border-transparent border-t-emerald-400 rounded-full animate-spin" style={{ animationDuration: '4s' }} />
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-5xl">🌿</span>
+                <span className="text-5xl animate-pulse">🌿</span>
               </div>
             </div>
+
             <h3 className="font-serif text-xl font-bold text-ayur-green mb-2">Creating Your Diet Plan...</h3>
-            <p className="text-gray-500 text-sm text-center max-w-xs mb-2">
-              Analyzing <span className="font-medium text-ayur-green">{inputs.complaints.join(', ') || inputs.customComplaint}</span>
-            </p>
-            <p className="text-gray-400 text-xs text-center">Matching with 85+ Ayurvedic diet charts & generating with AI</p>
-            <div className="mt-8 flex gap-1.5">
+
+            {/* Animated status messages */}
+            <div className="text-center space-y-2 mb-6">
+              <p className="text-gray-500 text-sm">
+                Analyzing <span className="font-medium text-ayur-green">{inputs.complaints.join(', ') || inputs.customComplaint}</span>
+              </p>
+              <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
+                <div className="flex gap-1">
+                  {[0, 1, 2].map(i => (
+                    <div key={i} className="w-1.5 h-1.5 bg-ayur-green rounded-full animate-bounce" style={{ animationDelay: `${i * 0.2}s` }} />
+                  ))}
+                </div>
+                <span>Matching with 85+ Ayurvedic diet charts</span>
+              </div>
+            </div>
+
+            {/* Progress steps */}
+            <div className="w-full max-w-xs space-y-3">
+              {[
+                { label: 'Matching conditions', icon: '🔍', delay: 0 },
+                { label: 'Loading knowledge base', icon: '📚', delay: 1000 },
+                { label: 'Generating with AI', icon: '✨', delay: 2000 },
+              ].map((step, i) => (
+                <div key={i} className="flex items-center gap-3 p-3 bg-white/50 rounded-xl border border-gray-100 animate-pulse" style={{ animationDelay: `${step.delay}ms` }}>
+                  <span className="text-lg">{step.icon}</span>
+                  <span className="text-xs text-gray-500">{step.label}</span>
+                  <div className="ml-auto">
+                    <div className="w-4 h-4 border-2 border-ayur-green/30 border-t-ayur-green rounded-full animate-spin" />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Pulsing dots */}
+            <div className="mt-8 flex gap-2">
               {[0, 1, 2, 3, 4].map(i => (
-                <div key={i} className="w-2.5 h-2.5 bg-ayur-green rounded-full animate-pulse" style={{ animationDelay: `${i * 0.15}s` }} />
+                <div key={i} className="w-3 h-3 bg-gradient-to-r from-ayur-green to-ayur-accent rounded-full animate-pulse" style={{ animationDelay: `${i * 0.15}s` }} />
               ))}
             </div>
           </div>
@@ -702,13 +695,13 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
                     {inputs.patient.occupation && ` • ${inputs.patient.occupation}`}
                   </div>
                 </div>
-                <div className="text-4xl">📋</div>
+                <div className="text-4xl animate-bounce">📋</div>
               </div>
               <div className="flex flex-wrap gap-2 mt-3">
                 {[...inputs.complaints, inputs.customComplaint].filter(Boolean).map((c, i) => (
-                  <span key={i} className="px-3 py-1 bg-white/20 rounded-full text-xs font-medium">{c}</span>
+                  <span key={i} className="px-3 py-1 bg-white/20 rounded-full text-xs font-medium backdrop-blur-sm">{c}</span>
                 ))}
-                {inputs.prakriti && <span className="px-3 py-1 bg-ayur-accent/30 rounded-full text-xs font-medium">{inputs.prakriti}</span>}
+                {inputs.prakriti && <span className="px-3 py-1 bg-ayur-accent/30 rounded-full text-xs font-medium backdrop-blur-sm">{inputs.prakriti}</span>}
               </div>
             </div>
 
@@ -735,52 +728,114 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
               </div>
             )}
 
-            {/* Diet plan content */}
-            <div className="bg-white rounded-3xl shadow-card border border-gray-100 p-5 md:p-6 mb-4">
-              <div className="prose prose-sm max-w-none text-gray-700">
-                {aiResult.split('\n').map((line, i) => {
+            {/* Diet plan content with rich visuals */}
+            <div className="bg-white rounded-3xl shadow-card border border-gray-100 overflow-hidden mb-4">
+              {/* Section icon map */}
+              {(() => {
+                const sectionIcons: Record<string, { icon: string; color: string; bg: string }> = {
+                  'EARLY MORNING': { icon: '🌅', color: 'text-orange-600', bg: 'bg-orange-50' },
+                  'BREAKFAST': { icon: '🥣', color: 'text-yellow-600', bg: 'bg-yellow-50' },
+                  'MID-MORNING': { icon: '⏰', color: 'text-amber-600', bg: 'bg-amber-50' },
+                  'LUNCH': { icon: '🍛', color: 'text-green-600', bg: 'bg-green-50' },
+                  'EVENING SNACK': { icon: '🍵', color: 'text-teal-600', bg: 'bg-teal-50' },
+                  'DINNER': { icon: '🥘', color: 'text-emerald-600', bg: 'bg-emerald-50' },
+                  'BEDTIME': { icon: '🌙', color: 'text-indigo-600', bg: 'bg-indigo-50' },
+                  'FOODS TO FAVOR': { icon: '✅', color: 'text-green-600', bg: 'bg-green-50' },
+                  'FOODS TO AVOID': { icon: '🚫', color: 'text-red-600', bg: 'bg-red-50' },
+                  'BENEFICIAL HERBS': { icon: '🌿', color: 'text-emerald-600', bg: 'bg-emerald-50' },
+                  'LIFESTYLE TIPS': { icon: '💡', color: 'text-blue-600', bg: 'bg-blue-50' },
+                  'PRECAUTIONS': { icon: '⚠️', color: 'text-amber-600', bg: 'bg-amber-50' },
+                };
+
+                const lines = aiResult.split('\n');
+                const sections: { header: string; items: string[] }[] = [];
+                let currentSection: { header: string; items: string[] } | null = null;
+
+                lines.forEach(line => {
                   const t = line.trim();
-                  // Section headers (UPPERCASE or **bold**)
                   if (t.match(/^[A-Z][A-Z\s&()\-:]+$/) && t.length > 3 && t.length < 80) {
-                    return (
-                      <div key={i} className="flex items-center gap-2 mt-6 mb-3 first:mt-0">
-                        <div className="w-1 h-6 bg-gradient-to-b from-ayur-green to-ayur-accent rounded-full" />
-                        <h3 className="font-serif font-bold text-ayur-green text-base m-0">{t}</h3>
-                      </div>
-                    );
+                    if (currentSection) sections.push(currentSection);
+                    currentSection = { header: t, items: [] };
+                  } else if (currentSection && t) {
+                    currentSection.items.push(t);
+                  } else if (!currentSection && t) {
+                    // Content before first section
+                    if (!sections.length) {
+                      sections.push({ header: 'OVERVIEW', items: [t] });
+                    }
                   }
-                  // Bold headers
-                  if (t.startsWith('**') && t.includes(':**')) {
-                    const parts = t.replace(/\*\*/g, '').split(':');
-                    return (
-                      <div key={i} className="mt-4 mb-2">
-                        <span className="font-bold text-ayur-green text-sm">{parts[0]}:</span>
-                        {parts.slice(1).join(':') && <span className="text-gray-600 text-sm ml-1">{parts.slice(1).join(':')}</span>}
-                      </div>
-                    );
-                  }
-                  if (t.startsWith('**') && t.endsWith('**')) {
-                    return <h3 key={i} className="font-serif font-bold text-ayur-green text-base mt-5 mb-2">{t.replace(/\*\*/g, '')}</h3>;
-                  }
-                  // Bullet points
-                  if (t.startsWith('- ') || t.startsWith('* ') || t.startsWith('• ')) {
-                    return (
-                      <div key={i} className="flex gap-2.5 ml-1 mb-1.5 items-start">
-                        <span className="text-ayur-accent text-xs mt-1 shrink-0">●</span>
-                        <span className="text-sm leading-relaxed">{t.replace(/^[-*•]\s*/, '')}</span>
-                      </div>
-                    );
-                  }
-                  // Numbered items
-                  if (/^\d+[\.\)]/.test(t)) {
-                    return <div key={i} className="ml-2 mb-1.5 text-sm leading-relaxed">{t}</div>;
-                  }
-                  // Empty
-                  if (!t) return <div key={i} className="h-2" />;
-                  // Regular
-                  return <p key={i} className="mb-1.5 text-sm leading-relaxed">{line}</p>;
-                })}
-              </div>
+                });
+                if (currentSection) sections.push(currentSection);
+
+                return (
+                  <div className="p-5 md:p-6">
+                    {sections.map((section, sIdx) => {
+                      const sectionKey = section.header.replace(/[^A-Z\s]/g, '').trim();
+                      const meta = sectionIcons[sectionKey] || { icon: '📌', color: 'text-gray-600', bg: 'bg-gray-50' };
+
+                      return (
+                        <div key={sIdx} className="mb-6 last:mb-0" style={{ animationDelay: `${sIdx * 100}ms` }}>
+                          {/* Section header with icon */}
+                          <div className={`${meta.bg} rounded-2xl p-4 mb-3 border border-${meta.color.replace('text-', '')}/20`}>
+                            <div className="flex items-center gap-3">
+                              <span className="text-2xl">{meta.icon}</span>
+                              <h3 className={`font-serif font-bold ${meta.color} text-lg m-0`}>{section.header}</h3>
+                            </div>
+                          </div>
+
+                          {/* Section items */}
+                          <div className="space-y-2 ml-2">
+                            {section.items.map((item, iIdx) => {
+                              const t = item;
+                              // Bullet points
+                              if (t.startsWith('- ') || t.startsWith('* ') || t.startsWith('• ')) {
+                                return (
+                                  <div key={iIdx} className="flex gap-3 items-start p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                                    <span className={`${meta.color} text-sm mt-0.5 shrink-0`}>●</span>
+                                    <span className="text-sm leading-relaxed text-gray-700">{t.replace(/^[-*•]\s*/, '')}</span>
+                                  </div>
+                                );
+                              }
+                              // Bold items
+                              if (t.startsWith('**') && t.includes(':**')) {
+                                const parts = t.replace(/\*\*/g, '').split(':');
+                                return (
+                                  <div key={iIdx} className="p-3 bg-gray-50 rounded-xl">
+                                    <span className="font-bold text-ayur-green text-sm">{parts[0]}:</span>
+                                    {parts.slice(1).join(':') && <span className="text-gray-600 text-sm ml-1">{parts.slice(1).join(':')}</span>}
+                                  </div>
+                                );
+                              }
+                              // Regular text
+                              return (
+                                <div key={iIdx} className="p-3 bg-gray-50 rounded-xl">
+                                  <span className="text-sm leading-relaxed text-gray-700">{t}</span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
+            </div>
+
+            {/* Quick summary cards */}
+            <div className="grid grid-cols-3 gap-3 mb-4">
+              {[
+                { icon: '🕐', label: 'Meals', value: '7-8', sub: 'per day' },
+                { icon: '🌿', label: 'Herbs', value: '5+', sub: 'recommended' },
+                { icon: '🥗', label: 'Balance', value: inputs.prakriti || 'Tridoshic', sub: 'constitution' },
+              ].map((stat, i) => (
+                <div key={i} className="bg-white rounded-2xl p-4 text-center shadow-soft border border-gray-100 hover:shadow-md transition-shadow">
+                  <div className="text-2xl mb-1">{stat.icon}</div>
+                  <div className="text-xs font-bold text-ayur-green">{stat.label}</div>
+                  <div className="text-lg font-serif font-bold text-gray-800">{stat.value}</div>
+                  <div className="text-[10px] text-gray-400">{stat.sub}</div>
+                </div>
+              ))}
             </div>
 
             {/* Attribution footer */}
@@ -800,13 +855,13 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
                   setAiResult('');
                   setSearchQuery('');
                 }}
-                className="flex-1 py-3 bg-ayur-cream text-ayur-green font-bold rounded-xl hover:bg-ayur-green/10 transition-all"
+                className="flex-1 py-3 bg-ayur-cream text-ayur-green font-bold rounded-xl hover:bg-ayur-green/10 transition-all active:scale-[0.98]"
               >
                 New Diet Plan
               </button>
               <button
                 onClick={onBack}
-                className="flex-1 py-3 bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white font-bold rounded-xl hover:shadow-lg transition-all"
+                className="flex-1 py-3 bg-gradient-to-r from-ayur-green to-ayur-green-dark text-white font-bold rounded-xl hover:shadow-lg transition-all active:scale-[0.98]"
               >
                 More Tools
               </button>
