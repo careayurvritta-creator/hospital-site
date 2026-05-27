@@ -105,17 +105,39 @@ function searchConditions(query: string): ConditionEntry[] {
 }
 
 function matchComplaintsToFiles(complaints: string): ConditionEntry[] {
-  const lower = complaints.toLowerCase();
+  const lower = complaints.toLowerCase().trim();
   const matched: ConditionEntry[] = [];
   const seen = new Set<string>();
 
+  // Split complaints into individual terms
+  const complaintTerms = lower.split(/[\s,;]+/).filter(w => w.length > 2);
+
   for (const condition of ALL_CONDITIONS) {
-    const text = `${condition.label} ${condition.keywords.join(' ')}`.toLowerCase();
-    if (lower.split(/[\s,;]+/).some(w => w.length > 2 && text.includes(w)) && !seen.has(condition.id)) {
+    const conditionText = `${condition.label} ${condition.keywords.join(' ')}`.toLowerCase();
+    const conditionWords = conditionText.split(/[\s,;-]+/).filter(w => w.length > 2);
+
+    // Check for exact word match (not substring)
+    const hasMatch = complaintTerms.some(term =>
+      conditionWords.some(word => word === term || word.startsWith(term) || term.startsWith(word))
+    );
+
+    if (hasMatch && !seen.has(condition.id)) {
       seen.add(condition.id);
       matched.push(condition);
     }
   }
+
+  // If no exact match found, try substring match as fallback
+  if (matched.length === 0) {
+    for (const condition of ALL_CONDITIONS) {
+      const conditionText = `${condition.label} ${condition.keywords.join(' ')}`.toLowerCase();
+      if (complaintTerms.some(w => w.length > 3 && conditionText.includes(w)) && !seen.has(condition.id)) {
+        seen.add(condition.id);
+        matched.push(condition);
+      }
+    }
+  }
+
   return matched.slice(0, 3);
 }
 
@@ -219,7 +241,7 @@ Dietary Preference: ${inputs.dietaryPref || 'Vegetarian'}
 ${inputs.allergies.length > 0 ? `Allergies/Restrictions: ${inputs.allergies.join(', ')}` : ''}
 Health Condition: ${complaintText || 'General wellness and preventive care'}
 
-${knowledgeContent ? `Reference Knowledge Base (use this to guide your recommendations):
+${knowledgeContent ? `IMPORTANT: Use ONLY the following knowledge base as your primary reference. Do NOT reference other conditions:
 ${knowledgeContent}
 
 ` : ''}Generate a complete diet plan with ALL of the following sections. Write each section header in ALL CAPS on its own line, followed by specific recommendations:
