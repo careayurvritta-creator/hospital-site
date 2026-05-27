@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { aiService } from '../../lib/aiService';
+import DietChartPDF from './DietChartPDF';
 
 // ─── Knowledge file import via Vite ───
 const knowledgeModules = import.meta.glob('/knowledge/diet-charts/*.md', {
@@ -889,7 +890,22 @@ ${matched.length > 0
               <div className="text-[10px] text-gray-400 mt-1">Ayurvritta Ayurveda Hospital, Vadodara, Gujarat • +91 94266 84047</div>
             </div>
 
-            {/* Actions */}
+            {/* PDF Download + Actions */}
+            <div className="flex gap-3 mb-3">
+              <DietChartPDF
+                patientName={inputs.patient.name}
+                patientAge={inputs.patient.age}
+                patientGender={inputs.patient.gender}
+                patientOccupation={inputs.patient.occupation}
+                prakriti={inputs.prakriti}
+                dietaryPref={inputs.dietaryPref}
+                allergies={inputs.allergies}
+                condition={[...inputs.complaints, inputs.customComplaint].filter(Boolean).join(', ')}
+                aiResult={aiResult}
+                matchedFiles={matchedFiles}
+              />
+            </div>
+
             <div className="flex gap-3">
               <button
                 onClick={() => {
