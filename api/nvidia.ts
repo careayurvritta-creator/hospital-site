@@ -42,7 +42,7 @@ export default async function handler(request: Request) {
     const timeoutId = setTimeout(() => {
       console.log('[Nvidia API] Request timeout');
       controller.abort();
-    }, 8000); // 8 second timeout (Vercel free tier limit is 10s)
+    }, 25000); // 25 second timeout (Vercel pro tier limit is 30s)
 
     const response = await fetch(NVIDIA_API_URL, {
       method: 'POST',
