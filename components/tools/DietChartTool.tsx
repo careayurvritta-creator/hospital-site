@@ -205,7 +205,7 @@ const DietChartTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     setMatchedFiles(matched);
 
     const knowledgeContent = matched
-      .map(e => `### ${e.label}\n${(knowledgeModules[e.rawPath] || '').substring(0, 2000)}`)
+      .map(e => `### ${e.label}\n${(knowledgeModules[e.rawPath] || '').substring(0, 1500)}`)
       .join('\n\n---\n\n');
 
     const systemPrompt = `You are an expert Ayurvedic physician and nutritionist at Ayurvritta Ayurveda Hospital, Vadodara, Gujarat, India. You are trained in classical Ayurvedic texts including Charaka Samhita (Sutrasthana, Chikitsasthana), Ashtanga Hridayam by Vagbhata, Sushruta Samhita, and Bhavaprakasha Nighantu. You specialize in therapeutic diet planning combining classical Ayurvedic principles with modern nutritional science.
@@ -288,7 +288,7 @@ Be specific, practical, and rooted in authentic Ayurvedic principles. Reference 
             { role: 'user', content: userPrompt },
           ],
           temperature: 0.7,
-          max_tokens: 3500,
+          max_tokens: 2500,
         }),
       });
 
