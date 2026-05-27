@@ -578,6 +578,14 @@ const CATEGORY_COLORS: Record<string, string> = {
   Wellness: 'from-blue-500 to-cyan-600'
 };
 
+/** Render **bold** markdown text as <strong> JSX */
+function renderBoldText(text: string): React.ReactNode[] {
+  const parts = text.split(/\*\*(.*?)\*\*/g);
+  return parts.map((part, i) =>
+    i % 2 === 1 ? <strong key={i} className="font-semibold text-ayur-text">{part}</strong> : part
+  );
+}
+
 const Blog: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
@@ -660,7 +668,7 @@ const Blog: React.FC = () => {
         </div>
 
         {/* Hero */}
-        <div className="relative h-[70vh] min-h-[500px] overflow-hidden">
+        <div className="relative h-[50vh] sm:h-[60vh] md:h-[70vh] min-h-[350px] sm:min-h-[400px] md:min-h-[500px] overflow-hidden">
           <div 
             className="absolute inset-0 bg-cover bg-center transform scale-105 transition-transform duration-700"
             style={{ backgroundImage: `url(${post.image})` }}
@@ -669,10 +677,10 @@ const Blog: React.FC = () => {
           
           <button
             onClick={() => navigate('/blog')}
-            className="absolute top-6 left-6 z-20 flex items-center gap-2 px-5 py-2.5 bg-white/20 backdrop-blur-md text-white rounded-full hover:bg-white/30 transition-all duration-300 hover:scale-105 min-h-[48px]"
+            className="absolute top-6 left-6 z-20 flex items-center gap-2 px-3 py-2.5 sm:px-5 bg-white/20 backdrop-blur-md text-white rounded-full hover:bg-white/30 transition-all duration-300 hover:scale-105 min-h-[48px]"
           >
             <ArrowLeft className="w-5 h-5" />
-            <span className="font-semibold">Back</span>
+            <span className="font-semibold hidden sm:inline">Back</span>
           </button>
 
           <button
@@ -695,7 +703,7 @@ const Blog: React.FC = () => {
                 </span>
               </div>
               
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white mb-6 leading-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white mb-6 leading-tight">
                 {post.title}
               </h1>
               
@@ -723,14 +731,14 @@ const Blog: React.FC = () => {
                   if (paragraph.startsWith('## ')) {
                     return (
                       <h2 key={idx} className="text-2xl md:text-3xl font-serif font-bold text-ayur-green mt-12 mb-6">
-                        {paragraph.replace('## ', '')}
+                        {renderBoldText(paragraph.replace('## ', ''))}
                       </h2>
                     );
                   }
                   if (paragraph.startsWith('### ')) {
                     return (
                       <h3 key={idx} className="text-xl md:text-2xl font-serif font-bold text-ayur-text mt-8 mb-4">
-                        {paragraph.replace('### ', '')}
+                        {renderBoldText(paragraph.replace('### ', ''))}
                       </h3>
                     );
                   }
@@ -741,7 +749,7 @@ const Blog: React.FC = () => {
                         {items.map((item, itemIdx) => (
                           <li key={itemIdx} className="flex items-start gap-3">
                             <div className="w-2 h-2 rounded-full bg-ayur-green mt-2.5 flex-shrink-0" />
-                            <span className="text-ayur-text">{item.replace('- ', '').replace(/\*\*(.*?)\*\*/g, '$1')}</span>
+                            <span className="text-ayur-text">{renderBoldText(item.replace('- ', ''))}</span>
                           </li>
                         ))}
                       </ul>
@@ -756,13 +764,13 @@ const Blog: React.FC = () => {
                             <span className="flex-shrink-0 w-8 h-8 rounded-full bg-ayur-green/10 text-ayur-green font-bold flex items-center justify-center text-sm">
                               {itemIdx + 1}
                             </span>
-                            <span className="text-ayur-text pt-1">{item.replace(/^\d+\.\s*/, '').replace(/\*\*(.*?)\*\*/g, '$1')}</span>
+                            <span className="text-ayur-text pt-1">{renderBoldText(item.replace(/^\d+\.\s*/, ''))}</span>
                           </li>
                         ))}
                       </ol>
                     );
                   }
-                  return <p key={idx} className="text-ayur-text leading-relaxed">{paragraph}</p>;
+                  return <p key={idx} className="text-ayur-text leading-relaxed">{renderBoldText(paragraph)}</p>;
                 })}
               </div>
             </div>
@@ -845,10 +853,10 @@ const Blog: React.FC = () => {
               <Sparkles className="w-4 h-4" />
               Wisdom for Modern Living
             </div>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-white mb-6 animate-fadeInUp">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white mb-6 animate-fadeInUp">
               Ayurveda <span className="italic text-ayur-accent">Blog</span>
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-12 animate-fadeInUp animation-delay-100">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto mb-12 animate-fadeInUp animation-delay-100">
               Discover ancient wisdom for modern health, wellness, and balanced living
             </p>
 
@@ -879,7 +887,7 @@ const Blog: React.FC = () => {
                 key={featured.id}
                 onClick={() => navigate(`/blog/${featured.slug}`)}
                 className="group cursor-pointer relative rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500"
-                style={{ minHeight: '400px' }}
+                style={{ minHeight: 'clamp(280px, 50vw, 400px)' }}
               >
                 <div
                   className="absolute inset-0 bg-cover bg-center transform group-hover:scale-105 transition-transform duration-700"

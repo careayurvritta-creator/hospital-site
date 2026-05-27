@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { Search, Filter, X, Leaf, Heart, Sparkles, ChevronDown, Star, BookOpen, ArrowRight, Utensils, Activity, Droplet, Shield, Brain, Eye, Baby, Bone, Wind, Flower2, Sun, Stethoscope, Pill, ChefHat, Loader2 } from 'lucide-react';
 import DietChartCard from '../components/DietChartCard';
-import { getDietChartsFromKnowledge, getHardcodedDietCharts, getDietChartCategoriesFromAll, searchDietCharts } from '../lib/diet-charts';
+import { getHardcodedDietCharts, getDietChartCategoriesFromAll, searchDietCharts, loadDietChartsBatched } from '../lib/diet-charts';
 import { useLanguage } from '../components/LanguageContext';
 import { useIntersectionObserver } from '../hooks';
 import type { DietChart } from '../data/dietCharts';
@@ -71,27 +71,19 @@ const DietCharts: React.FC = () => {
   const [countersAnimated, setCountersAnimated] = useState(false);
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [allCharts, setAllCharts] = useState<DietChart[]>([]);
-  const [loadingMore, setLoadingMore] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(true);
 
   const heroObserver = useIntersectionObserver({ threshold: 0.2 });
   const statsObserver = useIntersectionObserver({ threshold: 0.3 });
   const gridObserver = useIntersectionObserver({ threshold: 0.05 });
 
-  // Instantly load hardcoded charts, then lazy-load parsed ones
+  // Instantly load hardcoded charts, then batch-parse the rest without blocking UI
   useEffect(() => {
-    const hardcoded = getHardcodedDietCharts();
-    setAllCharts(hardcoded);
-
-    // Defer parsing to background
-    const timer = setTimeout(() => {
-      try {
-        const all = getDietChartsFromKnowledge();
-        setAllCharts(all);
-      } catch (e) {
-        console.error('Failed to load parsed diet charts:', e);
-      }
-    }, 200);
-    return () => clearTimeout(timer);
+    const cancel = loadDietChartsBatched((charts) => {
+      setAllCharts(charts);
+      if (charts.length > 5) setIsLoadingMore(false);
+    }, 10);
+    return cancel;
   }, []);
 
   const categories = useMemo(() => getDietChartCategoriesFromAll(allCharts), [allCharts]);
@@ -113,30 +105,26 @@ const DietCharts: React.FC = () => {
     }).slice(0, 3);
   }, [allCharts]);
 
-  // Animated counters
+  // Animated counters — single rAF loop instead of multiple setIntervals
   useEffect(() => {
-    if (statsObserver.hasBeenVisible && !countersAnimated && allCharts.length > 0) {
-      setCountersAnimated(true);
-      const targets = { charts: allCharts.length, categories: categories.length, foods: allCharts.length * 12 };
-      const duration = 1500;
-      const steps = 40;
-      const interval = duration / steps;
+    if (!statsObserver.hasBeenVisible || countersAnimated || allCharts.length === 0) return;
+    setCountersAnimated(true);
+    const targets = { charts: allCharts.length, categories: categories.length, foods: allCharts.length * 12 };
+    const duration = 1500;
+    const start = performance.now();
 
-      Object.keys(targets).forEach(key => {
-        let current = 0;
-        const target = targets[key as keyof typeof targets];
-        const increment = target / steps;
-        const timer = setInterval(() => {
-          current += increment;
-          if (current >= target) {
-            setAnimatedCounters(prev => ({ ...prev, [key]: target }));
-            clearInterval(timer);
-          } else {
-            setAnimatedCounters(prev => ({ ...prev, [key]: Math.floor(current) }));
-          }
-        }, interval);
+    function tick(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      setAnimatedCounters({
+        charts: Math.floor(targets.charts * eased),
+        categories: Math.floor(targets.categories * eased),
+        foods: Math.floor(targets.foods * eased),
       });
+      if (progress < 1) requestAnimationFrame(tick);
     }
+    requestAnimationFrame(tick);
   }, [statsObserver.hasBeenVisible, countersAnimated, allCharts.length, categories.length]);
 
   // Filter charts
@@ -251,7 +239,8 @@ const DietCharts: React.FC = () => {
 
       {/* CATEGORY QUICK ACCESS */}
       <section className="relative -mt-8 z-10 max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex gap-3 overflow-x-auto pb-4 hide-scrollbar -mx-4 px-4">
+        <div className="relative">
+        <div className="flex gap-3 overflow-x-auto pb-4 hide-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
           <button
             onClick={() => setSelectedCategory('All')}
             className={`flex-shrink-0 flex items-center gap-2 px-5 py-3 rounded-2xl font-semibold text-sm transition-all duration-300 border-2 ${
@@ -282,6 +271,8 @@ const DietCharts: React.FC = () => {
               </button>
             );
           })}
+        </div>
+        <div className="pointer-events-none absolute right-0 top-0 bottom-4 w-12 bg-gradient-to-l from-white to-transparent sm:hidden" />
         </div>
       </section>
 
@@ -354,9 +345,7 @@ const DietCharts: React.FC = () => {
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {visibleCharts.map((chart, idx) => (
-                <div key={chart.id} className={`transition-all duration-500 ${gridObserver.hasBeenVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: `${Math.min(idx * 50, 400)}ms` }}>
-                  <DietChartCard title={chart.title} slug={chart.slug} category={chart.category} description={chart.description} image={chart.image} foodGroups={chart.foodGroups} foodsToConsume={chart.foodsToConsume} foodsToAvoid={chart.foodsToAvoid} lifestyleTips={chart.lifestyleTips} featured={false} index={idx} />
-                </div>
+                <DietChartCard key={chart.id} title={chart.title} slug={chart.slug} category={chart.category} description={chart.description} image={chart.image} foodGroups={chart.foodGroups} foodsToConsume={chart.foodsToConsume} foodsToAvoid={chart.foodsToAvoid} lifestyleTips={chart.lifestyleTips} featured={false} index={idx} />
               ))}
             </div>
             {hasMore && (
@@ -364,6 +353,12 @@ const DietCharts: React.FC = () => {
                 <button onClick={() => setVisibleCount(prev => prev + ITEMS_PER_PAGE)} className="px-8 py-3 bg-white text-ayur-green border-2 border-ayur-green/20 rounded-2xl font-bold hover:border-ayur-green hover:bg-ayur-green hover:text-white transition-all shadow-sm">
                   Load More ({filteredCharts.length - visibleCount} remaining)
                 </button>
+              </div>
+            )}
+            {isLoadingMore && (
+              <div className="flex items-center justify-center gap-2 mt-6 text-gray-400 text-sm">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Loading more plans...
               </div>
             )}
           </>
