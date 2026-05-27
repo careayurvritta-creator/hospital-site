@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { aiService } from '../../lib/aiService';
 
 interface Symptoms {
   excessiveHunger: number;
@@ -196,6 +197,8 @@ const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   const [result, setResult] = useState<Result | null>(null);
   const [animatedBMI, setAnimatedBMI] = useState(0);
   const [showDetails, setShowDetails] = useState(false);
+  const [aiRecommendation, setAiRecommendation] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
 
   const symptomQuestions: {key: keyof Symptoms; label: string; sanskrit: string}[] = [
     { key: 'excessiveHunger', label: 'Excessive hunger or appetite', sanskrit: 'Ati Kshudha' },
@@ -230,6 +233,72 @@ const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
       return () => clearTimeout(timer);
     }
   }, [result, mode]);
+
+  // AI-powered weight management plan generation
+  useEffect(() => {
+    if (mode !== 'result' || !result) return;
+
+    const generateAIPlan = async () => {
+      setAiLoading(true);
+      setAiRecommendation('');
+
+      const symptomLabels = result.symptomScore >= 5
+        ? 'Multiple Meda Vriddhi signs present'
+        : result.symptomScore >= 2
+        ? 'Some Meda Vriddhi signs present'
+        : 'Minimal Meda Vriddhi signs';
+
+      const prompt = `Patient assessment for Meda Dhatu (adipose tissue) analysis:
+
+- BMI: ${result.bmi} (${result.bmiGauge.zone})
+- Waist-Hip Ratio: ${result.whr > 0 ? result.whr : 'Not provided'}
+- Meda Vriddhi Symptom Score: ${result.symptomScore}/8 (${symptomLabels})
+- Classification: ${result.classification}
+- Risk Level: ${result.risk}
+
+Create a personalized 90-day weight management plan with phased Udvartana schedule.
+
+Format the response with these exact sections in ALL CAPS on separate lines:
+
+PHASE 1 (WEEKS 1-4)
+PHASE 2 (WEEKS 5-8)
+PHASE 3 (WEEKS 9-12)
+UDVARTANA SCHEDULE
+DIETARY GUIDELINES
+HERBAL SUPPORT
+EXERCISE PROTOCOL
+PRECAUTIONS
+
+Each phase should include specific daily routines, Udvartana churna recommendations, diet modifications, and lifestyle adjustments based on the patient's BMI and symptom profile. Keep under 700 words.`;
+
+      const systemInstruction = 'You are an Ayurvedic physician at Ayurvritta Ayurveda Hospital specializing in Meda Dhatu disorders (obesity management). Provide evidence-based recommendations rooted in Charaka Samhita and Ashtanga Hridayam. Use proper Ayurvedic terminology with Indian food and herb names. Be practical and actionable.';
+
+      try {
+        const generatePromise = aiService.generate(prompt, systemInstruction, {
+          temperature: 0.6,
+          max_tokens: 800,
+        });
+        const timeoutPromise = new Promise<string>((_, reject) =>
+          setTimeout(() => reject(new Error('AI generation timed out')), 45000)
+        );
+
+        const content = await Promise.race([generatePromise, timeoutPromise]);
+
+        if (content) {
+          setAiRecommendation(content);
+        } else {
+          setAiRecommendation('');
+        }
+      } catch (err) {
+        console.error('[MedaTool] AI generation failed:', err);
+        setAiRecommendation('');
+      } finally {
+        setAiLoading(false);
+      }
+    };
+
+    generateAIPlan();
+  }, [mode, result]);
 
   const handleCalculateMetrics = () => {
     if (!height || !weight) return;
@@ -396,10 +465,61 @@ const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
             </div>
           )}
 
+          {/* AI-Powered Weight Management Plan */}
+          {(aiLoading || aiRecommendation) && (
+            <div className="bg-white rounded-2xl shadow-lg border-2 border-purple-100 overflow-hidden">
+              <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-4 text-white">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">&#x1F916;</span>
+                  <div>
+                    <h3 className="font-bold text-lg">AI-Powered Weight Management Plan</h3>
+                    <p className="text-white/70 text-xs">Personalized 90-day plan by Ayurvritta AI</p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-5">
+                {aiLoading && (
+                  <div className="flex flex-col items-center py-8">
+                    <div className="relative w-16 h-16 mb-4">
+                      <div className="absolute inset-0 border-4 border-purple-200 rounded-full"></div>
+                      <div className="absolute inset-0 border-4 border-transparent border-t-purple-600 rounded-full animate-spin" style={{ animationDuration: '1.5s' }}></div>
+                    </div>
+                    <p className="text-sm text-gray-600 font-medium">Generating your personalized plan...</p>
+                    <p className="text-xs text-gray-400 mt-1">Analyzing BMI, WHR, and symptom profile</p>
+                  </div>
+                )}
+                {!aiLoading && aiRecommendation && (
+                  <div className="prose prose-sm max-w-none">
+                    {aiRecommendation.split('\n').map((line, i) => {
+                      const trimmed = line.trim();
+                      if (!trimmed) return <div key={i} className="h-2" />;
+                      const isSectionHeader = /^[A-Z][A-Z\s\d()\-]+$/.test(trimmed) || /^PHASE \d/.test(trimmed);
+                      if (isSectionHeader) {
+                        return (
+                          <h4 key={i} className="font-bold text-purple-700 mt-4 mb-2 text-sm uppercase tracking-wide border-b border-purple-100 pb-1">
+                            {trimmed}
+                          </h4>
+                        );
+                      }
+                      return <p key={i} className="text-gray-700 text-sm leading-relaxed mb-1">{trimmed}</p>;
+                    })}
+                  </div>
+                )}
+                {!aiLoading && !aiRecommendation && (
+                  <div className="text-center py-6">
+                    <span className="text-3xl mb-3 block">&#x26A0;&#xFE0F;</span>
+                    <p className="text-sm text-gray-600 font-medium">AI enhancement unavailable</p>
+                    <p className="text-xs text-gray-400 mt-1">The general recommendations above are still available.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Actions */}
           <div className="flex gap-3 pt-2">
-            <button 
-              onClick={() => { setMode('input'); setHeight(''); setWeight(''); setWaist(''); setHip(''); setResult(null); setShowDetails(false); setSymptoms({excessiveHunger: 0, excessiveThirst: 0, heaviness: 0, sweating: 0, badOdor: 0, fatigue: 0, flabbiness: 0, breathlessness: 0}); }}
+            <button
+              onClick={() => { setMode('input'); setHeight(''); setWeight(''); setWaist(''); setHip(''); setResult(null); setShowDetails(false); setSymptoms({excessiveHunger: 0, excessiveThirst: 0, heaviness: 0, sweating: 0, badOdor: 0, fatigue: 0, flabbiness: 0, breathlessness: 0}); setAiRecommendation(''); setAiLoading(false); }}
               className="flex-1 py-3 bg-ayur-cream text-ayur-green font-bold rounded-xl hover:bg-ayur-green/10 transition-all"
             >
               Retake Assessment

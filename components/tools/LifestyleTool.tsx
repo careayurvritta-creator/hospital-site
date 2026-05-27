@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { aiService } from '../../lib/aiService';
 
 interface Question {
   id: number;
@@ -407,6 +408,8 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [animatedScore, setAnimatedScore] = useState(0);
+  const [aiRecommendation, setAiRecommendation] = useState<string>('');
+  const [aiLoading, setAiLoading] = useState(false);
 
   const currentQuestion = questions[step];
   const progress = ((step + 1) / questions.length) * 100;
@@ -469,7 +472,7 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
     setResult(null);
     setShowReport(false);
     
-    setTimeout(() => {
+    setTimeout(async () => {
       const score = (Object.values(answers) as number[]).reduce((a, b) => a + b, 0);
       const maxScore = 375;
       
@@ -525,6 +528,46 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
         summary: prakritiInsight
       });
       setIsAnalyzing(false);
+
+      // AI-powered Dinacharya recommendation
+      setAiLoading(true);
+      setAiRecommendation('');
+      const aiPrompt = `Based on this Ayurvedic lifestyle assessment, generate a personalized Dinacharya (daily routine) plan.
+
+Dosha Profile: Vata ${doshaProfile.vata}%, Pitta ${doshaProfile.pitta}%, Kapha ${doshaProfile.kapha}%
+Dominant Dosha: ${dominantDosha}
+Lifestyle Score: ${score}/${maxScore} (Risk: ${riskLevel})
+Key Issues: ${recommendations.slice(0, 4).map(r => r.title).join(', ')}
+
+Provide a structured Dinacharya plan with:
+1. **Brahma Muhurta (Early Morning)** - Wake time and morning ritual
+2. **Morning Routine** - Abhyanga, Pranayama, exercise specifics
+3. **Ahara (Meals)** - Ideal meal times and food suggestions for this dosha
+4. **Afternoon** - Work/rest balance
+5. **Evening Routine** - Wind-down practices
+6. **Ratri Charya (Night)** - Sleep preparation
+
+Keep it concise and practical. Use Sanskrit terms where appropriate with English translations. Focus on the dominant dosha's needs.`;
+
+      const systemInstruction = "You are an expert Ayurvedic physician. Provide personalized daily routine (Dinacharya) recommendations based on the patient's dosha profile. Use classical Ayurvedic principles from Charaka Samhita and Ashtanga Hridayam. Be specific and actionable. Format with markdown headers and bullet points.";
+
+      const generatePromise = aiService.generate(aiPrompt, systemInstruction, {
+        temperature: 0.6,
+        max_tokens: 800,
+      });
+      const timeoutPromise = new Promise<string>((_, reject) =>
+        setTimeout(() => reject(new Error('AI generation timed out')), 45000)
+      );
+
+      try {
+        const content = await Promise.race([generatePromise, timeoutPromise]);
+        setAiRecommendation(content);
+      } catch (err) {
+        console.error('[LifestyleTool] AI recommendation failed:', err);
+        setAiRecommendation('AI_ENHANCEMENT_UNAVAILABLE');
+      } finally {
+        setAiLoading(false);
+      }
     }, 1500);
   };
 
@@ -651,10 +694,53 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
             </div>
           )}
 
+          {/* AI-Powered Dinacharya Recommendation */}
+          {(aiLoading || aiRecommendation) && (
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-purple-100">
+              <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-4 flex items-center gap-3">
+                <span className="text-2xl">🤖</span>
+                <div>
+                  <h3 className="font-bold text-white">AI-Powered Dinacharya</h3>
+                  <p className="text-purple-100 text-xs">Personalized daily routine by AI</p>
+                </div>
+              </div>
+              <div className="p-4">
+                {aiLoading ? (
+                  <div className="flex flex-col items-center py-6 gap-3">
+                    <div className="flex gap-1">
+                      {[0,1,2].map(i => (
+                        <div key={i} className="w-3 h-3 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: `${i * 0.15}s` }}></div>
+                      ))}
+                    </div>
+                    <p className="text-sm text-gray-500">Generating your personalized routine...</p>
+                  </div>
+                ) : aiRecommendation === 'AI_ENHANCEMENT_UNAVAILABLE' ? (
+                  <div className="flex items-center gap-3 py-4 px-3 bg-gray-50 rounded-xl">
+                    <span className="text-xl">⚠️</span>
+                    <p className="text-sm text-gray-600">AI enhancement unavailable. The classical recommendations above are fully comprehensive for your needs.</p>
+                  </div>
+                ) : (
+                  <div className="prose prose-sm max-w-none text-gray-700 leading-relaxed">
+                    {aiRecommendation.split('\n').map((line, i) => {
+                      const trimmed = line.trim();
+                      if (!trimmed) return <div key={i} className="h-2" />;
+                      if (trimmed.startsWith('### ')) return <h4 key={i} className="font-bold text-purple-700 mt-3 mb-1 text-sm">{trimmed.slice(4)}</h4>;
+                      if (trimmed.startsWith('## ')) return <h3 key={i} className="font-bold text-purple-800 mt-4 mb-1">{trimmed.slice(3)}</h3>;
+                      if (trimmed.startsWith('# ')) return <h2 key={i} className="font-bold text-purple-900 mt-4 mb-1">{trimmed.slice(2)}</h2>;
+                      if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) return <div key={i} className="flex gap-2 text-sm ml-2"><span className="text-purple-400 mt-0.5">•</span><span>{trimmed.slice(2)}</span></div>;
+                      if (trimmed.startsWith('**') && trimmed.endsWith('**')) return <p key={i} className="font-semibold text-gray-800 mt-2">{trimmed.slice(2, -2)}</p>;
+                      return <p key={i} className="text-sm">{trimmed}</p>;
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Actions */}
           <div className="flex gap-3 pt-2">
             <button 
-              onClick={() => { setStep(0); setAnswers({}); setResult(null); setShowReport(false); setAnimatedScore(0); }}
+              onClick={() => { setStep(0); setAnswers({}); setResult(null); setShowReport(false); setAnimatedScore(0); setAiRecommendation(''); setAiLoading(false); }}
               className="flex-1 py-3 bg-ayur-cream text-ayur-green font-bold rounded-xl hover:bg-ayur-green/10 transition-all"
             >
               Retake Assessment

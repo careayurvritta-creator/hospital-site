@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { aiService } from '../../lib/aiService';
 
 interface Question {
   id: number;
@@ -294,6 +295,8 @@ const PanchakarmaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [animatedScore, setAnimatedScore] = useState(0);
+  const [aiRecommendation, setAiRecommendation] = useState<string>('');
+  const [aiLoading, setAiLoading] = useState(false);
 
   const currentQuestion = questions[step];
   const progress = ((step + 1) / questions.length) * 100;
@@ -356,7 +359,7 @@ const PanchakarmaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
     setResult(null);
     setShowDetails(false);
     
-    setTimeout(() => {
+    setTimeout(async () => {
       const score = (Object.values(answers) as number[]).reduce((a, b) => a + b, 0);
       const maxScore = 30;
       
@@ -408,6 +411,39 @@ const PanchakarmaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
         preparatorySteps
       });
       setIsAnalyzing(false);
+
+      // AI-powered therapy rationale and preparatory schedule
+      setAiLoading(true);
+      setAiRecommendation('');
+
+      const therapyNames = therapies.map(t => t.name).join(', ');
+      const aiPrompt = `A patient completed the Panchakarma eligibility assessment with the following results:
+
+- Eligibility: ${eligibilityLabel} (score ${score}/${maxScore})
+- Dosha dominance: ${doshaDominance}
+- Recommended therapies: ${therapyNames}
+
+Provide a concise clinical rationale explaining WHY these specific therapies are recommended for this patient's dosha profile and eligibility level. Then outline a detailed day-by-day Snehana-Swedana preparatory schedule (7-10 days) with specific oils, duration, and dietary guidelines. Keep it under 500 words. Use proper Ayurvedic terminology.`;
+
+      const systemInstruction = 'You are an experienced Ayurvedic physician (Vaidya) at Ayurvritta Ayurveda Hospital specializing in Panchakarma. Provide evidence-based therapy rationale grounded in Charaka Samhita and Ashtanga Hridayam. Be specific with herb names, oil names, and classical references. Format with clear sections.';
+
+      const generatePromise = aiService.generate(aiPrompt, systemInstruction, {
+        temperature: 0.6,
+        max_tokens: 800,
+      });
+      const timeoutPromise = new Promise<string>((_, reject) =>
+        setTimeout(() => reject(new Error('AI generation timed out')), 45000)
+      );
+
+      try {
+        const content = await Promise.race([generatePromise, timeoutPromise]);
+        setAiRecommendation(content);
+      } catch (err) {
+        console.error('[PanchakarmaTool] AI generation failed:', err);
+        setAiRecommendation('AI_ENHANCEMENT_UNAVAILABLE');
+      } finally {
+        setAiLoading(false);
+      }
     }, 1800);
   };
 
@@ -520,8 +556,44 @@ const PanchakarmaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
             </div>
           </div>
 
+          {/* AI-Powered Recommendation */}
+          {(aiLoading || aiRecommendation) && (
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+              <div className="bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-3 flex items-center gap-2">
+                <span className="text-xl">🤖</span>
+                <h3 className="font-bold text-white text-sm">AI-Enhanced Clinical Insight</h3>
+              </div>
+              <div className="p-5">
+                {aiLoading ? (
+                  <div className="flex flex-col items-center py-4">
+                    <div className="flex gap-1 mb-3">
+                      {[0, 1, 2, 3, 4].map(i => (
+                        <div
+                          key={i}
+                          className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse"
+                          style={{ animationDelay: `${i * 0.15}s` }}
+                        />
+                      ))}
+                    </div>
+                    <p className="text-sm text-gray-500">Generating therapy rationale and preparatory schedule...</p>
+                  </div>
+                ) : aiRecommendation === 'AI_ENHANCEMENT_UNAVAILABLE' ? (
+                  <div className="flex items-center gap-3 py-2">
+                    <span className="text-2xl">⚠️</span>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-700">AI enhancement unavailable</p>
+                      <p className="text-xs text-gray-500">The detailed therapy rationale could not be generated at this time. Please consult our Vaidya for personalized guidance.</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{aiRecommendation}</div>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Toggle Details */}
-          <button 
+          <button
             onClick={() => setShowDetails(!showDetails)}
             className="w-full py-4 bg-ayur-green text-white rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:bg-ayur-green-dark transition-all"
           >
@@ -582,7 +654,7 @@ const PanchakarmaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
           {/* Actions */}
           <div className="flex gap-3 pt-2">
             <button 
-              onClick={() => { setStep(0); setAnswers({}); setResult(null); setShowDetails(false); setAnimatedScore(0); }}
+              onClick={() => { setStep(0); setAnswers({}); setResult(null); setShowDetails(false); setAnimatedScore(0); setAiRecommendation(''); setAiLoading(false); }}
               className="flex-1 py-3 bg-ayur-cream text-ayur-green font-bold rounded-xl hover:bg-ayur-green/10 transition-all"
             >
               Retake Assessment
