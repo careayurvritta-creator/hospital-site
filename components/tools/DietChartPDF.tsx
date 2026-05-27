@@ -73,14 +73,26 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
     let current: { header: string; items: string[] } | null = null;
 
     for (const line of lines) {
-      const t = line.trim();
-      if (t.match(/^[A-Z][A-Z\s&()\-:]+$/) && t.length > 3 && t.length < 80) {
+      let t = line.trim();
+      if (!t) continue;
+
+      // Strip markdown bold markers
+      t = t.replace(/\*\*/g, '').trim();
+
+      // Check if this is a section header (ALL CAPS, 3-80 chars)
+      const isHeader = /^[A-Z][A-Z\s&()\-:]+$/.test(t) && t.length >= 3 && t.length <= 80;
+
+      if (isHeader) {
         if (current) sections.push(current);
         current = { header: t, items: [] };
-      } else if (current && t) {
-        current.items.push(t);
-      } else if (!current && t) {
-        sections.push({ header: 'OVERVIEW', items: [t] });
+      } else if (current) {
+        current.items.push(line.trim());
+      } else {
+        // Content before first section - create OVERVIEW
+        if (!current) {
+          current = { header: 'OVERVIEW', items: [] };
+        }
+        current.items.push(line.trim());
       }
     }
     if (current) sections.push(current);

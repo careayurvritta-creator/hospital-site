@@ -818,14 +818,19 @@ ${matched.length > 0
                 let currentSection: { header: string; items: string[] } | null = null;
 
                 lines.forEach(line => {
-                  const t = line.trim();
-                  if (t.match(/^[A-Z][A-Z\s&()\-:]+$/) && t.length > 3 && t.length < 80) {
+                  let t = line.trim();
+                  if (!t) return;
+
+                  // Strip markdown bold markers for header detection
+                  const stripped = t.replace(/\*\*/g, '').trim();
+                  const isHeader = /^[A-Z][A-Z\s&()\-:]+$/.test(stripped) && stripped.length >= 3 && stripped.length <= 80;
+
+                  if (isHeader) {
                     if (currentSection) sections.push(currentSection);
-                    currentSection = { header: t, items: [] };
+                    currentSection = { header: stripped, items: [] };
                   } else if (currentSection && t) {
                     currentSection.items.push(t);
                   } else if (!currentSection && t) {
-                    // Content before first section
                     if (!sections.length) {
                       sections.push({ header: 'OVERVIEW', items: [t] });
                     }
