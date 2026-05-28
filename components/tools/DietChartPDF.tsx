@@ -19,58 +19,50 @@ interface DietChartPDFProps {
   matchedFiles: { label: string }[];
 }
 
-// ─── Section color/icon config ───
-const SECTION_CONFIG: Record<string, { color: [number, number, number]; icon: string }> = {
-  'EARLY MORNING':    { color: [234, 88, 12],   icon: '\u2600' },  // sun unicode
-  'BREAKFAST':        { color: [180, 120, 0],   icon: '\u25CF' },  // filled circle
-  'MID-MORNING':      { color: [217, 119, 6],   icon: '\u25CF' },
-  'MORNING SNACK':    { color: [217, 119, 6],   icon: '\u25CF' },
-  'LUNCH':            { color: [22, 130, 60],   icon: '\u25CF' },
-  'AFTERNOON':        { color: [22, 130, 60],   icon: '\u25CF' },
-  'EVENING SNACK':    { color: [13, 130, 120],  icon: '\u25CF' },
-  'EVENING':          { color: [13, 130, 120],  icon: '\u25CF' },
-  'DINNER':           { color: [5, 130, 95],    icon: '\u25CF' },
-  'BEDTIME':          { color: [79, 70, 229],   icon: '\u25CF' },
-  'FOODS TO FAVOR':   { color: [21, 120, 55],   icon: '\u2714' },  // checkmark
-  'FOODS TO AVOID':   { color: [200, 35, 35],   icon: '\u2716' },  // cross
-  'BENEFICIAL HERBS': { color: [5, 130, 95],    icon: '\u25CF' },
-  'HERBS':            { color: [5, 130, 95],    icon: '\u25CF' },
-  'LIFESTYLE TIPS':   { color: [30, 90, 210],   icon: '\u25CF' },
-  'LIFESTYLE':        { color: [30, 90, 210],   icon: '\u25CF' },
-  'PRECAUTIONS':      { color: [200, 110, 0],   icon: '\u26A0' },  // warning
-  'IMPORTANT':        { color: [200, 110, 0],   icon: '\u26A0' },
-  'DIET INSTRUCTIONS': { color: [100, 80, 180], icon: '\u25CF' },
-  'OVERVIEW':         { color: [100, 100, 110], icon: '\u25CF' },
+// ─── Section colors (RGB tuples) ───
+const SECTION_COLORS: Record<string, [number, number, number]> = {
+  'EARLY MORNING':    [234, 88, 12],
+  'BREAKFAST':        [180, 120, 0],
+  'MID-MORNING':      [217, 119, 6],
+  'MORNING SNACK':    [217, 119, 6],
+  'LUNCH':            [22, 130, 60],
+  'AFTERNOON':        [22, 130, 60],
+  'EVENING SNACK':    [13, 130, 120],
+  'EVENING':          [13, 130, 120],
+  'DINNER':           [5, 130, 95],
+  'BEDTIME':          [79, 70, 229],
+  'FOODS TO FAVOR':   [21, 120, 55],
+  'FOODS TO AVOID':   [200, 35, 35],
+  'BENEFICIAL HERBS': [5, 130, 95],
+  'HERBS':            [5, 130, 95],
+  'LIFESTYLE TIPS':   [30, 90, 210],
+  'LIFESTYLE':        [30, 90, 210],
+  'PRECAUTIONS':      [200, 110, 0],
+  'IMPORTANT':        [200, 110, 0],
+  'DIET INSTRUCTIONS': [100, 80, 180],
+  'OVERVIEW':         [100, 100, 110],
 };
 
-const MEAL_SECTIONS = new Set([
-  'EARLY MORNING', 'BREAKFAST', 'MID-MORNING', 'MORNING SNACK',
-  'LUNCH', 'AFTERNOON', 'EVENING SNACK', 'EVENING', 'DINNER', 'BEDTIME',
-]);
+const DEFAULT_COLOR: [number, number, number] = [100, 100, 110];
 
+const DANGER_SECTIONS = new Set(['FOODS TO AVOID', 'PRECAUTIONS', 'IMPORTANT']);
 const LIST_SECTIONS = new Set([
   'FOODS TO FAVOR', 'FOODS TO AVOID', 'BENEFICIAL HERBS', 'HERBS',
   'LIFESTYLE TIPS', 'LIFESTYLE', 'PRECAUTIONS', 'IMPORTANT',
 ]);
 
-const DANGER_SECTIONS = new Set(['FOODS TO AVOID', 'PRECAUTIONS', 'IMPORTANT']);
-
-// ─── Text cleaning utilities ───
+// ─── Text cleaning: strip markdown + emojis (jsPDF only supports Latin-1) ───
 function cleanText(s: string): string {
   let t = s;
-  t = t.replace(/\*\*(.*?)\*\*/g, '$1');   // bold
-  t = t.replace(/\*(.*?)\*/g, '$1');         // italic
-  t = t.replace(/^#{1,6}\s*/, '');           // markdown headers
-  t = t.replace(/^[-*•]\s*/, '');            // bullets
-  t = t.replace(/^\d+[\.\)]\s*/, '');        // numbered lists
-  // Strip emoji unicode ranges
-  t = t.replace(/[\u{1F300}-\u{1F9FF}]/gu, '');
-  t = t.replace(/[\u{2600}-\u{26FF}]/gu, '');
-  t = t.replace(/[\u{2700}-\u{27BF}]/gu, '');
-  t = t.replace(/[\u{FE00}-\u{FE0F}]/gu, '');
-  t = t.replace(/[\u{200D}]/gu, '');
-  t = t.replace(/[\u{20E3}]/gu, '');
-  t = t.replace(/[\u{E0020}-\u{E007F}]/gu, '');
+  t = t.replace(/\*\*(.*?)\*\*/g, '$1');    // bold
+  t = t.replace(/\*(.*?)\*/g, '$1');          // italic
+  t = t.replace(/^#{1,6}\s*/, '');            // markdown headers
+  t = t.replace(/^[-*•]\s*/, '');             // bullets
+  t = t.replace(/^\d+[\.\)]\s*/, '');         // numbered lists
+  // Strip ALL non-Latin-1 characters (emojis, special Unicode)
+  t = t.replace(/[^\x00-\xFF]/g, '');
+  // Strip remaining problematic chars
+  t = t.replace(/[\u0080-\u009F]/g, '');      // C1 control chars
   return t.replace(/\s+/g, ' ').trim();
 }
 
@@ -82,9 +74,6 @@ function normalizeHeader(raw: string): string {
   // Normalize common variations
   h = h.replace(/EARLY-MORNING/, 'EARLY MORNING');
   h = h.replace(/MID-MORNING/, 'MID-MORNING');
-  h = h.replace(/EVENING SNACK|EVENING/, 'EVENING SNACK');
-  h = h.replace(/BENEFICIAL HERBS|HERBS/, 'BENEFICIAL HERBS');
-  h = h.replace(/LIFESTYLE TIPS|LIFESTYLE/, 'LIFESTYLE TIPS');
   return h;
 }
 
@@ -114,7 +103,7 @@ function parseSections(text: string): Section[] {
       }
     }
 
-    // Check for ALL CAPS header line (no markdown prefix needed)
+    // Check for ALL CAPS header line
     const stripped = trimmed.replace(/\*\*/g, '').trim();
     const isAllCaps = /^[A-Z][A-Z\s&()\-:]+$/.test(stripped)
       && stripped.length >= 3
@@ -133,7 +122,6 @@ function parseSections(text: string): Section[] {
     if (current) {
       current.items.push(trimmed);
     } else {
-      // No section yet - create OVERVIEW
       current = { header: 'OVERVIEW', items: [trimmed] };
     }
   }
@@ -193,28 +181,20 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
         return false;
       };
 
-      // ─── Draw bullet circle ───
-      const drawBullet = (x: number, yPos: number, r: number, color: [number, number, number]) => {
-        doc.setFillColor(color[0], color[1], color[2]);
-        doc.circle(x, yPos, r, 'F');
-      };
+      // ─── Color helpers ───
+      const setColor = (c: [number, number, number]) => doc.setFillColor(c[0], c[1], c[2]);
 
       // ━━━━━━━━━ HEADER ━━━━━━━━━
-      doc.setFillColor(6, 78, 59);
-      doc.rect(0, 0, W, 48, 'F');
-      doc.setFillColor(4, 108, 78);
-      doc.rect(0, 38, W, 10, 'F');
+      // Main green header
+      setColor([6, 78, 59]);
+      doc.rect(0, 0, W, 44, 'F');
 
-      // Decorative circles
-      doc.setFillColor(4, 120, 87);
-      doc.circle(W - 15, 8, 22, 'F');
-      doc.setFillColor(5, 150, 105);
-      doc.circle(W - 45, 42, 14, 'F');
-      doc.setFillColor(6, 95, 70);
-      doc.circle(8, 42, 10, 'F');
+      // Amber accent bar at bottom of header
+      setColor([245, 158, 11]);
+      doc.rect(0, 44, W, 2, 'F');
 
       // Hospital name
-      doc.setTextColor(200, 230, 210);
+      doc.setTextColor(180, 220, 200);
       doc.setFontSize(9);
       doc.setFont('helvetica', 'normal');
       doc.text('AYURVRITTA AYURVEDA HOSPITAL', M, 14);
@@ -231,7 +211,7 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
       doc.setFont('helvetica', 'normal');
       doc.text('Prepared by Dr. Jinendradutt Sharma  |  Vadodara, Gujarat', M, 36);
 
-      // Date and phone
+      // Date and phone (top right)
       doc.setTextColor(200, 230, 210);
       doc.setFontSize(9);
       const dateStr = new Date().toLocaleDateString('en-IN', {
@@ -242,82 +222,80 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
       doc.text(dateStr, W - M, 14, { align: 'right' });
       doc.text('+91 94266 84047', W - M, 20, { align: 'right' });
 
-      // Amber accent line
-      y = 48;
-      doc.setFillColor(245, 158, 11);
-      doc.rect(0, y, W, 1.5, 'F');
-      y += 6;
+      y = 52;
 
       // ━━━━━━━━━ PATIENT INFO CARD ━━━━━━━━━
-      needPage(50);
+      needPage(52);
 
-      // Card shadow + card bg
-      doc.setFillColor(230, 230, 235);
-      doc.roundedRect(M + 0.5, y + 0.5, CW, 48, 3, 3);
-      doc.fill();
-      doc.setFillColor(255, 255, 255);
+      // Card background
       doc.setDrawColor(220, 225, 230);
       doc.setLineWidth(0.3);
-      doc.roundedRect(M, y, CW, 48, 3, 3);
+      doc.setFillColor(255, 255, 255);
+      doc.roundedRect(M, y, CW, 46, 3, 3);
       doc.fill();
       doc.stroke();
 
+      // Green left accent bar on card
+      setColor([6, 95, 70]);
+      doc.rect(M, y, 4, 46, 'F');
+
       // Avatar circle with initial
-      doc.setFillColor(6, 95, 70);
-      doc.circle(M + 16, y + 16, 11, 'F');
+      setColor([6, 95, 70]);
+      doc.circle(M + 18, y + 16, 10, 'F');
       doc.setTextColor(255, 255, 255);
-      doc.setFontSize(18);
+      doc.setFontSize(16);
       doc.setFont('helvetica', 'bold');
       const initial = cleanText(patientName).charAt(0).toUpperCase() || 'P';
-      doc.text(initial, M + 16, y + 20, { align: 'center' });
+      doc.text(initial, M + 18, y + 20, { align: 'center' });
 
       // Patient name
       doc.setTextColor(6, 78, 59);
-      doc.setFontSize(17);
+      doc.setFontSize(16);
       doc.setFont('helvetica', 'bold');
-      doc.text(cleanText(patientName), M + 32, y + 13);
+      doc.text(cleanText(patientName), M + 33, y + 13);
 
-      // Details
+      // Details line
       doc.setTextColor(100, 110, 120);
       doc.setFontSize(10);
       doc.setFont('helvetica', 'normal');
       const details = cleanText(
         `${patientAge} years | ${patientGender}${patientOccupation ? ' | ' + patientOccupation : ''}`
       );
-      doc.text(details, M + 32, y + 20);
+      doc.text(details, M + 33, y + 20);
 
-      y += 26;
+      y += 25;
 
       // ─── Badges row ───
-      const badges: { label: string; value: string; bg: [number, number, number]; text: [number, number, number] }[] = [];
-      if (prakriti) badges.push({ label: 'PRAKRITI', value: cleanText(prakriti), bg: [230, 248, 235], text: [6, 95, 70] });
-      if (dietaryPref) badges.push({ label: 'DIET', value: cleanText(dietaryPref), bg: [230, 240, 255], text: [30, 70, 200] });
-      if (condition) badges.push({ label: 'CONDITION', value: cleanText(condition), bg: [255, 235, 235], text: [200, 35, 35] });
+      const badges: { label: string; value: string; bg: [number, number, number]; fg: [number, number, number] }[] = [];
+      if (prakriti) badges.push({ label: 'PRAKRITI', value: cleanText(prakriti), bg: [230, 248, 235], fg: [6, 95, 70] });
+      if (dietaryPref) badges.push({ label: 'DIET', value: cleanText(dietaryPref), bg: [230, 240, 255], fg: [30, 70, 200] });
+      if (condition) badges.push({ label: 'CONDITION', value: cleanText(condition), bg: [255, 235, 235], fg: [200, 35, 35] });
 
       if (badges.length > 0) {
-        const bw = (CW - (badges.length - 1) * 5) / badges.length;
+        const gap = 4;
+        const bw = (CW - gap * (badges.length - 1)) / badges.length;
         badges.forEach((b, i) => {
-          const bx = M + i * (bw + 5);
+          const bx = M + i * (bw + gap);
           doc.setFillColor(b.bg[0], b.bg[1], b.bg[2]);
-          doc.roundedRect(bx, y, bw, 16, 2, 2);
+          doc.roundedRect(bx, y, bw, 15, 2, 2);
           doc.fill();
           doc.setTextColor(130, 130, 140);
           doc.setFontSize(7);
           doc.setFont('helvetica', 'bold');
           doc.text(b.label, bx + 4, y + 5);
-          doc.setTextColor(b.text[0], b.text[1], b.text[2]);
-          doc.setFontSize(10);
+          doc.setTextColor(b.fg[0], b.fg[1], b.fg[2]);
+          doc.setFontSize(9);
           doc.setFont('helvetica', 'bold');
-          // Truncate long values
-          const maxValW = bw - 8;
+          // Truncate if too long
+          const maxW = bw - 8;
           let val = b.value;
-          while (doc.getTextWidth(val) > maxValW && val.length > 3) {
-            val = val.slice(0, -1);
-          }
+          while (doc.getTextWidth(val) > maxW && val.length > 3) val = val.slice(0, -1);
           doc.text(val, bx + 4, y + 12);
         });
-        y += 20;
+        y += 19;
       }
+
+      y += 2;
 
       // ─── Allergies warning ───
       if (allergies && allergies.length > 0 && allergies[0] !== 'None') {
@@ -328,12 +306,10 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
         doc.roundedRect(M, y, CW, 9, 2, 2);
         doc.fill();
         doc.stroke();
-        doc.setFillColor(220, 160, 0);
-        doc.triangle(M + 5, y + 2, M + 3, y + 7, M + 7, y + 7, 'F');
         doc.setTextColor(150, 100, 10);
         doc.setFontSize(9);
         doc.setFont('helvetica', 'bold');
-        doc.text('Allergies: ' + cleanText(allergies.join(', ')), M + 10, y + 6);
+        doc.text('[!] Allergies: ' + cleanText(allergies.join(', ')), M + 5, y + 6);
         y += 13;
       }
 
@@ -359,11 +335,9 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
 
       for (const section of sections) {
         const key = section.header;
-        const cfg = SECTION_CONFIG[key] || SECTION_CONFIG['OVERVIEW'];
-        const c = cfg.color;
-        const isMeal = MEAL_SECTIONS.has(key);
-        const isList = LIST_SECTIONS.has(key);
+        const c = SECTION_COLORS[key] || DEFAULT_COLOR;
         const isDanger = DANGER_SECTIONS.has(key);
+        const isList = LIST_SECTIONS.has(key);
 
         // Filter out empty items
         const validItems = section.items
@@ -374,28 +348,22 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
 
         // Section header bar
         needPage(14);
-        doc.setFillColor(c[0], c[1], c[2]);
-        doc.roundedRect(M, y, CW, 11, 2, 2);
+        setColor(c);
+        doc.roundedRect(M, y, CW, 10, 2, 2);
         doc.fill();
 
         // Section title
         doc.setTextColor(255, 255, 255);
-        doc.setFontSize(12);
+        doc.setFontSize(11);
         doc.setFont('helvetica', 'bold');
-        doc.text(key, M + 6, y + 7.5);
+        doc.text(key, M + 5, y + 7);
 
-        // Right indicator dot
-        doc.setFillColor(255, 255, 255);
-        doc.circle(M + CW - 7, y + 5.5, 3, 'F');
-        doc.setFillColor(c[0], c[1], c[2]);
-        doc.circle(M + CW - 7, y + 5.5, 1.5, 'F');
-
-        y += 15;
+        y += 14;
 
         // Section items
         for (const text of validItems) {
           const textLines = doc.splitTextToSize(text, CW - 18);
-          const lineH = 4.5;
+          const lineH = 4.2;
           const itemH = textLines.length * lineH + 5;
 
           needPage(itemH);
@@ -410,45 +378,43 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
           }
           doc.setDrawColor(235, 238, 242);
           doc.setLineWidth(0.2);
-          doc.roundedRect(M + 3, y, CW - 6, itemH, 1.5, 1.5);
+          doc.roundedRect(M + 2, y, CW - 4, itemH, 1.5, 1.5);
           doc.fill();
           doc.stroke();
 
           // Left accent bar
-          doc.setFillColor(c[0], c[1], c[2]);
-          doc.rect(M + 3, y, 2, itemH, 'F');
+          setColor(c);
+          doc.rect(M + 2, y, 2, itemH, 'F');
 
           // Bullet dot
-          drawBullet(M + 10, y + 4.5, 1.2, c);
+          setColor(c);
+          doc.circle(M + 8, y + 4, 1, 'F');
 
           // Text
           doc.setTextColor(50, 55, 65);
-          doc.setFontSize(9.5);
+          doc.setFontSize(9);
           doc.setFont('helvetica', 'normal');
-          doc.text(textLines, M + 14, y + 4.5);
+          doc.text(textLines, M + 12, y + 4);
 
-          y += itemH + 2;
+          y += itemH + 1.5;
         }
 
-        y += 3;
+        y += 2;
       }
 
       // ━━━━━━━━━ DISCLAIMER ━━━━━━━━━
-      needPage(28);
+      needPage(26);
       doc.setFillColor(255, 250, 230);
       doc.setDrawColor(240, 210, 120);
       doc.setLineWidth(0.3);
-      doc.roundedRect(M, y, CW, 24, 2, 2);
+      doc.roundedRect(M, y, CW, 22, 2, 2);
       doc.fill();
       doc.stroke();
-
-      doc.setFillColor(220, 160, 0);
-      doc.triangle(M + 6, y + 4, M + 3, y + 10, M + 9, y + 10, 'F');
 
       doc.setTextColor(140, 90, 10);
       doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
-      doc.text('Important Disclaimer', M + 13, y + 8);
+      doc.text('Important Disclaimer', M + 5, y + 7);
 
       doc.setTextColor(120, 70, 10);
       doc.setFontSize(8);
@@ -457,29 +423,29 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
         'This diet chart is prepared based on Ayurvedic principles and is intended as a general guideline. ' +
         'Please consult with Dr. Jinendradutt Sharma at Ayurvritta Ayurveda Hospital before making significant dietary changes. ' +
         'Individual results may vary based on your unique constitution and health status.';
-      doc.text(doc.splitTextToSize(disclaimer, CW - 14), M + 5, y + 14);
+      doc.text(doc.splitTextToSize(disclaimer, CW - 10), M + 5, y + 13);
 
-      y += 28;
+      y += 26;
 
       // ━━━━━━━━━ FOOTER ━━━━━━━━━
-      needPage(18);
-      doc.setFillColor(6, 78, 59);
-      doc.rect(0, y, W, 16, 'F');
-      doc.setFillColor(245, 158, 11);
+      needPage(16);
+      setColor([6, 78, 59]);
+      doc.rect(0, y, W, 14, 'F');
+      setColor([245, 158, 11]);
       doc.rect(0, y, W, 1, 'F');
 
       doc.setTextColor(255, 255, 255);
-      doc.setFontSize(12);
+      doc.setFontSize(11);
       doc.setFont('helvetica', 'bold');
       doc.text('AYURVRITTA AYURVEDA HOSPITAL', W / 2, y + 6, { align: 'center' });
 
       doc.setTextColor(180, 210, 195);
-      doc.setFontSize(8);
+      doc.setFontSize(7);
       doc.setFont('helvetica', 'normal');
       doc.text(
         'Authentic Ayurvedic Care by Dr. Jinendradutt Sharma  |  Vadodara, Gujarat  |  +91 94266 84047',
         W / 2,
-        y + 12,
+        y + 11,
         { align: 'center' }
       );
 
