@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { aiService } from '../../lib/aiService';
 
 interface Question {
   id: number;
@@ -309,6 +310,7 @@ interface AIAnalysis {
   loading: boolean;
   content: string;
   isLocal: boolean;
+  error: string | null;
 }
 
 const PrakritiTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
@@ -321,7 +323,7 @@ const PrakritiTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   const [animatedV, setAnimatedV] = useState(0);
   const [animatedP, setAnimatedP] = useState(0);
   const [animatedK, setAnimatedK] = useState(0);
-  const [aiAnalysis, setAiAnalysis] = useState<AIAnalysis>({ loading: false, content: '', isLocal: false });
+  const [aiAnalysis, setAiAnalysis] = useState<AIAnalysis>({ loading: false, content: '', isLocal: false, error: null });
   const [aiExpanded, setAiExpanded] = useState(false);
 
   const currentQuestion = questions[step];
@@ -461,24 +463,18 @@ Provide a detailed, personalized analysis in the following format (use plain tex
 Keep the response practical, actionable, and rooted in classical Ayurvedic principles. Be specific to their answers, not generic.`;
 
     try {
-      const response = await fetch('/api/nvidia', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'meta/llama-3.1-8b-instruct',
-          messages: [{ role: 'user', content: prompt }],
-          temperature: 0.7,
-          max_tokens: 2000,
-        }),
+      const systemInstruction = "You are an expert Ayurvedic physician specializing in Prakriti (constitutional) analysis. Provide personalized health recommendations based on the patient's dosha profile. Use classical Ayurvedic principles from Charaka Samhita and Ashtanga Hridayam. Be specific and actionable.";
+
+      const generatePromise = aiService.generate(prompt, systemInstruction, {
+        temperature: 0.7,
+        max_tokens: 2000,
       });
+      const timeoutPromise = new Promise<string>((_, reject) =>
+        setTimeout(() => reject(new Error('AI generation timed out')), 60000)
+      );
 
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
-      }
+      const content = await Promise.race([generatePromise, timeoutPromise]);
 
-      const data = await response.json();
-      const content = data.choices?.[0]?.message?.content || '';
-      
       if (content) {
         setAiAnalysis({ loading: false, content, isLocal: false });
       } else {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from '../components/Layout';
-import { ArrowRight, CheckCircle2, Leaf, Activity, Droplet, HeartPulse, ShieldCheck, Stethoscope, Brain, Award as AwardIcon, Sparkles } from 'lucide-react';
+import { ArrowRight, Leaf, Activity, Droplet, HeartPulse, ShieldCheck, Stethoscope, Brain, Award as AwardIcon, Sparkles } from 'lucide-react';
 import TrustBadges from '../components/TrustBadges';
 import TestimonialsCarousel from '../components/TestimonialsCarousel';
 import FAQ from '../components/FAQ';

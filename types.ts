@@ -45,32 +45,6 @@ export interface Testimonial {
   rating: number;
 }
 
-export interface QuestionOption {
-  label: string;
-  value?: string | number; // Made optional to support Prakriti questions
-  dosha?: 'Vata' | 'Pitta' | 'Kapha'; // For Prakriti
-  weight?: number; // For Risk scores
-}
-
-export interface Question {
-  id: number;
-  text: string;
-  options: QuestionOption[];
-}
-
-export interface QuestionnaireSection {
-  id: string;
-  title: string;
-  description?: string;
-  questions: Question[];
-}
-
-export interface DoshaScore {
-  name: string;
-  score: number;
-  fill: string;
-}
-
 export interface Advice {
   diet: string[];
   lifestyle: string[];

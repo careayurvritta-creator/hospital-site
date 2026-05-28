@@ -268,12 +268,10 @@ class AIService {
   /**
    * Get current provider status
    */
-  getStatus(): { nvidia: boolean; google: boolean; preferred: AIProvider; error: string | null } {
+  getStatus(): { nvidia: boolean; error: string | null } {
     this.ensureInitialized();
     return {
       nvidia: !!this.nvidiaClient,
-      google: false,
-      preferred: 'nvidia',
       error: this.initError,
     };
   }
@@ -285,17 +283,6 @@ class AIService {
     console.log('[AI Service Debug] Status:', this.getStatus());
     console.log('[AI Service Debug] Auth: Vercel serverless proxy (NVIDIA_API_KEY set on server)');
   }
-}
-
-function getFallbackMessage(type: 'text' | 'structured' | 'document' | 'image'): string {
-  const messages = {
-    text: 'AI service is temporarily unavailable. Please try again in a moment.',
-    structured: 'Unable to generate personalized recommendations right now. Our team can still help you with diet planning - please contact our Ayurvedic physicians.',
-    document: 'Document analysis is currently unavailable. Our Insurance Desk can help verify your policy manually. Contact: +91 94266 84047',
-    image: 'Image generation is temporarily unavailable. Your Prakriti assessment is complete - please consult our doctors for detailed recommendations.',
-  };
-  
-  return messages[type];
 }
 
 // Create singleton instance safely

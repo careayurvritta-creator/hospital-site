@@ -244,48 +244,48 @@ Health Condition: ${complaintText || 'General wellness and preventive care'}
 ${knowledgeContent ? `IMPORTANT: Use ONLY the following knowledge base as your primary reference. Do NOT reference other conditions:
 ${knowledgeContent}
 
-` : ''}Generate a complete diet plan with ALL of the following sections. Write each section header in ALL CAPS on its own line, followed by specific recommendations:
+` : ''}Generate a complete diet plan with ALL of the following sections. Use markdown headers (### SECTION NAME) for each section, followed by specific recommendations:
 
-EARLY MORNING
+### EARLY MORNING
 (Include 1-2 items with timing, e.g. "6:00 AM - Warm water with lemon and honey")
 
-BREAKFAST
+### BREAKFAST
 (Include 3-4 food items with portions and Ayurvedic reasoning)
 
-MID-MORNING
+### MID-MORNING
 (Include 1-2 snacks or drinks)
 
-LUNCH
+### LUNCH
 (Include 4-5 items - this should be the largest meal. Specify rice/roti, dal, vegetables, salad, buttermilk)
 
-EVENING SNACK
+### EVENING SNACK
 (Include 1-2 items with tea or drinks)
 
-DINNER
+### DINNER
 (Include 3-4 items - lighter than lunch, specify timing before 8 PM)
 
-BEDTIME
+### BEDTIME
 (Include 1 item - warm milk with herbs or similar)
 
-FOODS TO FAVOR
+### FOODS TO FAVOR
 (List 8-10 specific foods beneficial for this condition with brief reasoning)
 
-FOODS TO AVOID
+### FOODS TO AVOID
 (List 6-8 specific foods to avoid with reasoning)
 
-BENEFICIAL HERBS
+### BENEFICIAL HERBS
 (List 5 Ayurvedic herbs with Sanskrit name, dosage, and how to use)
 
-LIFESTYLE TIPS
+### LIFESTYLE TIPS
 (List 5-6 daily routine recommendations including wake time, exercise, meal timing)
 
-PRECAUTIONS
+### PRECAUTIONS
 (List 3-4 important precautions specific to this condition)
 
 Make all recommendations practical, using common Indian food names. Include specific quantities where possible. Root all advice in classical Ayurvedic principles from Charaka Samhita and Ashtanga Hridayam.`;
 
     try {
-      const systemInstruction = 'You are an Ayurvedic dietitian at Ayurvritta Ayurveda Hospital, Vadodara. Create practical, personalized diet plans rooted in classical Ayurvedic principles. Use Indian food names. Format sections in ALL CAPS on separate lines.';
+      const systemInstruction = 'You are an Ayurvedic dietitian at Ayurvritta Ayurveda Hospital, Vadodara. Create practical, personalized diet plans rooted in classical Ayurvedic principles. Use Indian food names. Format each section with a markdown header (### SECTION NAME) on its own line.';
 
       // Add timeout wrapper (matching Insurance page pattern)
       const generatePromise = aiService.generate(prompt, systemInstruction, {
@@ -798,19 +798,19 @@ ${matched.length > 0
             <div className="bg-white rounded-3xl shadow-card border border-gray-100 overflow-hidden mb-4">
               {/* Section icon map */}
               {(() => {
-                const sectionIcons: Record<string, { icon: string; color: string; bg: string }> = {
-                  'EARLY MORNING': { icon: '🌅', color: 'text-orange-600', bg: 'bg-orange-50' },
-                  'BREAKFAST': { icon: '🥣', color: 'text-yellow-600', bg: 'bg-yellow-50' },
-                  'MID-MORNING': { icon: '⏰', color: 'text-amber-600', bg: 'bg-amber-50' },
-                  'LUNCH': { icon: '🍛', color: 'text-green-600', bg: 'bg-green-50' },
-                  'EVENING SNACK': { icon: '🍵', color: 'text-teal-600', bg: 'bg-teal-50' },
-                  'DINNER': { icon: '🥘', color: 'text-emerald-600', bg: 'bg-emerald-50' },
-                  'BEDTIME': { icon: '🌙', color: 'text-indigo-600', bg: 'bg-indigo-50' },
-                  'FOODS TO FAVOR': { icon: '✅', color: 'text-green-600', bg: 'bg-green-50' },
-                  'FOODS TO AVOID': { icon: '🚫', color: 'text-red-600', bg: 'bg-red-50' },
-                  'BENEFICIAL HERBS': { icon: '🌿', color: 'text-emerald-600', bg: 'bg-emerald-50' },
-                  'LIFESTYLE TIPS': { icon: '💡', color: 'text-blue-600', bg: 'bg-blue-50' },
-                  'PRECAUTIONS': { icon: '⚠️', color: 'text-amber-600', bg: 'bg-amber-50' },
+                const sectionIcons: Record<string, { icon: string; color: string; bg: string; border: string }> = {
+                  'EARLY MORNING': { icon: '🌅', color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-200' },
+                  'BREAKFAST': { icon: '🥣', color: 'text-yellow-600', bg: 'bg-yellow-50', border: 'border-yellow-200' },
+                  'MID-MORNING': { icon: '⏰', color: 'text-amber-600', bg: 'bg-amber-50', border: 'border-amber-200' },
+                  'LUNCH': { icon: '🍛', color: 'text-green-600', bg: 'bg-green-50', border: 'border-green-200' },
+                  'EVENING SNACK': { icon: '🍵', color: 'text-teal-600', bg: 'bg-teal-50', border: 'border-teal-200' },
+                  'DINNER': { icon: '🥘', color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-200' },
+                  'BEDTIME': { icon: '🌙', color: 'text-indigo-600', bg: 'bg-indigo-50', border: 'border-indigo-200' },
+                  'FOODS TO FAVOR': { icon: '✅', color: 'text-green-600', bg: 'bg-green-50', border: 'border-green-200' },
+                  'FOODS TO AVOID': { icon: '🚫', color: 'text-red-600', bg: 'bg-red-50', border: 'border-red-200' },
+                  'BENEFICIAL HERBS': { icon: '🌿', color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-200' },
+                  'LIFESTYLE TIPS': { icon: '💡', color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-200' },
+                  'PRECAUTIONS': { icon: '⚠️', color: 'text-amber-600', bg: 'bg-amber-50', border: 'border-amber-200' },
                 };
 
                 const lines = aiResult.split('\n');
@@ -821,11 +821,22 @@ ${matched.length > 0
                   let t = line.trim();
                   if (!t) return;
 
+                  // Check for markdown headers: ### HEADER or ## HEADER
+                  const mdMatch = t.match(/^#{1,6}\s+(.+)/);
+                  if (mdMatch) {
+                    const header = mdMatch[1].replace(/\*\*/g, '').trim().toUpperCase();
+                    if (header.length >= 3 && header.length <= 80) {
+                      if (currentSection) sections.push(currentSection);
+                      currentSection = { header, items: [] };
+                      return;
+                    }
+                  }
+
                   // Strip markdown bold markers for header detection
                   const stripped = t.replace(/\*\*/g, '').trim();
-                  const isHeader = /^[A-Z][A-Z\s&()\-:]+$/.test(stripped) && stripped.length >= 3 && stripped.length <= 80;
+                  const isAllCaps = /^[A-Z][A-Z\s&()\-:]+$/.test(stripped) && stripped.length >= 3 && stripped.length <= 80 && !stripped.includes('.') && stripped.split(' ').length <= 8;
 
-                  if (isHeader) {
+                  if (isAllCaps) {
                     if (currentSection) sections.push(currentSection);
                     currentSection = { header: stripped, items: [] };
                   } else if (currentSection && t) {
@@ -842,12 +853,12 @@ ${matched.length > 0
                   <div className="p-5 md:p-6">
                     {sections.map((section, sIdx) => {
                       const sectionKey = section.header.replace(/[^A-Z\s]/g, '').trim();
-                      const meta = sectionIcons[sectionKey] || { icon: '📌', color: 'text-gray-600', bg: 'bg-gray-50' };
+                      const meta = sectionIcons[sectionKey] || { icon: '📌', color: 'text-gray-600', bg: 'bg-gray-50', border: 'border-gray-200' };
 
                       return (
                         <div key={sIdx} className="mb-6 last:mb-0" style={{ animationDelay: `${sIdx * 100}ms` }}>
                           {/* Section header with icon */}
-                          <div className={`${meta.bg} rounded-2xl p-4 mb-3 border border-${meta.color.replace('text-', '')}/20`}>
+                          <div className={`${meta.bg} rounded-2xl p-4 mb-3 border ${meta.border}`}>
                             <div className="flex items-center gap-3">
                               <span className="text-2xl">{meta.icon}</span>
                               <h3 className={`font-serif font-bold ${meta.color} text-lg m-0`}>{section.header}</h3>
