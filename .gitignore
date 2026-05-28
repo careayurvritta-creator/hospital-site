@@ -25,4 +25,13 @@ dist-ssr
 
 # Agent/AI tool directories
 .agent/
+.aionrs/
 .gemini/
+.opencode/
+
+# Build output
+dist/
+
+# Generated files
+*.pdf
+scripts/

@@ -29,7 +29,7 @@ const ChatBot: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [chatSession, setChatSession] = useState<any>(null);
-  const [aiStatus, setAiStatus] = useState<{ nvidia: boolean; google: boolean; error: string | null } | null>(null);
+  const [aiStatus, setAiStatus] = useState<{ nvidia: boolean; error: string | null } | null>(null);
   const [showAiDebug, setShowAiDebug] = useState(false);
 
   useEffect(() => {
@@ -249,7 +249,7 @@ You understand:
                 className="p-1.5 hover:bg-white/10 rounded-full transition-colors"
                 title="AI Service Status"
               >
-                {aiStatus.nvidia || aiStatus.google ? (
+                {aiStatus.nvidia ? (
                   <CheckCircle2 size={16} className="text-green-400" />
                 ) : (
                   <AlertCircle size={16} className="text-red-400" />
@@ -271,8 +271,6 @@ You understand:
             </div>
             <div className="space-y-1">
               <div>Nvidia NIM: {aiStatus.nvidia ? '✅ Connected' : '❌ Not Available'}</div>
-              <div>Google Gemini: {aiStatus.google ? '✅ Connected' : '❌ Not Available'}</div>
-              <div>Preferred: {aiStatus.preferred}</div>
               {aiStatus.error && <div className="text-red-400">Error: {aiStatus.error}</div>}
             </div>
           </div>

@@ -31,7 +31,6 @@ export default defineConfig(({ mode }) => {
           manualChunks: (id) => {
             if (id.includes('node_modules')) {
               if (id.includes('recharts') || id.includes('d3-')) return 'vendor-charts';
-              if (id.includes('@google/generative-ai') || id.includes('@google/genai')) return 'vendor-ai';
             }
           },
         },

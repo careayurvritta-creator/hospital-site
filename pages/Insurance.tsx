@@ -3,7 +3,7 @@ import {
     ShieldCheck, FileText, CheckCircle2, Upload, AlertCircle,
     Loader2, Search, Stethoscope, FileCheck, Building2,
     CreditCard, ChevronDown, ChevronUp, X, Check,
-    ArrowRight, Landmark, Filter, Heart, Briefcase, Sparkles, Phone, Calendar, Bug
+    ArrowRight, Landmark, Filter, Sparkles, Phone, Calendar, Bug
 } from 'lucide-react';
 import { INSURANCE_PARTNERS } from '../constants';
 import { NavLink } from '../components/Layout';
@@ -11,6 +11,17 @@ import { useIntersectionObserver } from '../hooks';
 import { captureError } from '../analytics/errorTracker';
 import { aiService } from '../lib/aiService';
 import { extractTextFromFile } from '../lib/textExtractor';
+
+function sanitizeAndFormat(text: string): string {
+  let html = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/### (.*?)\n/g, '<h4 class="text-lg font-bold mt-6 mb-3 border-l-4 border-ayur-accent pl-3">$1</h4>')
+    .replace(/\* (.*?)\n/g, '<li class="ml-4 list-disc marker:text-ayur-accent mb-1">$1</li>');
+  return html;
+}
 
 const FAQS = [
    {
@@ -394,9 +405,7 @@ We'll check your coverage and help with cashless pre-authorization within minute
                          
                          {showDebug && debugInfo && (
                             <div className="mb-4 p-3 bg-gray-900 text-green-400 text-xs rounded-lg font-mono">
-                               <div>Nvidia: {debugInfo.nvidia ? '✅' : '❌'}</div>
-                               <div>Google: {debugInfo.google ? '✅' : '❌'}</div>
-                               <div>Provider: {debugInfo.preferred}</div>
+                               <div>Nvidia NIM: {debugInfo.nvidia ? '✅ Connected' : '❌ Not Available'}</div>
                                {debugInfo.error && <div className="text-red-400">Error: {debugInfo.error}</div>}
                             </div>
                          )}
@@ -487,10 +496,7 @@ We'll check your coverage and help with cashless pre-authorization within minute
                         <div className="flex-1 animate-fadeIn bg-gray-50 rounded-2xl p-6 border border-gray-100 overflow-y-auto max-h-[400px]">
                            <div className="prose prose-sm prose-headings:text-ayur-green prose-p:text-gray-600 prose-li:text-gray-600 prose-strong:text-ayur-green max-w-none">
                               <div dangerouslySetInnerHTML={{
-                                 __html: analysisResult
-                                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                                    .replace(/### (.*?)\n/g, '<h4 class="text-lg font-bold mt-6 mb-3 border-l-4 border-ayur-accent pl-3">$1</h4>')
-                                    .replace(/\* (.*?)\n/g, '<li class="ml-4 list-disc marker:text-ayur-accent mb-1">$1</li>')
+                                 __html: sanitizeAndFormat(analysisResult)
                               }} />
                            </div>
                            <div className="mt-8 p-4 bg-amber-50 rounded-xl border border-amber-100 flex gap-3 items-start">
