@@ -9,6 +9,175 @@ const knowledgeModules = import.meta.glob('/knowledge/diet-charts/*.md', {
   import: 'default',
 }) as Record<string, string>;
 
+// ═══════════════════════════════════════════════════════════════
+// AYURVEDIC DIETETIC PRINCIPLES (Ahara Vidhi Visheshayatana)
+// From Charaka Samhita Vimanasthana 1.24 and Ashtanga Hridayam
+// ═══════════════════════════════════════════════════════════════
+
+interface ValidationWarning {
+  section: string;
+  issue: string;
+  severity: 'error' | 'warning';
+}
+
+const VIRUDDHA_PAIRS: { foods: string[]; reason: string }[] = [
+  { foods: ['milk', 'fish', 'matsya'], reason: 'Milk + fish (Matsya-Mahisha) produces skin diseases and toxin accumulation' },
+  { foods: ['milk', 'fruits', 'banana'], reason: 'Milk + banana or sour fruits creates Ama and digestive disturbance' },
+  { foods: ['milk', 'meat', 'chicken'], reason: 'Milk + meat dishes cause Viruddha - blocked channels' },
+  { foods: ['eggs', 'milk', 'dairy'], reason: 'Eggs + milk combination is heavy and incompatible' },
+  { foods: ['curd', 'hot water', 'heat'], reason: 'Curd (Dadhi) should never be heated - causes toxic accumulation' },
+  { foods: ['curd', 'night', 'evening'], reason: 'Curd at night produces Kapha and Ama - must be avoided after sunset' },
+  { foods: ['ghee', 'honey', 'equal'], reason: 'Equal quantities of ghee + honey is Viruddha (opposite viryas cancel each other)' },
+  { foods: ['horsegram', 'black gram', 'kulatha'], reason: 'Horsegram (Kulatha) + black gram (Masha) is heavy and toxic' },
+  { foods: ['sesame oil', 'tamarind', 'fish'], reason: 'Tila Taila + fish + tamarind together causes skin disorders' },
+  { foods: ['radish', 'jaggery', 'pittha'], reason: 'Radish (Moolaka) + jaggery increases Pitta and causes hemorrhage' },
+  { foods: ['lemon', 'cucumber', 'tomato'], reason: 'Citrus fruits with cucumber/tomato creates conflicting digestive signals' },
+  { foods: ['sprouts', 'milk'], reason: 'Sprouts (Nishota) + milk creates Ama and toxic accumulation' },
+  { foods: ['karalla', 'buttermilk', 'butter'], reason: 'Bitter gourd (Karalla) + buttermilk is Viruddha' },
+  { foods: ['pomegranate', 'antelope meat'], reason: 'Pomegranate + antelope meat causes digestive impairment' },
+  { foods: ['garlic', 'ash gourd', 'pumpkin'], reason: 'Lashuna (garlic) + Kushmanda (ash gourd) conflicting properties' },
+];
+
+const NIGHT_SHADOW_FOODS = [
+  'curd', 'buttermilk', 'lassi', 'yogurt', 'dahi',
+  'butter', 'paneer', 'cottage cheese', 'cold drinks',
+  'ice cream', 'frozen', 'refrigerated'
+];
+
+const MILK_INCOMPATIBLE = [
+  'fish', 'matsya', 'egg', 'meat', 'chicken', 'banana',
+  'sour', 'citrus', 'tamarind', 'mango', 'pineapple',
+  'jackfruit', 'sprouts', 'kitchree', 'khichdi with curd'
+];
+
+const FORBIDDEN_COMBINATIONS = [
+  { combo: 'milk and fish', reason: 'Most potent Viruddha - causes skin diseases, eczema, psoriasis' },
+  { combo: 'milk and banana', reason: 'Creates Ama, mucous, congestion, cough' },
+  { combo: 'curd at night', reason: 'Creates Kapha, Ama, respiratory issues - violates Ajirna rules' },
+  { combo: 'ghee and honey equal parts', reason: 'Opposite potencies neutralize - neither nourishes nor cleanses' },
+  { combo: 'hot water after honey', reason: 'Honey is Sheeta (cold) - heating destroys its properties' },
+  { combo: 'egg and milk together', reason: 'Heavy, incompatible, clogs Srotas' },
+];
+
+function checkViruddha(text: string): ValidationWarning[] {
+  const warnings: ValidationWarning[] = [];
+  const lower = text.toLowerCase();
+
+  for (const pair of FORBIDDEN_COMBINATIONS) {
+    if (pair.combo.includes(' and ')) {
+      const [a, b] = pair.combo.split(' and ');
+      if (lower.includes(a) && lower.includes(b)) {
+        warnings.push({
+          section: 'VIRUDDHA CHECK',
+          issue: `FORBIDDEN COMBINATION: "${pair.combo}" - ${pair.reason}`,
+          severity: 'error',
+        });
+      }
+    }
+  }
+
+  for (const food of MILK_INCOMPATIBLE) {
+    if (lower.includes('milk') && lower.includes(food)) {
+      if (!(food === 'fish' && lower.includes('milkfish'))) {
+        warnings.push({
+          section: 'VIRUDDHA CHECK',
+          issue: `Milk + ${food} is Viruddha Ahara - causes Ama and Srotorodha (channel blockage)`,
+          severity: 'error',
+        });
+      }
+    }
+  }
+
+  for (const dairy of NIGHT_SHADOW_FOODS) {
+    if (lower.includes(dairy) && (lower.includes('night') || lower.includes('dinner') || lower.includes('bedtime') || lower.includes('8 pm') || lower.includes('after 7'))) {
+      warnings.push({
+        section: 'NIGHT DIET RULE',
+        issue: `${dairy} at night violates Ahara Vidhi - Dadhi at Ratrikaal causes Kapha and Ama`,
+        severity: 'error',
+      });
+    }
+  }
+
+  return warnings;
+}
+
+function checkAharaVidhi(text: string, prakriti: string): ValidationWarning[] {
+  const warnings: ValidationWarning[] = [];
+  const lower = text.toLowerCase();
+
+  if (prakriti.toLowerCase().includes('pitta')) {
+    if (lower.includes('chilli') || lower.includes('chili') || lower.includes('red pepper') || lower.includes('hot spices')) {
+      warnings.push({
+        section: 'DOSHA VIOLATION',
+        issue: 'Pitta prakriti should avoid Ushna (hot) spices - will aggravate Pitta',
+        severity: 'warning',
+      });
+    }
+  }
+
+  if (prakriti.toLowerCase().includes('vata')) {
+    if (lower.includes('salad') && !lower.includes('warm')) {
+      warnings.push({
+        section: 'DOSHA VIOLATION',
+        issue: 'Vata prakriti should prefer warm, unctuous foods - raw salads aggravate Vata',
+        severity: 'warning',
+      });
+    }
+  }
+
+  if (prakriti.toLowerCase().includes('kapha')) {
+    if (lower.includes('fried') || lower.includes('oily') || lower.includes('ghee') && lower.includes('excess')) {
+      warnings.push({
+        section: 'DOSHA VIOLATION',
+        issue: 'Kapha prakriti should avoid Guru (heavy), Snigdha (oily) foods - will increase Kapha',
+        severity: 'warning',
+      });
+    }
+  }
+
+  if (!lower.includes('water') && !lower.includes('drink') && !lower.includes('liquid')) {
+    warnings.push({
+      section: 'HYDRATION',
+      issue: 'Diet plan does not specify water intake - proper hydration is essential per Ahara Vidhi (Usna usnodakam)',
+      severity: 'warning',
+    });
+  }
+
+  return warnings;
+}
+
+function validateDietChart(aiResult: string, prakriti: string, condition: string): ValidationWarning[] {
+  const all: ValidationWarning[] = [];
+  all.push(...checkViruddha(aiResult));
+  all.push(...checkAharaVidhi(aiResult, prakriti));
+  return all;
+}
+
+function formatValidationWarnings(warnings: ValidationWarning[]): string {
+  if (warnings.length === 0) return '';
+  const errors = warnings.filter(w => w.severity === 'error');
+  const warns = warnings.filter(w => w.severity === 'warning');
+
+  let text = '\n\n---\n\n## AI SELF-VALIDATION REPORT\n\n';
+
+  if (errors.length > 0) {
+    text += '### Critical Viruddha Ahara Violations (Must Fix Before Use)\n';
+    errors.forEach(e => {
+      text += `- **[BLOCKED]** ${e.section}: ${e.issue}\n`;
+    });
+    text += '\n*These recommendations violate classical Ayurvedic dietary rules. Please regenerate or consult Dr. Sharma.*\n';
+  }
+
+  if (warns.length > 0) {
+    text += '### Dosha-Specific Warnings\n';
+    warns.forEach(w => {
+      text += `- [Note] ${w.section}: ${w.issue}\n`;
+    });
+  }
+
+  return text;
+}
+
 // ─── Build searchable index ───
 interface ConditionEntry {
   id: string;
@@ -232,7 +401,50 @@ const DietChartTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       .map(e => `${e.label}:\n${(knowledgeModules[e.rawPath] || '').substring(0, 800)}`)
       .join('\n\n');
 
-    const prompt = `Create a detailed, personalized Ayurvedic diet plan for this patient at Ayurvritta Ayurveda Hospital, Vadodara:
+    const prompt = `You are an Ayurvedic dietitian at Ayurvritta Ayurveda Hospital, Vadodara. Generate ONLY the diet chart sections listed below. Follow ALL classical Ayurvedic rules STRICTLY.
+
+CRITICAL RULES - VIOLATION OF THESE RENDERS THE DIET CHART USELESS OR HARMFUL:
+
+1. **VIRUDDHA AHARA (INCOMPATIBLE FOODS) - ABSOLUTE FORBIDDEN:**
+   - Milk + Fish (Matsya-Mahisha) = severe skin disease, Ama
+   - Milk + Banana or any sour fruit = Ama, mucous
+   - Curd (Dadhi) at night = Kapha, respiratory disease (NEVER recommend curd after sunset)
+   - Ghee + Honey in equal parts = neutralizes both properties
+   - Egg + Milk together = Viruddha, clogs channels
+   - Hot water immediately after honey = destroys honey's properties
+   - Horsegram + Black gram together = toxic combination
+
+2. **AHARA VIDHI VISHESHAYATANA (8 FACTORS OF DIET - CHARAKA VIMANA 1.24):**
+   - Prakriti (nature): Foods must match patient's Prakriti
+   - Karana (processing): Cook method changes properties - roasting is lighter than frying
+   - Samyoga (combination): Never combine incompatible substances
+   - Rashi (quantity): Moderation - proper quantity is key to digestion
+   - Desha (habitat): Vadodara is Matsya desha (coastal) - favor light, warm foods
+   - Kala (time/season): July = Varsha Ritu - weak Agni, favor light digestibles
+   - Upayogasamstha (rules): Eat sitting upright, with mindfulness, warm food
+   - Upabhogahara (eater): Consider patient's strength, age, digestive capacity
+
+3. **DOSHA-SPECIFIC PATHYA (WHOLESOME) FOR ${inputs.prakriti || 'TRIDOSHA'} PRAKRITI:**
+   - Vata: Warm, unctuous, nourishing, moist - avoid raw/cold/dry
+   - Pitta: Cool, mildly bitter - avoid hot/spicy/sour/pungent
+   - Kapha: Light, dry, warm, stimulating - avoid heavy/oily/sweet/cold
+
+4. **RITU (SEASON) AWARENESS:** Current: Varsha (Monsoon, July)
+   - Weak Agni in monsoon - recommend LIGHT, easily digestible foods
+   - Avoid heavy grains, oily foods, buttermilk in evening
+
+5. **AGNI (DIGESTIVE FIRE) RULES:**
+   - Breakfast: Light, warm, at 7-8 AM when Agni peaks
+   - Lunch: Largest meal at 12-1 PM when Pitta-Agni is strongest
+   - Dinner: Light, at least 3 hours before sleep, before 8 PM
+
+6. **ABSOLUTE PROHIBITIONS IN OUTPUT:**
+   - NEVER include "milk and fish together" or "banana milk shake"
+   - NEVER include "curd at night" or "buttermilk after sunset"
+   - NEVER include "ghee and honey in equal quantities"
+   - NEVER include "ice cold drinks" with meals
+   - NEVER include "raw salad" for Vata prakriti without warm preparation
+   - NEVER include incompatible food pairs in same meal suggestion
 
 Patient: ${inputs.patient.name}
 Age: ${inputs.patient.age} | Gender: ${inputs.patient.gender}${inputs.patient.occupation ? ` | Occupation: ${inputs.patient.occupation}` : ''}
@@ -241,51 +453,57 @@ Dietary Preference: ${inputs.dietaryPref || 'Vegetarian'}
 ${inputs.allergies.length > 0 ? `Allergies/Restrictions: ${inputs.allergies.join(', ')}` : ''}
 Health Condition: ${complaintText || 'General wellness and preventive care'}
 
-${knowledgeContent ? `IMPORTANT: Use ONLY the following knowledge base as your primary reference. Do NOT reference other conditions:
+${knowledgeContent ? `MATCHED KNOWLEDGE FILES (use EXCLUSIVELY as reference, do not add external knowledge):
 ${knowledgeContent}
 
-` : ''}Generate a complete diet plan with ALL of the following sections. Use markdown headers (### SECTION NAME) for each section, followed by specific recommendations:
+` : ''}Generate a complete diet plan with ALL of the following sections. Use markdown headers (### SECTION NAME):
 
 ### EARLY MORNING
-(Include 1-2 items with timing, e.g. "6:00 AM - Warm water with lemon and honey")
+(6-7 AM: Warm water with herbs, e.g. "6:00 AM - Warm water with 1 tsp Jeera + 5 Tulsi leaves")
 
 ### BREAKFAST
-(Include 3-4 food items with portions and Ayurvedic reasoning)
+(7-8 AM: Light, warm, easily digestible - specify timing and portion)
 
 ### MID-MORNING
-(Include 1-2 snacks or drinks)
+(10-11 AM: Light snack or fruit)
 
 ### LUNCH
-(Include 4-5 items - this should be the largest meal. Specify rice/roti, dal, vegetables, salad, buttermilk)
+(12:30-1:30 PM: MAIN MEAL - largest, when Agni is peak. Rice, dal, vegetables, salad, buttermilk)
 
 ### EVENING SNACK
-(Include 1-2 items with tea or drinks)
+(4-5 PM: Light tea or snack - AVOID curd/buttermilk at this time)
 
 ### DINNER
-(Include 3-4 items - lighter than lunch, specify timing before 8 PM)
+(7-8 PM: LIGHT MEAL, at least 3 hours before sleep. Avoid heavy foods.)
 
 ### BEDTIME
-(Include 1 item - warm milk with herbs or similar)
+(9-10 PM: Warm milk with herbs ONLY if digestive, otherwise plain warm water)
 
 ### FOODS TO FAVOR
-(List 8-10 specific foods beneficial for this condition with brief reasoning)
+(List 8-10 foods SPECIFIC to this condition with Ayurvedic reasoning)
 
 ### FOODS TO AVOID
-(List 6-8 specific foods to avoid with reasoning)
+(List 6-8 foods to avoid with reasoning - include what makes them Apathya)
 
 ### BENEFICIAL HERBS
-(List 5 Ayurvedic herbs with Sanskrit name, dosage, and how to use)
+(List 5 herbs with Sanskrit name, dosage, Anupana (vehicle))
 
 ### LIFESTYLE TIPS
-(List 5-6 daily routine recommendations including wake time, exercise, meal timing)
+(List 5-6 including Dinacharya, meal timings, exercise timing)
 
 ### PRECAUTIONS
-(List 3-4 important precautions specific to this condition)
+(List 3-4 condition-specific precautions)
 
-Make all recommendations practical, using common Indian food names. Include specific quantities where possible. Root all advice in classical Ayurvedic principles from Charaka Samhita and Ashtanga Hridayam.`;
+**FORMAT RULES:**
+- Use common INDIAN food names (roti, dal, rice, sabzi, buttermilk as chaas)
+- Always specify quantities (e.g., "1 cup", "2 rotis", "100g")
+- Always specify timing (e.g., "7:00 AM", "12:30 PM")
+- Mark incompatible food combinations clearly in FOODS TO AVOID
+
+Root all advice in Charaka Samhita, Ashtanga Hridayam, and matched knowledge files. Do NOT add knowledge not present in the matched files.`;
 
     try {
-      const systemInstruction = 'You are an Ayurvedic dietitian at Ayurvritta Ayurveda Hospital, Vadodara. Create practical, personalized diet plans rooted in classical Ayurvedic principles. Use Indian food names. Format each section with a markdown header (### SECTION NAME) on its own line.';
+      const systemInstruction = 'You are an Ayurvedic dietitian at Ayurvritta Ayurveda Hospital, Vadodara. Follow classical Ayurvedic dietetics strictly. Use ONLY information from provided knowledge files. Never hallucinate. Adhere to Charaka Samhita and Ashtanga Hridayam. Avoid ALL Viruddha Ahara (incompatible food combinations). Format sections with markdown headers.';
 
       // Add timeout wrapper (matching Insurance page pattern)
       const generatePromise = aiService.generate(prompt, systemInstruction, {
@@ -299,7 +517,11 @@ Make all recommendations practical, using common Indian food names. Include spec
       const content = await Promise.race([generatePromise, timeoutPromise]);
 
       if (content) {
-        setAiResult(content);
+        // Run Ayurvedic validation on generated diet chart
+        const validationWarnings = validateDietChart(content, inputs.prakriti, complaintText);
+        const validationNote = formatValidationWarnings(validationWarnings);
+        const validatedContent = validationNote ? content + validationNote : content;
+        setAiResult(validatedContent);
         setIsLocal(false);
         goToPhase('result');
       } else {
