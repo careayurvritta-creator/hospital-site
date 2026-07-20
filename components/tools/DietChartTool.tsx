@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { aiService } from '../../lib/aiService';
 import DietChartPDF from './DietChartPDF';
+import DietChartRenderer from './DietChartRenderer';
 
 // ─── Knowledge file import via Vite ───
 const knowledgeModules = import.meta.glob('/knowledge/diet-charts/*.md', {
@@ -401,109 +402,75 @@ const DietChartTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       .map(e => `${e.label}:\n${(knowledgeModules[e.rawPath] || '').substring(0, 800)}`)
       .join('\n\n');
 
-    const prompt = `You are an Ayurvedic dietitian at Ayurvritta Ayurveda Hospital, Vadodara. Generate ONLY the diet chart sections listed below. Follow ALL classical Ayurvedic rules STRICTLY.
+    const prompt = `Generate a comprehensive, professionally structured Ayurvedic diet chart EXACTLY as specified below. Follow ALL formatting exactly. Do not skip any section.
 
-CRITICAL RULES - VIOLATION OF THESE RENDERS THE DIET CHART USELESS OR HARMFUL:
+OUTPUT FORMAT REQUIRED (follow this EXACT structure with EXACT headings):
 
-1. **VIRUDDHA AHARA (INCOMPATIBLE FOODS) - ABSOLUTE FORBIDDEN:**
-   - Milk + Fish (Matsya-Mahisha) = severe skin disease, Ama
-   - Milk + Banana or any sour fruit = Ama, mucous
-   - Curd (Dadhi) at night = Kapha, respiratory disease (NEVER recommend curd after sunset)
-   - Ghee + Honey in equal parts = neutralizes both properties
-   - Egg + Milk together = Viruddha, clogs channels
-   - Hot water immediately after honey = destroys honey's properties
-   - Horsegram + Black gram together = toxic combination
+# [CONDITION NAME] - Ayurvedic Dietary Guidelines
+(One paragraph explaining the condition in Ayurvedic terms, including Sanskrit terminology for the dosha involvement, dhatu affected, and the therapeutic goal. 3-5 sentences.)
 
-2. **AHARA VIDHI VISHESHAYATANA (8 FACTORS OF DIET - CHARAKA VIMANA 1.24):**
-   - Prakriti (nature): Foods must match patient's Prakriti
-   - Karana (processing): Cook method changes properties - roasting is lighter than frying
-   - Samyoga (combination): Never combine incompatible substances
-   - Rashi (quantity): Moderation - proper quantity is key to digestion
-   - Desha (habitat): Vadodara is Matsya desha (coastal) - favor light, warm foods
-   - Kala (time/season): July = Varsha Ritu - weak Agni, favor light digestibles
-   - Upayogasamstha (rules): Eat sitting upright, with mindfulness, warm food
-   - Upabhogahara (eater): Consider patient's strength, age, digestive capacity
+## Core Dietary Principles for [CONDITION]
+(5 bullet points - one per line, starting with bold keyword followed by explanation):
+- **Lagu Ahara**: [explanation]
+- **Rooksha Ahara**: [explanation]
+- **Low Glycaemic**: [explanation]
+- **Regulated Kala**: [explanation]
+- **No Snacking**: [explanation]
 
-3. **DOSHA-SPECIFIC PATHYA (WHOLESOME) FOR ${inputs.prakriti || 'TRIDOSHA'} PRAKRITI:**
-   - Vata: Warm, unctuous, nourishing, moist - avoid raw/cold/dry
-   - Pitta: Cool, mildly bitter - avoid hot/spicy/sour/pungent
-   - Kapha: Light, dry, warm, stimulating - avoid heavy/oily/sweet/cold
+## Meal-by-Meal Guide (Daily Schedule)
+(Use THIS TABLE FORMAT exactly - three columns with headers TIME, RECOMMENDED, AVOID):
+| TIME | RECOMMENDED | AVOID |
+|------|-------------|-------|
+| Early Morning 5:30-6:00 AM | [1-2 items with specifics] | [items to avoid] |
+| Breakfast 7:30-8:30 AM | [items with portions] | [items to avoid] |
+| Mid-Morning 10:30-11:00 AM | [items] | [items to avoid] |
+| Lunch 12:30-1:30 PM | [main meal items] | [items to avoid] |
+| Evening 4:30-5:00 PM | [snack items] | [items to avoid] |
+| Dinner 7:00-7:30 PM | [light meal items] | [items to avoid] |
+| Bedtime 9:30-10:00 PM | [items] | [items to avoid] |
 
-4. **RITU (SEASON) AWARENESS:** Current: Varsha (Monsoon, July)
-   - Weak Agni in monsoon - recommend LIGHT, easily digestible foods
-   - Avoid heavy grains, oily foods, buttermilk in evening
+## Pathya (Recommended) & Apathya (Avoid) Food Lists
+(Use TWO-COLUMN format, categorized lists):
 
-5. **AGNI (DIGESTIVE FIRE) RULES:**
-   - Breakfast: Light, warm, at 7-8 AM when Agni peaks
-   - Lunch: Largest meal at 12-1 PM when Pitta-Agni is strongest
-   - Dinner: Light, at least 3 hours before sleep, before 8 PM
+### PATHYA - What to Eat Freely
+**GRAINS**: [list]
+**VEGETABLES**: [list]
+**PULSES**: [list]
+**FRUITS**: [list]
+**DAIRY**: [list]
+**FATS & OILS**: [list]
+**SPICES**: [list]
+**BEVERAGES**: [list]
 
-6. **ABSOLUTE PROHIBITIONS IN OUTPUT:**
-   - NEVER include "milk and fish together" or "banana milk shake"
-   - NEVER include "curd at night" or "buttermilk after sunset"
-   - NEVER include "ghee and honey in equal quantities"
-   - NEVER include "ice cold drinks" with meals
-   - NEVER include "raw salad" for Vata prakriti without warm preparation
-   - NEVER include incompatible food pairs in same meal suggestion
+### APATHYA - What to Strictly Avoid
+**GRAINS**: [list]
+**VEGETABLES**: [list]
+**FRUITS**: [list]
+**DAIRY**: [list]
+**SWEETS**: [list]
+**OTHERS**: [list]
 
-Patient: ${inputs.patient.name}
-Age: ${inputs.patient.age} | Gender: ${inputs.patient.gender}${inputs.patient.occupation ? ` | Occupation: ${inputs.patient.occupation}` : ''}
-Prakriti (Constitution): ${inputs.prakriti || 'Not yet assessed'}
-Dietary Preference: ${inputs.dietaryPref || 'Vegetarian'}
-${inputs.allergies.length > 0 ? `Allergies/Restrictions: ${inputs.allergies.join(', ')}` : ''}
-Health Condition: ${complaintText || 'General wellness and preventive care'}
+## Daily Routine (Dinacharya) for [CONDITION] Management
+(Numbered list with times and activities - 8-10 items):
+1. 5:30-6:00 AM - [Activity] - [one line benefit]
+2. 6:00-6:30 AM - [Activity] - [one line benefit]
+... (continue through the day until bedtime)
 
-${knowledgeContent ? `MATCHED KNOWLEDGE FILES (use EXCLUSIVELY as reference, do not add external knowledge):
-${knowledgeContent}
+## Classical Home Remedies for [CONDITION]
+(Numbered list - 5-6 remedies, each with preparation and benefit):
+1. **Remedy Name**: Preparation: [how to prepare] | When: [timing] | Benefit: [one line]
 
-` : ''}Generate a complete diet plan with ALL of the following sections. Use markdown headers (### SECTION NAME):
+## Lifestyle Principles for Long-Term [CONDITION] Management
+(Sections with 2-3 bullet points each):
+**Daily Exercise**: [bullets]
+**Mental Balance**: [bullets]
+**Sleep & Routine**: [bullets]
 
-### EARLY MORNING
-(6-7 AM: Warm water with herbs, e.g. "6:00 AM - Warm water with 1 tsp Jeera + 5 Tulsi leaves")
-
-### BREAKFAST
-(7-8 AM: Light, warm, easily digestible - specify timing and portion)
-
-### MID-MORNING
-(10-11 AM: Light snack or fruit)
-
-### LUNCH
-(12:30-1:30 PM: MAIN MEAL - largest, when Agni is peak. Rice, dal, vegetables, salad, buttermilk)
-
-### EVENING SNACK
-(4-5 PM: Light tea or snack - AVOID curd/buttermilk at this time)
-
-### DINNER
-(7-8 PM: LIGHT MEAL, at least 3 hours before sleep. Avoid heavy foods.)
-
-### BEDTIME
-(9-10 PM: Warm milk with herbs ONLY if digestive, otherwise plain warm water)
-
-### FOODS TO FAVOR
-(List 8-10 foods SPECIFIC to this condition with Ayurvedic reasoning)
-
-### FOODS TO AVOID
-(List 6-8 foods to avoid with reasoning - include what makes them Apathya)
-
-### BENEFICIAL HERBS
-(List 5 herbs with Sanskrit name, dosage, Anupana (vehicle))
-
-### LIFESTYLE TIPS
-(List 5-6 including Dinacharya, meal timings, exercise timing)
-
-### PRECAUTIONS
-(List 3-4 condition-specific precautions)
-
-**FORMAT RULES:**
-- Use common INDIAN food names (roti, dal, rice, sabzi, buttermilk as chaas)
-- Always specify quantities (e.g., "1 cup", "2 rotis", "100g")
-- Always specify timing (e.g., "7:00 AM", "12:30 PM")
-- Mark incompatible food combinations clearly in FOODS TO AVOID
-
-Root all advice in Charaka Samhita, Ashtanga Hridayam, and matched knowledge files. Do NOT add knowledge not present in the matched files.`;
+---
+*Prepared by Dr. Jinendradutt Sharma (BAMS) | Ayurvritta Ayurveda Hospital & Panchakarma Center, Vadodara | Dietary guidance only - not a substitute for medical treatment.*`;
 
     try {
-      const systemInstruction = 'You are an Ayurvedic dietitian at Ayurvritta Ayurveda Hospital, Vadodara. Follow classical Ayurvedic dietetics strictly. Use ONLY information from provided knowledge files. Never hallucinate. Adhere to Charaka Samhita and Ashtanga Hridayam. Avoid ALL Viruddha Ahara (incompatible food combinations). Format sections with markdown headers.';
+      const systemInstruction = 'You are an Ayurvedic dietitian at Ayurvritta Ayurveda Hospital, Vadodara. Generate ONLY structured diet charts in the EXACT format specified. Use ONLY information from provided knowledge files. Never hallucinate. Adhere to Charaka Samhita and Ashtanga Hridayam. Avoid ALL Viruddha Ahara. Format output precisely as instructed.';
 
       // Add timeout wrapper (matching Insurance page pattern)
       const generatePromise = aiService.generate(prompt, systemInstruction, {
@@ -1016,114 +983,10 @@ ${matched.length > 0
               </div>
             )}
 
-            {/* Diet plan content with rich visuals */}
-            <div className="bg-white rounded-3xl shadow-card border border-gray-100 overflow-hidden mb-4">
-              {/* Section icon map */}
-              {(() => {
-                const sectionIcons: Record<string, { icon: string; color: string; bg: string; border: string }> = {
-                  'EARLY MORNING': { icon: '🌅', color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-200' },
-                  'BREAKFAST': { icon: '🥣', color: 'text-yellow-600', bg: 'bg-yellow-50', border: 'border-yellow-200' },
-                  'MID-MORNING': { icon: '⏰', color: 'text-amber-600', bg: 'bg-amber-50', border: 'border-amber-200' },
-                  'LUNCH': { icon: '🍛', color: 'text-green-600', bg: 'bg-green-50', border: 'border-green-200' },
-                  'EVENING SNACK': { icon: '🍵', color: 'text-teal-600', bg: 'bg-teal-50', border: 'border-teal-200' },
-                  'DINNER': { icon: '🥘', color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-200' },
-                  'BEDTIME': { icon: '🌙', color: 'text-indigo-600', bg: 'bg-indigo-50', border: 'border-indigo-200' },
-                  'FOODS TO FAVOR': { icon: '✅', color: 'text-green-600', bg: 'bg-green-50', border: 'border-green-200' },
-                  'FOODS TO AVOID': { icon: '🚫', color: 'text-red-600', bg: 'bg-red-50', border: 'border-red-200' },
-                  'BENEFICIAL HERBS': { icon: '🌿', color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-200' },
-                  'LIFESTYLE TIPS': { icon: '💡', color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-200' },
-                  'PRECAUTIONS': { icon: '⚠️', color: 'text-amber-600', bg: 'bg-amber-50', border: 'border-amber-200' },
-                };
-
-                const lines = aiResult.split('\n');
-                const sections: { header: string; items: string[] }[] = [];
-                let currentSection: { header: string; items: string[] } | null = null;
-
-                lines.forEach(line => {
-                  let t = line.trim();
-                  if (!t) return;
-
-                  // Check for markdown headers: ### HEADER or ## HEADER
-                  const mdMatch = t.match(/^#{1,6}\s+(.+)/);
-                  if (mdMatch) {
-                    const header = mdMatch[1].replace(/\*\*/g, '').trim().toUpperCase();
-                    if (header.length >= 3 && header.length <= 80) {
-                      if (currentSection) sections.push(currentSection);
-                      currentSection = { header, items: [] };
-                      return;
-                    }
-                  }
-
-                  // Strip markdown bold markers for header detection
-                  const stripped = t.replace(/\*\*/g, '').trim();
-                  const isAllCaps = /^[A-Z][A-Z\s&()\-:]+$/.test(stripped) && stripped.length >= 3 && stripped.length <= 80 && !stripped.includes('.') && stripped.split(' ').length <= 8;
-
-                  if (isAllCaps) {
-                    if (currentSection) sections.push(currentSection);
-                    currentSection = { header: stripped, items: [] };
-                  } else if (currentSection && t) {
-                    currentSection.items.push(t);
-                  } else if (!currentSection && t) {
-                    if (!sections.length) {
-                      sections.push({ header: 'OVERVIEW', items: [t] });
-                    }
-                  }
-                });
-                if (currentSection) sections.push(currentSection);
-
-                return (
-                  <div className="p-5 md:p-6">
-                    {sections.map((section, sIdx) => {
-                      const sectionKey = section.header.replace(/[^A-Z\s]/g, '').trim();
-                      const meta = sectionIcons[sectionKey] || { icon: '📌', color: 'text-gray-600', bg: 'bg-gray-50', border: 'border-gray-200' };
-
-                      return (
-                        <div key={sIdx} className="mb-6 last:mb-0" style={{ animationDelay: `${sIdx * 100}ms` }}>
-                          {/* Section header with icon */}
-                          <div className={`${meta.bg} rounded-2xl p-4 mb-3 border ${meta.border}`}>
-                            <div className="flex items-center gap-3">
-                              <span className="text-2xl">{meta.icon}</span>
-                              <h3 className={`font-serif font-bold ${meta.color} text-lg m-0`}>{section.header}</h3>
-                            </div>
-                          </div>
-
-                          {/* Section items */}
-                          <div className="space-y-2 ml-2">
-                            {section.items.map((item, iIdx) => {
-                              const t = item;
-                              // Bullet points
-                              if (t.startsWith('- ') || t.startsWith('* ') || t.startsWith('• ')) {
-                                return (
-                                  <div key={iIdx} className="flex gap-3 items-start p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-                                    <span className={`${meta.color} text-sm mt-0.5 shrink-0`}>●</span>
-                                    <span className="text-sm leading-relaxed text-gray-700">{t.replace(/^[-*•]\s*/, '')}</span>
-                                  </div>
-                                );
-                              }
-                              // Bold items
-                              if (t.startsWith('**') && t.includes(':**')) {
-                                const parts = t.replace(/\*\*/g, '').split(':');
-                                return (
-                                  <div key={iIdx} className="p-3 bg-gray-50 rounded-xl">
-                                    <span className="font-bold text-ayur-green text-sm">{parts[0]}:</span>
-                                    {parts.slice(1).join(':') && <span className="text-gray-600 text-sm ml-1">{parts.slice(1).join(':')}</span>}
-                                  </div>
-                                );
-                              }
-                              // Regular text
-                              return (
-                                <div key={iIdx} className="p-3 bg-gray-50 rounded-xl">
-                                  <span className="text-sm leading-relaxed text-gray-700">{t}</span>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                );
-              })()}
+            {/* Diet plan content with rich visuals - NEW STRUCTURED FORMAT */}
+            <div className="space-y-4 mb-4">
+              {/* Parse and render structured diet chart */}
+              <DietChartRenderer aiResult={aiResult} />
             </div>
 
             {/* Quick summary cards */}
