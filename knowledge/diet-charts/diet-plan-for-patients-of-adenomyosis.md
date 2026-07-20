@@ -1,5 +1,14 @@
-# Diet Plan for Adenomyosis
+Source: https://www.planetayurveda.com/library/diet-plan-for-patients-of-adenomyosis/
 
+Published on:
+April 27, 2025
+Updated on:
+February 23, 2026
+Written By
+Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
+Reviewed by
+Dr. Vikram Chauhan (M.D. - Ayurveda)
+Diet Plan for Adenomyosis
 The condition of uterus in which its inner lining shatters through the myometrium i:e the muscle wall of uterus and it causesheavy bleeding during menstruation, cramps bloating, swelling, pain and enlarged uterus.The National Health Service (NHS) in the UK estimate that 1 in 10 women have adenomyosis and it is common in women aged 40 to 50.The exact cause of adenomyosis is not known but it is associated with increased level of estrogen hormone. A nutritious diet should followed by adenomyosis patients. Spicy and Fried food can aggravate the pelvic congestion and inflammation which may leads to Dysmenorrhea.
 DIET CHART FOR ADENOMYOSIS
 EARLY-MORNING
@@ -99,6 +108,3 @@ Consult
 Store
 Chat
 Call
-
----
-

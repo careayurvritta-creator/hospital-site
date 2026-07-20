@@ -1,5 +1,13 @@
-# Diet Plan for Bell’s Palsy
+Source: https://www.planetayurveda.com/library/diet-plan-for-patients-with-bells-palsy/
 
+Published on:
+May 1, 2019
+Updated on:
+Written By
+Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
+Reviewed by
+Dr. Vikram Chauhan (M.D. - Ayurveda)
+Diet Plan for Bell’s Palsy
 Bell’s palsy is a neurological disorder that causes a sudden, temporary weakness or paralysis of the muscles in the face. It occurs when the nerve that controls the facial muscles becomes inflamed or compressed. It is important to maintain a healthy, nutritious, and balanced diet to prevent and treat this problem. A soft, blend and full liquid diet is necessary in this condition. To prevent choking, avoid hard or large bite of foods, fatty, fried, and high salty foods as these are difficult to be chewed.
 DIET CHART FOR BELL’S PALSY
 EARLY-MORNING
@@ -102,6 +110,3 @@ Consult
 Store
 Chat
 Call
-
----
-

@@ -1,5 +1,13 @@
-# Diet Plan for Asthma
+Source: https://www.planetayurveda.com/library/diet-plan-for-patients-of-asthma/
 
+Published on:
+February 8, 2020
+Updated on:
+Written By
+Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
+Reviewed by
+Dr. Vikram Chauhan (M.D. - Ayurveda)
+Diet Plan for Asthma
 Bronchial asthma is becoming very common in the society and now even children are also getting its symptoms very often. Reason for this is the environmental changes which are going on aggressively and have a very bad effect on the ones which have low immunity specially children and old age people. Bronchial asthma is basically a condition in which there is inflammation in the airways and hence there is narrowing of pathways resulting in breathlessness or difficulty breathing, production of mucus, short breaths and wheezing sounds. If the disease becomes chronic then it can interfere with the daily activities of a person. Following is a complete diet chart that helps in avoiding recurrent asthma attacks and improving one’s condition. It can be easily followed in children as well as in adults. In Ayurveda the condition is called as tamak shwas and is the result of imbalanced kapha as well as pitta. The diet plan helps in balancing both of the dosha.
 DIET CHART FOR ASTHMA
 EARLY-MORNING
@@ -122,6 +130,3 @@ Consult
 Store
 Chat
 Call
-
----
-
