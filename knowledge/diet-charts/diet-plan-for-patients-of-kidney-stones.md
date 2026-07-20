@@ -1,5 +1,13 @@
-# Diet Plan for Kidney Stones
+Source: https://www.planetayurveda.com/library/diet-plan-for-patients-of-kidney-stones/
 
+Published on:
+February 7, 2020
+Updated on:
+Written By
+Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
+Reviewed by
+Dr. Vikram Chauhan (M.D. - Ayurveda)
+Diet Plan for Kidney Stones
 A kidney stone is a hard mass that forms from crystals in the urine. The most common types of kidney stones are calcium oxalate stones, cystine stone and uric acid stones. Diet is followed as per the type of kidney stone patient is having. A healthy and well balanced diet that is low in calcium and low sodium diet. Water is essential for proper functioning of the human body, so drink 10 to 12 glasses of water in a day. A high-sodium, high purine and high uric diet can trigger kidney stones because it increases the amount of calcium and uric acid in the urine. Avoid caffeine, red meats, beer/alcohol, processed foods, and salty foods.
 DIET CHART FOR KIDNEY STONES
 EARLY-MORNING
@@ -104,6 +112,3 @@ Consult
 Store
 Chat
 Call
-
----
-

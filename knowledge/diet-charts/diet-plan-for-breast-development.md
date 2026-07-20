@@ -1,5 +1,13 @@
-# Diet Plan for Breast Development
+Source: https://www.planetayurveda.com/library/diet-plan-for-breast-development/
 
+Published on:
+May 2, 2019
+Updated on:
+Written By
+Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
+Reviewed by
+Dr. Vikram Chauhan (M.D. - Ayurveda)
+Diet Plan for Breast Development
 Breast development is a biological process takes place throughout a female’s life and the hormones involve in breast development process are estrogens, progesterone and growth hormone (GH). As this is a sign of femininity and also add charm to women’s personally so this is a big concern among females with small breast. Breast development ceases at menopause. Diet rich in Calcium, phosphorus, iron, protein is beneficial for the proper development of breast.
 DIET CHART FOR BREAST DEVELOPMENT
 EARLY-MORNING
@@ -102,6 +110,3 @@ Consult
 Store
 Chat
 Call
-
----
-

@@ -1,5 +1,13 @@
-# Diet Plan for Chronic Kidney Disease
+Source: https://www.planetayurveda.com/library/diet-plan-for-chronic-kidney-disease-patients/
 
+Published on:
+February 24, 2020
+Updated on:
+Written By
+Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
+Reviewed by
+Dr. Vikram Chauhan (M.D. - Ayurveda)
+Diet Plan for Chronic Kidney Disease
 Low protein and low sodium diet is prescribed for patients of chronic renal failure with progressive impairment of the kidney function. When a kidney is not functioning normally, the toxic end products of metabolism cannot be excreted out and accumulate in the blood. Here, proteins are restricted in the diet but consumption of sufficient calories is essential so that tissue breakdown which again results in elevation of the nitrogenous constituent of blood is minimized. Avoid eating high protein food, citrus fruits, fried food, junk food, processed foods, and preserved foods, caffeine, alcohol, high sodium and high potassium.
 Diet Chart for Chronic Kidney Disease
 EARLY-MORNING
@@ -92,6 +100,3 @@ Consult
 Store
 Chat
 Call
-
----
-

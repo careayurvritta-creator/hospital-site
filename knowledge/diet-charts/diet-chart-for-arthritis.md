@@ -1,45 +1,63 @@
-# Diet Chart for Arthritis
+Source: https://www.planetayurveda.com/library/diet-chart-for-arthritis/
 
+Published on:
+July 5, 2023
+Updated on:
+Written By
+Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
+Reviewed by
+Dr. Vikram Chauhan (M.D. - Ayurveda)
+Diet Chart for Arthritis
 Arthritis is characterized by swollen and painful one or more joints. Stiffed and painful joints are the main complaints presented in Arthritis. The peculiar point is that these complaints worsen with age.
 There are different types of arthritis and the more commonly occurring are rheumatoid arthritis and osteoarthritis. In Osteoarthritis, there occurs a breakdown of bone cartilage. While in Rheumatoid arthritis, the body’s own immune system attacks the joints causing damage to them. Increased uric
 acid, lupus, or psoriasis causes the other form of arthritis. Along with the medicines, you need to control your diet in order to get treated. A healthy and balanced diet can be effective to achieve the optimum uric acid level. It can also provide energy and nutrients that are sufficient to maintain optimal health and reduces the risk of gout.
 AVOID
 ALLOWED TO TAKE
 VEGETABLES
+VEGETABLES
 Canned & Frozen Vegetables, Raw Vegetables, Tomatoes, Eggplant / Brinjal, Radish, Ginger (In moderation)
 Zucchini, Bottle Gourd, Bitter Gourd, Sweet Potato, Potato, Pumpkin, Coriander, Broccoli, Cabbage, Cauliflower, Mushroom, Carrot, Peas,
 Okra, Bell Pepper, Taro Roots, Onion, Ridge Gourd, Drumstick, Beetroot, Round Gourd, Turnip, Beans, Cucumber, Parsley, All Green Leafy Vegetables (Spinach, Mustard Greens, Fenugreek Leaves, Asparagus, Chicory Greens,
 Collard Greens), Brussel Sprouts, Lettuce, Kale, Squash
 FRUITS
+FRUITS
 Canned & Frozen Fruits, Coconut, Citrus Fruits like Orange, Mango, Strawberry, Lime, Lemon, Grapes, Blueberry, Pineapple, Kiwi, Sour
 Cherries, Blackcurrant
 Apple, Banana, Cherry, Avocado, Peaches, Pear, Pomegranate, Apricot, Blueberry, Amla, Plums, Dates, Papaya, Muskmelon, Watermelon, Fresh Coconut, Sapodilla
+PULSES
 PULSES
 Canned & Frozen Pulses, All other Heavy Lentils
 Yellow Lentils, Green Lentils, Split Pigeon Peas,
 Split Grams, Black Grams
 MILK PRODUCTS
+MILK PRODUCTS
 All Other Dairy Products
 Low-fat Milk with Turmeric, Cow’s Ghee – Limited
 DRY FRUITS & SEEDS
+DRY FRUITS & SEEDS
 Cashew, Pistachio, Peanut
 5-6 Almonds, 1 Walnut, 5-6 Raisins, 2 Figs, 2 Dates (All Soaked in Water Overnight), Flax Seeds, Sunflower Seeds
+CEREALS
 CEREALS
 Refined Whole Grains, White Refined Flour and its Products, White Rice, Barley, Rye
 Wheat, Brown Rice, Oats, Quinoa, Corn, Kodo Millet, Foxtail Millet, Little Millet, Browntop
 Millet, Kamut
 OILS
+OILS
 Unsaturated Fats, Refined Oil, Palm Oil, Coconut Oil, Canola Oil
 Olive Oil, Sunflower Oil, Rice Bran Oil, Mustard Oil
+SPICES
 SPICES
 Excess Salt, Green & Red Chili, Pimiento
 Note
 – Nearly all the Spices are to be Limited. Only Plain and Simple Food is to be Preferred.
 Turmeric, Cumin, Coriander, Black Pepper, Thyme, Fennel, Dry Ginger, Basil, Mustard Seeds, Nutmeg, Curry Leaves, Cloves, Celery, Cinnamon, Sesame, Limited Rock Salt, Rosemary
 FLESH FOODS / NON-VEG
+FLESH FOODS / NON-VEG
 Avoid All other Non-Vegetarian Food
 Egg white, Skinless Chicken, Lean Meat – Both
 75-100 Grams
+OTHER FOODS
 OTHER FOODS
 Packaged, Canned, Processed, Fried, Spicy,
 Junk, Cream-based and Bakery Products, Refined Sugar, Alcohol, Soft drinks,
@@ -83,6 +101,3 @@ Consult
 Store
 Chat
 Call
-
----
-

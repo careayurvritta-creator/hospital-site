@@ -1,5 +1,13 @@
-# Diet Plan for Common Cold
+Source: https://www.planetayurveda.com/library/diet-plan-for-patients-of-common-cold/
 
+Published on:
+February 10, 2020
+Updated on:
+Written By
+Dr. Meenakshi Chauhan (M.D. - Alt. Medicine)
+Reviewed by
+Dr. Vikram Chauhan (M.D. - Ayurveda)
+Diet Plan for Common Cold
 Common cold is viral infection of upper respiratory tract. Different types of viruses are responsible for common cold. The symptoms of common cold are runny nose, sore throat, congestion, sneezing. It is not a life threatening condition but it can lead to discomfort in breathing. According to Ayurveda, common cold occurs when digestive fire (AGNI) did not burn toxins of body (Ama) and results in phlegm formation. Kapha pacifying diet is ideal in common cold.
 DIET CHART FOR Common COLD
 EARLY-MORNING
@@ -98,6 +106,3 @@ Consult
 Store
 Chat
 Call
-
----
-

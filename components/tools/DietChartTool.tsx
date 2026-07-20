@@ -398,87 +398,104 @@ const DietChartTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     const matched = matchComplaintsToFiles(complaintText);
     setMatchedFiles(matched);
 
+    // Inject more knowledge content (up to 2000 chars per matched file)
     const knowledgeContent = matched
-      .map(e => `${e.label}:\n${(knowledgeModules[e.rawPath] || '').substring(0, 800)}`)
+      .map(e => `=== ${e.label.toUpperCase()} ===\n${(knowledgeModules[e.rawPath] || '').substring(0, 2000)}`)
       .join('\n\n');
 
-    const prompt = `Generate a comprehensive, professionally structured Ayurvedic diet chart EXACTLY as specified below. Follow ALL formatting exactly. Do not skip any section.
+    const prompt = `Generate a comprehensive, professionally structured Ayurvedic diet chart for the patient's condition. Follow the EXACT output format specified below. Base your recommendations on the provided knowledge content from Planet Ayurveda.
 
-OUTPUT FORMAT REQUIRED (follow this EXACT structure with EXACT headings):
+PATIENT CONTEXT:
+- Name: ${inputs.patient.name || 'Patient'}
+- Age/Gender: ${inputs.patient.age || 'X'}/${inputs.patient.gender || 'X'}
+- Condition(s): ${complaintText}
+- Prakriti: ${inputs.prakriti || 'Not specified'}
+- Diet: ${inputs.dietaryPref || 'Not specified'}
+- Allergies: ${inputs.allergies.join(', ') || 'None'}
 
-# [CONDITION NAME] - Ayurvedic Dietary Guidelines
-(One paragraph explaining the condition in Ayurvedic terms, including Sanskrit terminology for the dosha involvement, dhatu affected, and the therapeutic goal. 3-5 sentences.)
+KNOWLEDGE BASE CONTENT:
+${knowledgeContent}
 
-## Core Dietary Principles for [CONDITION]
-(5 bullet points - one per line, starting with bold keyword followed by explanation):
-- **Lagu Ahara**: [explanation]
-- **Rooksha Ahara**: [explanation]
-- **Low Glycaemic**: [explanation]
-- **Regulated Kala**: [explanation]
-- **No Snacking**: [explanation]
+OUTPUT FORMAT (MUST FOLLOW EXACTLY - this matches the Prameha PDF reference format):
 
-## Meal-by-Meal Guide (Daily Schedule)
-(Use THIS TABLE FORMAT exactly - three columns with headers TIME, RECOMMENDED, AVOID):
-| TIME | RECOMMENDED | AVOID |
-|------|-------------|-------|
-| Early Morning 5:30-6:00 AM | [1-2 items with specifics] | [items to avoid] |
-| Breakfast 7:30-8:30 AM | [items with portions] | [items to avoid] |
-| Mid-Morning 10:30-11:00 AM | [items] | [items to avoid] |
-| Lunch 12:30-1:30 PM | [main meal items] | [items to avoid] |
-| Evening 4:30-5:00 PM | [snack items] | [items to avoid] |
-| Dinner 7:00-7:30 PM | [light meal items] | [items to avoid] |
-| Bedtime 9:30-10:00 PM | [items] | [items to avoid] |
+# [CONDITION NAME] — Ayurvedic Diet Chart
 
-## Pathya (Recommended) & Apathya (Avoid) Food Lists
-(Use TWO-COLUMN format, categorized lists):
+## Understanding [Condition] in Ayurveda
+(2-3 sentences explaining the condition in Ayurvedic terms: dosha involvement, dhatu affected, Sanskrit terminology, srotas involved, and the therapeutic goal. Include a relevant Sanskrit verse or principle.)
 
-### PATHYA - What to Eat Freely
-**GRAINS**: [list]
-**VEGETABLES**: [list]
-**PULSES**: [list]
-**FRUITS**: [list]
-**DAIRY**: [list]
+## Core Dietary Principles
+(Numbered list of 5 principles specific to this condition. Each principle has a bold Sanskrit/English term and 1-line explanation.)
+1. **Lagu Ahara** (Light Diet): [explanation specific to this condition]
+2. **Rooksha Ahara** (Dry Diet): [explanation]
+3. **Pathya Anna** (Correct Food): [explanation]
+4. **Kala NIyam** (Time Regulation): [explanation]
+5. **Mitahara** (Measured Eating): [explanation]
+
+## Daily Diet Schedule
+(Use this EXACT table format - 3 columns: TIME | RECOMMENDED | TO AVOID)
+| TIME | RECOMMENDED FOODS | FOODS TO AVOID |
+|------|-------------------|----------------|
+| Early Morning 5:30-6:00 AM | [specific items with details] | [specific items] |
+| Breakfast 7:30-8:30 AM | [specific items] | [specific items] |
+| Mid-Morning 10:30-11:00 AM | [specific items] | [specific items] |
+| Lunch 12:30-1:30 PM | [specific items] | [specific items] |
+| Evening 4:00-4:30 PM | [specific items] | [specific items] |
+| Dinner 7:00-7:30 PM | [specific items] | [specific items] |
+| Bedtime 9:30-10:00 PM | [specific items] | [specific items] |
+
+## Pathya — Eat Freely (Categorized Lists)
+(Use EXACT category headers below - do not invent categories)
+**CEREALS**: [list of specific grains]
+**PULSES**: [list of dals and legumes]
+**VEGETABLES**: [list of specific vegetables]
+**FRUITS**: [list of specific fruits]
+**DAIRY**: [list of dairy products]
 **FATS & OILS**: [list]
 **SPICES**: [list]
 **BEVERAGES**: [list]
 
-### APATHYA - What to Strictly Avoid
-**GRAINS**: [list]
+## Apathya — Strictly Avoid (Categorized Lists)
+**CEREALS**: [list]
 **VEGETABLES**: [list]
 **FRUITS**: [list]
 **DAIRY**: [list]
-**SWEETS**: [list]
-**OTHERS**: [list]
+**SWEETS & SUGARS**: [list]
+**PREPARED FOODS**: [list]
+**BEVERAGES**: [list]
 
-## Daily Routine (Dinacharya) for [CONDITION] Management
-(Numbered list with times and activities - 8-10 items):
-1. 5:30-6:00 AM - [Activity] - [one line benefit]
-2. 6:00-6:30 AM - [Activity] - [one line benefit]
-... (continue through the day until bedtime)
+## Dinacharya (Daily Routine) for [Condition]
+(Numbered timeline with times, activities, and one-line benefits)
+1. 5:30 AM - [Activity] — [one line benefit]
+2. 6:00 AM - [Activity] — [one line benefit]
+3. 6:30 AM - [Activity] — [one line benefit]
+4. 7:00 AM - [Activity] — [one line benefit]
+5. 10:00 AM - [Activity] — [one line benefit]
+6. 12:00 PM - [Activity] — [one line benefit]
+7. 5:00 PM - [Activity] — [one line benefit]
+8. 9:00 PM - [Activity] — [one line benefit]
 
-## Classical Home Remedies for [CONDITION]
-(Numbered list - 5-6 remedies, each with preparation and benefit):
-1. **Remedy Name**: Preparation: [how to prepare] | When: [timing] | Benefit: [one line]
+## Home Remedies (Classical Ayurvedic)
+(Numbered remedies with name, preparation method, timing, and benefit)
+1. **[Remedy Name]**: Take [specific amounts] of [ingredients]. [How to prepare]. Take [when]. Benefit: [one line]
 
-## Lifestyle Principles for Long-Term [CONDITION] Management
-(Sections with 2-3 bullet points each):
-**Daily Exercise**: [bullets]
-**Mental Balance**: [bullets]
-**Sleep & Routine**: [bullets]
+## Lifestyle Guidelines
+**Exercise**: [2-3 specific recommendations]
+**Mental Health**: [2-3 specific recommendations]
+**Sleep**: [2-3 specific recommendations]
 
 ---
-*Prepared by Dr. Jinendradutt Sharma (BAMS) | Ayurvritta Ayurveda Hospital & Panchakarma Center, Vadodara | Dietary guidance only - not a substitute for medical treatment.*`;
+*Prepared by Dr. Jinendradutt Sharma (BAMS) | Ayurvritta Ayurveda Hospital & Panchakarma Center, Vadodara | Dietary guidance only — not a substitute for medical treatment. Contact: +91 94266 84047*`;
 
     try {
-      const systemInstruction = 'You are an Ayurvedic dietitian at Ayurvritta Ayurveda Hospital, Vadodara. Generate ONLY structured diet charts in the EXACT format specified. Use ONLY information from provided knowledge files. Never hallucinate. Adhere to Charaka Samhita and Ashtanga Hridayam. Avoid ALL Viruddha Ahara. Format output precisely as instructed.';
+      const systemInstruction = 'You are Dr. Jinendradutt Sharma, BAMS, Chief Physician at Ayurvritta Ayurveda Hospital, Vadodara. Generate ONLY structured diet charts in the EXACT markdown format specified. Use information from the provided knowledge files (Planet Ayurveda diet charts) for condition-specific recommendations. NEVER hallucinate foods or dosages. Adhere to Charaka Samhita and Ashtanga Hridayam dietary principles. STRICTLY avoid ALL Viruddha Ahara (incompatible food combinations). Inject Sanskrit terms naturally. Format output precisely as instructed.';
 
       // Add timeout wrapper (matching Insurance page pattern)
       const generatePromise = aiService.generate(prompt, systemInstruction, {
-        temperature: 0.7,
-        max_tokens: 1500,
+        temperature: 0.6,
+        max_tokens: 4000,
       });
       const timeoutPromise = new Promise<string>((_, reject) =>
-        setTimeout(() => reject(new Error('AI generation timed out - please try again')), 60000)
+        setTimeout(() => reject(new Error('AI generation timed out - please try again')), 120000)
       );
 
       const content = await Promise.race([generatePromise, timeoutPromise]);
@@ -577,7 +594,7 @@ ${matched.length > 0
                 <div className="text-5xl mb-4">🌿</div>
                 <h1 className="font-serif text-3xl font-bold mb-2">AI Diet Chart Generator</h1>
                 <p className="text-white/80 text-sm leading-relaxed max-w-sm mx-auto">
-                  Get a personalized Ayurvedic diet plan powered by AI, trained on authentic Ayurvedic knowledge from 85+ condition-specific diet charts
+                  Get a personalized Ayurvedic diet plan powered by AI, trained on authentic Ayurvedic knowledge from 106+ condition-specific diet charts
                 </p>
               </div>
             </div>
@@ -736,7 +753,7 @@ ${matched.length > 0
 
             {/* Custom search */}
             <div className="bg-white rounded-2xl p-4 shadow-soft border border-gray-100 mb-4">
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Or search from 85+ conditions</label>
+              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Or search from 106+ conditions</label>
               <input
                 type="text"
                 value={searchQuery}
@@ -907,7 +924,7 @@ ${matched.length > 0
                     <div key={i} className="w-1.5 h-1.5 bg-ayur-green rounded-full animate-bounce" style={{ animationDelay: `${i * 0.2}s` }} />
                   ))}
                 </div>
-                <span>Matching with 85+ Ayurvedic diet charts</span>
+                <span>Matching with 106+ Ayurvedic diet charts</span>
               </div>
             </div>
 
