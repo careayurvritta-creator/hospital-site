@@ -408,6 +408,12 @@ const DietChartTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     // Build meal schedule based on Agni type
     const prompt = `Generate a detailed, condition-specific Ayurvedic diet chart. Follow the EXACT format below. Base recommendations on the provided knowledge content. This must look like a professional Dr. Jinendradutt Sharma consultation output.
 
+CRITICAL RULES:
+- NEVER say "easily digestible", "low-glycaemic", or "reduces acidity symptoms" as the ONLY description. Every item MUST have a condition-specific therapeutic reason (e.g., "Barley (Yava) — best grain for Prameha, low GI + reduces Meda Dhatu").
+- Output ONLY the sections shown below. Do NOT add extra commentary, instructions, or explanations.
+- The {placeholders} are examples — replace them with actual condition-specific foods and reasons.
+- Avoid generic phrases. Every single "why" must reference the specific condition (not just general health).
+
 PATIENT CONTEXT:
 - Condition: ${complaintText || 'General wellness'}
 - Prakriti: ${inputs.prakriti || 'Not assessed — assume general'}
@@ -437,11 +443,10 @@ OUTPUT FORMAT (MUST FOLLOW EXACTLY — matches Dr. Sharma's professional consult
 
 **Quality of Food (Guna):**
 - **Ushna** (Warm) — warm food kindles Agni, aids digestion
-- **Snigdha** (Unctuous) —适度油性 keeps tissues supple, helps absorption
+- **Snigdha** (Unctuous) — moderate oiliness keeps tissues supple, aids absorption
 - **Matravat** (In proper quantity) — 2/3 stomach capacity, no overeating
 - **Jeerna** (When previous meal is digested) — eat only when hungry
-- **Anupahata** (Non-habit-forming) — vary diet, don't over-rely on one substance
-- **Shuchi** (Clean and pure) — fresh, unadulterated food
+- **Shuchi** (Clean and pure) — fresh, unadulterated food, no processed items
 
 **How to Eat:**
 - Sit down to eat (not standing or walking)
@@ -468,7 +473,6 @@ OUTPUT FORMAT (MUST FOLLOW EXACTLY — matches Dr. Sharma's professional consult
 - Dinner should always be lighter and earlier (before 8 PM) than lunch
 
 ## Your Meal Plan (Based on ${agniInf.label} — ${mealCount} meals/day)
-(Match the Prameha PDF format: Each meal has TIME column and RECOMMENDED/AVOID columns. Be condition-specific with LOW GI foods for metabolic conditions. Give 2-3 specific items per category with brief therapeutic note.)
 
 ${mealSlots.map((slot, i) => `### ${i + 1}. ${slot.heading}
 **Time:** ${slot.time}
@@ -485,7 +489,7 @@ ${mealSlots.map((slot, i) => `### ${i + 1}. ${slot.heading}
 - {food 3} — {specific reason harmful}`).join('\n\n')}
 
 ## Pathya — What to Eat Freely
-(CRITICAL: Each item MUST be a bullet with the exact format: "- Item — specific therapeutic note for THIS condition". Use category headers as bold ALL CAPS. Match the Prameha PDF structure below exactly. Minimum 4 items per category, more for GRAINS and VEGETABLES.)
+Use this exact category structure with bullet items. Each bullet must be "Item — specific therapeutic note for THIS condition". Minimum 4 items per category.
 
 **GRAINS**
 - Barley (Yava) — best grain for this condition | low GI + specific therapeutic benefit
@@ -542,7 +546,7 @@ ${mealSlots.map((slot, i) => `### ${i + 1}. ${slot.heading}
 - {beverage 4} — {specific benefit}
 
 ## Apathya — What to Strictly Avoid
-(CRITICAL: Each item MUST be a bullet with the exact format: "- Item — specific reason it is HARMFUL for THIS condition". Use category headers as bold ALL CAPS. Match the Prameha PDF structure below exactly. Minimum 4 items per category.)
+Use this exact category structure with bullet items. Each bullet must be "Item — specific reason it is HARMFUL for THIS condition". Minimum 4 items per category.
 
 **GRAINS**
 - White rice (especially new crop) — {specific reason harmful for this condition}
@@ -597,20 +601,22 @@ ${mealSlots.map((slot, i) => `### ${i + 1}. ${slot.heading}
 - {other} — {specific reason}
 
 ## Dinacharya for [CONDITION] + ${agniInf.label} Management
-(Create ${mealCount + 2} numbered entries with times, activities, and specific Ayurvedic benefits. Include morning routine, meal times, exercise, and bedtime.)
+Create ${mealCount + 2} numbered entries. Format: "Time — Activity — Ayurvedic benefit". Include morning routine, meal times, exercise, bedtime.
 
 ## Classical Home Remedies
-(Numbered — 5-6 remedies with EXACT format: Name | Preparation | When | Benefit)
+Numbered (5-6 remedies). Format: "Name | Preparation | When taken | Specific benefit for THIS condition".
 
-## Lifestyle Principles
-(3 categories with specific, actionable recommendations — not generic advice.)
+## Lifestyle Principles for [CONDITION] + [PRAKRITI]
+(Give 3-4 specific, actionable recommendations under each category. Be condition-specific — no generic advice.)
 
-**Daily Exercise**: [specific to condition and prakriti]
-**Mental Balance**: [specific to condition]
-**Sleep & Routine**: [specific to condition]
+**Daily Exercise** — {2-3 specific exercises, duration, time of day, why beneficial for THIS condition}
+
+**Mental Balance** — {2-3 specific stress-reduction techniques, why relevant for this Dosha/Condition}
+
+**Sleep & Routine** — {specific sleep/wake timing, daily routine modifications for this condition}
 
 ## A Note on Healing Through Ayurveda
-(1-2 sentences on the Ayurvedic name of the condition, root cause principle, and most critical lifestyle intervention.)
+1 sentence on the Ayurvedic name of the condition, root cause, and the single most critical lifestyle or dietary intervention.
 
 ---
 *Prepared by Dr. Jinendradutt Sharma (BAMS) | Ayurvritta Ayurveda Hospital & Panchakarma Center, Vadodara | Dietary guidance only — not a substitute for medical treatment. Contact: +91 94266 84047*`;
