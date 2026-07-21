@@ -692,64 +692,94 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult }) => {
               );
             }
             return (
-              <div key={idx} className="bg-white rounded-2xl border border-gray-100 shadow-soft overflow-hidden">
-                <div className="bg-amber-50 px-4 py-3 border-b border-amber-100">
-                  <h3 className="font-serif font-bold text-amber-800 text-base">
-                    {section.title || 'Daily Diet Schedule'}
-                  </h3>
+              <div key={idx}>
+                <div className="mb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-amber-100 rounded-xl flex items-center justify-center">
+                      <svg className="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="font-serif font-bold text-amber-800 text-lg">
+                      {section.title || 'Meal-by-Meal Guide'}
+                    </h3>
+                    <span className="text-xs text-amber-500 font-medium bg-amber-50 px-2 py-0.5 rounded-full ml-auto">
+                      {entries.length} meals
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1 ml-10">Follow this daily schedule as closely as possible</p>
                 </div>
-                <div className="divide-y divide-gray-100">
+                <div className="space-y-4">
                   {entries.map((entry, ei) => (
-                    <div key={ei} className="p-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="w-7 h-7 bg-amber-100 text-amber-700 rounded-lg flex items-center justify-center text-xs font-bold shrink-0">
-                          {ei + 1}
-                        </span>
-                        <h4 className="font-serif font-bold text-gray-800 text-base">{entry.heading}</h4>
-                        {entry.time && (
-                          <span className="ml-auto text-xs text-amber-600 font-medium bg-amber-50 px-2 py-0.5 rounded-full">
-                            {entry.time}
-                          </span>
+                    <div key={ei} className="backdrop-blur-xl bg-white/70 rounded-2xl border border-amber-100/60 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+                      <div className="bg-gradient-to-r from-amber-50/80 to-orange-50/80 px-4 py-3 border-b border-amber-100/50">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-amber-100 rounded-xl flex items-center justify-center shrink-0">
+                            <span className="text-amber-700 text-sm font-bold">{ei + 1}</span>
+                          </div>
+                          <h4 className="font-serif font-bold text-gray-800 text-base">{entry.heading}</h4>
+                          {entry.time && (
+                            <span className="ml-auto text-xs text-amber-700 font-semibold bg-amber-100/80 px-3 py-1 rounded-full">
+                              {entry.time}
+                            </span>
+                          )}
+                        </div>
+                        {entry.note && (
+                          <p className="text-xs text-gray-500 italic mt-2 ml-11">{entry.note}</p>
                         )}
                       </div>
-                      {entry.note && (
-                        <p className="text-xs text-gray-500 italic mb-3 ml-9">{entry.note}</p>
-                      )}
-                      <div className="ml-9 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {entry.recommended.length > 0 && (
-                          <div>
-                            <div className="text-xs font-bold text-green-700 uppercase tracking-wide mb-2 flex items-center gap-1.5">
-                              <span className="text-green-500">●</span> Recommended
+                      <div className="p-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          {entry.recommended.length > 0 && (
+                            <div className="bg-emerald-50/80 rounded-xl p-3 border border-emerald-100/50">
+                              <div className="text-xs font-bold text-emerald-700 uppercase tracking-wide mb-2.5 flex items-center gap-1.5">
+                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Recommended
+                              </div>
+                              <div className="space-y-1.5">
+                                {entry.recommended.map((item, ji) => {
+                                  const parts = item.split(/[—–]/).map(s => s.trim());
+                                  return (
+                                    <div key={ji} className="flex gap-2 items-start">
+                                      <span className="w-1.5 h-1.5 bg-emerald-400/60 rounded-full mt-1.5 shrink-0" />
+                                      <div>
+                                        <span className="font-medium text-gray-800 text-xs leading-relaxed">{parts[0]}</span>
+                                        {parts[1] && <span className="text-gray-500 text-xs"> — {parts.slice(1).join(' — ')}</span>}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
                             </div>
-                            <div className="space-y-1">
-                              {entry.recommended.map((item, ji) => (
-                                <div key={ji} className="flex gap-2 items-start">
-                                  <span className="text-green-400 mt-0.5 shrink-0">•</span>
-                                  <span className="text-gray-700 text-xs leading-relaxed">{item}</span>
-                                </div>
-                              ))}
+                          )}
+                          {entry.avoid.length > 0 && (
+                            <div className="bg-red-50/80 rounded-xl p-3 border border-red-100/50">
+                              <div className="text-xs font-bold text-red-700 uppercase tracking-wide mb-2.5 flex items-center gap-1.5">
+                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Avoid
+                              </div>
+                              <div className="space-y-1.5">
+                                {entry.avoid.map((item, ji) => {
+                                  const parts = item.split(/[—–]/).map(s => s.trim());
+                                  return (
+                                    <div key={ji} className="flex gap-2 items-start">
+                                      <span className="w-1.5 h-1.5 bg-red-300/60 rounded-full mt-1.5 shrink-0" />
+                                      <div>
+                                        <span className="font-medium text-gray-700 text-xs leading-relaxed">{parts[0]}</span>
+                                        {parts[1] && <span className="text-gray-500 text-xs"> — {parts.slice(1).join(' — ')}</span>}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
                             </div>
-                          </div>
-                        )}
-                        {entry.avoid.length > 0 && (
-                          <div>
-                            <div className="text-xs font-bold text-red-700 uppercase tracking-wide mb-2 flex items-center gap-1.5">
-                              <span className="text-red-400">○</span> Avoid
-                            </div>
-                            <div className="space-y-1">
-                              {entry.avoid.map((item, ji) => (
-                                <div key={ji} className="flex gap-2 items-start">
-                                  <span className="text-red-300 mt-0.5 shrink-0">•</span>
-                                  <span className="text-gray-500 text-xs leading-relaxed">{item}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
+                          )}
+                        </div>
                       </div>
-                      {entry.recommended.length === 0 && entry.avoid.length === 0 && (
-                        <p className="ml-9 text-xs text-gray-400">No specific items listed.</p>
-                      )}
                     </div>
                   ))}
                 </div>
@@ -762,27 +792,50 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult }) => {
             const categories = Object.keys(items).filter(k => items[k]?.length > 0);
             if (!categories.length) return null;
             return (
-              <div key={idx} className="bg-white rounded-2xl border border-gray-100 shadow-soft overflow-hidden">
-                <div className="bg-emerald-50 px-4 py-3 border-b border-emerald-100">
-                  <h3 className="font-serif font-bold text-emerald-800 text-base">
-                    {section.title || 'Pathya — Eat Freely'}
-                  </h3>
-                </div>
-                <div className="p-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {categories.map(cat => (
-                      <div key={cat} className="bg-emerald-50 rounded-xl p-3 border border-emerald-100">
-                        <div className="text-xs font-bold text-emerald-700 uppercase tracking-wide mb-2">{cat}</div>
-                        <div className="flex flex-wrap gap-1.5">
-                          {items[cat].map((item, j) => (
-                            <span key={j} className="px-2.5 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium">
-                              {item}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
+              <div key={idx}>
+                <div className="mb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-emerald-100 rounded-xl flex items-center justify-center">
+                      <svg className="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="font-serif font-bold text-emerald-800 text-lg">
+                      {section.title || 'Pathya — Eat Freely'}
+                    </h3>
+                    <span className="text-xs text-emerald-500 font-medium bg-emerald-50 px-2 py-0.5 rounded-full ml-auto">
+                      {categories.length} categories
+                    </span>
                   </div>
+                  <p className="text-xs text-gray-500 mt-1 ml-10">Organized by food category with therapeutic notes</p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {categories.map(cat => (
+                    <div key={cat} className="group backdrop-blur-xl bg-white/70 rounded-2xl border border-white/40 shadow-lg hover:shadow-xl transition-all duration-300 p-4">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-6 h-6 bg-emerald-100 rounded-lg flex items-center justify-center">
+                          <span className="text-emerald-600 text-[10px] font-bold">{cat.charAt(0)}</span>
+                        </div>
+                        <div className="text-xs font-bold text-emerald-700 uppercase tracking-wider">{cat}</div>
+                      </div>
+                      <div className="space-y-2">
+                        {items[cat].map((item, j) => {
+                          const parts = item.split(/[—–]/).map(s => s.trim());
+                          return (
+                            <div key={j} className="flex gap-2.5 items-start group/item">
+                              <span className="w-1.5 h-1.5 bg-emerald-400/60 rounded-full mt-2 shrink-0 group-hover/item:bg-emerald-500 transition-colors" />
+                              <div>
+                                <span className="font-semibold text-gray-800 text-sm leading-snug">{parts[0]}</span>
+                                {parts[1] && (
+                                  <span className="text-gray-500 text-xs leading-relaxed"> — {parts.slice(1).join(' — ')}</span>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             );
@@ -793,27 +846,50 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult }) => {
             const categories = Object.keys(items).filter(k => items[k]?.length > 0);
             if (!categories.length) return null;
             return (
-              <div key={idx} className="bg-white rounded-2xl border border-gray-100 shadow-soft overflow-hidden">
-                <div className="bg-red-50 px-4 py-3 border-b border-red-100">
-                  <h3 className="font-serif font-bold text-red-800 text-base">
-                    {section.title || 'Apathya — Strictly Avoid'}
-                  </h3>
-                </div>
-                <div className="p-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {categories.map(cat => (
-                      <div key={cat} className="bg-red-50 rounded-xl p-3 border border-red-100">
-                        <div className="text-xs font-bold text-red-700 uppercase tracking-wide mb-2">{cat}</div>
-                        <div className="flex flex-wrap gap-1.5">
-                          {items[cat].map((item, j) => (
-                            <span key={j} className="px-2.5 py-1 bg-red-100 text-red-700 rounded-full text-xs font-medium">
-                              {item}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
+              <div key={idx}>
+                <div className="mb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-red-100 rounded-xl flex items-center justify-center">
+                      <svg className="w-4 h-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="font-serif font-bold text-red-800 text-lg">
+                      {section.title || 'Apathya — Strictly Avoid'}
+                    </h3>
+                    <span className="text-xs text-red-500 font-medium bg-red-50 px-2 py-0.5 rounded-full ml-auto">
+                      {categories.length} categories
+                    </span>
                   </div>
+                  <p className="text-xs text-gray-500 mt-1 ml-10">Each item includes the specific reason it is harmful</p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {categories.map(cat => (
+                    <div key={cat} className="group backdrop-blur-xl bg-white/70 rounded-2xl border border-red-100/60 shadow-lg hover:shadow-xl transition-all duration-300 p-4">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-6 h-6 bg-red-100 rounded-lg flex items-center justify-center">
+                          <span className="text-red-600 text-[10px] font-bold">{cat.charAt(0)}</span>
+                        </div>
+                        <div className="text-xs font-bold text-red-700 uppercase tracking-wider">{cat}</div>
+                      </div>
+                      <div className="space-y-2">
+                        {items[cat].map((item, j) => {
+                          const parts = item.split(/[—–]/).map(s => s.trim());
+                          return (
+                            <div key={j} className="flex gap-2.5 items-start group/item">
+                              <span className="w-1.5 h-1.5 bg-red-300/60 rounded-full mt-2 shrink-0 group-hover/item:bg-red-400 transition-colors" />
+                              <div>
+                                <span className="font-medium text-gray-700 text-sm leading-snug">{parts[0]}</span>
+                                {parts[1] && (
+                                  <span className="text-gray-500 text-xs leading-relaxed"> — {parts.slice(1).join(' — ')}</span>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             );

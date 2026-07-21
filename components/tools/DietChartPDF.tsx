@@ -31,6 +31,21 @@ const SECTION_COLORS: Record<string, [number, number, number]> = {
   'EVENING':          [13, 130, 120],
   'DINNER':           [5, 130, 95],
   'BEDTIME':          [79, 70, 229],
+  'PATHYA':           [21, 120, 55],
+  'PATHYA — WHAT TO EAT FREELY': [21, 120, 55],
+  'APATHYA':          [200, 35, 35],
+  'APATHYA — WHAT TO STRICTLY AVOID': [200, 35, 35],
+  'GRAINS':           [21, 128, 61],
+  'VEGETABLES':       [22, 140, 50],
+  'PULSES':           [25, 120, 70],
+  'FRUITS':           [30, 135, 65],
+  'DAIRY':            [40, 110, 80],
+  'FATS & OILS':      [50, 100, 60],
+  'SPICES':           [130, 90, 30],
+  'BEVERAGES':        [20, 100, 130],
+  'SWEETS':           [200, 50, 50],
+  'PREPARED FOODS':   [180, 60, 40],
+  'OTHERS':           [160, 50, 70],
   'FOODS TO FAVOR':   [21, 120, 55],
   'FOODS TO AVOID':   [200, 35, 35],
   'BENEFICIAL HERBS': [5, 130, 95],
@@ -45,10 +60,18 @@ const SECTION_COLORS: Record<string, [number, number, number]> = {
 
 const DEFAULT_COLOR: [number, number, number] = [100, 100, 110];
 
-const DANGER_SECTIONS = new Set(['FOODS TO AVOID', 'PRECAUTIONS', 'IMPORTANT']);
+const DANGER_SECTIONS = new Set([
+  'FOODS TO AVOID', 'APATHYA', 'APATHYA — WHAT TO STRICTLY AVOID',
+  'SWEETS', 'PREPARED FOODS', 'OTHERS',
+  'PRECAUTIONS', 'IMPORTANT',
+]);
 const LIST_SECTIONS = new Set([
   'FOODS TO FAVOR', 'FOODS TO AVOID', 'BENEFICIAL HERBS', 'HERBS',
   'LIFESTYLE TIPS', 'LIFESTYLE', 'PRECAUTIONS', 'IMPORTANT',
+  'PATHYA', 'PATHYA — WHAT TO EAT FREELY',
+  'APATHYA', 'APATHYA — WHAT TO STRICTLY AVOID',
+  'GRAINS', 'VEGETABLES', 'PULSES', 'FRUITS', 'DAIRY',
+  'FATS & OILS', 'SPICES', 'BEVERAGES', 'SWEETS', 'PREPARED FOODS', 'OTHERS',
 ]);
 
 // ─── Text cleaning: strip markdown + emojis (jsPDF only supports Latin-1) ───
@@ -362,9 +385,18 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
 
         // Section items
         for (const text of validItems) {
-          const textLines = doc.splitTextToSize(text, CW - 18);
-          const lineH = 4.2;
-          const itemH = textLines.length * lineH + 5;
+          // Split on — to get item name + therapeutic note
+          const parts = text.split(/[—–]/).map(s => s.trim());
+          const itemName = parts[0];
+          const itemNote = parts.slice(1).join(' — ');
+
+          // Main item name line
+          const nameLines = doc.splitTextToSize(itemName, CW - 30);
+          // Note lines  
+          const noteLines = itemNote ? doc.splitTextToSize(itemNote, CW - 30) : [];
+          const totalLines = nameLines.length + noteLines.length;
+          const lineH = 4.5;
+          const itemH = Math.max(totalLines * lineH + 6, 8);
 
           needPage(itemH);
 
@@ -388,15 +420,23 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
 
           // Bullet dot
           setColor(c);
-          doc.circle(M + 8, y + 4, 1, 'F');
+          doc.circle(M + 8, y + 3.5, 1, 'F');
 
-          // Text
-          doc.setTextColor(50, 55, 65);
-          doc.setFontSize(9);
-          doc.setFont('helvetica', 'normal');
-          doc.text(textLines, M + 12, y + 4);
+          // Item name (bold)
+          doc.setTextColor(40, 45, 55);
+          doc.setFontSize(9.5);
+          doc.setFont('helvetica', 'bold');
+          doc.text(nameLines, M + 13, y + 4);
 
-          y += itemH + 1.5;
+          // Item note (regular)
+          if (noteLines.length > 0) {
+            doc.setTextColor(80, 90, 100);
+            doc.setFontSize(8.5);
+            doc.setFont('helvetica', 'normal');
+            doc.text(noteLines, M + 13, y + 4 + nameLines.length * lineH + 1);
+          }
+
+          y += itemH + 2;
         }
 
         y += 2;
