@@ -6,30 +6,30 @@ interface DietChartRendererProps {
 }
 
 // ─── Typed section interfaces ───
-interface MealRow {
+export interface MealRow {
   time: string;
   recommended: string[];
   avoid: string[];
 }
 
-interface CategoryItems {
+export interface CategoryItems {
   [category: string]: string[];
 }
 
-interface DinacharyaItem {
+export interface DinacharyaItem {
   time: string;
   activity: string;
   benefit: string;
 }
 
-interface Remedy {
+export interface Remedy {
   name: string;
   preparation: string;
   when: string;
   benefit: string;
 }
 
-type SectionType =
+export type SectionType =
   | 'title'
   | 'intro'
   | 'core-principles'
@@ -45,7 +45,7 @@ type SectionType =
   | 'validation'
   | 'unknown';
 
-interface MealEntry {
+export interface MealEntry {
   heading: string;
   time?: string;
   note?: string;
@@ -53,7 +53,7 @@ interface MealEntry {
   avoid: string[];
 }
 
-interface Section {
+export interface Section {
   type: SectionType;
   title?: string;
   rawLines: string[];
@@ -107,7 +107,7 @@ function isNumberedItem(line: string): boolean {
   return /^\d+[.\)]\s*/.test(line.trim());
 }
 
-function stripMarkdown(s: string): string {
+export function stripMarkdown(s: string): string {
   return s.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').trim();
 }
 
@@ -149,27 +149,27 @@ function parseCorePrinciples(lines: string[]): string[] {
   for (const line of lines) {
     const t = line.trim();
     if (!t) {
-      if (current) { items.push(stripMarkdown(current)); current = ''; }
+      if (current) { items.push(current.trim()); current = ''; }
       continue;
     }
     if (isHeading(t, 1) || isHeading(t, 2) || isHeading(t, 3)) continue;
 
     if (isBoldLine(t)) {
-      if (current) { items.push(stripMarkdown(current)); current = ''; }
-      items.push(stripMarkdown(stripBold(t)));
+      if (current) { items.push(current.trim()); current = ''; }
+      items.push(stripBold(t).trim());
     } else if (t.startsWith('- ') || t.startsWith('* ') || t.startsWith('• ')) {
-      if (current) { items.push(stripMarkdown(current)); current = ''; }
-      items.push(stripMarkdown(stripBullet(t)));
+      if (current) { items.push(current.trim()); current = ''; }
+      items.push(stripBullet(t));
     } else if (t.match(/^\d+[.\)]\s/)) {
-      if (current) { items.push(stripMarkdown(current)); current = ''; }
-      items.push(stripMarkdown(t.replace(/^\d+[.\)]\s*/, '').trim()));
+      if (current) { items.push(current.trim()); current = ''; }
+      items.push(t.replace(/^\d+[.\)]\s*/, '').trim());
     } else if (t.length > 10) {
       if (current) current += ' ' + t;
       else current = t;
     }
     if (items.length >= 8) break;
   }
-  if (current) items.push(stripMarkdown(current));
+  if (current) items.push(current.trim());
   return items.filter(Boolean);
 }
 
@@ -469,7 +469,7 @@ function parseLifestyle(lines: string[]): { [key: string]: string[] } {
 }
 
 // ─── Main Parser ───
-function parseAIResult(text: string): Section[] {
+export function parseAIResult(text: string): Section[] {
   const sections: Section[] = [];
   if (!text || !text.trim()) return sections;
 
@@ -703,7 +703,7 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult, id }) =
                   </h3>
                   <div className="space-y-2">
                     {section.rawLines.filter(l => l.trim()).map((l, i) => (
-                      <div key={i} className="text-sm text-gray-700">{l}</div>
+                      <div key={i} className="text-sm text-gray-700">{stripMarkdown(l)}</div>
                     ))}
                   </div>
                 </div>
@@ -729,13 +729,13 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult, id }) =
                       {rows.map((row, i) => (
                         <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                           <td className="px-4 py-3 align-top">
-                            <span className="text-xs font-medium text-gray-600">{row.time}</span>
+                            <span className="text-xs font-medium text-gray-600">{stripMarkdown(row.time)}</span>
                           </td>
                           <td className="px-4 py-3 align-top">
                             {row.recommended.map((item, j) => (
                               <div key={j} className="flex gap-2 items-start mb-1.5 last:mb-0">
                                 <span className="text-green-500 mt-0.5 shrink-0">●</span>
-                                <span className="text-gray-700 text-xs leading-relaxed">{item}</span>
+                                <span className="text-gray-700 text-xs leading-relaxed">{stripMarkdown(item)}</span>
                               </div>
                             ))}
                             {row.recommended.length === 0 && <span className="text-gray-400 text-xs">—</span>}
@@ -744,7 +744,7 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult, id }) =
                             {row.avoid.map((item, j) => (
                               <div key={j} className="flex gap-2 items-start mb-1.5 last:mb-0">
                                 <span className="text-red-400 mt-0.5 shrink-0">○</span>
-                                <span className="text-gray-500 text-xs leading-relaxed">{item}</span>
+                                <span className="text-gray-500 text-xs leading-relaxed">{stripMarkdown(item)}</span>
                               </div>
                             ))}
                             {row.avoid.length === 0 && <span className="text-gray-400 text-xs">—</span>}

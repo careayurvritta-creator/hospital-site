@@ -1116,14 +1116,7 @@ try {
             <div className="flex gap-3 mb-3">
               <DietChartPDF
                 patientName={inputs.patient.name}
-                patientAge={inputs.patient.age}
-                patientGender={inputs.patient.gender}
-                patientOccupation={inputs.patient.occupation}
-                prakriti={inputs.prakriti}
-                dietaryPref={inputs.dietaryPref}
-                allergies={inputs.allergies}
-                condition={[...inputs.complaints, inputs.customComplaint].filter(Boolean).join(', ')}
-                containerId="diet-chart-content"
+                aiResult={aiResult}
               />
             </div>
 
