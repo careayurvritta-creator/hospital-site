@@ -1112,46 +1112,72 @@ try {
         {/* ═══ RESULT ═══ */}
         {phase === 'result' && (
           <div className="animate-fadeInUp">
-            {/* Summary card */}
-            <div className="bg-gradient-to-r from-ayur-green to-ayur-green-dark rounded-3xl p-6 text-white mb-4 shadow-glow">
-              <div className="flex items-start justify-between mb-3">
-                <div>
-                  <div className="text-2xl font-serif font-bold">{inputs.patient.name}'s Diet Plan</div>
-                  <div className="text-white/70 text-sm mt-1">{inputs.patient.age} yrs • {inputs.patient.gender}</div>
-                </div>
-                <div className="text-4xl">📋</div>
-              </div>
-              <div className="flex flex-wrap gap-2 mt-3">
-                {[...inputs.complaints, inputs.customComplaint].filter(Boolean).map((c, i) => (
-                  <span key={i} className="px-3 py-1 bg-white/20 rounded-full text-xs font-medium backdrop-blur-sm">{c}</span>
-                ))}
-                {detectedAgni && (
-                  <span className="px-3 py-1 bg-amber-400/30 rounded-full text-xs font-medium backdrop-blur-sm">
-                    {AGNI_INFO[detectedAgni].label}
-                  </span>
-                )}
-                {inputs.prakriti && (
-                  <span className="px-3 py-1 bg-ayur-accent/30 rounded-full text-xs font-medium backdrop-blur-sm">{inputs.prakriti}</span>
-                )}
-              </div>
+            {/* PDF button (outside capture) */}
+            <div className="flex gap-3 mb-3">
+              <DietChartPDF
+                patientName={inputs.patient.name}
+                patientAge={inputs.patient.age}
+                patientGender={inputs.patient.gender}
+                patientOccupation={inputs.patient.occupation}
+                prakriti={inputs.prakriti}
+                dietaryPref={inputs.dietaryPref}
+                allergies={inputs.allergies}
+                condition={[...inputs.complaints, inputs.customComplaint].filter(Boolean).join(', ')}
+                containerId="diet-chart-content"
+              />
             </div>
 
-            {/* Knowledge source */}
-            {matchedFiles.length > 0 && (
-              <div className="bg-emerald-50 rounded-2xl p-3 border border-emerald-200 mb-4">
-                <span className="text-xs text-emerald-700 font-medium">📚 Based on: {matchedFiles.map(f => f.label).join(', ')}</span>
-              </div>
-            )}
-
-            {/* Fallback notice */}
-            {isLocal && (
-              <div className="mb-4 px-4 py-3 bg-amber-50 border border-amber-200 rounded-2xl text-xs text-amber-700">
-                <strong>Note:</strong> Showing reference chart from knowledge base. For AI-generated personalized plan, ensure API access.
-              </div>
-            )}
-
-            {/* Diet Chart — captured as PDF */}
+            {/* ── Captured for PDF ── */}
             <div id="diet-chart-content" className="space-y-4 mb-4">
+              {/* Patient summary card */}
+              <div className="bg-gradient-to-r from-ayur-green to-ayur-green-dark rounded-3xl p-6 text-white shadow-glow">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <div className="text-2xl font-serif font-bold">{inputs.patient.name}'s Diet Plan</div>
+                    <div className="text-white/70 text-sm mt-1">{inputs.patient.age} yrs • {inputs.patient.gender}{inputs.patient.occupation ? ` • ${inputs.patient.occupation}` : ''}</div>
+                  </div>
+                  <div className="text-4xl">📋</div>
+                </div>
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {[...inputs.complaints, inputs.customComplaint].filter(Boolean).map((c, i) => (
+                    <span key={i} className="px-3 py-1 bg-white/20 rounded-full text-xs font-medium backdrop-blur-sm">{c}</span>
+                  ))}
+                  {detectedAgni && (
+                    <span className="px-3 py-1 bg-amber-400/30 rounded-full text-xs font-medium backdrop-blur-sm">
+                      {AGNI_INFO[detectedAgni].label}
+                    </span>
+                  )}
+                  {inputs.prakriti && (
+                    <span className="px-3 py-1 bg-ayur-accent/30 rounded-full text-xs font-medium backdrop-blur-sm">{inputs.prakriti}</span>
+                  )}
+                </div>
+                {inputs.allergies && inputs.allergies.length > 0 && inputs.allergies[0] !== 'None' && (
+                  <div className="mt-3 px-3 py-2 bg-red-500/20 rounded-xl text-xs text-red-100">
+                    ⚠ Allergies: {inputs.allergies.join(', ')}
+                  </div>
+                )}
+              </div>
+
+              {/* Knowledge source */}
+              {matchedFiles.length > 0 && (
+                <div className="backdrop-blur-xl bg-emerald-50/80 rounded-2xl p-3 border border-emerald-200/60 shadow-lg">
+                  <span className="text-xs text-emerald-700 font-medium">📚 Based on: {matchedFiles.map(f => f.label).join(', ')}</span>
+                </div>
+              )}
+
+              {/* Fallback notice */}
+              {isLocal && (
+                <div className="backdrop-blur-xl bg-amber-50/80 rounded-2xl p-3 border border-amber-200/60 shadow-lg text-xs text-amber-700">
+                  <strong>Note:</strong> Showing reference chart from knowledge base. For AI-generated personalized plan, ensure API access.
+                </div>
+              )}
+
+              {/* AI generation disclaimer */}
+              <div className="backdrop-blur-xl bg-blue-50/60 rounded-2xl p-4 border border-blue-100/60 shadow-lg text-xs text-gray-600 leading-relaxed">
+                <strong className="text-blue-700">About this Diet Chart:</strong> This personalized diet plan is AI-generated based on authentic Ayurvedic texts and classical knowledge sources, reviewed by Dr. Jinendradutt Sharma. It is intended as a general guideline — individual results may vary. For significant dietary changes or persistent health concerns, please consult directly.
+              </div>
+
+              {/* Diet chart */}
               <DietChartRenderer aiResult={aiResult} id="diet-chart-renderer" />
 
               {/* Summary pills */}
@@ -1172,26 +1198,18 @@ try {
                 </div>
               )}
 
-              {/* Attribution */}
-              <div className="backdrop-blur-xl bg-gradient-to-r from-amber-50/80 to-white/60 rounded-2xl p-4 border border-amber-100/60 shadow-lg text-center">
-                <div className="text-xs text-gray-500">Prepared by Dr. Jinendradutt Sharma</div>
-                <div className="text-xs text-amber-700 font-medium">Ayurvritta Ayurveda Hospital, Vadodara • +91 94266 84047</div>
+              {/* Doctor attribution + disclaimer */}
+              <div className="backdrop-blur-xl bg-gradient-to-r from-amber-50/80 to-white/60 rounded-2xl p-5 border border-amber-100/60 shadow-lg text-center space-y-2">
+                <div className="text-sm font-serif font-bold text-amber-800">Prepared by Dr. Jinendradutt Sharma (BAMS, MD)</div>
+                <div className="text-xs text-gray-500">Ayurvritta Ayurveda Hospital, Vadodara, Gujarat</div>
+                <div className="text-xs text-amber-700 font-medium">📞 +91 94266 84047</div>
+                <div className="border-t border-amber-200/50 pt-2 mt-2">
+                  <div className="text-[11px] text-gray-400 italic">
+                    This chart is AI-generated from classical Ayurveda texts and reviewed by the treating physician.
+                    It is not a substitute for in-person consultation. For queries or modifications, contact the clinic.
+                  </div>
+                </div>
               </div>
-            </div>
-
-            {/* PDF button */}
-            <div className="flex gap-3 mb-3">
-              <DietChartPDF
-                patientName={inputs.patient.name}
-                patientAge={inputs.patient.age}
-                patientGender={inputs.patient.gender}
-                patientOccupation={inputs.patient.occupation}
-                prakriti={inputs.prakriti}
-                dietaryPref={inputs.dietaryPref}
-                allergies={inputs.allergies}
-                condition={[...inputs.complaints, inputs.customComplaint].filter(Boolean).join(', ')}
-                containerId="diet-chart-content"
-              />
             </div>
 
             <div className="flex gap-3">
