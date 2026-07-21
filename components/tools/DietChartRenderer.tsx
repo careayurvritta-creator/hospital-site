@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 
 interface DietChartRendererProps {
   aiResult: string;
+  id?: string;
 }
 
 // ─── Typed section interfaces ───
@@ -362,8 +363,8 @@ function parseDinacharya(lines: string[]): DinacharyaItem[] {
 
       items.push({
         time: timeMatch ? timeMatch[1] : timePart,
-        activity: activity,
-        benefit,
+        activity: stripMarkdown(activity),
+        benefit: stripMarkdown(benefit),
       });
       continue;
     }
@@ -376,11 +377,11 @@ function parseDinacharya(lines: string[]): DinacharyaItem[] {
       if (parts.length >= 2) {
         items.push({
           time: '',
-          activity: parts[0],
-          benefit: parts.slice(1).join(' — '),
+          activity: stripMarkdown(parts[0]),
+          benefit: stripMarkdown(parts.slice(1).join(' — ')),
         });
       } else if (parts.length === 1) {
-        items.push({ time: '', activity: parts[0], benefit: '' });
+        items.push({ time: '', activity: stripMarkdown(parts[0]), benefit: '' });
       }
     }
   }
@@ -397,8 +398,8 @@ function parseRemedies(lines: string[]): Remedy[] {
     // Pattern: "1. **Name**: Preparation: X | When: Y | Benefit: Z"
     const match = t.match(/^\d+[.\)]\s*\*\*(.+?)\*\*[:\s]*(.+)/);
     if (match) {
-      const name = match[1];
-      const rest = match[2];
+      const name = stripMarkdown(match[1]);
+      const rest = stripMarkdown(match[2]);
 
       const prep = (rest.match(/Preparation:([^|]+)/i) || [null, ''])[1].trim();
       const when = (rest.match(/When:([^|]+)/i) || [null, ''])[1].trim();
@@ -433,7 +434,7 @@ function parseLifestyle(lines: string[]): { [key: string]: string[] } {
     }
 
     if (currentCategory && (t.startsWith('- ') || t.startsWith('* ') || t.startsWith('• '))) {
-      lifestyle[currentCategory].push(stripBullet(t));
+      lifestyle[currentCategory].push(stripMarkdown(stripBullet(t)));
     }
   }
   return lifestyle;
@@ -545,19 +546,19 @@ function parseAIResult(text: string): Section[] {
 }
 
 // ─── Renderer Component ───
-const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult }) => {
+const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult, id }) => {
   const sections = useMemo(() => parseAIResult(aiResult), [aiResult]);
 
   if (!sections.length) {
     return (
-      <div className="bg-white rounded-3xl p-6 text-center text-gray-500">
+      <div id={id} className="bg-white rounded-3xl p-6 text-center text-gray-500">
         No diet chart data available
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div id={id} className="space-y-4">
       {sections.map((section, idx) => {
         switch (section.type) {
           case 'title':
@@ -570,11 +571,18 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult }) => {
 
           case 'intro':
             return (
-              <div key={idx} className="bg-white rounded-2xl border border-gray-100 shadow-soft p-5">
-                <h3 className="font-serif font-bold text-ayur-green text-base mb-3">
-                  {section.title || 'Understanding Your Condition in Ayurveda'}
-                </h3>
-                <p className="text-gray-700 text-sm leading-relaxed">{section.introText}</p>
+              <div key={idx} className="backdrop-blur-xl bg-white/70 rounded-2xl border border-white/40 shadow-lg p-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-7 h-7 bg-emerald-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-3.5 h-3.5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="font-serif font-bold text-emerald-800 text-base">
+                    {section.title || 'Understanding Your Condition in Ayurveda'}
+                  </h3>
+                </div>
+                <p className="text-gray-700 text-sm leading-relaxed ml-9">{stripMarkdown(section.introText || '')}</p>
               </div>
             );
 
@@ -582,8 +590,8 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult }) => {
             const principles = section.principles || [];
             if (!principles.length) return null;
             return (
-              <div key={idx} className="bg-white rounded-2xl border border-gray-100 shadow-soft overflow-hidden">
-                <div className="bg-emerald-50 px-4 py-3 border-b border-emerald-100">
+              <div key={idx} className="backdrop-blur-xl bg-white/70 rounded-2xl border border-emerald-100/60 shadow-lg overflow-hidden">
+                <div className="bg-gradient-to-r from-emerald-50/80 to-teal-50/80 px-4 py-3 border-b border-emerald-100/50">
                   <h3 className="font-serif font-bold text-emerald-800 text-base">
                     {section.title || 'Core Dietary Principles'}
                   </h3>
@@ -592,14 +600,14 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult }) => {
                   {principles.map((p, i) => {
                     const boldMatch = p.match(/^\*\*(.+?)\*\*[:\s]*(.+)/);
                     return (
-                      <div key={i} className="flex gap-3 items-start p-3 bg-gray-50 rounded-xl">
+                      <div key={i} className="flex gap-3 items-start p-3 bg-emerald-50/50 rounded-xl">
                         <span className="w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
                           {i + 1}
                         </span>
                         {boldMatch ? (
                           <>
-                            <span className="font-bold text-ayur-green text-sm">{boldMatch[1]}:</span>
-                            <span className="text-gray-600 text-sm">{boldMatch[2]}</span>
+                            <span className="font-bold text-emerald-700 text-sm">{stripMarkdown(boldMatch[1])}:</span>
+                            <span className="text-gray-600 text-sm">{stripMarkdown(boldMatch[2])}</span>
                           </>
                         ) : (
                           <span className="text-gray-700 text-sm">{stripMarkdown(p)}</span>
@@ -945,22 +953,22 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult }) => {
             const items = section.dinacharya || [];
             if (!items.length) return null;
             return (
-              <div key={idx} className="bg-white rounded-2xl border border-gray-100 shadow-soft overflow-hidden">
-                <div className="bg-indigo-50 px-4 py-3 border-b border-indigo-100">
+              <div key={idx} className="backdrop-blur-xl bg-white/70 rounded-2xl border border-indigo-100/60 shadow-lg overflow-hidden">
+                <div className="bg-gradient-to-r from-indigo-50/80 to-purple-50/80 px-4 py-3 border-b border-indigo-100/50">
                   <h3 className="font-serif font-bold text-indigo-800 text-base">
                     {section.title || 'Daily Routine (Dinacharya)'}
                   </h3>
                 </div>
                 <div className="p-4 space-y-2">
                   {items.map((item, i) => (
-                    <div key={i} className="flex gap-4 items-start p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                    <div key={i} className="flex gap-4 items-start p-3 bg-indigo-50/50 rounded-xl hover:bg-indigo-50/80 transition-colors">
                       <div className="w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold text-sm shrink-0">
                         {i + 1}
                       </div>
                       <div className="flex-1">
-                        {item.time && <div className="text-xs font-medium text-indigo-600 mb-0.5">{item.time}</div>}
-                        <div className="font-medium text-gray-800 text-sm">{item.activity}</div>
-                        {item.benefit && <div className="text-xs text-gray-500 mt-0.5">{item.benefit}</div>}
+                        {item.time && <div className="text-xs font-medium text-indigo-600 mb-0.5">{stripMarkdown(item.time)}</div>}
+                        <div className="font-medium text-gray-800 text-sm">{stripMarkdown(item.activity)}</div>
+                        {item.benefit && <div className="text-xs text-gray-500 mt-0.5">{stripMarkdown(item.benefit)}</div>}
                       </div>
                     </div>
                   ))}
@@ -972,57 +980,56 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult }) => {
           case 'remedies': {
             const remedies = section.remedies || [];
             if (!remedies.length) {
-              // Fallback: render raw lines
               return (
-                <div key={idx} className="bg-white rounded-2xl border border-gray-100 shadow-soft p-4">
+                <div key={idx} className="backdrop-blur-xl bg-white/70 rounded-2xl border border-amber-100/60 shadow-lg p-5">
                   <h3 className="font-serif font-bold text-amber-800 text-base mb-3">
                     {section.title || 'Classical Home Remedies'}
                   </h3>
                   <div className="space-y-2">
                     {section.rawLines.filter(l => l.trim() && !l.startsWith('#')).map((l, i) => (
-                      <div key={i} className="text-sm text-gray-700">{l}</div>
+                      <div key={i} className="text-sm text-gray-700">{stripMarkdown(l)}</div>
                     ))}
                   </div>
                 </div>
               );
             }
             return (
-              <div key={idx} className="bg-white rounded-2xl border border-gray-100 shadow-soft overflow-hidden">
-                <div className="bg-amber-50 px-4 py-3 border-b border-amber-100">
+              <div key={idx} className="backdrop-blur-xl bg-white/70 rounded-2xl border border-amber-100/60 shadow-lg overflow-hidden">
+                <div className="bg-gradient-to-r from-amber-50/80 to-orange-50/80 px-4 py-3 border-b border-amber-100/50">
                   <h3 className="font-serif font-bold text-amber-800 text-base">
                     {section.title || 'Classical Home Remedies'}
                   </h3>
                 </div>
                 <div className="p-4 space-y-3">
                   {remedies.map((r, i) => (
-                    <div key={i} className="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                    <div key={i} className="bg-amber-50/80 rounded-xl p-4 border border-amber-100/60">
                       <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 bg-amber-200 text-amber-800 rounded-full flex items-center justify-center font-bold text-sm shrink-0">
+                        <div className="w-8 h-8 bg-amber-200/80 text-amber-800 rounded-full flex items-center justify-center font-bold text-sm shrink-0">
                           {i + 1}
                         </div>
                         <div className="flex-1">
-                          <div className="font-serif font-bold text-amber-900 text-sm mb-2">{r.name}</div>
+                          <div className="font-serif font-bold text-amber-900 text-sm mb-2">{stripMarkdown(r.name)}</div>
                           <div className="space-y-1 text-xs">
                             {r.preparation && (
                               <div className="flex gap-2">
                                 <span className="font-semibold text-amber-700 shrink-0">Preparation:</span>
-                                <span className="text-gray-700">{r.preparation}</span>
+                                <span className="text-gray-700">{stripMarkdown(r.preparation)}</span>
                               </div>
                             )}
                             {r.when && (
                               <div className="flex gap-2">
                                 <span className="font-semibold text-amber-700 shrink-0">When:</span>
-                                <span className="text-gray-700">{r.when}</span>
+                                <span className="text-gray-700">{stripMarkdown(r.when)}</span>
                               </div>
                             )}
                             {r.benefit && (
                               <div className="flex gap-2">
                                 <span className="font-semibold text-green-700 shrink-0">Benefit:</span>
-                                <span className="text-gray-700">{r.benefit}</span>
+                                <span className="text-gray-700">{stripMarkdown(r.benefit)}</span>
                               </div>
                             )}
                             {!r.preparation && !r.when && !r.benefit && (
-                              <span className="text-gray-600">{r.name}</span>
+                              <span className="text-gray-600">{stripMarkdown(r.name)}</span>
                             )}
                           </div>
                         </div>
@@ -1039,21 +1046,21 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult }) => {
             const categories = Object.keys(lifestyle).filter(k => lifestyle[k]?.length > 0);
             if (!categories.length) return null;
             return (
-              <div key={idx} className="bg-white rounded-2xl border border-gray-100 shadow-soft overflow-hidden">
-                <div className="bg-teal-50 px-4 py-3 border-b border-teal-100">
+              <div key={idx} className="backdrop-blur-xl bg-white/70 rounded-2xl border border-teal-100/60 shadow-lg overflow-hidden">
+                <div className="bg-gradient-to-r from-teal-50/80 to-cyan-50/80 px-4 py-3 border-b border-teal-100/50">
                   <h3 className="font-serif font-bold text-teal-800 text-base">
                     {section.title || 'Lifestyle Guidelines'}
                   </h3>
                 </div>
                 <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
                   {categories.map(cat => (
-                    <div key={cat} className="bg-teal-50 rounded-xl p-3 border border-teal-100">
-                      <div className="font-serif font-bold text-teal-800 text-xs mb-2 uppercase tracking-wide">{cat}</div>
+                    <div key={cat} className="backdrop-blur-sm bg-teal-50/60 rounded-xl p-3 border border-teal-100/50">
+                      <div className="font-serif font-bold text-teal-800 text-xs mb-2 uppercase tracking-wide">{stripMarkdown(cat)}</div>
                       <div className="space-y-1.5">
                         {lifestyle[cat].map((item, j) => (
                           <div key={j} className="flex gap-2 items-start text-xs">
                             <span className="text-teal-500 mt-0.5 shrink-0">•</span>
-                            <span className="text-gray-700">{item}</span>
+                            <span className="text-gray-700">{stripMarkdown(item)}</span>
                           </div>
                         ))}
                       </div>
@@ -1066,9 +1073,9 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult }) => {
 
           case 'footer':
             return (
-              <div key={idx} className="bg-gray-50 rounded-xl p-4 text-center border border-gray-100">
-                <p className="text-xs text-gray-500 italic">
-                  {section.title || section.rawLines?.join(' ') || 'Ayurvritta Ayurveda Hospital'}
+              <div key={idx} className="backdrop-blur-xl bg-white/50 rounded-2xl p-5 text-center border border-white/30 shadow-lg">
+                <p className="text-xs text-gray-500 italic leading-relaxed">
+                  {stripMarkdown(section.title || section.rawLines?.join(' ') || 'Ayurvritta Ayurveda Hospital')}
                 </p>
               </div>
             );
@@ -1077,15 +1084,15 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult }) => {
             return (
               <div key={idx}>
                 {(section.validationErrors || []).map((err, i) => (
-                  <div key={`err-${i}`} className="bg-red-50 border border-red-200 rounded-xl p-3 mb-2">
+                  <div key={`err-${i}`} className="backdrop-blur-xl bg-red-50/80 border border-red-200/70 rounded-xl p-3 mb-2 shadow-sm">
                     <span className="text-red-600 text-xs font-bold">[BLOCKED]</span>
-                    <span className="text-red-700 text-xs ml-2">{err.replace('[BLOCKED]', '').trim()}</span>
+                    <span className="text-red-700 text-xs ml-2">{stripMarkdown(err.replace('[BLOCKED]', '').trim())}</span>
                   </div>
                 ))}
                 {(section.validationWarnings || []).map((warn, i) => (
-                  <div key={`warn-${i}`} className="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-2">
+                  <div key={`warn-${i}`} className="backdrop-blur-xl bg-amber-50/80 border border-amber-200/70 rounded-xl p-3 mb-2 shadow-sm">
                     <span className="text-amber-600 text-xs font-bold">[Note]</span>
-                    <span className="text-amber-700 text-xs ml-2">{warn.replace('[Note]', '').trim()}</span>
+                    <span className="text-amber-700 text-xs ml-2">{stripMarkdown(warn.replace('[Note]', '').trim())}</span>
                   </div>
                 ))}
               </div>
@@ -1095,13 +1102,13 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult }) => {
           default: {
             if (!section.rawLines || section.rawLines.length === 0) return null;
             return (
-              <div key={idx} className="bg-white rounded-2xl border border-gray-100 shadow-soft p-4">
+              <div key={idx} className="backdrop-blur-xl bg-white/70 rounded-2xl border border-gray-100/60 shadow-lg p-5">
                 {section.title && (
                   <h3 className="font-serif font-bold text-gray-800 text-sm mb-2">{section.title}</h3>
                 )}
                 <div className="space-y-1">
                   {section.rawLines.filter(l => l.trim()).map((l, i) => (
-                    <p key={i} className="text-sm text-gray-600 leading-relaxed">{l}</p>
+                    <p key={i} className="text-sm text-gray-600 leading-relaxed">{stripMarkdown(l)}</p>
                   ))}
                 </div>
               </div>
