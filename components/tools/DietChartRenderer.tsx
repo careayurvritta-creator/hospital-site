@@ -106,6 +106,10 @@ function isNumberedItem(line: string): boolean {
   return /^\d+[.\)]\s*/.test(line.trim());
 }
 
+function stripMarkdown(s: string): string {
+  return s.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').trim();
+}
+
 function classifySection(title: string): SectionType {
   const t = title.toLowerCase();
   if (t.includes('understanding') || t.includes('intro') || t.includes('about')) return 'intro';
@@ -144,27 +148,27 @@ function parseCorePrinciples(lines: string[]): string[] {
   for (const line of lines) {
     const t = line.trim();
     if (!t) {
-      if (current) { items.push(current); current = ''; }
+      if (current) { items.push(stripMarkdown(current)); current = ''; }
       continue;
     }
     if (isHeading(t, 1) || isHeading(t, 2) || isHeading(t, 3)) continue;
 
     if (isBoldLine(t)) {
-      if (current) { items.push(current); current = ''; }
-      items.push(stripBold(t));
+      if (current) { items.push(stripMarkdown(current)); current = ''; }
+      items.push(stripMarkdown(stripBold(t)));
     } else if (t.startsWith('- ') || t.startsWith('* ') || t.startsWith('• ')) {
-      if (current) { items.push(current); current = ''; }
-      items.push(stripBullet(t));
+      if (current) { items.push(stripMarkdown(current)); current = ''; }
+      items.push(stripMarkdown(stripBullet(t)));
     } else if (t.match(/^\d+[.\)]\s/)) {
-      if (current) { items.push(current); current = ''; }
-      items.push(t.replace(/^\d+[.\)]\s*/, '').trim());
+      if (current) { items.push(stripMarkdown(current)); current = ''; }
+      items.push(stripMarkdown(t.replace(/^\d+[.\)]\s*/, '').trim()));
     } else if (t.length > 10) {
       if (current) current += ' ' + t;
       else current = t;
     }
     if (items.length >= 8) break;
   }
-  if (current) items.push(current);
+  if (current) items.push(stripMarkdown(current));
   return items.filter(Boolean);
 }
 
@@ -220,7 +224,7 @@ function parseMealBlock(lines: string[]): MealEntry[] {
 
     // Bullet items
     if ((t.startsWith('- ') || t.startsWith('* ') || t.startsWith('• '))) {
-      const item = stripBullet(t);
+      const item = stripMarkdown(stripBullet(t));
       if (currentList === 'recommended') current.recommended.push(item);
       else if (currentList === 'avoid') current.avoid.push(item);
       continue;
@@ -228,7 +232,7 @@ function parseMealBlock(lines: string[]): MealEntry[] {
 
     // Plain comma/newline-separated items under current list
     if (currentList && !t.startsWith('#') && !t.startsWith('|')) {
-      const items = t.split(/[,;]/).map(s => s.trim()).filter(Boolean);
+      const items = t.split(/[,;]/).map(s => stripMarkdown(s.trim())).filter(Boolean);
       for (const item of items) {
         if (currentList === 'recommended') current.recommended.push(item);
         else current.avoid.push(item);
@@ -323,7 +327,7 @@ function parsePathyaApathya(lines: string[]): CategoryItems {
     // Bullet items under current category
     if (currentCategory && (t.startsWith('- ') || t.startsWith('* ') || t.startsWith('• '))) {
       if (!items[currentCategory]) items[currentCategory] = [];
-      items[currentCategory].push(stripBullet(t));
+      items[currentCategory].push(stripMarkdown(stripBullet(t)));
       continue;
     }
 
@@ -574,8 +578,7 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult }) => {
               </div>
             );
 
-          case 'core-principles':
-          case 'ayurvedic-principles': {
+          case 'core-principles': {
             const principles = section.principles || [];
             if (!principles.length) return null;
             return (
@@ -599,9 +602,52 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult }) => {
                             <span className="text-gray-600 text-sm">{boldMatch[2]}</span>
                           </>
                         ) : (
-                          <span className="text-gray-700 text-sm">{p}</span>
+                          <span className="text-gray-700 text-sm">{stripMarkdown(p)}</span>
                         )}
                       </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          }
+
+          case 'ayurvedic-principles': {
+            const rawLines = section.rawLines.filter(l => l.trim().length > 0);
+            if (!rawLines.length) return null;
+            return (
+              <div key={idx} className="backdrop-blur-xl bg-white/70 rounded-2xl border border-amber-100/60 shadow-lg overflow-hidden">
+                <div className="bg-gradient-to-r from-amber-50/80 to-orange-50/80 px-4 py-3 border-b border-amber-100/50">
+                  <h3 className="font-serif font-bold text-amber-800 text-base">
+                    {section.title || 'Ayurvedic Principles of a Balanced Meal'}
+                  </h3>
+                </div>
+                <div className="p-4 space-y-1.5">
+                  {rawLines.map((line, i) => {
+                    const boldMatch = line.match(/^\*\*(.+?)\*\*[:\s]*(.*)/);
+                    if (boldMatch) {
+                      return (
+                        <div key={i} className="text-sm">
+                          <span className="font-bold text-amber-800">{stripMarkdown(boldMatch[1])}</span>
+                          {boldMatch[2] && <span className="text-gray-700">: {stripMarkdown(boldMatch[2])}</span>}
+                        </div>
+                      );
+                    }
+                    if (line.startsWith('- ') || line.startsWith('* ') || line.startsWith('• ')) {
+                      const item = stripMarkdown(stripBullet(line));
+                      const parts = item.split(/[—–]/).map(s => s.trim());
+                      return (
+                        <div key={i} className="flex gap-2 items-start ml-4">
+                          <span className="w-1 h-1 bg-amber-400 rounded-full mt-2 shrink-0" />
+                          <div className="text-sm text-gray-700">
+                            <span className="font-medium">{parts[0]}</span>
+                            {parts[1] && <span className="text-gray-500"> — {parts.slice(1).join(' — ')}</span>}
+                          </div>
+                        </div>
+                      );
+                    }
+                    return (
+                      <div key={i} className="text-sm text-gray-600 leading-relaxed">{stripMarkdown(line)}</div>
                     );
                   })}
                 </div>
