@@ -389,17 +389,17 @@ const DietChartTool: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     const getMealSlots = () => {
       if (mealCount === 4) {
         return [
-          { time: 'Breakfast 7:30-8:30 AM', note: 'Never skip — stabilises glucose' },
-          { time: 'Lunch 12:30-1:30 PM', note: 'Main meal of the day' },
-          { time: 'Evening 4:30-5:00 PM', note: 'Light snack only — no sweets' },
-          { time: 'Dinner 7:00-7:30 PM', note: 'Keep very light — before 8 PM' },
+          { heading: 'Breakfast', time: '7:30 – 8:30 AM', note: 'Never skip — stabilises glucose' },
+          { heading: 'Lunch', time: '12:30 – 1:30 PM', note: 'Main meal of the day — eat slowly, chew 20x' },
+          { heading: 'Evening Snack + Walk', time: '4:30 – 5:00 PM', note: 'Light snack only — no sweets' },
+          { heading: 'Dinner', time: '7:00 – 7:30 PM', note: 'Keep very light — before 8 PM' },
         ];
       }
       // 3 meals (Tikshna, Manda, Sam)
       return [
-        { time: 'Breakfast 8:00-9:00 AM', note: 'At consistent times daily' },
-        { time: 'Lunch 12:30-1:30 PM', note: 'Main meal — eat slowly, chew 20x' },
-        { time: 'Dinner 7:00-7:30 PM', note: 'Light meal, at least 3 hrs before sleep' },
+        { heading: 'Breakfast', time: '8:00 – 9:00 AM', note: 'At consistent times daily' },
+        { heading: 'Lunch', time: '12:30 – 1:30 PM', note: 'Main meal — eat slowly, chew 20x' },
+        { heading: 'Dinner', time: '7:00 – 7:30 PM', note: 'Light meal — at least 3 hrs before sleep' },
       ];
     };
 
@@ -468,54 +468,133 @@ OUTPUT FORMAT (MUST FOLLOW EXACTLY — matches Dr. Sharma's professional consult
 - Dinner should always be lighter and earlier (before 8 PM) than lunch
 
 ## Your Meal Plan (Based on ${agniInf.label} — ${mealCount} meals/day)
-(Apply the Ayurvedic principles above. For EACH meal below, give specific recommended items and foods to avoid. Be condition-specific — e.g. for Prameha/Diabetes list LOW GI foods as recommended.)
+(Match the Prameha PDF format: Each meal has TIME column and RECOMMENDED/AVOID columns. Be condition-specific with LOW GI foods for metabolic conditions. Give 2-3 specific items per category with brief therapeutic note.)
 
-${mealSlots.map((slot, i) => `### ${i + 1}. ${slot.time}
+${mealSlots.map((slot, i) => `### ${i + 1}. ${slot.heading}
+**Time:** ${slot.time}
 **Note:** ${slot.note}
 
-**Recommended (Ushna + Snigdha + Pathya for this condition):**
-- [2-3 specific foods with why]
+**Recommended Foods:**
+- {food 1} — {specific therapeutic reason}
+- {food 2} — {specific therapeutic reason}
+- {food 3} — {specific therapeutic reason}
 
-**Avoid (Apathya — aggravating for this condition):**
-- [2-3 specific foods with why]`).join('\n\n')}
+**Foods to Avoid:**
+- {food 1} — {specific reason harmful}
+- {food 2} — {specific reason harmful}
+- {food 3} — {specific reason harmful}`).join('\n\n')}
 
 ## Pathya — What to Eat Freely
-(Use EXACT category headers. For each food listed, include a brief therapeutic note. Match the format: "Food — therapeutic reason for THIS condition.")
+(CRITICAL: Each item MUST be a bullet with the exact format: "- Item — specific therapeutic note for THIS condition". Use category headers as bold ALL CAPS. Match the Prameha PDF structure below exactly. Minimum 4 items per category, more for GRAINS and VEGETABLES.)
 
-**GRAINS**: [4-6 specific grains with notes]
+**GRAINS**
+- Barley (Yava) — best grain for this condition | low GI + specific therapeutic benefit
+- {grain 2} — {specific therapeutic benefit for this condition}
+- {grain 3} — {specific benefit}
+- {grain 4} — {specific benefit}
+- {grain 5} — {specific benefit}
 
-**VEGETABLES**: [5-7 vegetables with notes — star foods for this condition first]
+**VEGETABLES**
+- Bitter gourd (Karela) — star vegetable for this condition | {specific therapeutic action}
+- {vegetable 2} — {specific benefit}
+- {vegetable 3} — {specific benefit}
+- {vegetable 4} — {specific benefit}
+- {vegetable 5} — {specific benefit}
+- {vegetable 6} — {specific benefit}
+- {vegetable 7} — {specific benefit}
 
-**PULSES**: [3-4 dals/legumes]
+**PULSES**
+- Green moong dal — {specific benefit for this condition}
+- {pulse 2} — {specific benefit}
+- {pulse 3} — {specific benefit}
+- {pulse 4} — {specific benefit}
 
-**FRUITS**: [4-5 specific fruits — LOW GI ones for metabolic conditions]
+**FRUITS**
+- {fruit 1} — {low GI? specific benefit for this condition}
+- {fruit 2} — {specific benefit}
+- {fruit 3} — {specific benefit}
+- {fruit 4} — {specific benefit}
+- {fruit 5} — {specific benefit}
 
-**DAIRY**: [2-4 dairy items]
+**DAIRY**
+- Buttermilk (Takra) — best dairy for this condition | {specific benefit}
+- {dairy 2} — {specific benefit}
+- {dairy 3} — {specific benefit}
+- {dairy 4} — {specific benefit}
 
-**FATS & OILS**: [2-4 options with notes]
+**FATS & OILS**
+- {oil 1} — {specific benefit for this condition}
+- {oil 2} — {specific benefit}
+- {oil 3} — {specific benefit}
+- {oil 4} — {specific benefit}
 
-**SPICES**: [4-5 specific spices with their therapeutic action]
+**SPICES**
+- Turmeric (Haridra) — {specific therapeutic action for this condition}
+- {spice 2} — {specific benefit}
+- {spice 3} — {specific benefit}
+- {spice 4} — {specific benefit}
+- {spice 5} — {specific benefit}
 
-**BEVERAGES**: [3-4 specific drinks]
+**BEVERAGES**
+- {beverage 1} — {specific benefit for this condition}
+- {beverage 2} — {specific benefit}
+- {beverage 3} — {specific benefit}
+- {beverage 4} — {specific benefit}
 
 ## Apathya — What to Strictly Avoid
-(Use EXACT category headers. For each item, give the SPECIFIC reason it is harmful for THIS condition, e.g. "Potato — high glycemic index, aggravates Meda Dhatu and raises blood glucose".)
+(CRITICAL: Each item MUST be a bullet with the exact format: "- Item — specific reason it is HARMFUL for THIS condition". Use category headers as bold ALL CAPS. Match the Prameha PDF structure below exactly. Minimum 4 items per category.)
 
-**GRAINS**: [4-6 harmful grains with specific reasons]
+**GRAINS**
+- White rice (especially new crop) — {specific reason harmful for this condition}
+- {grain 2} — {specific reason}
+- {grain 3} — {specific reason}
+- {grain 4} — {specific reason}
+- {grain 5} — {specific reason}
 
-**VEGETABLES**: [4-6 harmful vegetables with reasons]
+**VEGETABLES**
+- Potato — {specific reason: high glycemic index? aggravates which Dhatu?}
+- {vegetable 2} — {specific reason}
+- {vegetable 3} — {specific reason}
+- {vegetable 4} — {specific reason}
+- {vegetable 5} — {specific reason}
 
-**FRUITS**: [4-5 harmful fruits with reasons]
+**FRUITS**
+- {fruit 1} — {specific reason: high sugar? aggravates which Dosha?}
+- {fruit 2} — {specific reason}
+- {fruit 3} — {specific reason}
+- {fruit 4} — {specific reason}
+- {fruit 5} — {specific reason}
 
-**SWEETS**: [4-5 harmful sweets with reasons]
+**SWEETS**
+- All refined sugar items — absolute contraindication | {specific reason}
+- {sweet 2} — {specific reason}
+- {sweet 3} — {specific reason}
+- {sweet 4} — {specific reason}
+- {sweet 5} — {specific reason}
 
-**DAIRY**: [3-4 harmful dairy items with reasons]
+**DAIRY**
+- Full-fat milk in large amounts — {specific reason}
+- {dairy 2} — {specific reason}
+- {dairy 3} — {specific reason}
+- {dairy 4} — {specific reason}
 
-**PREPARED FOODS**: [4-5 items — maida, bakery, processed, fast food]
+**PREPARED FOODS**
+- Maida (refined flour) — all products | {specific reason}
+- {food 2} — {specific reason}
+- {food 3} — {specific reason}
+- {food 4} — {specific reason}
+- {food 5} — {specific reason}
 
-**BEVERAGES**: [3-4 harmful drinks with reasons]
+**BEVERAGES**
+- {beverage 1} — {specific reason for this condition}
+- {beverage 2} — {specific reason}
+- {beverage 3} — {specific reason}
+- {beverage 4} — {specific reason}
 
-**OTHERS**: [alcohol, cold drinks, tobacco if applicable]
+**OTHERS**
+- Alcohol — {specific reason for this condition}
+- Cold drinks, packaged juices — {specific reason}
+- {other} — {specific reason}
 
 ## Dinacharya for [CONDITION] + ${agniInf.label} Management
 (Create ${mealCount + 2} numbered entries with times, activities, and specific Ayurvedic benefits. Include morning routine, meal times, exercise, and bedtime.)
