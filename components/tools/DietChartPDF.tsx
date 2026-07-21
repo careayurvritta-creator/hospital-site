@@ -1,6 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import html2canvas from 'html2canvas';
-import { jsPDF } from 'jspdf';
 
 interface DietChartPDFProps {
   patientName: string;
@@ -14,82 +12,54 @@ interface DietChartPDFProps {
   containerId: string;
 }
 
-const DietChartPDF: React.FC<DietChartPDFProps> = ({
-  patientName,
-  patientAge,
-  patientGender,
-  patientOccupation,
-  prakriti,
-  dietaryPref,
-  allergies,
-  condition,
-  containerId,
-}) => {
+const DietChartPDF: React.FC<DietChartPDFProps> = ({ containerId, patientName }) => {
   const [generating, setGenerating] = useState(false);
 
-  const handleDownload = useCallback(async () => {
-    const element = document.getElementById(containerId);
-    if (!element) {
-      console.error('[PDF] Element #' + containerId + ' not found');
-      return;
-    }
+  const handleDownload = useCallback(() => {
+    const source = document.getElementById(containerId);
+    if (!source) return;
 
     setGenerating(true);
 
     try {
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        backgroundColor: '#ffffff',
-        allowTaint: false,
-        onclone: (clonedDoc) => {
-          const cloned = clonedDoc.getElementById(containerId);
-          if (cloned) {
-            cloned.style.width = '800px';
-            cloned.style.padding = '16px';
-          }
-        },
+      const clone = source.cloneNode(true) as HTMLElement;
+      const allStyles = document.querySelectorAll('style, link[rel="stylesheet"]');
+      let styleText = '';
+      allStyles.forEach(s => {
+        if (s.tagName === 'STYLE') styleText += s.innerHTML + '\n';
+        else if (s.tagName === 'LINK') styleText += `<link rel="stylesheet" href="${(s as HTMLLinkElement).href}">\n`;
       });
 
-      const imgData = canvas.toDataURL('image/jpeg', 0.95);
-
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-      const pageWidth = 210;
-      const pageHeight = 297;
-      const margin = 12;
-      const pdfWidth = pageWidth - margin * 2;
-
-      const canvasPageHeight = (canvas.width * (pageHeight - margin * 2)) / pdfWidth;
-      let srcY = 0;
-
-      while (srcY < canvas.height) {
-        const sliceHeight = Math.min(canvasPageHeight, canvas.height - srcY);
-
-        const sliceCanvas = document.createElement('canvas');
-        sliceCanvas.width = canvas.width;
-        sliceCanvas.height = sliceHeight;
-        const ctx = sliceCanvas.getContext('2d');
-        if (ctx) {
-          ctx.drawImage(
-            canvas,
-            0, srcY, canvas.width, sliceHeight,
-            0, 0, canvas.width, sliceHeight,
-          );
+      styleText += `
+        @page { margin: 15mm; size: A4; }
+        @media print {
+          body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+          div[id^="diet-chart"] > div { page-break-inside: avoid; }
+          div[class*="rounded-2xl"] { page-break-inside: avoid; }
+          div[class*="rounded-3xl"] { page-break-inside: avoid; }
+          h2, h3, h4 { page-break-after: avoid; }
+          table { page-break-inside: avoid; }
+          img, svg { page-break-inside: avoid; }
         }
+      `;
 
-        const sliceData = sliceCanvas.toDataURL('image/jpeg', 0.92);
+      const win = window.open('', '_blank');
+      if (!win) { setGenerating(false); return; }
 
-        if (srcY > 0) pdf.addPage();
-        pdf.addImage(sliceData, 'JPEG', margin, margin, pdfWidth, (sliceHeight * pdfWidth) / canvas.width);
-        srcY += sliceHeight;
-      }
+      win.document.write(`<!DOCTYPE html><html><head>
+        <meta charset="UTF-8">
+        <title>${patientName} - Diet Chart</title>
+        ${styleText}
+      </head><body>${clone.outerHTML}</body></html>`);
+      win.document.close();
 
-      const filename = `${patientName.replace(/\s+/g, '_')}_Diet_Chart_${new Date().toISOString().split('T')[0]}.pdf`;
-      pdf.save(filename);
+      setTimeout(() => {
+        win.focus();
+        win.print();
+        setTimeout(() => { win.close(); setGenerating(false); }, 1000);
+      }, 1500);
     } catch (error) {
       console.error('[PDF] Error:', error);
-    } finally {
       setGenerating(false);
     }
   }, [containerId, patientName]);
@@ -103,7 +73,7 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({
       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg>
-      {generating ? 'Generating PDF...' : 'Download PDF'}
+      {generating ? 'Opening Print Dialog...' : 'Download PDF'}
     </button>
   );
 };
