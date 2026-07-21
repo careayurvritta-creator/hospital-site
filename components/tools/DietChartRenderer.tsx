@@ -395,17 +395,30 @@ function parseRemedies(lines: string[]): Remedy[] {
     const t = line.trim();
     if (!t || t.startsWith('#')) continue;
 
-    // Pattern: "1. **Name**: Preparation: X | When: Y | Benefit: Z"
-    const match = t.match(/^\d+[.\)]\s*\*\*(.+?)\*\*[:\s]*(.+)/);
+    // Pattern 1: "1. **Name**: Preparation: X | When: Y | Benefit: Z"
+    let match = t.match(/^\d+[.\)]\s*\*\*(.+?)\*\*[:\s]*(.+)/);
     if (match) {
       const name = stripMarkdown(match[1]);
       const rest = stripMarkdown(match[2]);
-
       const prep = (rest.match(/Preparation:([^|]+)/i) || [null, ''])[1].trim();
       const when = (rest.match(/When:([^|]+)/i) || [null, ''])[1].trim();
       const benefit = (rest.match(/Benefit:([^|]+)/i) || [null, rest])[1].trim();
-
       remedies.push({ name, preparation: prep, when, benefit });
+      continue;
+    }
+
+    // Pattern 2: "1. Name | Preparation | When taken | Specific benefit" (pipe-separated)
+    match = t.match(/^\d+[.\)]\s*(.+)/);
+    if (match) {
+      const parts = match[1].split('|').map(s => stripMarkdown(s.trim())).filter(Boolean);
+      if (parts.length >= 1) {
+        remedies.push({
+          name: parts[0],
+          preparation: parts.length >= 2 ? parts[1] : '',
+          when: parts.length >= 3 ? parts[2] : '',
+          benefit: parts.length >= 4 ? parts.slice(3).join(' | ') : '',
+        });
+      }
     }
   }
   return remedies;
@@ -423,6 +436,13 @@ function parseLifestyle(lines: string[]): { [key: string]: string[] } {
     if (isBoldLine(t)) {
       currentCategory = stripBold(t);
       if (!lifestyle[currentCategory]) lifestyle[currentCategory] = [];
+      // If bold line has " — description" after it, capture as first item
+      const dashIdx = currentCategory.indexOf(' — ');
+      if (dashIdx > 0) {
+        const desc = currentCategory.slice(dashIdx + 3).trim();
+        currentCategory = currentCategory.slice(0, dashIdx).trim();
+        if (desc) lifestyle[currentCategory].push(desc);
+      }
       continue;
     }
 
@@ -433,8 +453,16 @@ function parseLifestyle(lines: string[]): { [key: string]: string[] } {
       continue;
     }
 
-    if (currentCategory && (t.startsWith('- ') || t.startsWith('* ') || t.startsWith('• '))) {
-      lifestyle[currentCategory].push(stripMarkdown(stripBullet(t)));
+    // Capture ANY non-header text under current category (bullets, paragraphs, numbered)
+    if (currentCategory) {
+      if (t.startsWith('- ') || t.startsWith('* ') || t.startsWith('• ')) {
+        lifestyle[currentCategory].push(stripMarkdown(stripBullet(t)));
+      } else if (/^\d+[.\)]\s*/.test(t)) {
+        const rest = t.replace(/^\d+[.\)]\s*/, '').trim();
+        if (rest) lifestyle[currentCategory].push(stripMarkdown(rest));
+      } else if (t.length > 5 && !t.startsWith('#')) {
+        lifestyle[currentCategory].push(stripMarkdown(t));
+      }
     }
   }
   return lifestyle;
@@ -560,10 +588,11 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult, id }) =
   return (
     <div id={id} className="space-y-4">
       {sections.map((section, idx) => {
+        const sectionProps = { key: idx, 'data-section': 'true' as string };
         switch (section.type) {
           case 'title':
             return (
-              <div key={idx} className="bg-gradient-to-r from-ayur-green to-ayur-green-dark rounded-2xl p-5 text-white shadow-glow">
+              <div {...sectionProps} className="bg-gradient-to-r from-ayur-green to-ayur-green-dark rounded-2xl p-5 text-white shadow-glow">
                 <h2 className="font-serif text-xl font-bold mb-2">{section.title}</h2>
                 <p className="text-white/80 text-sm">Personalized Ayurvedic Diet Chart</p>
               </div>
