@@ -24,16 +24,40 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({ containerId, patientName })
     setGenerating(true);
 
     try {
-      const canvas = await html2canvas(source, {
+      // ── Clone off-screen ──
+      const clone = source.cloneNode(true) as HTMLElement;
+      clone.style.position = 'fixed';
+      clone.style.left = '-9999px';
+      clone.style.top = '0';
+      clone.style.zIndex = '-1';
+      clone.style.background = '#f4f6f9';
+      document.body.appendChild(clone);
+
+      // ── Inject CSS to fix html2canvas quirks ──
+      const s = document.createElement('style');
+      s.textContent = `
+        * { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+        [class*="shadow-"] { box-shadow: 0 1px 4px rgba(0,0,0,0.08) !important; }
+        [class*="backdrop-blur"] { background: inherit !important; }
+      `;
+      clone.appendChild(s);
+
+      // ── Wait for layout ──
+      await new Promise(r => setTimeout(r, 800));
+
+      const canvas = await html2canvas(clone, {
         scale: 2,
         useCORS: true,
         logging: false,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#f4f6f9',
         allowTaint: false,
-        width: source.scrollWidth,
-        height: source.scrollHeight,
+        width: clone.scrollWidth,
+        height: clone.scrollHeight,
       });
 
+      document.body.removeChild(clone);
+
+      // ── Build PDF ──
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
       const margin = 15;
       const pageW = 210 - margin * 2;
@@ -54,7 +78,7 @@ const DietChartPDF: React.FC<DietChartPDFProps> = ({ containerId, patientName })
 
         const ctx = slice.getContext('2d');
         if (ctx) {
-          ctx.fillStyle = '#ffffff';
+          ctx.fillStyle = '#f4f6f9';
           ctx.fillRect(0, 0, slice.width, slice.height);
           ctx.drawImage(canvas, 0, srcY, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
         }
