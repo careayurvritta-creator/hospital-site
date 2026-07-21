@@ -1150,34 +1150,36 @@ try {
               </div>
             )}
 
-            {/* Diet Chart */}
-            <div className="space-y-4 mb-4">
-              <DietChartRenderer aiResult={aiResult} />
-            </div>
+            {/* Diet Chart — captured as PDF */}
+            <div id="diet-chart-content" className="space-y-4 mb-4">
+              <DietChartRenderer aiResult={aiResult} id="diet-chart-renderer" />
 
-            {/* Summary pills */}
-            <div className="grid grid-cols-3 gap-3 mb-4">
-              {[
-                { icon: '🍽️', label: 'Meals', value: `${mealCountDisplay}`, sub: 'per day' },
-                { icon: '🔥', label: 'Agni', value: detectedAgni ? AGNI_INFO[detectedAgni].label.split(' ')[0] : '—', sub: detectedAgni ? AGNI_INFO[detectedAgni].sanskrit : '' },
-                { icon: '🧬', label: 'Prakriti', value: inputs.prakriti || '—', sub: '' },
-              ].map((stat, i) => (
-                <div key={i} className="bg-white rounded-2xl p-4 text-center shadow-soft border border-gray-100">
-                  <div className="text-2xl mb-1">{stat.icon}</div>
-                  <div className="text-xs font-bold text-ayur-green">{stat.label}</div>
-                  <div className="text-sm font-serif font-bold text-gray-800">{stat.value}</div>
-                  {stat.sub && <div className="text-[10px] text-gray-400">{stat.sub}</div>}
+              {/* Summary pills */}
+              {mealCountDisplay && (
+                <div className="grid grid-cols-3 gap-3">
+                  {[
+                    { icon: '🍽️', label: 'Meals', value: `${mealCountDisplay}`, sub: 'per day' },
+                    { icon: '🔥', label: 'Agni', value: detectedAgni ? AGNI_INFO[detectedAgni].label.split(' ')[0] : '—', sub: detectedAgni ? AGNI_INFO[detectedAgni].sanskrit : '' },
+                    { icon: '🧬', label: 'Prakriti', value: inputs.prakriti || '—', sub: '' },
+                  ].map((stat, i) => (
+                    <div key={i} className="backdrop-blur-xl bg-white/70 rounded-2xl p-4 text-center shadow-lg border border-white/40">
+                      <div className="text-2xl mb-1">{stat.icon}</div>
+                      <div className="text-xs font-bold text-emerald-700">{stat.label}</div>
+                      <div className="text-sm font-serif font-bold text-gray-800">{stat.value}</div>
+                      {stat.sub && <div className="text-[10px] text-gray-400">{stat.sub}</div>}
+                    </div>
+                  ))}
                 </div>
-              ))}
+              )}
+
+              {/* Attribution */}
+              <div className="backdrop-blur-xl bg-gradient-to-r from-amber-50/80 to-white/60 rounded-2xl p-4 border border-amber-100/60 shadow-lg text-center">
+                <div className="text-xs text-gray-500">Prepared by Dr. Jinendradutt Sharma</div>
+                <div className="text-xs text-amber-700 font-medium">Ayurvritta Ayurveda Hospital, Vadodara • +91 94266 84047</div>
+              </div>
             </div>
 
-            {/* Attribution */}
-            <div className="bg-gradient-to-r from-ayur-accent-light to-white rounded-2xl p-4 border border-ayur-accent/20 mb-4 text-center">
-              <div className="text-xs text-gray-500">by Dr. Jinendradutt Sharma</div>
-              <div className="text-xs text-ayur-accent font-medium">Ayurvritta Ayurveda Hospital, Vadodara • +91 94266 84047</div>
-            </div>
-
-            {/* PDF */}
+            {/* PDF button */}
             <div className="flex gap-3 mb-3">
               <DietChartPDF
                 patientName={inputs.patient.name}
@@ -1188,8 +1190,7 @@ try {
                 dietaryPref={inputs.dietaryPref}
                 allergies={inputs.allergies}
                 condition={[...inputs.complaints, inputs.customComplaint].filter(Boolean).join(', ')}
-                aiResult={aiResult}
-                matchedFiles={matchedFiles}
+                containerId="diet-chart-content"
               />
             </div>
 
