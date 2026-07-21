@@ -189,8 +189,8 @@ function parseMealBlock(lines: string[]): MealEntry[] {
     // Detect meal heading: `### 1. Breakfast` or `### Breakfast`
     const mealHeading = t.match(/^###\s*\d*[.\)]*\s*(.+)/i);
     if (mealHeading) {
-      if (current) entries.push(current);
-      current = { heading: mealHeading[1].trim(), recommended: [], avoid: [] };
+              if (current) entries.push(current);
+      current = { heading: stripMarkdown(mealHeading[1].trim()), recommended: [], avoid: [] };
       currentList = null;
       continue;
     }
@@ -200,14 +200,14 @@ function parseMealBlock(lines: string[]): MealEntry[] {
     // **Time:** 7:00 – 8:00 AM
     const timeMatch = t.match(/^\*\*Time:\*\*\s*(.+)/i);
     if (timeMatch) {
-      current.time = timeMatch[1].trim();
+      current.time = stripMarkdown(timeMatch[1].trim());
       continue;
     }
 
     // **Note:** ...
     const noteMatch = t.match(/^\*\*Note:\*\*\s*(.+)/i);
     if (noteMatch) {
-      current.note = noteMatch[1].trim();
+      current.note = stripMarkdown(noteMatch[1].trim());
       continue;
     }
 
@@ -733,13 +733,13 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult, id }) =
             const entries = section.mealEntries || [];
             if (!entries.length) {
               return (
-                <div key={idx} className="bg-white rounded-2xl border border-gray-100 shadow-soft p-4">
+                <div key={idx} className="backdrop-blur-xl bg-white/70 rounded-2xl border border-amber-100/60 shadow-lg p-5">
                   <h3 className="font-serif font-bold text-amber-800 text-base mb-3">
-                    {section.title || 'Meal-by-Meal Guide'}
+                    {stripMarkdown(section.title || 'Meal-by-Meal Guide')}
                   </h3>
                   <div className="space-y-2">
                     {section.rawLines.filter(l => l.trim()).map((l, i) => (
-                      <div key={i} className="text-sm text-gray-700 whitespace-pre-wrap">{l}</div>
+                      <div key={i} className="text-sm text-gray-700 whitespace-pre-wrap">{stripMarkdown(l)}</div>
                     ))}
                   </div>
                 </div>
@@ -771,15 +771,15 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult, id }) =
                           <div className="w-8 h-8 bg-amber-100 rounded-xl flex items-center justify-center shrink-0">
                             <span className="text-amber-700 text-sm font-bold">{ei + 1}</span>
                           </div>
-                          <h4 className="font-serif font-bold text-gray-800 text-base">{entry.heading}</h4>
+                          <h4 className="font-serif font-bold text-gray-800 text-base">{stripMarkdown(entry.heading)}</h4>
                           {entry.time && (
                             <span className="ml-auto text-xs text-amber-700 font-semibold bg-amber-100/80 px-3 py-1 rounded-full">
-                              {entry.time}
+                              {stripMarkdown(entry.time)}
                             </span>
                           )}
                         </div>
                         {entry.note && (
-                          <p className="text-xs text-gray-500 italic mt-2 ml-11">{entry.note}</p>
+                          <p className="text-xs text-gray-500 italic mt-2 ml-11">{stripMarkdown(entry.note)}</p>
                         )}
                       </div>
                       <div className="p-4">
@@ -793,14 +793,14 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult, id }) =
                                 Recommended
                               </div>
                               <div className="space-y-1.5">
-                                {entry.recommended.map((item, ji) => {
+                                  {entry.recommended.map((item, ji) => {
                                   const parts = item.split(/[—–]/).map(s => s.trim());
                                   return (
                                     <div key={ji} className="flex gap-2 items-start">
                                       <span className="w-1.5 h-1.5 bg-emerald-400/60 rounded-full mt-1.5 shrink-0" />
                                       <div>
-                                        <span className="font-medium text-gray-800 text-xs leading-relaxed">{parts[0]}</span>
-                                        {parts[1] && <span className="text-gray-500 text-xs"> — {parts.slice(1).join(' — ')}</span>}
+                                        <span className="font-medium text-gray-800 text-xs leading-relaxed">{stripMarkdown(parts[0])}</span>
+                                        {parts[1] && <span className="text-gray-500 text-xs"> — {stripMarkdown(parts.slice(1).join(' — '))}</span>}
                                       </div>
                                     </div>
                                   );
@@ -823,8 +823,8 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult, id }) =
                                     <div key={ji} className="flex gap-2 items-start">
                                       <span className="w-1.5 h-1.5 bg-red-300/60 rounded-full mt-1.5 shrink-0" />
                                       <div>
-                                        <span className="font-medium text-gray-700 text-xs leading-relaxed">{parts[0]}</span>
-                                        {parts[1] && <span className="text-gray-500 text-xs"> — {parts.slice(1).join(' — ')}</span>}
+                                        <span className="font-medium text-gray-700 text-xs leading-relaxed">{stripMarkdown(parts[0])}</span>
+                                        {parts[1] && <span className="text-gray-500 text-xs"> — {stripMarkdown(parts.slice(1).join(' — '))}</span>}
                                       </div>
                                     </div>
                                   );
@@ -879,9 +879,9 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult, id }) =
                             <div key={j} className="flex gap-2.5 items-start group/item">
                               <span className="w-1.5 h-1.5 bg-emerald-400/60 rounded-full mt-2 shrink-0 group-hover/item:bg-emerald-500 transition-colors" />
                               <div>
-                                <span className="font-semibold text-gray-800 text-sm leading-snug">{parts[0]}</span>
+                                <span className="font-semibold text-gray-800 text-sm leading-snug">{stripMarkdown(parts[0])}</span>
                                 {parts[1] && (
-                                  <span className="text-gray-500 text-xs leading-relaxed"> — {parts.slice(1).join(' — ')}</span>
+                                  <span className="text-gray-500 text-xs leading-relaxed"> — {stripMarkdown(parts.slice(1).join(' — '))}</span>
                                 )}
                               </div>
                             </div>
@@ -933,9 +933,9 @@ const DietChartRenderer: React.FC<DietChartRendererProps> = ({ aiResult, id }) =
                             <div key={j} className="flex gap-2.5 items-start group/item">
                               <span className="w-1.5 h-1.5 bg-red-300/60 rounded-full mt-2 shrink-0 group-hover/item:bg-red-400 transition-colors" />
                               <div>
-                                <span className="font-medium text-gray-700 text-sm leading-snug">{parts[0]}</span>
+                                <span className="font-medium text-gray-700 text-sm leading-snug">{stripMarkdown(parts[0])}</span>
                                 {parts[1] && (
-                                  <span className="text-gray-500 text-xs leading-relaxed"> — {parts.slice(1).join(' — ')}</span>
+                                  <span className="text-gray-500 text-xs leading-relaxed"> — {stripMarkdown(parts.slice(1).join(' — '))}</span>
                                 )}
                               </div>
                             </div>
