@@ -17,65 +17,88 @@ interface DietChartPDFProps {
 const PAGE_W = 210;
 const PAGE_H = 297;
 const M = 15;
-const CONTENT_W = PAGE_W - M * 2;
-
-function mmToPx(mm: number, dpi = 96): number {
-  return Math.round((mm * dpi) / 25.4);
-}
+const CW = PAGE_W - M * 2;
 
 const DietChartPDF: React.FC<DietChartPDFProps> = ({ containerId, patientName }) => {
   const [generating, setGenerating] = useState(false);
+
+  function collectSections(root: HTMLElement): HTMLElement[] {
+    const result: HTMLElement[] = [];
+    for (let i = 0; i < root.children.length; i++) {
+      const child = root.children[i] as HTMLElement;
+      const inner = child.querySelector('.space-y-4') || child.querySelector('[class*="space-y-4"]');
+      if (child.id?.includes('renderer') && inner) {
+        for (let j = 0; j < inner.children.length; j++) {
+          result.push(inner.children[j] as HTMLElement);
+        }
+      } else {
+        result.push(child);
+      }
+    }
+    return result;
+  }
 
   const handleDownload = useCallback(async () => {
     const source = document.getElementById(containerId);
     if (!source) return;
 
     setGenerating(true);
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    let y = M;
 
     try {
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-      const children = Array.from(source.children) as HTMLElement[];
-      let y = M;
+      const sections = collectSections(source);
 
-      const addPageIfNeeded = (hMm: number) => {
-        if (y + hMm > PAGE_H - M) {
-          pdf.addPage();
-          y = M;
-        }
-      };
+      for (const el of sections) {
+        if (!el.innerHTML.trim()) continue;
 
-      for (let ci = 0; ci < children.length; ci++) {
-        const child = children[ci];
-
-        const canvas = await html2canvas(child, {
+        const canvas = await html2canvas(el, {
           scale: 2,
           useCORS: true,
           logging: false,
           backgroundColor: '#ffffff',
           allowTaint: false,
-          width: child.scrollWidth,
-          height: child.scrollHeight,
+          width: el.scrollWidth,
+          height: el.scrollHeight,
         });
 
-        const imgW = CONTENT_W;
+        const imgW = CW;
         const imgH = (canvas.height * imgW) / canvas.width;
 
-        addPageIfNeeded(imgH);
-
-        pdf.addImage(
-          canvas.toDataURL('image/jpeg', 0.92),
-          'JPEG',
-          M,
-          y,
-          imgW,
-          imgH,
-        );
-
-        y += imgH + 2;
+        const pageAvail = PAGE_H - M - y;
+        if (imgH > PAGE_H - 2 * M) {
+          if (y !== M) { pdf.addPage(); y = M; }
+          const pageHpx = (canvas.width * (PAGE_H - 2 * M)) / imgW;
+          let srcY = 0;
+          let first = true;
+          while (srcY < canvas.height) {
+            const sliceH = Math.min(pageHpx, canvas.height - srcY);
+            const slice = document.createElement('canvas');
+            slice.width = canvas.width;
+            slice.height = sliceH;
+            const ctx = slice.getContext('2d');
+            if (ctx) {
+              ctx.fillStyle = '#ffffff';
+              ctx.fillRect(0, 0, slice.width, slice.height);
+              ctx.drawImage(canvas, 0, srcY, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
+            }
+            if (!first) pdf.addPage();
+            pdf.addImage(slice.toDataURL('image/jpeg', 0.92), 'JPEG', M, M, imgW, (sliceH * imgW) / canvas.width);
+            srcY += sliceH;
+            first = false;
+          }
+          y = M;
+        } else if (imgH > pageAvail) {
+          pdf.addPage();
+          pdf.addImage(canvas.toDataURL('image/jpeg', 0.92), 'JPEG', M, M, imgW, imgH);
+          y = M + imgH + 2;
+        } else {
+          pdf.addImage(canvas.toDataURL('image/jpeg', 0.92), 'JPEG', M, y, imgW, imgH);
+          y += imgH + 2;
+        }
       }
 
-      const filename = `${patientName.replace(/\s+/g, '_')}_Diet_Chart_${new Date().toISOString().split('T')[0]}.pdf`;
-      pdf.save(filename);
+      pdf.save(`${patientName.replace(/\s+/g, '_')}_Diet_Chart_${new Date().toISOString().split('T')[0]}.pdf`);
     } catch (error) {
       console.error('[PDF] Error:', error);
     } finally {
