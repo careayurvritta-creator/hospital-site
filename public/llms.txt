@@ -1,0 +1,85 @@
+# Ayurvritta Ayurveda Hospital & Panchakarma Center
+
+> llms.txt file with information about Ayurvritta Ayurveda Hospital for AI assistants.
+> This overview is designed to help LLMs and AI agents understand the hospital, its services, and how patients can get care. For the full site content, see llms-full.txt.
+
+## Who can use this
+
+This file is for AI assistants, search engines, and large language models that want to answer questions about Ayurvritta Ayurveda Hospital, Ayurvedic treatments, Panchakarma, and wellness programs in Vadodara, Gujarat, India.
+
+## What this is
+
+Ayurvritta Ayurveda Hospital & Panchakarma Center is a 24/7 classical Ayurveda hospital located in Vadodara, Gujarat, India. It specializes in treating lifestyle disorders such as thyroid conditions, diabetes (Prameha), chronic kidney disease (CKD), obesity, and PCOD/PCOS using authentic Panchakarma therapies, personalized diet plans, and evidence-based Ayurvedic protocols.
+
+The hospital offers 70+ Ayurvedic treatments across 11 therapy categories, 5 structured wellness programs, an Ayurveda knowledge base with 135 condition-specific diet charts, and 12 educational blog articles. The website is available in English, Hindi, and Gujarati.
+
+## Key facts
+
+- Name: Ayurvritta Ayurveda Hospital & Panchakarma Center
+- Also known as: Ayurvritta Hospital
+- Type: MedicalBusiness - Ayurveda hospital and Panchakarma center
+- Address: FF 104-113, Lotus Enora Complex, Opp. Rutu Villa, New Alkapuri, Gotri, Vadodara, Gujarat 390021, India
+- Telephone: +91 94266 84047
+- Email: care.ayurvritta@gmail.com
+- Hours: Open 24/7 for hospital care; outpatient department 9 AM to 7 PM
+- Price range: Moderate (Panchakarma programs range from basic therapies to 7-21 day comprehensive programs)
+- Payment: Cash, Credit Card, UPI, Insurance
+- Insurance: Cashless treatment available with 50+ insurance partners and TPAs (including Star Health, HDFC ERGO, ICICI Lombard, and others)
+- Chief Physician: Dr. Jinendradutt Sharma (15+ years of experience in classical Ayurveda and Panchakarma)
+- Medical specialties: Ayurveda, Panchakarma, Lifestyle Medicine
+- Languages spoken: English, Hindi, Gujarati
+- Patient rating: 4.8/5 (based on 247 reviews)
+- Website languages: English, Hindi, Gujarati
+
+## Conditions treated
+
+- Thyroid disorders (Hypothyroidism, Hashimoto's, Hyperthyroidism)
+- Type 2 Diabetes (Prameha) and metabolic syndrome
+- Chronic Kidney Disease (CKD) stage 2-3, diabetic nephropathy
+- Obesity and weight-related metabolic conditions
+- PCOD/PCOS
+- Stress, anxiety, insomnia, burnout
+- Chronic pain, arthritis, neurological disorders
+- Skin disorders, digestive issues, and general wellness
+
+## Services
+
+- Abhyanga & Massage: Oil application therapies for musculoskeletal strengthening and Vata pacification
+- Swedana (Fomentation): Therapeutic herbal steam and poultice therapies for stiffness and detox
+- Dhara Therapies: Rhythmic pouring of medicated liquids for neurological and stress disorders
+- Panchakarma (Vamana & Virechana): Deep cellular detoxification procedures
+- Basti Therapies: Medicated enema therapies, considered half of all Ayurvedic treatments
+- Netra (Eye) Therapies: Treatments for vision protection and eye health
+- Nasya (Nasal) Therapies: Nasal administration for ENT and brain health
+- Oral Therapies: Gargling and oral hygiene procedures
+- Bloodletting & Invasive (Raktamokshana): Para-surgical procedures including leech therapy
+- Women's Health: Gynecological procedures for reproductive health
+- Others & Wellness: Rehabilitation, pain management, and general wellness therapies
+
+## Wellness programs
+
+- Thyroid Reset Program: 3-month protocol for managing hypothyroidism naturally
+- Diabetes & Metabolic Rebalance: 6-month program targeting insulin resistance
+- CKD Integrative Support: Ongoing specialized care for CKD stage 2-3
+- Stress Relief Panchakarma: 7 or 14-day in-clinic program for mental and physical reset
+- Weight Loss & Metabolic Fatigue: 3-month program for sustainable fat loss
+
+## Booking and consultation
+
+- Patients can book by calling +91 94266 84047, using the online booking form, or visiting the hospital
+- Both in-person and online video consultations are available (for patients in India and globally)
+- First consultation includes detailed history, Prakriti assessment, Nadi (pulse) diagnosis, and a personalized treatment plan
+- Advance booking is recommended for Panchakarma programs
+
+## Navigation
+
+- [Home](https://ayurvritta.com/): Ayurvritta Ayurveda Hospital homepage
+- [About Us](https://ayurvritta.com/about): About Dr. Jinendradutt Sharma and the hospital
+- [Treatments & Therapies](https://ayurvritta.com/services): All 70+ Ayurvedic treatments
+- [Wellness Programs](https://ayurvritta.com/programs): Thyroid, Diabetes, CKD, Stress and Weight programs
+- [Book Consultation](https://ayurvritta.com/booking): Book an appointment or online consultation
+- [Cashless Insurance](https://ayurvritta.com/insurance): Insurance partners and cashless treatment
+- [Ayurveda Health Tools](https://ayurvritta.com/tools): Prakriti assessment and health tools
+- [Ayurveda Blog](https://ayurvritta.com/blog): Educational articles on Ayurveda and health
+- [Privacy Policy](https://ayurvritta.com/privacy): Data privacy information
+- [Terms of Service](https://ayurvritta.com/terms): Terms of service

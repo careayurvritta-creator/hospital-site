@@ -18,7 +18,7 @@ interface BlogPost {
   featured?: boolean;
 }
 
-const BLOG_POSTS: BlogPost[] = [
+export const BLOG_POSTS: BlogPost[] = [
   {
     id: '1',
     slug: 'understanding-ayurveda-science-of-life',

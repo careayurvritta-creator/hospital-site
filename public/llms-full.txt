@@ -1,0 +1,198 @@
+# Ayurvritta Ayurveda Hospital & Panchakarma Center
+
+> llms-full.txt with the complete content of the Ayurvritta Ayurveda Hospital website for AI assistants.
+> This file contains detailed information about the hospital, all treatments, wellness programs, blog articles, and the Ayurveda knowledge base.
+
+## Who can use this
+
+This file is for AI assistants, search engines, and large language models that want to answer questions about Ayurvritta Ayurveda Hospital, Ayurvedic treatments, Panchakarma, wellness programs, diet plans, and Ayurvedic health concepts. All content is accurate as of July 2026.
+
+## What this is
+
+Ayurvritta Ayurveda Hospital & Panchakarma Center is a 24/7 classical Ayurveda hospital in Vadodara, Gujarat, India. It specializes in treating lifestyle disorders — thyroid conditions, diabetes (Prameha), chronic kidney disease (CKD), obesity, and PCOD/PCOS — using authentic Panchakarma therapies, personalized diet plans, and evidence-based Ayurvedic protocols.
+
+The hospital offers 70+ Ayurvedic treatments across 11 therapy categories, 5 structured wellness programs, an Ayurveda knowledge base with 135 condition-specific diet charts, and 12 educational blog articles. The website is available in English, Hindi, and Gujarati.
+
+## Key facts
+
+- Name: Ayurvritta Ayurveda Hospital & Panchakarma Center
+- Also known as: Ayurvritta Hospital
+- Type: MedicalBusiness - Ayurveda hospital and Panchakarma center
+- Address: FF 104-113, Lotus Enora Complex, Opp. Rutu Villa, New Alkapuri, Gotri, Vadodara, Gujarat 390021, India
+- Telephone: +91 94266 84047
+- Email: care.ayurvritta@gmail.com
+- Hours: Open 24/7 for hospital care; outpatient department 9 AM to 7 PM
+- Payment: Cash, Credit Card, UPI, Insurance
+- Insurance: Cashless treatment with 50+ insurance partners and TPAs (Star Health, HDFC ERGO, ICICI Lombard, New India Assurance, Care Health, Niva Bupa, and others)
+- Chief Physician: Dr. Jinendradutt Sharma (15+ years of experience in classical Ayurveda and Panchakarma)
+- Medical specialties: Ayurveda, Panchakarma, Lifestyle Medicine
+- Website languages: English, Hindi, Gujarati
+- Patient rating: 4.8/5 (based on 247 reviews)
+
+## Conditions treated
+
+- Thyroid disorders (Hypothyroidism, Hashimoto's, Hyperthyroidism)
+- Type 2 Diabetes (Prameha), prediabetes, and metabolic syndrome
+- Chronic Kidney Disease (CKD) stage 2-3, diabetic nephropathy, high creatinine
+- Obesity (BMI over 30), post-partum weight, sluggish metabolism
+- PCOD/PCOS
+- Stress, anxiety, insomnia, burnout, chronic fatigue
+- Chronic pain, arthritis, sciatica, joint disorders
+- Neurological and psychosomatic disorders
+- Skin disorders, digestive issues, and general wellness
+
+## Services
+
+The hospital offers over 70 Ayurvedic treatments across 11 therapy categories. Each treatment is prescribed and monitored by experienced Ayurvedic physicians.
+
+### 1. Abhyanga & Massage
+
+Specialized oil application therapies for musculoskeletal strengthening and Vata pacification. Abhyanga improves circulation, tones muscles, calms the nervous system, and lubricates the joints.
+
+Sub-therapies include: Abhyanga (full body), Sthanik Abhyanga (local), Moordha Taila (head), Greeva Vasti (neck), Janu Vasti (knee), Kati Vasti (lower back), Uro Vasti (chest), Shiro/Yoni Pichu, Siro Vasti, Shirolepa/Thalapothichil, and more.
+
+### 2. Swedana (Fomentation)
+
+Therapeutic sweating using herbal steam or heated poultices to relieve stiffness and eliminate toxins (Ama). Highly effective for stiffness, heaviness, and coldness in the body.
+
+Sub-therapies include: Nadi Sweda (directed steam), Patra Pinda Sweda (leaf bundles), Dhanya Sweda (grain bundles), lemon bolus therapy, rice-in-milk massage, sand bag therapy, and herbal poultice bandaging.
+
+### 3. Dhara Therapies
+
+Rhythmic pouring of medicated liquids (oil, buttermilk, milk, herbal decoctions) over the forehead or body. Induces deep relaxation, balances brain wave activity, and is profound for stress, insomnia, and psychosomatic disorders.
+
+Sub-therapies include: Shirodhara (oil pouring on forehead), Takradhara (buttermilk pouring), Ksheeradhara (milk pouring), and local decoction pouring.
+
+### 4. Panchakarma (Vamana & Virechana)
+
+Deep cellular detoxification procedures. Vamana (therapeutic emesis) expels Kapha toxins; Virechana (therapeutic purgation) expels Pitta toxins. Requires strict preparation (Snehapana) and post-care (Samsarjana).
+
+Sub-therapies include: Snehapana (medicated ghee intake), Vamana Karma, Virechana Karma, and Samsarjana (post-detox diet).
+
+### 5. Basti Therapies
+
+Medicated enema therapies, considered half of all Ayurvedic treatments (Ardha Chikitsa). Most effective treatment for Vata disorders, balancing the nervous and motor functions.
+
+Sub-therapies include: Nirooha Basti (decoction enema), Matra Basti (small oil enema), Anuvasana Basti (oil enema), and Uttara Basti (urinary/genital administration).
+
+### 6. Netra (Eye) Therapies
+
+Specialized treatments for vision protection, dry eyes, and strengthening ocular nerves. Netra Tarpana (retaining medicated ghee over the eyes) nourishes the eyes and treats dry eye syndrome and refractive errors.
+
+Sub-therapies include: Netra Prakshalana (eye washing), Netra Tarpana, Aschyotana (herbal juice to eyes), Anjana (collyrium), and Bidalaka (herbal paste on eyelids).
+
+### 7. Nasya (Nasal & Head Therapies)
+
+Administration of medicine through the nasal route for ENT and brain health. The nose is considered the doorway to the brain. Treats sinusitis, migraines, hair fall, and hormonal issues.
+
+Sub-therapies include: Nasya drops, Dhumapana (herbal smoke inhalation), herbal milk steam, Shirobasti, and sinus probing.
+
+### 8. Oral Therapies
+
+Procedures for oral hygiene, gums, and throat health using medicated oils or decoctions.
+
+Sub-therapies include: Kabala/Gandoosha (medicated gargling), liquid holding, and medicated buttermilk intake.
+
+### 9. Bloodletting & Invasive (Raktamokshana)
+
+Para-surgical procedures to release vitiated blood for skin and vascular disorders.
+
+Sub-therapies include: Siravyadha (venesection), skin pricking, Jalouka (leech therapy), and thermal cautery.
+
+### 10. Women's Health
+
+Gynecological procedures for reproductive health and hygiene.
+
+Sub-therapies include: vaginal douche with herbal decoctions and vaginal fumigation for postpartum recovery.
+
+### 11. Others & Wellness
+
+Miscellaneous therapeutic and rehabilitation procedures including Yoga.
+
+Sub-therapies include: traction therapy, eye drops, Karnapoorana (ear oil filling), scraping therapy, and eye bolus application.
+
+## Wellness programs
+
+### Thyroid Reset Program
+
+3-month comprehensive protocol focusing on Agni (metabolism) correction and hormonal balance. Ideal for hypothyroidism, Hashimoto's, and thyroid-related weight gain.
+
+Includes: Nadi Pariksha (pulse diagnosis), Udhvartana (dry powder massage), Nasya, and Virechana.
+
+### Diabetes & Metabolic Rebalance
+
+6-month program targeting the root cause (Meda-dhatu dushti) to improve insulin sensitivity and reduce dependency on medicines. Ideal for type 2 diabetes, prediabetes, and metabolic syndrome.
+
+Includes: Takradhara (buttermilk pouring), Abhyanga, Virechana Karma, and a specific Prameha diet chart.
+
+### CKD Integrative Support
+
+Ongoing specialized care for CKD stage 2-3 to stabilize creatinine levels and improve quality of life using Rasayana therapy. Ideal for diabetic nephropathy and high creatinine.
+
+Includes: Punarnavadi Basti (medicated enema), Nabhi Basti (navel therapy), renal-safe Rasayana herbs, and a Gokshura-based protocol.
+
+### Stress Relief Panchakarma
+
+7 or 14-day immersive in-clinic program using Shirodhara and Abhyanga to calm the Vata dosha and reset the nervous system. Ideal for insomnia, high anxiety, burnout, and chronic fatigue.
+
+Includes: daily Shirodhara, Shiro-Abhyanga (head massage), Nasya Karma, and Pranayama and meditation.
+
+### Weight Loss & Metabolic Fatigue
+
+3-month program focusing on Lekhana (scraping) therapies and correcting metabolic fire to reduce visceral fat. Ideal for obesity (BMI over 30), post-partum weight, and sluggish metabolism.
+
+Includes: Triphala Udhvartana (scrub), Lekhana Basti (scraping enema), Swedana (herbal steam), and Langhana (fasting protocol).
+
+## Ayurveda health tools
+
+The website offers free Ayurveda health tools including a Prakriti assessment (dosha test to determine Vata, Pitta, or Kapha constitution), lifestyle risk assessment, and personalized diet planning.
+
+## Blog articles
+
+1. [Understanding Ayurveda: The Science of Life](https://ayurvritta.com/blog/understanding-ayurveda-science-of-life): Discover the ancient wisdom of Ayurveda and how it can transform your health through balanced living.
+2. [10 Daily Habits for Better Digestion](https://ayurvritta.com/blog/daily-habits-better-digestion): Simple Ayurvedic practices to improve your digestive health and boost overall wellness.
+3. [Yoga for Stress Relief: 5 Essential Poses](https://ayurvritta.com/blog/yoga-stress-relief-poses): Calming yoga poses to reduce stress and promote mental clarity.
+4. [Seasonal Eating: Spring Detox Guide](https://ayurvritta.com/blog/seasonal-eating-spring-detox): Learn how to align your diet with seasons for optimal health.
+5. [Meditation for Beginners: A Complete Guide](https://ayurvritta.com/blog/meditation-beginners-guide): Start your meditation journey with this comprehensive guide.
+6. [Herbal Remedies for Common Ailments](https://ayurvritta.com/blog/herbal-remedies-common-ailments): Natural herbal solutions for everyday health issues.
+7. [Understanding the Three Doshas: Vata, Pitta, Kapha](https://ayurvritta.com/blog/understanding-doshas-vata-pitta-kapha): A comprehensive guide to the three fundamental energies that govern your body and mind in Ayurveda.
+8. [Panchakarma: The Five Purification Actions](https://ayurvritta.com/blog/panchakarma-detox-five-actions): Discover the ancient Ayurvedic detoxification system that cleanses the body at the deepest level.
+9. [The Six Tastes: A Guide to Ayurvedic Cooking](https://ayurvritta.com/blog/ayurvedic-cooking-six-tastes): Learn how to incorporate all six Ayurvedic tastes (Rasas) into every meal for optimal nutrition and satisfaction.
+10. [Dinacharya: The Perfect Ayurvedic Daily Routine](https://ayurvritta.com/blog/dinacharya-daily-routine-ayurveda): Transform your health with this ancient daily routine prescribed by Ayurvedic sages for optimal wellness.
+11. [Turmeric: The Golden Medicine of Ayurveda](https://ayurvritta.com/blog/turmeric-golden-medicine): Why turmeric has been the most revered healing spice in Ayurveda for over 4,000 years.
+12. [Ayurvedic Weight Management: A Natural Approach](https://ayurvritta.com/blog/ayurveda-weight-management-natural): Sustainable weight management through Ayurvedic principles that address root causes, not just symptoms.
+
+## Diet chart knowledge base
+
+The hospital maintains a knowledge base of 135 condition-specific Ayurvedic diet charts covering a wide range of conditions including diabetes, thyroid disorders, kidney disease, heart disease, PCOD, hypertension, arthritis, IBS, skin conditions, pregnancy, childhood nutrition, and seasonal eating. These are used by physicians to create personalized diet plans for patients.
+
+## Booking and consultation
+
+- Patients can book by calling +91 94266 84047, using the online booking form, or visiting the hospital
+- Both in-person and online video consultations are available for patients in India and globally
+- First consultation (approximately 45-60 minutes) includes detailed history, Prakriti assessment, Nadi (pulse) diagnosis, and a personalized treatment plan
+- The doctor reviews medical reports and recommends appropriate therapies and lifestyle modifications
+- Advance booking is recommended for Panchakarma programs
+- Basic Panchakarma treatments start from ₹500/day; comprehensive 7-21 day programs range from ₹15,000-₹75,000
+
+## Insurance and payments
+
+Cashless Ayurveda treatment is available with 50+ insurance partners and TPAs, including The New India Assurance, United India Insurance, Oriental Insurance, National Insurance, HDFC ERGO, ICICI Lombard, Bajaj Allianz, Tata AIG, Star Health, Niva Bupa, Care Health, ManipalCigna, SBI General, Reliance General, and many others. Payments accepted: cash, credit card, UPI, and insurance.
+
+## Social media
+
+- Facebook: https://www.facebook.com/profile.php?id=61560024669845
+- Instagram: https://www.instagram.com/ayurvritta/
+
+## Navigation
+
+- [Home](https://ayurvritta.com/): Ayurvritta Ayurveda Hospital homepage
+- [About Us](https://ayurvritta.com/about): About Dr. Jinendradutt Sharma and the hospital
+- [Treatments & Therapies](https://ayurvritta.com/services): All 70+ Ayurvedic treatments
+- [Wellness Programs](https://ayurvritta.com/programs): Thyroid, Diabetes, CKD, Stress and Weight programs
+- [Book Consultation](https://ayurvritta.com/booking): Book an appointment or online consultation
+- [Cashless Insurance](https://ayurvritta.com/insurance): Insurance partners and cashless treatment
+- [Ayurveda Health Tools](https://ayurvritta.com/tools): Prakriti assessment and health tools
+- [Ayurveda Blog](https://ayurvritta.com/blog): Educational articles on Ayurveda and health
+- [Privacy Policy](https://ayurvritta.com/privacy): Data privacy information
+- [Terms of Service](https://ayurvritta.com/terms): Terms of service
