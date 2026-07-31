@@ -1,6 +1,7 @@
 import React from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
+import SEOHead from './components/SEOHead';
 import Home from './pages/Home';
 import About from './pages/About';
 import Services from './pages/Services';
@@ -16,6 +17,7 @@ import Terms from './pages/Terms';
 const App: React.FC = () => {
   return (
     <HashRouter>
+      <SEOHead />
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />

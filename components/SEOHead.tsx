@@ -6,6 +6,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { PAGE_SEO, HOSPITAL_SCHEMA, FAQ_SCHEMA, ORGANIZATION_SCHEMA, PHYSICIAN_SCHEMA, BREADCRUMB_SCHEMA, HOWTO_PANCHAKARMA_SCHEMA, HOWTO_PRAKRITI_SCHEMA, HOWTO_DIET_SCHEMA, MEDICAL_WEBPAGE_SCHEMA } from '../seo';
+import { BLOG_POSTS } from '../pages/Blog';
 
 interface SEOHeadProps {
     title?: string;
@@ -29,15 +30,29 @@ const SEOHead: React.FC<SEOHeadProps> = ({
     const getPageKey = (): string => {
         const path = location.pathname.replace('/', '') || 'home';
         if (path.startsWith('services/')) return 'services';
+        if (path.startsWith('blog/')) return 'blog';
         return path;
     };
 
     const pageKey = getPageKey();
     const seoData = PAGE_SEO[pageKey] || PAGE_SEO.home;
 
-    const finalTitle = title || seoData.title;
-    const finalDescription = description || seoData.description;
-    const finalImage = image || seoData.ogImage || '/images/og-default.jpg';
+    // Resolve blog post detail metadata (single /blog/:slug detail pages)
+    const postMatch = location.pathname.match(/^\/blog\/([^/]+)\/?$/);
+    const activePost = postMatch ? BLOG_POSTS.find(p => p.slug === postMatch[1]) : null;
+
+    let finalTitle = title || seoData.title;
+    let finalDescription = description || seoData.description;
+    let finalImage = image || seoData.ogImage || '/images/og-default.svg';
+    let finalType = type;
+
+    if (activePost) {
+        finalTitle = `${activePost.title} | Ayurvritta Ayurveda Blog`;
+        finalDescription = activePost.excerpt;
+        finalImage = activePost.image;
+        finalType = 'article';
+    }
+
     const canonicalUrl = `${baseUrl}${location.pathname}`;
 
     // Update document head
@@ -54,7 +69,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
         updateMeta('og:description', finalDescription, 'property');
         updateMeta('og:image', `${baseUrl}${finalImage}`, 'property');
         updateMeta('og:url', canonicalUrl, 'property');
-        updateMeta('og:type', type, 'property');
+        updateMeta('og:type', finalType, 'property');
         updateMeta('og:site_name', 'Ayurvritta Ayurveda Hospital', 'property');
         updateMeta('og:locale', 'en_IN', 'property');
 
@@ -75,9 +90,9 @@ const SEOHead: React.FC<SEOHeadProps> = ({
         }
 
         // Structured data
-        updateStructuredData();
+        updateStructuredData(location.pathname, activePost);
 
-    }, [location.pathname, finalTitle, finalDescription]);
+    }, [location.pathname, finalTitle, finalDescription, finalType, finalImage, activePost]);
 
     return null; // This component only manages head tags
 };
@@ -107,7 +122,7 @@ function updateCanonical(url: string) {
 }
 
 // Helper: Add structured data schemas
-function updateStructuredData() {
+function updateStructuredData(pathname: string, activePost?: { title: string; excerpt: string; image: string; author: string; date: string } | null) {
     // Remove existing
     document.querySelectorAll('script[type="application/ld+json"]').forEach(el => el.remove());
 
@@ -129,8 +144,8 @@ function updateStructuredData() {
     medicalWebpageScript.textContent = JSON.stringify(MEDICAL_WEBPAGE_SCHEMA);
     document.head.appendChild(medicalWebpageScript);
 
-    // Add Physician schema (on about and booking pages)
-    if (location.pathname === '/about' || location.pathname === '/booking' || location.pathname === '/') {
+    // Add Physician schema (on about, booking and home pages)
+    if (pathname === '/about' || pathname === '/booking' || pathname === '/') {
         const physicianScript = document.createElement('script');
         physicianScript.type = 'application/ld+json';
         physicianScript.textContent = JSON.stringify(PHYSICIAN_SCHEMA);
@@ -138,22 +153,22 @@ function updateStructuredData() {
     }
 
     // Add Breadcrumb schema (on all pages except home)
-    if (location.pathname !== '/') {
+    if (pathname !== '/') {
         const breadcrumbScript = document.createElement('script');
         breadcrumbScript.type = 'application/ld+json';
-        breadcrumbScript.textContent = JSON.stringify(BREADCRUMB_SCHEMA(location.pathname));
+        breadcrumbScript.textContent = JSON.stringify(BREADCRUMB_SCHEMA(pathname));
         document.head.appendChild(breadcrumbScript);
     }
 
     // Add HowTo schemas on appropriate pages
-    if (location.pathname === '/services/panchakarma' || location.pathname === '/services') {
+    if (pathname === '/services/panchakarma' || pathname === '/services') {
         const howtoPkScript = document.createElement('script');
         howtoPkScript.type = 'application/ld+json';
         howtoPkScript.textContent = JSON.stringify(HOWTO_PANCHAKARMA_SCHEMA);
         document.head.appendChild(howtoPkScript);
     }
 
-    if (location.pathname === '/tools') {
+    if (pathname === '/tools') {
         const howtoPrakritiScript = document.createElement('script');
         howtoPrakritiScript.type = 'application/ld+json';
         howtoPrakritiScript.textContent = JSON.stringify(HOWTO_PRAKRITI_SCHEMA);
@@ -166,11 +181,39 @@ function updateStructuredData() {
     }
 
     // Add FAQ schema (on home and booking pages for AI search)
-    if (location.pathname === '/' || location.pathname === '/booking') {
+    if (pathname === '/' || pathname === '/booking') {
         const faqScript = document.createElement('script');
         faqScript.type = 'application/ld+json';
         faqScript.textContent = JSON.stringify(FAQ_SCHEMA);
         document.head.appendChild(faqScript);
+    }
+
+    // Add BlogPosting schema on individual blog post pages
+    if (activePost) {
+        const blogPostingScript = document.createElement('script');
+        blogPostingScript.type = 'application/ld+json';
+        blogPostingScript.textContent = JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": activePost.title,
+            "description": activePost.excerpt,
+            "image": activePost.image,
+            "author": {
+                "@type": "Person",
+                "name": activePost.author
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "Ayurvritta Ayurveda Hospital",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://ayurvritta.com/images/logo-nobg.png"
+                }
+            },
+            "datePublished": activePost.date,
+            "mainEntityOfPage": `https://ayurvritta.com${pathname}`
+        });
+        document.head.appendChild(blogPostingScript);
     }
 }
 

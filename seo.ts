@@ -16,43 +16,61 @@ export const PAGE_SEO: Record<string, PageSEO> = {
         title: 'Ayurvritta Ayurveda Hospital & Panchakarma Center | Vadodara',
         description: 'Classical Ayurveda for modern lifestyle disorders. Expert Panchakarma treatment in Vadodara for Thyroid, Diabetes, CKD, Obesity & PCOD. 24/7 Hospital.',
         keywords: 'ayurveda hospital vadodara, panchakarma center vadodara, thyroid treatment ayurveda, diabetes ayurveda treatment, ayurvedic hospital gujarat',
-        ogImage: '/images/og-home.jpg'
+        ogImage: '/images/og-home.svg'
     },
     about: {
         title: 'About Us | Dr. Jinendradutt Sharma | Ayurvritta Hospital',
         description: 'Meet Dr. Jinendradutt Sharma, Chief Physician at Ayurvritta. 15+ years of experience in classical Ayurveda and Panchakarma for lifestyle disorders.',
         keywords: 'ayurveda doctor vadodara, panchakarma specialist, ayurveda physician gujarat',
-        ogImage: '/images/og-about.jpg'
+        ogImage: '/images/og-default.svg'
     },
     services: {
         title: 'Ayurveda Treatments & Therapies | Panchakarma | Ayurvritta',
         description: 'Explore our 70+ Ayurvedic treatments including Abhyanga, Shirodhara, Basti, Nasya, and more. Evidence-based Panchakarma in Vadodara.',
         keywords: 'panchakarma treatment vadodara, shirodhara therapy, abhyanga massage, ayurveda therapy vadodara',
-        ogImage: '/images/og-services.jpg'
+        ogImage: '/images/og-default.svg'
     },
     programs: {
         title: 'Wellness Programs | Thyroid, Diabetes, Weight Loss | Ayurvritta',
         description: 'Specialized Ayurveda programs for Thyroid Reset, Diabetes Reversal, CKD Support, Stress Relief & Weight Loss. Personalized treatment protocols.',
         keywords: 'thyroid treatment ayurveda, diabetes reversal program, weight loss ayurveda, ckd treatment ayurveda',
-        ogImage: '/images/og-programs.jpg'
+        ogImage: '/images/og-default.svg'
     },
     booking: {
         title: 'Book Consultation | Ayurvritta Ayurveda Hospital',
         description: 'Book your consultation with Dr. Jinendradutt Sharma. Online and in-person appointments available. Call +91 94266 84047.',
         keywords: 'book ayurveda consultation, ayurveda appointment vadodara',
-        ogImage: '/images/og-booking.jpg'
+        ogImage: '/images/og-default.svg'
     },
     tools: {
         title: 'Ayurveda Health Tools | Prakriti Quiz | Ayurvritta',
         description: 'Discover your Ayurvedic constitution with our Prakriti Assessment, Lifestyle Risk Calculator, and personalized Diet Planner.',
         keywords: 'prakriti quiz, dosha test, ayurveda body type, vata pitta kapha test',
-        ogImage: '/images/og-tools.jpg'
+        ogImage: '/images/og-default.svg'
     },
     insurance: {
         title: 'Cashless Treatment & Insurance | Ayurvritta Hospital',
         description: 'Cashless Ayurveda treatment with 50+ insurance partners. HDFC ERGO, Star Health, ICICI Lombard & more accepted.',
         keywords: 'ayurveda insurance, cashless ayurveda treatment, health insurance ayurveda',
-        ogImage: '/images/og-insurance.jpg'
+        ogImage: '/images/og-default.svg'
+    },
+    blog: {
+        title: 'Ayurveda Blog | Health Articles & Tips | Ayurvritta',
+        description: 'Read expert Ayurveda articles on doshas, Panchakarma, digestion, seasonal routines, herbal remedies and natural health tips from Ayurvritta.',
+        keywords: 'ayurveda blog, ayurvedic health tips, ayurveda articles, panchakarma guide, dosha guide',
+        ogImage: '/images/og-default.svg'
+    },
+    privacy: {
+        title: 'Privacy Policy | Ayurvritta Ayurveda Hospital',
+        description: 'Read the Ayurvritta Ayurveda Hospital privacy policy covering how we collect, use, and protect your personal and health information.',
+        keywords: 'ayurvritta privacy policy, ayurveda hospital data policy',
+        ogImage: '/images/og-default.svg'
+    },
+    terms: {
+        title: 'Terms of Service | Ayurvritta Ayurveda Hospital',
+        description: 'Review the terms and conditions for using the Ayurvritta Ayurveda Hospital website and booking services.',
+        keywords: 'ayurvritta terms of service, ayurveda hospital terms',
+        ogImage: '/images/og-default.svg'
     }
 };
 
