@@ -4,6 +4,7 @@ import { SERVICES } from '../constants';
 import { NavLink } from '../components/Layout';
 import { ArrowLeft, CheckCircle2, AlertCircle, Phone, Calendar, ArrowRight, Sparkles, Award, Clock, Shield, Star, ChevronDown, Heart, Leaf } from 'lucide-react';
 import { useIntersectionObserver } from '../hooks';
+import { Aurora, SplitText, Counter, AnimatedList, SpotlightCard } from '../components/ui/reactbits';
 
 const ServiceDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -32,6 +33,7 @@ const ServiceDetail: React.FC = () => {
 
             {/* ENHANCED HERO SECTION */}
             <section ref={heroObserver.ref} className="relative h-[350px] md:h-[500px] bg-gradient-to-br from-ayur-green via-[#0a6b5a] to-ayur-green-dark overflow-hidden">
+                <Aurora colors={['#0d8770', '#c9a227', '#094c47']} speed="slow" className="opacity-60" />
                 {/* Animated gradient orbs */}
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-ayur-accent/30 to-transparent rounded-full blur-[100px] animate-pulse"></div>
                 <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-emerald-500/20 to-transparent rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '1.5s' }}></div>
@@ -71,7 +73,7 @@ const ServiceDetail: React.FC = () => {
                     </div>
 
                     <h1 className={`font-serif text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-3 tracking-tight ${heroObserver.isVisible ? 'animate-fadeInUp' : ''}`} style={{ animationDelay: '150ms' }}>
-                        {service.title}
+                        <SplitText text={service.title} delay={150} staggerMs={35} />
                     </h1>
                     
                     <p className={`text-lg md:text-2xl text-white/85 max-w-3xl font-light leading-relaxed ${heroObserver.isVisible ? 'animate-fadeInUp' : ''}`} style={{ animationDelay: '200ms' }}>
@@ -114,18 +116,20 @@ const ServiceDetail: React.FC = () => {
                                         Key Therapeutic Benefits
                                     </h4>
                                     <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        {service.benefits.map((benefit, idx) => (
-                                            <li 
-                                                key={idx} 
-                                                className={`flex items-start gap-3 text-ayur-gray text-sm md:text-base group ${contentObserver.isVisible ? 'animate-fadeInUp' : ''}`}
-                                                style={{ animationDelay: `${idx * 100}ms` }}
-                                            >
-                                                <div className="w-6 h-6 bg-ayur-green/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-ayur-green/20 transition-colors">
-                                                    <CheckCircle2 size={14} className="text-ayur-green" />
+                                        <AnimatedList
+                                            as="li"
+                                            className="grid grid-cols-1 md:grid-cols-2 gap-4 !contents"
+                                            items={service.benefits.map((benefit, idx) => (
+                                                <div key={idx} className="flex items-start gap-3 text-ayur-gray text-sm md:text-base group">
+                                                    <div className="w-6 h-6 bg-ayur-green/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-ayur-green/20 transition-colors">
+                                                        <CheckCircle2 size={14} className="text-ayur-green" />
+                                                    </div>
+                                                    <span className="leading-relaxed">{benefit}</span>
                                                 </div>
-                                                <span className="leading-relaxed">{benefit}</span>
-                                            </li>
-                                        ))}
+                                            ))}
+                                            staggerMs={60}
+                                            threshold={0.05}
+                                        />
                                     </ul>
                                 </div>
                             )}
@@ -153,12 +157,13 @@ const ServiceDetail: React.FC = () => {
                                 {/* Therapy List */}
                                 <div className="divide-y divide-gray-100">
                                     {service.subServices.map((sub, idx) => (
-                                        <div 
+                                        <SpotlightCard
                                             key={idx}
-                                            className={`group p-6 md:p-8 hover:bg-gradient-to-r hover:from-ayur-green/5 hover:to-transparent transition-all duration-500 cursor-pointer ${therapyObserver.isVisible ? 'animate-fadeInUp' : ''}`}
-                                            style={{ animationDelay: `${idx * 80}ms` }}
-                                            onClick={() => toggleTherapy(idx)}
+                                            className={`group cursor-pointer ${therapyObserver.isVisible ? 'animate-fadeInUp' : ''}`}
+                                            spotColor="rgba(13, 135, 112, 0.08)"
                                         >
+                                            <div style={{ animationDelay: `${idx * 80}ms` }} onClick={() => toggleTherapy(idx)}>
+                                                <div className="p-6 md:p-8 hover:bg-gradient-to-r hover:from-ayur-green/5 hover:to-transparent transition-all duration-500">
                                             <div className="flex gap-5 md:gap-8 items-start">
                                                 {/* Image */}
                                                 <div className="shrink-0 w-20 h-20 md:w-28 md:h-28 rounded-2xl overflow-hidden shadow-md border-2 border-ayur-subtle group-hover:border-ayur-green/30 group-hover:shadow-xl transition-all duration-300 relative">
@@ -198,7 +203,7 @@ const ServiceDetail: React.FC = () => {
                                                             <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Per Session</span>
                                                             <div className="flex items-baseline mt-1">
                                                                 <span className="text-lg text-ayur-accent font-bold">₹</span>
-                                                                <span className="text-2xl font-bold text-ayur-green">{sub.price}</span>
+                                                                <span className="text-2xl font-bold text-ayur-green"><Counter value={sub.price} /></span>
                                                             </div>
                                                         </div>
                                                         <NavLink
@@ -216,7 +221,7 @@ const ServiceDetail: React.FC = () => {
                                                         <span className="block text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">Per Session</span>
                                                         <div className="flex items-baseline justify-end">
                                                             <span className="text-lg text-ayur-accent font-bold">₹</span>
-                                                            <span className="text-3xl font-bold text-ayur-green">{sub.price}</span>
+                                                            <span className="text-3xl font-bold text-ayur-green"><Counter value={sub.price} /></span>
                                                         </div>
                                                     </div>
                                                     <NavLink
@@ -228,7 +233,9 @@ const ServiceDetail: React.FC = () => {
                                                     </NavLink>
                                                 </div>
                                             </div>
-                                        </div>
+                                            </div>
+                                            </div>
+                                        </SpotlightCard>
                                     ))}
                                 </div>
                             </section>

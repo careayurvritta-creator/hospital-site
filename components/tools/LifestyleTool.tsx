@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { aiService } from '../../lib/aiService';
+import { Counter, AnimatedList } from '../ui/reactbits';
 
 interface Question {
   id: number;
@@ -407,35 +408,11 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   const [showReport, setShowReport] = useState(false);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [animatedScore, setAnimatedScore] = useState(0);
   const [aiRecommendation, setAiRecommendation] = useState<string>('');
   const [aiLoading, setAiLoading] = useState(false);
 
   const currentQuestion = questions[step];
   const progress = ((step + 1) / questions.length) * 100;
-
-  useEffect(() => {
-    if (result && !isAnalyzing) {
-      const timer = setTimeout(() => {
-        let current = 0;
-        const target = result.score;
-        const duration = 1500;
-        const steps = 60;
-        const increment = target / steps;
-        const animation = setInterval(() => {
-          current += increment;
-          if (current >= target) {
-            setAnimatedScore(target);
-            clearInterval(animation);
-          } else {
-            setAnimatedScore(Math.floor(current));
-          }
-        }, duration / steps);
-        return () => clearInterval(animation);
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [result, isAnalyzing]);
 
   const handleSelect = (value: number) => {
     setSelectedOption(value);
@@ -631,7 +608,7 @@ Keep it concise and practical. Use Sanskrit terms where appropriate with English
           {/* Score Card */}
           <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-100 overflow-hidden">
             <div className={`bg-gradient-to-r ${getRiskGradient()} p-6 text-white text-center`}>
-              <div className="text-5xl font-bold mb-1">{animatedScore}</div>
+              <div className="text-5xl font-bold mb-1"><Counter value={result.score} /></div>
               <div className="text-white/80 text-sm">out of {result.maxScore}</div>
             </div>
             <div className="p-4 text-center">
@@ -678,9 +655,10 @@ Keep it concise and practical. Use Sanskrit terms where appropriate with English
 
           {/* Recommendations */}
           {showReport && (
-            <div className="space-y-3">
-              {result.recommendations.map((rec, idx) => (
-                <div key={idx} className={`p-4 rounded-xl border-2 ${getPriorityStyles(rec.priority)}`}>
+            <AnimatedList
+              className="flex flex-col gap-3"
+              items={result.recommendations.map((rec) => (
+                <div className={`p-4 rounded-xl border-2 ${getPriorityStyles(rec.priority)}`}>
                   <div className="flex items-start justify-between gap-3 mb-2">
                     <h4 className="font-bold text-gray-900">{rec.title}</h4>
                     <span className={`text-xs px-2 py-1 rounded-full font-medium ${rec.priority === 'high' ? 'bg-red-200 text-red-800' : rec.priority === 'medium' ? 'bg-amber-200 text-amber-800' : 'bg-green-200 text-green-800'}`}>
@@ -691,7 +669,8 @@ Keep it concise and practical. Use Sanskrit terms where appropriate with English
                   <p className="text-xs text-ayur-accent mt-2 font-medium">Category: {rec.category}</p>
                 </div>
               ))}
-            </div>
+              staggerMs={70}
+            />
           )}
 
           {/* AI-Powered Dinacharya Recommendation */}
@@ -740,7 +719,7 @@ Keep it concise and practical. Use Sanskrit terms where appropriate with English
           {/* Actions */}
           <div className="flex gap-3 pt-2">
             <button 
-              onClick={() => { setStep(0); setAnswers({}); setResult(null); setShowReport(false); setAnimatedScore(0); setAiRecommendation(''); setAiLoading(false); }}
+              onClick={() => { setStep(0); setAnswers({}); setResult(null); setShowReport(false); setAiRecommendation(''); setAiLoading(false); }}
               className="flex-1 py-3 bg-ayur-cream text-ayur-green font-bold rounded-xl hover:bg-ayur-green/10 transition-all"
             >
               Retake Assessment

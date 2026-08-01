@@ -5,6 +5,7 @@ import MedaTool from '../components/tools/MedaTool';
 import SaaraTool from '../components/tools/SaaraTool';
 import PrakritiTool from '../components/tools/PrakritiTool';
 import DietChartTool from '../components/tools/DietChartTool';
+import { Aurora, SplitText, SpotlightCard, TiltedCard } from '../components/ui/reactbits';
 
 const AlertIcon = () => (
   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -67,37 +68,41 @@ const ToolCard: React.FC<{
   onClick: () => void;
   index: number;
 }> = ({ title, desc, icon, badge, onClick, index }) => (
-  <button 
-    onClick={onClick} 
-    className="group relative bg-white rounded-3xl overflow-hidden transition-all duration-500 w-full text-left shadow-lg hover:shadow-2xl hover:shadow-ayur-green/15 hover:-translate-y-2"
-    style={{ animationDelay: `${index * 150}ms` }}
-  >
-    <div className="absolute inset-0 bg-gradient-to-br from-ayur-green/5 via-transparent to-ayur-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-    {badge && (
-      <div className="absolute top-4 right-4 z-10">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-ayur-accent to-amber-500 text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-lg">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-          </svg>
-          {badge}
-        </span>
-      </div>
-    )}
-    <div className="relative z-10 p-4 sm:p-6">
-      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-lg group-hover:shadow-xl">
-        {icon}
-      </div>
-      <h3 className="font-serif text-lg sm:text-xl font-bold text-ayur-green mb-2 group-hover:text-ayur-green-dark transition-colors">{title}</h3>
-      <p className="text-gray-600 text-sm leading-relaxed mb-4">{desc}</p>
-      <div className="flex items-center gap-2 text-ayur-green font-semibold text-sm group-hover:gap-3 transition-all duration-300">
-        <span>Start Assessment</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="group-hover:translate-x-1 transition-transform">
-          <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
-        </svg>
-      </div>
-    </div>
-    <div className="h-1 bg-gradient-to-r from-ayur-green via-ayur-accent to-ayur-green transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
-  </button>
+  <TiltedCard className="h-full" maxTilt={6} scale={1.02}>
+    <SpotlightCard className="h-full bg-white rounded-3xl" spotColor="rgba(13, 135, 112, 0.10)">
+      <button
+        onClick={onClick}
+        className="group relative w-full h-full text-left shadow-lg hover:shadow-2xl hover:shadow-ayur-green/15 hover:-translate-y-2 rounded-3xl overflow-hidden transition-all duration-500"
+        style={{ animationDelay: `${index * 150}ms` }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-ayur-green/5 via-transparent to-ayur-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        {badge && (
+          <div className="absolute top-4 right-4 z-10">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-ayur-accent to-amber-500 text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-lg">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+              {badge}
+            </span>
+          </div>
+        )}
+        <div className="relative z-10 p-4 sm:p-6">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-lg group-hover:shadow-xl">
+            {icon}
+          </div>
+          <h3 className="font-serif text-lg sm:text-xl font-bold text-ayur-green mb-2 group-hover:text-ayur-green-dark transition-colors">{title}</h3>
+          <p className="text-gray-600 text-sm leading-relaxed mb-4">{desc}</p>
+          <div className="flex items-center gap-2 text-ayur-green font-semibold text-sm group-hover:gap-3 transition-all duration-300">
+            <span>Start Assessment</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="group-hover:translate-x-1 transition-transform">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </div>
+        </div>
+        <div className="h-1 bg-gradient-to-r from-ayur-green via-ayur-accent to-ayur-green transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+      </button>
+    </SpotlightCard>
+  </TiltedCard>
 );
 
 const Tools: React.FC = () => {
@@ -156,6 +161,7 @@ const Tools: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-ayur-cream via-white to-ayur-cream/30 pb-24">
       <section className="relative bg-gradient-to-br from-ayur-green via-[#0a6b5a] to-ayur-green-dark pt-24 pb-20 md:pt-32 md:pb-28 text-white overflow-hidden">
+        <Aurora colors={['#0d8770', '#c9a227', '#094c47']} speed="slow" className="opacity-60" />
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-ayur-accent/30 to-transparent rounded-full blur-[100px] animate-pulse"></div>
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-500/20 to-transparent rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '1.5s' }}></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-ayur-green/10 to-ayur-accent/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '0.7s' }}></div>
@@ -167,7 +173,10 @@ const Tools: React.FC = () => {
             <span className="text-xs md:text-sm font-semibold uppercase tracking-wider">Interactive Assessments</span>
           </div>
           <h1 className={`font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 tracking-tight transition-all duration-700 delay-100 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-            Ayurveda <span className="text-transparent bg-clip-text bg-gradient-to-r from-ayur-accent to-yellow-300">Health Tools</span>
+            <SplitText text="Ayurveda" className="inline-block" delay={100} staggerMs={40} />{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-ayur-accent to-yellow-300">
+              <SplitText text="Health Tools" className="inline-block" delay={250} staggerMs={40} />
+            </span>
           </h1>
           <p className={`text-lg md:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto transition-all duration-700 delay-200 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             Ancient wisdom meets modern algorithms. Use these interactive assessments based on Charaka Samhita, Sushruta Samhita, and Ashtanga Hridayam to understand your body type, risks, and therapeutic needs.

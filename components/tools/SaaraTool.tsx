@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { aiService } from '../../lib/aiService';
+import { Counter, AnimatedList } from '../ui/reactbits';
 
 interface DhatuQuestion {
   key: string;
@@ -329,36 +330,12 @@ const SaaraTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   const [result, setResult] = useState<Result | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
-  const [animatedScore, setAnimatedScore] = useState(0);
   const [aiRecommendation, setAiRecommendation] = useState<string>('');
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState(false);
 
   const currentDhatu = dhatuData[currentDhatuIndex];
   const progress = ((currentDhatuIndex + 1) / dhatuData.length) * 100;
-
-  useEffect(() => {
-    if (result && !isAnalyzing) {
-      const timer = setTimeout(() => {
-        let current = 0;
-        const target = result.overallScore;
-        const duration = 1500;
-        const steps = 60;
-        const increment = target / steps;
-        const animation = setInterval(() => {
-          current += increment;
-          if (current >= target) {
-            setAnimatedScore(target);
-            clearInterval(animation);
-          } else {
-            setAnimatedScore(Math.floor(current));
-          }
-        }, duration / steps);
-        return () => clearInterval(animation);
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [result, isAnalyzing]);
 
   const handleAnswer = (questionKey: string, value: number) => {
     setAnswers(prev => ({ ...prev, [questionKey]: value }));
@@ -525,7 +502,7 @@ Keep recommendations practical, rooted in classical Ayurvedic texts (Charaka Chi
         <div className="space-y-4">
           <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-100 overflow-hidden">
             <div className={`bg-gradient-to-r ${result.color} p-6 text-white text-center`}>
-              <div className="text-5xl font-bold mb-1">{animatedScore}%</div>
+              <div className="text-5xl font-bold mb-1"><Counter value={result.overallScore} />%</div>
               <div className="text-white/80 text-sm">Overall Tissue Excellence</div>
               <div className="mt-3 inline-block px-4 py-1.5 bg-white/20 rounded-full text-sm font-bold">
                 {result.classification}
@@ -580,18 +557,22 @@ Keep recommendations practical, rooted in classical Ayurvedic texts (Charaka Chi
           {showDetails && (
             <div className="space-y-3">
               <h3 className="font-bold text-ayur-green text-lg">Personalized Rasayana Therapy</h3>
-              {result.rasayanaRecs.map((rec, idx) => (
-                <div key={idx} className="bg-white rounded-xl border-2 border-gray-100 p-4 shadow-md">
-                  <div className="flex items-start gap-3 mb-2">
-                    <span className="text-2xl">{rec.icon}</span>
-                    <div>
-                      <h4 className="font-bold text-gray-900">{rec.title}</h4>
-                      <p className="text-xs text-ayur-accent font-medium">Recommended Herb: {rec.herb}</p>
+              <AnimatedList
+                className="flex flex-col gap-3"
+                items={result.rasayanaRecs.map((rec) => (
+                  <div className="bg-white rounded-xl border-2 border-gray-100 p-4 shadow-md">
+                    <div className="flex items-start gap-3 mb-2">
+                      <span className="text-2xl">{rec.icon}</span>
+                      <div>
+                        <h4 className="font-bold text-gray-900">{rec.title}</h4>
+                        <p className="text-xs text-ayur-accent font-medium">Recommended Herb: {rec.herb}</p>
+                      </div>
                     </div>
+                    <p className="text-sm text-gray-700">{rec.description}</p>
                   </div>
-                  <p className="text-sm text-gray-700">{rec.description}</p>
-                </div>
-              ))}
+                ))}
+                staggerMs={70}
+              />
             </div>
           )}
 
@@ -660,7 +641,7 @@ Keep recommendations practical, rooted in classical Ayurvedic texts (Charaka Chi
 
           <div className="flex gap-3 pt-2">
             <button 
-              onClick={() => { setCurrentDhatuIndex(0); setAnswers({}); setResult(null); setShowDetails(false); setAnimatedScore(0); setAiRecommendation(''); setAiError(false); setAiLoading(false); }}
+              onClick={() => { setCurrentDhatuIndex(0); setAnswers({}); setResult(null); setShowDetails(false); setAiRecommendation(''); setAiError(false); setAiLoading(false); }}
               className="flex-1 py-3 bg-ayur-cream text-ayur-green font-bold rounded-xl hover:bg-ayur-green/10 transition-all"
             >
               Retake Assessment
