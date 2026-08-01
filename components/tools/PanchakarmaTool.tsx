@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { aiService } from '../../lib/aiService';
+import { Counter, AnimatedList } from '../ui/reactbits';
 
 interface Question {
   id: number;
@@ -294,35 +295,11 @@ const PanchakarmaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   const [showDetails, setShowDetails] = useState(false);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [animatedScore, setAnimatedScore] = useState(0);
   const [aiRecommendation, setAiRecommendation] = useState<string>('');
   const [aiLoading, setAiLoading] = useState(false);
 
   const currentQuestion = questions[step];
   const progress = ((step + 1) / questions.length) * 100;
-
-  useEffect(() => {
-    if (result && !isAnalyzing) {
-      const timer = setTimeout(() => {
-        let current = 0;
-        const target = result.score;
-        const duration = 1500;
-        const steps = 60;
-        const increment = target / steps;
-        const animation = setInterval(() => {
-          current += increment;
-          if (current >= target) {
-            setAnimatedScore(target);
-            clearInterval(animation);
-          } else {
-            setAnimatedScore(Math.floor(current));
-          }
-        }, duration / steps);
-        return () => clearInterval(animation);
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [result, isAnalyzing]);
 
   const handleSelect = (value: number) => {
     setSelectedOption(value);
@@ -524,7 +501,7 @@ Provide a concise clinical rationale explaining WHY these specific therapies are
                 {getEligibilityIcon()}
               </div>
               <div className="text-2xl font-bold mb-1">{result.eligibilityLabel}</div>
-              <div className="text-white/80 text-sm">Score: {animatedScore} / {result.maxScore}</div>
+              <div className="text-white/80 text-sm">Score: <Counter value={result.score} /> / {result.maxScore}</div>
             </div>
             <div className="p-5">
               <p className="text-gray-700 text-sm leading-relaxed">{result.eligibilityDescription}</p>
@@ -604,24 +581,28 @@ Provide a concise clinical rationale explaining WHY these specific therapies are
           {showDetails && (
             <div className="space-y-4">
               <h3 className="font-bold text-ayur-green text-lg">Recommended Therapies</h3>
-              {result.therapies.map((therapy, idx) => (
-                <div key={idx} className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4">
-                  <div className="flex items-start justify-between gap-3 mb-2">
-                    <div className="flex items-center gap-3">
-                      <span className="text-2xl">{therapy.icon}</span>
-                      <div>
-                        <h4 className="font-bold text-gray-900">{therapy.name}</h4>
-                        <p className="text-xs text-gray-500 italic">{therapy.sanskrit}</p>
+              <AnimatedList
+                className="flex flex-col gap-4"
+                items={result.therapies.map((therapy) => (
+                  <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4">
+                    <div className="flex items-start justify-between gap-3 mb-2">
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">{therapy.icon}</span>
+                        <div>
+                          <h4 className="font-bold text-gray-900">{therapy.name}</h4>
+                          <p className="text-xs text-gray-500 italic">{therapy.sanskrit}</p>
+                        </div>
                       </div>
+                      <span className={`text-xs px-2 py-1 rounded-full font-medium border ${getPriorityBadge(therapy.priority)}`}>
+                        {getPriorityLabel(therapy.priority)}
+                      </span>
                     </div>
-                    <span className={`text-xs px-2 py-1 rounded-full font-medium border ${getPriorityBadge(therapy.priority)}`}>
-                      {getPriorityLabel(therapy.priority)}
-                    </span>
+                    <p className="text-sm text-gray-700 mb-2">{therapy.description}</p>
+                    <p className="text-xs text-ayur-green font-medium">Indications: {therapy.indication}</p>
                   </div>
-                  <p className="text-sm text-gray-700 mb-2">{therapy.description}</p>
-                  <p className="text-xs text-ayur-green font-medium">Indications: {therapy.indication}</p>
-                </div>
-              ))}
+                ))}
+                staggerMs={70}
+              />
 
               {/* Preparatory Steps */}
               <h3 className="font-bold text-ayur-green text-lg mt-6">Treatment Pathway</h3>
@@ -654,7 +635,7 @@ Provide a concise clinical rationale explaining WHY these specific therapies are
           {/* Actions */}
           <div className="flex gap-3 pt-2">
             <button 
-              onClick={() => { setStep(0); setAnswers({}); setResult(null); setShowDetails(false); setAnimatedScore(0); setAiRecommendation(''); setAiLoading(false); }}
+              onClick={() => { setStep(0); setAnswers({}); setResult(null); setShowDetails(false); setAiRecommendation(''); setAiLoading(false); }}
               className="flex-1 py-3 bg-ayur-cream text-ayur-green font-bold rounded-xl hover:bg-ayur-green/10 transition-all"
             >
               Retake Assessment

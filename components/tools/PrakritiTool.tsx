@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { aiService } from '../../lib/aiService';
+import { Counter } from '../ui/reactbits';
 
 interface Question {
   id: number;
@@ -320,42 +321,11 @@ const PrakritiTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [showDetails, setShowDetails] = useState(false);
-  const [animatedV, setAnimatedV] = useState(0);
-  const [animatedP, setAnimatedP] = useState(0);
-  const [animatedK, setAnimatedK] = useState(0);
   const [aiAnalysis, setAiAnalysis] = useState<AIAnalysis>({ loading: false, content: '', isLocal: false, error: null });
   const [aiExpanded, setAiExpanded] = useState(false);
 
   const currentQuestion = questions[step];
   const progress = ((step + 1) / questions.length) * 100;
-
-  useEffect(() => {
-    if (result && !isAnalyzing) {
-      const timer = setTimeout(() => {
-        const duration = 1500;
-        const steps = 60;
-        const vInc = result.vPercent / steps;
-        const pInc = result.pPercent / steps;
-        const kInc = result.kPercent / steps;
-        let cv = 0, cp = 0, ck = 0;
-        const animation = setInterval(() => {
-          cv += vInc; cp += pInc; ck += kInc;
-          if (cv >= result.vPercent && cp >= result.pPercent && ck >= result.kPercent) {
-            setAnimatedV(result.vPercent);
-            setAnimatedP(result.pPercent);
-            setAnimatedK(result.kPercent);
-            clearInterval(animation);
-          } else {
-            setAnimatedV(Math.floor(cv));
-            setAnimatedP(Math.floor(cp));
-            setAnimatedK(Math.floor(ck));
-          }
-        }, duration / steps);
-        return () => clearInterval(animation);
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [result, isAnalyzing]);
 
   const generateLocalAnalysis = (prakritiResult: ReturnType<typeof getPrakritiResult>, userAnswers: Record<number, 'V' | 'P' | 'K'>): string => {
     const { primary, secondary, vPercent, pPercent, kPercent } = prakritiResult;
@@ -580,16 +550,16 @@ Keep the response practical, actionable, and rooted in classical Ayurvedic princ
             <h3 className="font-bold text-ayur-green mb-3">Dosha Distribution</h3>
             <div className="space-y-3">
               {[
-                { name: 'Vata', value: animatedV, color: '#f59e0b', sanskrit: '(Motion & Air)' },
-                { name: 'Pitta', value: animatedP, color: '#ef4444', sanskrit: '(Fire & Water)' },
-                { name: 'Kapha', value: animatedK, color: '#3b82f6', sanskrit: '(Earth & Water)' }
+                { name: 'Vata', value: result.vPercent, color: '#f59e0b', sanskrit: '(Motion & Air)' },
+                { name: 'Pitta', value: result.pPercent, color: '#ef4444', sanskrit: '(Fire & Water)' },
+                { name: 'Kapha', value: result.kPercent, color: '#3b82f6', sanskrit: '(Earth & Water)' }
               ].map(d => (
                 <div key={d.name} className="flex items-center gap-2">
                   <span className="w-14 text-sm font-medium">{d.name}</span>
                   <div className="flex-1 h-4 bg-gray-100 rounded-full overflow-hidden">
                     <div className="h-full rounded-full transition-all duration-1000" style={{ width: `${d.value}%`, backgroundColor: d.color }} />
                   </div>
-                  <span className="w-10 text-sm text-right font-bold">{d.value}%</span>
+                  <span className="w-10 text-sm text-right font-bold"><Counter value={d.value} />%</span>
                 </div>
               ))}
             </div>
@@ -671,7 +641,7 @@ Keep the response practical, actionable, and rooted in classical Ayurvedic princ
 
           <div className="flex gap-3 pt-2">
             <button 
-              onClick={() => { setStep(0); setAnswers({}); setResult(null); setShowDetails(false); setAnimatedV(0); setAnimatedP(0); setAnimatedK(0); setAiAnalysis({ loading: false, content: '', isLocal: false }); }}
+              onClick={() => { setStep(0); setAnswers({}); setResult(null); setShowDetails(false); setAiAnalysis({ loading: false, content: '', isLocal: false }); }}
               className="flex-1 py-3 bg-ayur-cream text-ayur-green font-bold rounded-xl hover:bg-ayur-green/10 transition-all"
             >
               Retake Assessment

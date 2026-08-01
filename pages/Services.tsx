@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { SERVICES } from '../constants';
 import { NavLink } from '../components/Layout';
-import { ArrowRight, Bed, UserCheck, Sparkles, Award, Clock, CheckCircle2, Phone, Calendar, ChevronRight } from 'lucide-react';
+import { ArrowRight, Bed, UserCheck, Sparkles, Award, Clock, CheckCircle2, Phone, Calendar } from 'lucide-react';
 import { useIntersectionObserver } from '../hooks';
+import { Aurora, SplitText, TiltedCard, SpotlightCard, Counter, BorderGlow } from '../components/ui/reactbits';
 
 const Services: React.FC = () => {
     const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1600334129128-685c5582fd35?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
@@ -12,19 +13,20 @@ const Services: React.FC = () => {
     const servicesObserver = useIntersectionObserver({ threshold: 0.1, rootMargin: '-50px' });
     const chargesObserver = useIntersectionObserver({ threshold: 0.2, rootMargin: '-50px' });
 
-    const [animatedPrices, setAnimatedPrices] = useState({ room: 1000, visit: 500, newCase: 500, followUp: 300 });
-
     const serviceCards = [
         { id: 1, title: "Panchakarma", subtitle: "Detoxification", color: "from-cyan-500 to-blue-600", iconBg: "bg-cyan-100 text-cyan-600" },
         { id: 2, title: "Pain Management", subtitle: "Orthopedic Care", color: "from-amber-500 to-orange-600", iconBg: "bg-amber-100 text-amber-600" },
         { id: 3, title: "Women’s Health", subtitle: "Gynae Care", color: "from-pink-500 to-rose-600", iconBg: "bg-pink-100 text-pink-600" }
     ];
 
+    const prices = { room: 1000, visit: 500, newCase: 500, followUp: 300 };
+
     return (
         <div className="bg-gradient-to-b from-ayur-cream via-white to-ayur-cream/30 min-h-screen pb-24 md:pb-20">
 
             {/* ENHANCED HEADER */}
             <section ref={headerObserver.ref} className="relative bg-gradient-to-br from-ayur-green via-[#0a6b5a] to-ayur-green-dark py-20 md:py-32 text-white overflow-hidden">
+                <Aurora colors={['#0d8770', '#c9a227', '#094c47']} speed="slow" className="opacity-60" />
                 {/* Animated gradient orbs */}
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-ayur-accent/30 to-transparent rounded-full blur-[100px] animate-pulse"></div>
                 <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-emerald-500/20 to-transparent rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '1.5s' }}></div>
@@ -41,7 +43,10 @@ const Services: React.FC = () => {
                     </div>
                     
                     <h1 className={`font-serif text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 tracking-tight ${headerObserver.isVisible ? 'animate-fadeInUp' : ''}`} style={{ animationDelay: '100ms' }}>
-                        Treatments & <span className="text-transparent bg-clip-text bg-gradient-to-r from-ayur-accent to-yellow-300">Therapies</span>
+                        <SplitText text="Treatments &" className="block" delay={100} staggerMs={40} />{' '}
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-ayur-accent to-yellow-300">
+                            <SplitText text="Therapies" className="inline-block" delay={250} staggerMs={40} />
+                        </span>
                     </h1>
                     
                     <p className={`text-lg md:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto ${headerObserver.isVisible ? 'animate-fadeInUp' : ''}`} style={{ animationDelay: '200ms' }}>
@@ -59,20 +64,23 @@ const Services: React.FC = () => {
                 <section className="mb-12">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {serviceCards.map((cat, idx) => (
-                            <div 
-                                key={cat.id}
-                                className={`group relative bg-white rounded-2xl p-6 border-2 border-ayur-subtle hover:border-transparent transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 overflow-hidden ${servicesObserver.isVisible ? 'animate-fadeInUp' : ''}`}
-                                style={{ animationDelay: `${idx * 100}ms` }}
-                            >
-                                <div className={`absolute inset-0 bg-gradient-to-br ${cat.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl`}></div>
-                                <div className="relative z-10 text-center">
-                                    <div className={`w-16 h-16 ${cat.iconBg} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}>
-                                        <Sparkles size={28} />
+                            <TiltedCard key={cat.id} className="h-full" maxTilt={5} scale={1.02}>
+                                <SpotlightCard
+                                    className={`group bg-white rounded-2xl p-6 border-2 border-ayur-subtle transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 ${servicesObserver.isVisible ? 'animate-fadeInUp' : ''}`}
+                                    spotColor="rgba(201, 162, 39, 0.12)"
+                                >
+                                    <div style={{ animationDelay: `${idx * 100}ms` }}>
+                                        <div className={`absolute inset-0 bg-gradient-to-br ${cat.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl`}></div>
+                                        <div className="relative z-10 text-center">
+                                            <div className={`w-16 h-16 ${cat.iconBg} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}>
+                                                <Sparkles size={28} />
+                                            </div>
+                                            <h3 className="font-serif text-xl font-bold text-ayur-green mb-1 group-hover:text-white transition-colors duration-300">{cat.title}</h3>
+                                            <p className="text-sm text-ayur-gray group-hover:text-white/80 transition-colors duration-300">{cat.subtitle}</p>
+                                        </div>
                                     </div>
-                                    <h3 className="font-serif text-xl font-bold text-ayur-green mb-1 group-hover:text-white transition-colors duration-300">{cat.title}</h3>
-                                    <p className="text-sm text-ayur-gray group-hover:text-white/80 transition-colors duration-300">{cat.subtitle}</p>
-                                </div>
-                            </div>
+                                </SpotlightCard>
+                            </TiltedCard>
                         ))}
                     </div>
                 </section>
@@ -81,11 +89,12 @@ const Services: React.FC = () => {
                 <section ref={servicesObserver.ref} className="mb-16">
                     <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-8">
                         {SERVICES.map((service, idx) => (
-                            <div 
+                            <SpotlightCard
                                 key={service.id}
-                                className={`group relative bg-white rounded-3xl border-2 border-ayur-subtle overflow-hidden hover:border-ayur-green/30 transition-all duration-500 hover:shadow-[0_20px_60px_-15px_rgba(13,135,112,0.25)] hover:-translate-y-3 ${servicesObserver.isVisible ? 'animate-fadeInUp' : ''}`}
-                                style={{ animationDelay: `${idx * 80}ms` }}
+                                className={`group bg-white rounded-3xl border-2 border-ayur-subtle hover:border-ayur-green/30 transition-all duration-500 hover:shadow-[0_20px_60px_-15px_rgba(13,135,112,0.25)] hover:-translate-y-3 ${servicesObserver.isVisible ? 'animate-fadeInUp' : ''}`}
+                                spotColor="rgba(13, 135, 112, 0.10)"
                             >
+                                <div style={{ animationDelay: `${idx * 80}ms` }}>
                                 {/* Gradient top bar */}
                                 <div className="h-2 bg-gradient-to-r from-ayur-green to-emerald-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
                                 
@@ -145,7 +154,8 @@ const Services: React.FC = () => {
                                         </NavLink>
                                     </div>
                                 </div>
-                            </div>
+                                </div>
+                            </SpotlightCard>
                         ))}
                     </div>
 
@@ -231,7 +241,7 @@ const Services: React.FC = () => {
                                             </div>
                                             <span className="text-gray-600 font-medium">General Ward</span>
                                         </div>
-                                        <span className="text-2xl font-bold text-blue-600">₹{animatedPrices.room}</span>
+                                        <span className="text-2xl font-bold text-blue-600">₹<Counter value={prices.room} /></span>
                                     </div>
                                     <div className="flex justify-between items-center p-4 bg-gradient-to-r from-blue-50 to-transparent rounded-xl border border-blue-100">
                                         <div className="flex items-center gap-3">
@@ -240,7 +250,7 @@ const Services: React.FC = () => {
                                             </div>
                                             <span className="text-gray-600 font-medium">Doctor Visit</span>
                                         </div>
-                                        <span className="text-2xl font-bold text-blue-600">₹{animatedPrices.visit}</span>
+                                        <span className="text-2xl font-bold text-blue-600">₹<Counter value={prices.visit} /></span>
                                     </div>
                                 </div>
 
@@ -274,7 +284,7 @@ const Services: React.FC = () => {
                                             </div>
                                             <span className="text-gray-600 font-medium">New Case</span>
                                         </div>
-                                        <span className="text-2xl font-bold text-emerald-600">₹{animatedPrices.newCase}</span>
+                                        <span className="text-2xl font-bold text-emerald-600">₹<Counter value={prices.newCase} /></span>
                                     </div>
                                     <div className="flex justify-between items-center p-4 bg-gradient-to-r from-emerald-50 to-transparent rounded-xl border border-emerald-100">
                                         <div className="flex items-center gap-3">
@@ -283,7 +293,7 @@ const Services: React.FC = () => {
                                             </div>
                                             <span className="text-gray-600 font-medium">Follow-up</span>
                                         </div>
-                                        <span className="text-2xl font-bold text-emerald-600">₹{animatedPrices.followUp}</span>
+                                        <span className="text-2xl font-bold text-emerald-600">₹<Counter value={prices.followUp} /></span>
                                     </div>
                                 </div>
 
@@ -296,28 +306,32 @@ const Services: React.FC = () => {
                     </div>
 
                     {/* CTA Banner */}
-                    <div className="mt-12 relative rounded-3xl overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-r from-ayur-green to-ayur-green-dark">
-                            <img
-                                src={FALLBACK_HERB}
-                                alt="Book Consultation"
-                                className="w-full h-full object-cover mix-blend-overlay opacity-20"
-                            />
-                        </div>
-                        <div className="relative z-10 p-10 md:p-12 text-center">
-                            <h3 className="font-serif text-2xl md:text-3xl font-bold text-white mb-4">Need a Custom Treatment Plan?</h3>
-                            <p className="text-white/80 text-lg mb-8 max-w-xl mx-auto">Our physicians will create a personalized protocol based on your unique constitution and health condition.</p>
-                            <div className="flex flex-col sm:flex-row justify-center gap-4">
-                                <NavLink to="/booking" className="inline-flex items-center gap-2 px-8 py-4 bg-ayur-accent text-white rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 hover:-translate-y-1 transition-all duration-300">
-                                    <Calendar className="w-5 h-5" />
-                                    Book Consultation
-                                </NavLink>
-                                <a href="tel:+919426684047" className="inline-flex items-center gap-2 px-8 py-4 border-2 border-white text-white rounded-full font-bold hover:bg-white hover:text-ayur-green transition-all duration-300">
-                                    <Phone className="w-5 h-5" />
-                                    Call Now
-                                </a>
+                    <div className="mt-12">
+                        <BorderGlow radius="1.5rem" backgroundColor="transparent">
+                            <div className="relative rounded-[1.5rem] overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-r from-ayur-green to-ayur-green-dark">
+                                    <img
+                                        src={FALLBACK_HERB}
+                                        alt="Book Consultation"
+                                        className="w-full h-full object-cover mix-blend-overlay opacity-20"
+                                    />
+                                </div>
+                                <div className="relative z-10 p-10 md:p-12 text-center">
+                                    <h3 className="font-serif text-2xl md:text-3xl font-bold text-white mb-4">Need a Custom Treatment Plan?</h3>
+                                    <p className="text-white/80 text-lg mb-8 max-w-xl mx-auto">Our physicians will create a personalized protocol based on your unique constitution and health condition.</p>
+                                    <div className="flex flex-col sm:flex-row justify-center gap-4">
+                                        <NavLink to="/booking" className="inline-flex items-center gap-2 px-8 py-4 bg-ayur-accent text-white rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 hover:-translate-y-1 transition-all duration-300">
+                                            <Calendar className="w-5 h-5" />
+                                            Book Consultation
+                                        </NavLink>
+                                        <a href="tel:+919426684047" className="inline-flex items-center gap-2 px-8 py-4 border-2 border-white text-white rounded-full font-bold hover:bg-white hover:text-ayur-green transition-all duration-300">
+                                            <Phone className="w-5 h-5" />
+                                            Call Now
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </BorderGlow>
                     </div>
                 </section>
 

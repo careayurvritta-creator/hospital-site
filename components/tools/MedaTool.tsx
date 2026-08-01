@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { aiService } from '../../lib/aiService';
+import { Counter, AnimatedList } from '../ui/reactbits';
 
 interface Symptoms {
   excessiveHunger: number;
@@ -195,7 +196,6 @@ const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
     badOdor: 0, fatigue: 0, flabbiness: 0, breathlessness: 0
   });
   const [result, setResult] = useState<Result | null>(null);
-  const [animatedBMI, setAnimatedBMI] = useState(0);
   const [showDetails, setShowDetails] = useState(false);
   const [aiRecommendation, setAiRecommendation] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
@@ -210,29 +210,6 @@ const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
     { key: 'flabbiness', label: 'Flabby abdomen, buttocks, or breasts', sanskrit: 'Sthula Udara' },
     { key: 'breathlessness', label: 'Breathlessness on exertion', sanskrit: 'Shvasa' }
   ];
-
-  useEffect(() => {
-    if (result && mode === 'result') {
-      const timer = setTimeout(() => {
-        let current = 0;
-        const target = result.bmi;
-        const duration = 1500;
-        const steps = 60;
-        const increment = target / steps;
-        const animation = setInterval(() => {
-          current += increment;
-          if (current >= target) {
-            setAnimatedBMI(parseFloat(target.toFixed(1)));
-            clearInterval(animation);
-          } else {
-            setAnimatedBMI(parseFloat(current.toFixed(1)));
-          }
-        }, duration / steps);
-        return () => clearInterval(animation);
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [result, mode]);
 
   // AI-powered weight management plan generation
   useEffect(() => {
@@ -378,7 +355,7 @@ Each phase should include specific daily routines, Udvartana churna recommendati
           {/* Classification Card */}
           <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-100 overflow-hidden">
             <div className={`bg-gradient-to-r ${result.color} p-6 text-white text-center`}>
-              <div className="text-5xl font-bold mb-1">{animatedBMI}</div>
+              <div className="text-5xl font-bold mb-1"><Counter value={result.bmi} decimals={1} /></div>
               <div className="text-white/80 text-sm">BMI (Body Mass Index)</div>
               <div className="mt-3 inline-block px-4 py-1.5 bg-white/20 rounded-full text-sm font-bold">
                 {result.classification}
@@ -440,29 +417,31 @@ Each phase should include specific daily routines, Udvartana churna recommendati
 
           {/* Recommendations */}
           {showDetails && (
-            <div className="space-y-3">
-              {result.recommendations.map((rec, idx) => (
-                <div key={idx} className={`p-4 rounded-xl border-2 ${
-                  rec.priority === 'high' ? 'bg-red-50 border-red-200' :
-                  rec.priority === 'medium' ? 'bg-amber-50 border-amber-200' : 'bg-green-50 border-green-200'
-                }`}>
-                  <div className="flex items-start justify-between gap-3 mb-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xl">{rec.icon}</span>
-                      <h4 className="font-bold text-gray-900">{rec.title}</h4>
+            <AnimatedList
+              className="flex flex-col gap-3"
+              items={result.recommendations.map((rec) => (
+                  <div className={`p-4 rounded-xl border-2 ${
+                    rec.priority === 'high' ? 'bg-red-50 border-red-200' :
+                    rec.priority === 'medium' ? 'bg-amber-50 border-amber-200' : 'bg-green-50 border-green-200'
+                  }`}>
+                    <div className="flex items-start justify-between gap-3 mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl">{rec.icon}</span>
+                        <h4 className="font-bold text-gray-900">{rec.title}</h4>
+                      </div>
+                      <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+                        rec.priority === 'high' ? 'bg-red-200 text-red-800' :
+                        rec.priority === 'medium' ? 'bg-amber-200 text-amber-800' : 'bg-green-200 text-green-800'
+                      }`}>
+                        {rec.priority.toUpperCase()}
+                      </span>
                     </div>
-                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                      rec.priority === 'high' ? 'bg-red-200 text-red-800' :
-                      rec.priority === 'medium' ? 'bg-amber-200 text-amber-800' : 'bg-green-200 text-green-800'
-                    }`}>
-                      {rec.priority.toUpperCase()}
-                    </span>
+                    <p className="text-sm text-gray-700">{rec.description}</p>
+                    <p className="text-xs text-ayur-accent mt-2 font-medium">Category: {rec.category}</p>
                   </div>
-                  <p className="text-sm text-gray-700">{rec.description}</p>
-                  <p className="text-xs text-ayur-accent mt-2 font-medium">Category: {rec.category}</p>
-                </div>
-              ))}
-            </div>
+                ))}
+                staggerMs={70}
+              />
           )}
 
           {/* AI-Powered Weight Management Plan */}

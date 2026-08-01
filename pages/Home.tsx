@@ -5,6 +5,7 @@ import TrustBadges from '../components/TrustBadges';
 import TestimonialsCarousel from '../components/TestimonialsCarousel';
 import FAQ from '../components/FAQ';
 import { useLanguage } from '../components/LanguageContext';
+import { Aurora, RotatingText, SplitText, SpotlightCard, TiltedCard, AnimatedList } from '../components/ui/reactbits';
 
 const Home: React.FC = () => {
   const { t } = useLanguage();
@@ -43,10 +44,15 @@ const Home: React.FC = () => {
     <div className="flex flex-col w-full overflow-hidden">
       {/* HERO SECTION */}
       <section className="relative min-h-[85vh] flex items-center bg-gradient-to-b from-ayur-cream via-white to-ayur-cream/30 overflow-hidden">
-        {/* Animated gradient orbs */}
+        {/* Aurora background */}
+        <Aurora
+          className="opacity-70"
+          colors={['#0d8770', '#6bb7a0', '#c9a227']}
+          speed="slow"
+        />
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-ayur-green/20 to-ayur-accent/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-ayur-accent/15 to-ayur-green/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        
+
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M30 0c-5 0-10 5-10 15s5 15 10 15 10 15 10-5 10-15-5-15-10-15zm0 40c-5 0-10 5-10 15s5 15 10 15 10-5 10-15-5-15-10-15z\' fill=\'%23009688\' fill-opacity=\'1\' fill-rule=\'evenodd\'/%3E%3C/svg%3E")' }}></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
@@ -58,9 +64,20 @@ const Home: React.FC = () => {
             </div>
 
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight text-ayur-green animate-fadeInUp animation-delay-100">
-              {t.hero.title_prefix} <br />
-              <span className="text-ayur-accent italic">
-                {t.hero.title_suffix}
+              <SplitText
+                text={t.hero.title_prefix}
+                className="block"
+                delay={200}
+                staggerMs={40}
+              />
+              <br />
+              <span className="text-ayur-accent italic block mt-1">
+                <RotatingText
+                  texts={t.hero.rotating}
+                  interval={2800}
+                  className="min-h-[1.1em]"
+                  wordClassName="bg-gradient-to-r from-ayur-green to-ayur-accent bg-clip-text text-transparent"
+                />
               </span>
             </h1>
 
@@ -183,30 +200,36 @@ const Home: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {triageCards.map((item, idx) => (
-              <NavLink
-                key={idx}
-                to={item.link}
-                className="group relative bg-white rounded-2xl p-6 md:p-8 border-2 border-ayur-subtle hover:border-transparent transition-all duration-500 hover:shadow-2xl hover:shadow-ayur-green/20 hover:-translate-y-2 overflow-hidden animate-fadeInUp"
-                style={{ animationDelay: `${idx * 100}ms` }}
-              >
-                {/* Color bar on hover */}
-                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${item.color} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500`}></div>
-                
-                {/* Glow effect on hover */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-2xl`}></div>
-                
-                <div className="relative z-10">
-                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-5 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg`}>
-                    <item.icon size={28} className="text-white" />
-                  </div>
-                  <h3 className="font-serif text-xl font-bold text-ayur-green-text mb-2 group-hover:text-ayur-accent transition-colors duration-300">{item.title}</h3>
-                  <p className="text-sm text-ayur-gray mb-4 leading-relaxed">{item.desc}</p>
-                  <div className="flex items-center text-ayur-accent text-sm font-semibold group-hover:translate-x-2 transition-transform duration-300">
-                    <span>Learn more</span>
-                    <ArrowRight size={16} className="ml-2" />
-                  </div>
-                </div>
-              </NavLink>
+              <TiltedCard key={idx} className="h-full" maxTilt={6} scale={1.02}>
+                <SpotlightCard
+                  className="h-full bg-white rounded-2xl p-6 md:p-8 border-2 border-ayur-subtle transition-all duration-500 hover:shadow-2xl hover:shadow-ayur-green/20 group"
+                  spotColor="rgba(13, 135, 112, 0.10)"
+                >
+                  <NavLink
+                    to={item.link}
+                    className="block h-full animate-fadeInUp"
+                    style={{ animationDelay: `${idx * 100}ms` }}
+                  >
+                    {/* Color bar on hover */}
+                    <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${item.color} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500`}></div>
+
+                    {/* Glow effect on hover */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-2xl`}></div>
+
+                    <div className="relative z-10">
+                      <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-5 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg`}>
+                        <item.icon size={28} className="text-white" />
+                      </div>
+                      <h3 className="font-serif text-xl font-bold text-ayur-green-text mb-2 group-hover:text-ayur-accent transition-colors duration-300">{item.title}</h3>
+                      <p className="text-sm text-ayur-gray mb-4 leading-relaxed">{item.desc}</p>
+                      <div className="flex items-center text-ayur-accent text-sm font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                        <span>Learn more</span>
+                        <ArrowRight size={16} className="ml-2" />
+                      </div>
+                    </div>
+                  </NavLink>
+                </SpotlightCard>
+              </TiltedCard>
             ))}
           </div>
         </div>
@@ -231,17 +254,20 @@ const Home: React.FC = () => {
               </p>
 
               <div className="space-y-5">
-                {philosophyPoints.map((point, i) => (
-                  <div key={i} className="flex items-start group animate-fadeInUp" style={{ animationDelay: `${(i + 3) * 100}ms` }}>
-                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-ayur-accent/20 flex items-center justify-center mr-4 group-hover:scale-110 group-hover:bg-ayur-accent/30 transition-all duration-300">
-                      <point.icon size={22} className="text-ayur-accent group-hover:animate-bounce-short" />
+                <AnimatedList
+                  items={philosophyPoints.map((point, i) => (
+                    <div key={i} className="flex items-start group">
+                      <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-ayur-accent/20 flex items-center justify-center mr-4 group-hover:scale-110 group-hover:bg-ayur-accent/30 transition-all duration-300">
+                        <point.icon size={22} className="text-ayur-accent group-hover:animate-bounce-short" />
+                      </div>
+                      <div>
+                        <h4 className="font-serif text-lg font-bold mb-1">{point.title}</h4>
+                        <p className="text-white/60 text-sm">{point.text}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-serif text-lg font-bold mb-1">{point.title}</h4>
-                      <p className="text-white/60 text-sm">{point.text}</p>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                  staggerMs={120}
+                />
               </div>
             </div>
 
@@ -277,20 +303,24 @@ const Home: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {toolCards.map((item, idx) => (
-              <NavLink to="/tools" key={idx} className="group relative bg-white rounded-3xl p-8 border-2 border-ayur-subtle hover:border-transparent transition-all duration-500 hover:shadow-2xl hover:shadow-ayur-green/20 hover:-translate-y-2 overflow-hidden animate-fadeInUp" style={{ animationDelay: `${idx * 150}ms` }}>
-                <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-100 transition-all duration-500`}></div>
-                <div className="relative z-10">
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg group-hover:shadow-xl`}>
-                    <item.icon size={32} className="text-white group-hover:animate-bounce-short" />
-                  </div>
-                  <h3 className="font-serif text-2xl font-bold text-ayur-green-text mb-3 group-hover:text-white transition-colors duration-300">{item.title}</h3>
-                  <p className="text-ayur-gray mb-6 leading-relaxed group-hover:text-white/80 transition-colors duration-300">{item.desc}</p>
-                  <div className="flex items-center text-ayur-accent font-semibold group-hover:text-white group-hover:translate-x-2 transition-all duration-300">
-                    <span>Get Started</span>
-                    <ArrowRight size={18} className="ml-2" />
-                  </div>
-                </div>
-              </NavLink>
+              <TiltedCard key={idx} className="h-full" maxTilt={6} scale={1.02}>
+                <SpotlightCard className="h-full bg-white rounded-3xl p-8 border-2 border-ayur-subtle transition-all duration-500 hover:shadow-2xl hover:shadow-ayur-green/20 group" spotColor="rgba(201, 162, 39, 0.12)">
+                  <NavLink to="/tools" className="block h-full animate-fadeInUp" style={{ animationDelay: `${idx * 150}ms` }}>
+                    <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-100 transition-all duration-500`}></div>
+                    <div className="relative z-10">
+                      <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg group-hover:shadow-xl`}>
+                        <item.icon size={32} className="text-white group-hover:animate-bounce-short" />
+                      </div>
+                      <h3 className="font-serif text-2xl font-bold text-ayur-green-text mb-3 group-hover:text-white transition-colors duration-300">{item.title}</h3>
+                      <p className="text-ayur-gray mb-6 leading-relaxed group-hover:text-white/80 transition-colors duration-300">{item.desc}</p>
+                      <div className="flex items-center text-ayur-accent font-semibold group-hover:text-white group-hover:translate-x-2 transition-all duration-300">
+                        <span>Get Started</span>
+                        <ArrowRight size={18} className="ml-2" />
+                      </div>
+                    </div>
+                  </NavLink>
+                </SpotlightCard>
+              </TiltedCard>
             ))}
           </div>
         </div>
