@@ -55,47 +55,71 @@ export class NvidiaClient {
   async chat(messages: ChatMessage[], options: NvidiaRequestOptions = {}): Promise<string> {
     console.log('[NvidiaClient] Sending request to', NIM_BASE_URL);
     console.log('[NvidiaClient] Model:', options.model || this.model);
-    
-    let response;
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
-    
-    try {
-      response = await fetch(NIM_BASE_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          messages,
-          model: options.model || this.model,
-          temperature: options.temperature ?? 0.7,
-          max_tokens: options.max_tokens ?? 2048,
-          top_p: options.top_p ?? 0.9,
-          stream: false,
-        }),
-        signal: controller.signal,
-      });
-      clearTimeout(timeoutId);
-    } catch (fetchError) {
-      clearTimeout(timeoutId);
-      console.error('[NvidiaClient] Network error:', fetchError);
-      const errorMsg = fetchError instanceof Error ? fetchError.message : 'Failed to connect to AI service';
-      if (errorMsg.includes('aborted') || errorMsg.includes('timeout')) {
-        throw new Error('AI service request timed out. Please try again.');
+
+    const maxRetries = 2;
+    const baseDelayMs = 1500;
+
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      if (attempt > 0) {
+        const delay = baseDelayMs * Math.pow(2, attempt - 1);
+        console.log(`[NvidiaClient] Retrying request (attempt ${attempt + 1}/${maxRetries + 1}) after ${delay}ms`);
+        await new Promise((resolve) => setTimeout(resolve, delay));
       }
-      throw new Error(`Network error: ${errorMsg}`);
+
+      let response;
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
+      try {
+        response = await fetch(NIM_BASE_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            messages,
+            model: options.model || this.model,
+            temperature: options.temperature ?? 0.7,
+            max_tokens: options.max_tokens ?? 2048,
+            top_p: options.top_p ?? 0.9,
+            stream: false,
+          }),
+          signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
+      } catch (fetchError) {
+        clearTimeout(timeoutId);
+        console.error('[NvidiaClient] Network error:', fetchError);
+        const errorMsg = fetchError instanceof Error ? fetchError.message : 'Failed to connect to AI service';
+        if (errorMsg.includes('aborted') || errorMsg.includes('timeout')) {
+          throw new Error('AI service request timed out. Please try again.');
+        }
+        if (attempt < maxRetries) {
+          continue;
+        }
+        throw new Error(`Network error: ${errorMsg}`);
+      }
+
+      console.log('[NvidiaClient] Response status:', response.status);
+
+      if (response.status === 429 || response.status === 500 || response.status === 502 || response.status === 503 || response.status === 504) {
+        if (attempt < maxRetries) {
+          console.warn(`[NvidiaClient] Received ${response.status}, will retry`);
+          continue;
+        }
+        throw new Error(`Nvidia API Error (${response.status}): Service temporarily unavailable`);
+      }
+
+      if (!response.ok) {
+        const error = await response.text();
+        throw new Error(`Nvidia API Error (${response.status}): ${error}`);
+      }
+
+      const data: NvidiaResponse = await response.json();
+      return data.choices[0]?.message?.content || '';
     }
 
-    console.log('[NvidiaClient] Response status:', response.status);
-    
-    if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`Nvidia API Error (${response.status}): ${error}`);
-    }
-
-    const data: NvidiaResponse = await response.json();
-    return data.choices[0]?.message?.content || '';
+    throw new Error('Nvidia API Error: Max retries exceeded');
   }
 
   async generate(prompt: string, systemInstruction?: string, options: NvidiaRequestOptions = {}): Promise<string> {

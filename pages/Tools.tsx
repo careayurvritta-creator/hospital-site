@@ -174,9 +174,7 @@ const Tools: React.FC = () => {
           </div>
           <h1 className={`font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 tracking-tight transition-all duration-700 delay-100 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <SplitText text="Ayurveda" className="inline-block" delay={100} staggerMs={40} />{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-ayur-accent to-yellow-300">
-              <SplitText text="Health Tools" className="inline-block" delay={250} staggerMs={40} />
-            </span>
+            <SplitText text="Health Tools" className="inline-block" delay={250} staggerMs={40} charClassName="bg-gradient-to-r from-ayur-accent to-yellow-300 bg-clip-text text-transparent" />
           </h1>
           <p className={`text-lg md:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto transition-all duration-700 delay-200 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             Ancient wisdom meets modern algorithms. Use these interactive assessments based on Charaka Samhita, Sushruta Samhita, and Ashtanga Hridayam to understand your body type, risks, and therapeutic needs.

@@ -44,9 +44,7 @@ const Services: React.FC = () => {
                     
                     <h1 className={`font-serif text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 tracking-tight ${headerObserver.isVisible ? 'animate-fadeInUp' : ''}`} style={{ animationDelay: '100ms' }}>
                         <SplitText text="Treatments &" className="block" delay={100} staggerMs={40} />{' '}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-ayur-accent to-yellow-300">
-                            <SplitText text="Therapies" className="inline-block" delay={250} staggerMs={40} />
-                        </span>
+                        <SplitText text="Therapies" className="inline-block" delay={250} staggerMs={40} charClassName="bg-gradient-to-r from-ayur-accent to-yellow-300 bg-clip-text text-transparent" />
                     </h1>
                     
                     <p className={`text-lg md:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto ${headerObserver.isVisible ? 'animate-fadeInUp' : ''}`} style={{ animationDelay: '200ms' }}>

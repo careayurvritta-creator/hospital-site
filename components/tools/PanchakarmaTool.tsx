@@ -394,13 +394,21 @@ const PanchakarmaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
       setAiRecommendation('');
 
       const therapyNames = therapies.map(t => t.name).join(', ');
+      const answerDetail = questions.map(q => {
+        const ans = answers[q.id];
+        const opt = ans !== undefined ? q.options.find(o => o.value === ans) : undefined;
+        return opt ? `${q.text} → ${opt.label}` : null;
+      }).filter(Boolean).join('; ');
       const aiPrompt = `A patient completed the Panchakarma eligibility assessment with the following results:
 
 - Eligibility: ${eligibilityLabel} (score ${score}/${maxScore})
 - Dosha dominance: ${doshaDominance}
 - Recommended therapies: ${therapyNames}
 
-Provide a concise clinical rationale explaining WHY these specific therapies are recommended for this patient's dosha profile and eligibility level. Then outline a detailed day-by-day Snehana-Swedana preparatory schedule (7-10 days) with specific oils, duration, and dietary guidelines. Keep it under 500 words. Use proper Ayurvedic terminology.`;
+Patient's specific answers:
+${answerDetail}
+
+Provide a concise clinical rationale explaining WHY these specific therapies are recommended for this patient's dosha profile, eligibility level, and specific answers. Then outline a detailed day-by-day Snehana-Swedana preparatory schedule (7-10 days) with specific oils, duration, and dietary guidelines. Keep it under 500 words. Use proper Ayurvedic terminology.`;
 
       const systemInstruction = 'You are an experienced Ayurvedic physician (Vaidya) at Ayurvritta Ayurveda Hospital specializing in Panchakarma. Provide evidence-based therapy rationale grounded in Charaka Samhita and Ashtanga Hridayam. Be specific with herb names, oil names, and classical references. Format with clear sections.';
 
@@ -414,7 +422,7 @@ Provide a concise clinical rationale explaining WHY these specific therapies are
 
       try {
         const content = await Promise.race([generatePromise, timeoutPromise]);
-        setAiRecommendation(content);
+        setAiRecommendation(content || 'AI_ENHANCEMENT_UNAVAILABLE');
       } catch (err) {
         console.error('[PanchakarmaTool] AI generation failed:', err);
         setAiRecommendation('AI_ENHANCEMENT_UNAVAILABLE');

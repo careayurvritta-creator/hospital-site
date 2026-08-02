@@ -407,7 +407,11 @@ Keep recommendations practical, rooted in classical Ayurvedic texts (Charaka Chi
         setTimeout(() => reject(new Error('AI generation timed out')), 45000)
       );
       const content = await Promise.race([generatePromise, timeoutPromise]);
-      setAiRecommendation(content);
+      if (content) {
+        setAiRecommendation(content);
+      } else {
+        throw new Error('Empty AI response');
+      }
     } catch (err) {
       console.error('[SaaraTool] AI recommendation failed:', err);
       setAiError(true);

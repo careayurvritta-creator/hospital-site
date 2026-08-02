@@ -225,11 +225,18 @@ const MedaTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
         ? 'Some Meda Vriddhi signs present'
         : 'Minimal Meda Vriddhi signs';
 
+      const symptomDetail = (Object.keys(symptoms) as Array<keyof Symptoms>)
+        .filter(key => symptoms[key] === 1)
+        .map(key => symptomQuestions.find(s => s.key === key)?.label || key)
+        .join(', ') || 'None reported';
+
       const prompt = `Patient assessment for Meda Dhatu (adipose tissue) analysis:
 
+- Gender: ${gender}
 - BMI: ${result.bmi} (${result.bmiGauge.zone})
 - Waist-Hip Ratio: ${result.whr > 0 ? result.whr : 'Not provided'}
 - Meda Vriddhi Symptom Score: ${result.symptomScore}/8 (${symptomLabels})
+- Specific symptoms present: ${symptomDetail}
 - Classification: ${result.classification}
 - Risk Level: ${result.risk}
 
@@ -264,11 +271,11 @@ Each phase should include specific daily routines, Udvartana churna recommendati
         if (content) {
           setAiRecommendation(content);
         } else {
-          setAiRecommendation('');
+          setAiRecommendation('AI_ENHANCEMENT_UNAVAILABLE');
         }
       } catch (err) {
         console.error('[MedaTool] AI generation failed:', err);
-        setAiRecommendation('');
+        setAiRecommendation('AI_ENHANCEMENT_UNAVAILABLE');
       } finally {
         setAiLoading(false);
       }
@@ -467,7 +474,16 @@ Each phase should include specific daily routines, Udvartana churna recommendati
                     <p className="text-xs text-gray-400 mt-1">Analyzing BMI, WHR, and symptom profile</p>
                   </div>
                 )}
-                {!aiLoading && aiRecommendation && (
+                {!aiLoading && aiRecommendation === 'AI_ENHANCEMENT_UNAVAILABLE' && (
+                  <div className="flex items-center gap-3 py-4 px-3 bg-gray-50 rounded-xl">
+                    <span className="text-xl">&#x26A0;&#xFE0F;</span>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-700">AI enhancement unavailable</p>
+                      <p className="text-xs text-gray-500">The classical recommendations above are fully comprehensive for your needs. Please consult our Vaidya for personalized guidance.</p>
+                    </div>
+                  </div>
+                )}
+                {!aiLoading && aiRecommendation && aiRecommendation !== 'AI_ENHANCEMENT_UNAVAILABLE' && (
                   <div className="prose prose-sm max-w-none">
                     {aiRecommendation.split('\n').map((line, i) => {
                       const trimmed = line.trim();
@@ -482,13 +498,6 @@ Each phase should include specific daily routines, Udvartana churna recommendati
                       }
                       return <p key={i} className="text-gray-700 text-sm leading-relaxed mb-1">{trimmed}</p>;
                     })}
-                  </div>
-                )}
-                {!aiLoading && !aiRecommendation && (
-                  <div className="text-center py-6">
-                    <span className="text-3xl mb-3 block">&#x26A0;&#xFE0F;</span>
-                    <p className="text-sm text-gray-600 font-medium">AI enhancement unavailable</p>
-                    <p className="text-xs text-gray-400 mt-1">The general recommendations above are still available.</p>
                   </div>
                 )}
               </div>

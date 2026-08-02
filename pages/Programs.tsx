@@ -97,7 +97,7 @@ const Programs: React.FC = () => {
                                     <Activity size={16} className="text-ayur-accent" />
                                     <span className="text-xs font-bold uppercase tracking-wider">Clinical Track</span>
                                 </div>
-                                <button onClick={() => openModal(program.id)} className="absolute bottom-6 right-6 z-20 bg-white/95 backdrop-blur-md px-4 py-2 rounded-full shadow-lg flex items-center gap-2 text-ayur-green text-sm font-bold hover:bg-ayur-accent hover:text-white transition-all duration-300 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0">
+                                <button onClick={() => openModal(program.id)} className="absolute bottom-6 right-6 z-20 bg-white/95 backdrop-blur-md px-4 py-2 rounded-full shadow-lg flex items-center gap-2 text-ayur-green text-sm font-bold hover:bg-ayur-accent hover:text-white transition-all duration-300 opacity-100 translate-y-0 md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0">
                                     <Sparkles size={14} /> Quick View
                                 </button>
                             </div>
