@@ -203,24 +203,24 @@ function determineAgni(ans: AgniAnswer): AgniType {
   const scores = { vishama: 0, tikshna: 0, manda: 0, sam: 0 };
 
   // Q1: Hunger pattern
-  if (ans.q1.includes('Irregular') || ans.q1.includes('forget')) scores.vishama += 2;
-  else if (ans.q1.includes('Strong') || ans.q1.includes('anger')) scores.tikshna += 2;
-  else if (ans.q1.includes('skip') || ans.q1.includes('mild')) scores.manda += 2;
-  else if (ans.q1.includes('predictable') || ans.q1.includes('Regular')) scores.sam += 2;
+  if (ans.q1 === 'q1_irregular') scores.vishama += 2;
+  else if (ans.q1 === 'q1_strong') scores.tikshna += 2;
+  else if (ans.q1 === 'q1_mild') scores.manda += 2;
+  else if (ans.q1 === 'q1_regular') scores.sam += 2;
 
   // Q2: Post-meal sensation
-  if (ans.q2.includes('Gas') || ans.q2.includes('bloat') || ans.q2.includes('variable')) scores.vishama += 2;
-  else if (ans.q2.includes('burn') || ans.q2.includes('acid') || ans.q2.includes('sharp')) scores.tikshna += 2;
-  else if (ans.q2.includes('heavy') || ans.q2.includes('sleepy') || ans.q2.includes('slow')) scores.manda += 2;
-  else if (ans.q2.includes('comfortable') || ans.q2.includes('light')) scores.sam += 2;
+  if (ans.q2 === 'q2_gas') scores.vishama += 2;
+  else if (ans.q2 === 'q2_burn') scores.tikshna += 2;
+  else if (ans.q2 === 'q2_heavy') scores.manda += 2;
+  else if (ans.q2 === 'q2_comfort') scores.sam += 2;
 
   // Q3: Meal timing
-  if (ans.q3.includes('Irregular') || ans.q3.includes('vary')) scores.vishama += 1;
-  else if (ans.q3.includes('Consistent') || ans.q3.includes('same')) scores.sam += 1;
+  if (ans.q3 === 'q3_inconsistent') scores.vishama += 1;
+  else if (ans.q3 === 'q3_consistent') scores.sam += 1;
 
   // Q4: Meal frequency
-  if (ans.q4.includes('2') || ans.q4.includes('3')) scores.sam += 1;
-  else if (ans.q4.includes('4') || ans.q4.includes('5') || ans.q4.includes('frequent')) scores.vishama += 1;
+  if (ans.q4 === 'q4_2' || ans.q4 === 'q4_3') scores.sam += 1;
+  else if (ans.q4 === 'q4_5' || ans.q4 === 'q4_6') scores.vishama += 1;
 
   const max = Math.max(scores.vishama, scores.tikshna, scores.manda, scores.sam);
   if (scores.vishama === max) return 'vishama';

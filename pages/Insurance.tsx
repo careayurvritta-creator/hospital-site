@@ -646,7 +646,7 @@ We'll check your coverage and help with cashless pre-authorization within minute
                                  <div className={`bg-white h-[280px] rounded-[2rem] border-2 border-ayur-subtle shadow-md hover:shadow-2xl hover:border-ayur-accent/30 transition-all duration-500 flex flex-col items-center justify-center p-10 group cursor-pointer relative overflow-hidden transform hover:-translate-y-3 ${partnersObserver.isVisible ? 'animate-fadeInUp' : ''}`} style={{ animationDelay: `${(idx % 10) * 50}ms` }}>
                                     <div className="absolute inset-0 bg-gradient-to-br from-ayur-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                                    <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                    <div className="absolute top-6 right-6 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500">
                                        <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded border ${partner.type === 'TPA' ? 'bg-blue-50 text-blue-600 border-blue-100' : 'bg-green-50 text-green-600 border-green-100'}`}>
                                           {partner.type || 'Insurer'}
                                        </span>
@@ -664,7 +664,7 @@ We'll check your coverage and help with cashless pre-authorization within minute
                                        </h4>
                                     </div>
 
-                                    <div className="absolute bottom-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                                    <div className="absolute bottom-6 opacity-100 translate-y-0 md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0 transition-all duration-500">
                                        <span className="text-xs font-bold uppercase tracking-widest text-ayur-accent flex items-center gap-2">
                                           Accepted <CheckCircle2 size={16} />
                                        </span>

@@ -509,6 +509,11 @@ const LifestyleTool: React.FC<{onBack: () => void}> = ({ onBack }) => {
       // AI-powered Dinacharya recommendation
       setAiLoading(true);
       setAiRecommendation('');
+      const answerDetail = questions.map(q => {
+        const ans = answers[q.id];
+        const opt = ans !== undefined ? q.options.find(o => o.value === ans) : undefined;
+        return opt ? `${q.text} → ${opt.label}` : null;
+      }).filter(Boolean).join('; ');
       const aiPrompt = `Based on this Ayurvedic lifestyle assessment, generate a personalized Dinacharya (daily routine) plan.
 
 Dosha Profile: Vata ${doshaProfile.vata}%, Pitta ${doshaProfile.pitta}%, Kapha ${doshaProfile.kapha}%
@@ -516,7 +521,10 @@ Dominant Dosha: ${dominantDosha}
 Lifestyle Score: ${score}/${maxScore} (Risk: ${riskLevel})
 Key Issues: ${recommendations.slice(0, 4).map(r => r.title).join(', ')}
 
-Provide a structured Dinacharya plan with:
+Patient's specific answers:
+${answerDetail}
+
+Provide a structured Dinacharya plan that directly addresses this patient's specific answers, with:
 1. **Brahma Muhurta (Early Morning)** - Wake time and morning ritual
 2. **Morning Routine** - Abhyanga, Pranayama, exercise specifics
 3. **Ahara (Meals)** - Ideal meal times and food suggestions for this dosha
@@ -538,7 +546,7 @@ Keep it concise and practical. Use Sanskrit terms where appropriate with English
 
       try {
         const content = await Promise.race([generatePromise, timeoutPromise]);
-        setAiRecommendation(content);
+        setAiRecommendation(content || 'AI_ENHANCEMENT_UNAVAILABLE');
       } catch (err) {
         console.error('[LifestyleTool] AI recommendation failed:', err);
         setAiRecommendation('AI_ENHANCEMENT_UNAVAILABLE');
