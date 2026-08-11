@@ -6,7 +6,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { PAGE_SEO, HOSPITAL_SCHEMA, FAQ_SCHEMA, ORGANIZATION_SCHEMA, PHYSICIAN_SCHEMA, BREADCRUMB_SCHEMA, HOWTO_PANCHAKARMA_SCHEMA, HOWTO_PRAKRITI_SCHEMA, HOWTO_DIET_SCHEMA, MEDICAL_WEBPAGE_SCHEMA } from '../seo';
-import { BLOG_POSTS } from '../pages/Blog';
+import { BLOG_POSTS } from '../data/blog/loadPosts';
 
 interface SEOHeadProps {
     title?: string;
@@ -122,7 +122,7 @@ function updateCanonical(url: string) {
 }
 
 // Helper: Add structured data schemas
-function updateStructuredData(pathname: string, activePost?: { title: string; excerpt: string; image: string; author: string; date: string } | null) {
+function updateStructuredData(pathname: string, activePost?: import('../data/blog/types').BlogPostWithAuthor | null) {
     // Remove existing
     document.querySelectorAll('script[type="application/ld+json"]').forEach(el => el.remove());
 
@@ -200,7 +200,7 @@ function updateStructuredData(pathname: string, activePost?: { title: string; ex
             "image": activePost.image,
             "author": {
                 "@type": "Person",
-                "name": activePost.author
+                "name": activePost.author.name
             },
             "publisher": {
                 "@type": "Organization",

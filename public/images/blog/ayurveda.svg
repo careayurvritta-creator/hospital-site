@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f7a5f"/>
+      <stop offset="55%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#0d9488"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#a7f3d0"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <rect width="1200" height="675" fill="url(#glow)"/>
+  <g opacity="0.16" fill="#ffffff">
+    <circle cx="120" cy="120" r="180"/>
+    <circle cx="1080" cy="560" r="220"/>
+  </g>
+  <g fill="url(#leaf)" opacity="0.95">
+    <path d="M600 150c-18 95-70 175-160 225 90 8 160-12 210-60 8-90-8-155-50-165z" transform="rotate(0 600 300)"/>
+    <path d="M600 150c-18 95-70 175-160 225 90 8 160-12 210-60 8-90-8-155-50-165z" transform="rotate(72 600 300)"/>
+    <path d="M600 150c-18 95-70 175-160 225 90 8 160-12 210-60 8-90-8-155-50-165z" transform="rotate(144 600 300)"/>
+    <path d="M600 150c-18 95-70 175-160 225 90 8 160-12 210-60 8-90-8-155-50-165z" transform="rotate(216 600 300)"/>
+    <path d="M600 150c-18 95-70 175-160 225 90 8 160-12 210-60 8-90-8-155-50-165z" transform="rotate(288 600 300)"/>
+  </g>
+  <circle cx="600" cy="300" r="42" fill="#0f7a5f" stroke="#ffffff" stroke-opacity="0.35" stroke-width="4"/>
+  <text x="600" y="300" font-family="Georgia, serif" font-size="40" fill="#ffffff" text-anchor="middle" dominant-baseline="central">A</text>
+</svg>

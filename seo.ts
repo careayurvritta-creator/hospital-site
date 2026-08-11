@@ -52,13 +52,13 @@ export const PAGE_SEO: Record<string, PageSEO> = {
         title: 'Cashless Treatment & Insurance | Ayurvritta Hospital',
         description: 'Cashless Ayurveda treatment with 50+ insurance partners. HDFC ERGO, Star Health, ICICI Lombard & more accepted.',
         keywords: 'ayurveda insurance, cashless ayurveda treatment, health insurance ayurveda',
-        ogImage: '/images/og-default.svg'
+        ogImage: '/images/og-insurance.jpg'
     },
     blog: {
-        title: 'Ayurveda Blog | Health Articles & Tips | Ayurvritta',
-        description: 'Read expert Ayurveda articles on doshas, Panchakarma, digestion, seasonal routines, herbal remedies and natural health tips from Ayurvritta.',
-        keywords: 'ayurveda blog, ayurvedic health tips, ayurveda articles, panchakarma guide, dosha guide',
-        ogImage: '/images/og-default.svg'
+        title: 'Ayurveda Blog & Health Articles | Dr. Sharma & Dr. Gor | Ayurvritta',
+        description: 'Practical Ayurveda guidance written by Dr. Jinendradutt Sharma & Dr. Sharlin Gor — diabetes, thyroid, PCOS, skin, digestion, yoga & seasonal wellness tips.',
+        keywords: 'ayurveda blog, ayurveda articles, ayurveda health tips, diabetes ayurveda, thyroid ayurveda, pcos ayurveda, panchakarma guide',
+        ogImage: '/images/blog/ayurveda.svg'
     },
     privacy: {
         title: 'Privacy Policy | Ayurvritta Ayurveda Hospital',
