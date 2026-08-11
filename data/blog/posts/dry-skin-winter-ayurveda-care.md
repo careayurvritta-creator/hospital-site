@@ -6,9 +6,11 @@ category: Wellness
 authorId: dr-gor
 date: 2026-02-12
 readTime: 6 min read
-image: /images/blog/wellness.svg
+image: /images/blog/posts/dry-skin-winter-ayurveda-care.webp
 featured: false
 ---
+
+![Dry, Rough Winter Skin: Ayurvedic Care for a Soft, Glowing Complexion](/images/blog/posts/dry-skin-winter-ayurveda-care.webp)
 
 As winter arrives, skin changes: it tightens, flakes, and cracks, especially on the hands, feet, and face. This is the Ayurvedic *Vata* season in action — cold, dry, and rough weather draws moisture from the skin. The Ayurvedic answer is beautifully simple and consistent: **counter dryness with warmth and oil.** The winter skin routine is one of Ayurveda's most beloved teachings, because it works — and it feels wonderful.
 

@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-sharma
 date: 2026-01-10
 readTime: 6 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/tulsi-holy-basil-benefits.webp
 featured: false
 ---
+
+![Tulsi (Holy Basil): The Sacred Herb in Your Kitchen Garden](/images/blog/posts/tulsi-holy-basil-benefits.webp)
 
 Walk into almost any Indian household and you will find a tulsi plant near the entrance or courtyard — not just for devotion, but for health. **Tulsi** (holy basil, *Ocimum tenuiflorum*/*sanctum*) is called the "Queen of Herbs" in Ayurveda, and for good reason. It is an adaptogen, an immune tonic, a respiratory ally, and one of the most versatile plants in the entire materia medica.
 

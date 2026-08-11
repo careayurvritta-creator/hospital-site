@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-sharma
 date: 2025-12-26
 readTime: 6 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/ginger-ayurveda-uses-benefits.webp
 featured: false
 ---
+
+![Adrak (Ginger): Ayurveda's Universal Household Medicine](/images/blog/posts/ginger-ayurveda-uses-benefits.webp)
 
 There is a reason the classical texts call ginger **Vishwa Bheshaja** — "the universal medicine." No other single herb appears in so many Ayurvedic formulas, treats so many conditions, and is so readily available (it is in every kitchen). Fresh ginger (*adrak*) and dried ginger (*sonth*) are considered different medicines with different actions — and that distinction matters.
 

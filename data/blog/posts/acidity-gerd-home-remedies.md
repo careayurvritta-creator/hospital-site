@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-gor
 date: 2026-05-22
 readTime: 6 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/acidity-gerd-home-remedies.webp
 featured: false
 ---
+
+![Acidity and GERD (Amlapitta): Home Remedies That Actually Help](/images/blog/posts/acidity-gerd-home-remedies.webp)
 
 Acidity is one of the most common complaints we hear — and one of the most misunderstood. In Ayurveda, the condition is called **Amlapitta**: *amla* (sour) and *pitta* (the fire/transformation principle). The name captures the mechanism precisely — an excess of sour, hot, and sharp qualities in the stomach that refluxes upward as burning, belching, and sour taste.
 

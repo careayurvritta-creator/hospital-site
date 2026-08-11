@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-sharma
 date: 2025-12-11
 readTime: 7 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/cold-cough-ayurveda-remedies.webp
 featured: false
 ---
+
+![Cold and Cough: Ayurvedic Remedies That Work From the First Symptom](/images/blog/posts/cold-cough-ayurveda-remedies.webp)
 
 The common cold is the most frequent illness on earth — and Ayurveda has spent millennia developing a remarkably effective playbook for it. The key insight: **the first 12 hours matter most.** Catch the cold at the first scratchy throat or sneeze, and the traditional remedies can cut it short, reduce its severity, and get you through far more comfortably. Here is the complete early-intervention guide.
 

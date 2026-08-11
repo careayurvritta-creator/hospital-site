@@ -6,9 +6,11 @@ category: Nutrition
 authorId: dr-sharma
 date: 2026-02-09
 readTime: 6 min read
-image: /images/blog/nutrition.svg
+image: /images/blog/posts/vitamin-d-deficiency-ayurveda.webp
 featured: false
 ---
+
+![Vitamin D Deficiency: Why Sunlight Is Medicine, Ayurveda-Style](/images/blog/posts/vitamin-d-deficiency-ayurveda.webp)
 
 Vitamin D deficiency has become one of the most common findings on health checkups — and one of the most misunderstood. We are told to "go in the sun," but most people still end up deficient. In Ayurvedic terms, the sun is the source of *Surya Agni* — the fire that governs bone, muscle, immunity, and mood — and the classical texts place morning sunlight among the daily health practices (*Dinacharya*). The Ayurvedic approach to vitamin D is simple and deeply aligned: **get it right at the source (sun), support it with food and lifestyle, and fix the habits that block it.**
 

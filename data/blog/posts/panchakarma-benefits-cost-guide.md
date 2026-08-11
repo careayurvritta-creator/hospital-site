@@ -6,9 +6,11 @@ category: Wellness
 authorId: dr-sharma
 date: 2026-02-06
 readTime: 8 min read
-image: /images/blog/wellness.svg
+image: /images/blog/posts/panchakarma-benefits-cost-guide.webp
 featured: true
 ---
+
+![Panchakarma: A Complete Guide to Benefits, Duration and What to Expect](/images/blog/posts/panchakarma-benefits-cost-guide.webp)
 
 Panchakarma is Ayurveda's signature therapy — and one of the most misunderstood. Is it a spa treatment? A "detox"? A cure? The honest answer: it is a **physician-supervised medical therapy** that, done properly, is one of the most powerful resets in traditional medicine. This guide is meant to give you the complete, honest picture — so you can decide whether it's right for you and choose a centre wisely.
 

@@ -6,9 +6,11 @@ category: Lifestyle
 authorId: dr-gor
 date: 2026-03-11
 readTime: 8 min read
-image: /images/blog/lifestyle.svg
+image: /images/blog/posts/menopause-ayurveda-natural-support.webp
 featured: false
 ---
+
+![Menopause and Perimenopause: Ayurvedic Support for a Smooth Transition](/images/blog/posts/menopause-ayurveda-natural-support.webp)
 
 Menopause is not a disease — it is a natural transition, a third of a woman's life. But the *way* a woman experiences it depends heavily on how balanced her system was entering it. In Ayurveda, menopause is understood as the transition into the **Vata phase of life** — the dosha of air and change. As the reproductive fire (Pitta) naturally declines, Vata rises, bringing dryness, heat, irregularity, and the classic symptoms: hot flashes, insomnia, anxiety, joint dryness, and mood swings. The Ayurvedic approach is to manage this transition with **nourishment, cooling, and grounding** — so it becomes a graceful passage, not a crisis.
 

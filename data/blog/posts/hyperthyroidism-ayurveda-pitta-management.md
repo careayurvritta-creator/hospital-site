@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-gor
 date: 2026-02-18
 readTime: 7 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/hyperthyroidism-ayurveda-pitta-management.webp
 featured: false
 ---
+
+![Hyperthyroidism: Cooling the Overactive Fire with Ayurveda](/images/blog/posts/hyperthyroidism-ayurveda-pitta-management.webp)
 
 Hyperthyroidism is the mirror image of hypothyroidism: instead of a sluggish thyroid, the gland is **overactive**, flooding the body with thyroid hormone. The result is a body running too hot — weight loss, heat intolerance, palpitations, sweating, anxiety, diarrhea, and insomnia. In Ayurvedic terms, this is a classic **Pitta disorder**: an excess of the fire dosha. The approach is the opposite of the Kapha-based hypothyroid plan — it is about **cooling, grounding, and settling** an overheated system.
 

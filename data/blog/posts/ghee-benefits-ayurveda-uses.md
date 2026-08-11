@@ -6,9 +6,11 @@ category: Nutrition
 authorId: dr-sharma
 date: 2026-01-25
 readTime: 7 min read
-image: /images/blog/nutrition.svg
+image: /images/blog/posts/ghee-benefits-ayurveda-uses.webp
 featured: false
 ---
+
+![Ghee: Why Ayurveda Calls It Liquid Gold (And How to Use It Wisely)](/images/blog/posts/ghee-benefits-ayurveda-uses.webp)
 
 Few foods have had as dramatic a reversal in reputation as ghee. For decades, it was the villain of the Indian diet — blamed for heart disease and cholesterol. Today, a more careful picture has emerged, and it aligns remarkably with what Ayurveda has said for thousands of years: **ghee, used correctly, is one of the most valuable foods in the diet.** The word for it in Sanskrit is *Ghrita* — and Ayurveda calls it *amritam* (nectar), a carrier of medicine and a nourisher of the deepest tissues.
 

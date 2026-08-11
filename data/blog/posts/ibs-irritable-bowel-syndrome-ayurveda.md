@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-gor
 date: 2026-05-16
 readTime: 7 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/ibs-irritable-bowel-syndrome-ayurveda.webp
 featured: false
 ---
+
+![Irritable Bowel Syndrome (IBS): The Ayurvedic Path to a Calm Gut](/images/blog/posts/ibs-irritable-bowel-syndrome-ayurveda.webp)
 
 Irritable Bowel Syndrome is one of the most frustrating conditions in medicine — the gut behaves erratically, tests often come back "normal," and symptoms vary from week to week. Ayurveda handles this beautifully, because it treats **patterns, not just symptoms**. IBS is understood as a disturbance of *Agni* (digestive fire) combined with *Ama* (undigested residue), expressed differently depending on your dominant dosha.
 

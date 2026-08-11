@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-gor
 date: 2026-05-01
 readTime: 7 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/eczema-ayurveda-itchy-dry-skin-remedies.webp
 featured: false
 ---
+
+![Eczema and Dry Itchy Skin: The Ayurvedic Cooling Approach](/images/blog/posts/eczema-ayurveda-itchy-dry-skin-remedies.webp)
 
 Eczema is the itch that turns into a rash — and the rash that turns into a habit of scratching. It affects children and adults alike, and it has a remarkably consistent story in Ayurveda: a **Pitta–Kapha disturbance** with deep *Ama* involvement. The skin is inflamed (Pitta), oozing or thick (Kapha), and sensitive (a sensitized immune response we call disturbed *Rakta* and *Rasa dhatu*).
 

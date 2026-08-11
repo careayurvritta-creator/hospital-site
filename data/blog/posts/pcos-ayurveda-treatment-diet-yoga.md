@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-gor
 date: 2026-05-10
 readTime: 8 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/pcos-ayurveda-treatment-diet-yoga.webp
 featured: true
 ---
+
+![PCOS/PCOD: Rebalancing Hormones with Ayurveda, Diet and Yoga](/images/blog/posts/pcos-ayurveda-treatment-diet-yoga.webp)
 
 Polycystic ovary syndrome is the most common hormonal disorder in women of reproductive age — and one of the most treatable when approached at the root. In Ayurveda, PCOS is understood as a disorder of **Kapha and Vata** involving the reproductive channels (*Artava vaha srotas*), with *Ama* blocking normal hormonal flow. The cysts themselves are not the primary disease — they are the visible result of a deeper imbalance.
 

@@ -6,9 +6,11 @@ category: Wellness
 authorId: dr-gor
 date: 2026-04-25
 readTime: 6 min read
-image: /images/blog/wellness.svg
+image: /images/blog/posts/stress-management-ayurveda-natural-techniques.webp
 featured: false
 ---
+
+![Stress and Anxiety: Natural Ayurvedic Techniques That Work](/images/blog/posts/stress-management-ayurveda-natural-techniques.webp)
 
 Chronic stress is not "all in your head" — it is a body-wide hormonal state that affects digestion, sleep, immunity, blood pressure, and mood. Ayurveda has always understood this, describing the mind and body as one continuous system. When stress persists, we say that **Vata** (and often **Pitta**) have become disturbed — and we treat the nervous system with the same respect we give any other organ.
 

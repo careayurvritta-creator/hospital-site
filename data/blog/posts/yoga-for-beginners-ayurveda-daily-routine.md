@@ -6,9 +6,11 @@ category: Yoga
 authorId: dr-gor
 date: 2026-04-13
 readTime: 6 min read
-image: /images/blog/yoga.svg
+image: /images/blog/posts/yoga-for-beginners-ayurveda-daily-routine.webp
 featured: false
 ---
+
+![Yoga for Beginners: Starting a Daily Practice the Ayurvedic Way](/images/blog/posts/yoga-for-beginners-ayurveda-daily-routine.webp)
 
 Yoga is often treated as a workout — but in its classical sense it is a tool for harmonizing the body, breath, and mind, and it is intimately linked with Ayurveda. The two are sister sciences: Ayurveda tells you *what your body needs*, and yoga gives you *the practice to deliver it*. You do not need flexibility, youth, or a boutique studio. You need a small routine, done consistently, matched to your constitution.
 

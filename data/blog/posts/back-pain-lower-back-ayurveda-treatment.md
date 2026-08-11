@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-sharma
 date: 2026-02-27
 readTime: 7 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/back-pain-lower-back-ayurveda-treatment.webp
 featured: false
 ---
+
+![Lower Back Pain: Ayurvedic Relief That Treats the Root](/images/blog/posts/back-pain-lower-back-ayurveda-treatment.webp)
 
 Lower back pain is one of the most common reasons people miss work — and one of the most stubborn when treated only with painkillers. In Ayurveda, the lower back is a **Vata seat**: it is the region governed by *Apana Vata*, the downward-moving energy. When Vata is aggravated — by sitting, stress, cold, or improper movement — it settles in the lower back and pelvis, producing stiffness, pain, and spasm. The Ayurvedic approach treats the back as part of the whole Vata system, not as an isolated hinge to be "fixed."
 

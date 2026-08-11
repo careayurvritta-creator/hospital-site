@@ -6,9 +6,11 @@ category: Wellness
 authorId: dr-sharma
 date: 2026-03-17
 readTime: 6 min read
-image: /images/blog/wellness.svg
+image: /images/blog/posts/sinusitis-sinus-nasal-congestion-ayurveda.webp
 featured: false
 ---
+
+![Sinusitis and Nasal Congestion: Ayurvedic Relief That Clears the Head](/images/blog/posts/sinusitis-sinus-nasal-congestion-ayurveda.webp)
 
 Sinusitis is one of the most frustrating conditions — the nose is blocked, the head feels heavy and pressurized, and it seems to come back every season. In Ayurveda, the diagnosis is clear: **Kapha accumulation in the head** with blocked *Prana vaha srotas* (respiratory channels). Kapha is the dosha of mucus and moisture; when it accumulates in the sinuses, it produces congestion, heaviness, and pressure. The treatment is about moving that Kapha out — and keeping the channels clear.
 

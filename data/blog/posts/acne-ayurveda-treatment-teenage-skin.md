@@ -6,9 +6,11 @@ category: Wellness
 authorId: dr-gor
 date: 2026-02-15
 readTime: 7 min read
-image: /images/blog/wellness.svg
+image: /images/blog/posts/acne-ayurveda-treatment-teenage-skin.webp
 featured: false
 ---
+
+![Acne and Pimples: The Ayurvedic Clear-Skin Protocol](/images/blog/posts/acne-ayurveda-treatment-teenage-skin.webp)
 
 Acne is one of the most common skin problems — and one of the most emotionally loaded, especially for teenagers. The Ayurvedic view is reassuring and practical: acne (*Yuvan Pidaka*) is a **Pitta–Kapha imbalance** of the blood and skin tissues, driven by *Ama* (metabolic toxins) and aggravated by hormones, diet, and stress. The key insight is that **the pimple on your face is the surface of a deeper pattern** — and the clear-skin plan addresses digestion, diet, and hormones, not just the spot.
 

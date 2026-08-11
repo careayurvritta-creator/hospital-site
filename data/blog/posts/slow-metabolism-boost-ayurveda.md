@@ -6,9 +6,11 @@ category: Wellness
 authorId: dr-sharma
 date: 2026-03-29
 readTime: 6 min read
-image: /images/blog/wellness.svg
+image: /images/blog/posts/slow-metabolism-boost-ayurveda.webp
 featured: false
 ---
+
+![Slow Metabolism? Rekindle Your Digestive Fire (Agni) the Ayurvedic Way](/images/blog/posts/slow-metabolism-boost-ayurveda.webp)
 
 Every body has a metabolic thermostat — a rate at which it burns fuel. Ayurveda calls this **Agni**, the digestive fire. When Agni is strong, food becomes energy, tissue, and vitality (Ojas). When it is weak, the same food becomes *Ama* — undigested residue that makes us tired, heavy, and prone to weight gain, bloating, and disease. Much of what we call "slow metabolism" is simply **weak Agni**, and it is remarkably fixable.
 

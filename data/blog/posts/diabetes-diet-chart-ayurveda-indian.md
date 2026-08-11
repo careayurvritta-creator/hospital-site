@@ -6,9 +6,11 @@ category: Nutrition
 authorId: dr-sharma
 date: 2026-04-07
 readTime: 8 min read
-image: /images/blog/nutrition.svg
+image: /images/blog/posts/diabetes-diet-chart-ayurveda-indian.webp
 featured: true
 ---
+
+![The Best Diet for Diabetes: An Indian, Ayurveda-Informed Guide](/images/blog/posts/diabetes-diet-chart-ayurveda-indian.webp)
 
 The hardest part of diabetes management is not the medicine — it is the food. Indian diets are carbohydrate-heavy by design, and most generic "diabetic diets" ignore the regional reality of what people actually eat. This guide is practical: it works with the Indian plate, respects Ayurvedic principles, and is realistic enough to sustain for life. It is a framework, not a rigid menu — and it should always be individualized with your physician.
 

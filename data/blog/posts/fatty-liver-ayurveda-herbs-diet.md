@@ -6,9 +6,11 @@ category: Nutrition
 authorId: dr-sharma
 date: 2026-05-13
 readTime: 6 min read
-image: /images/blog/nutrition.svg
+image: /images/blog/posts/fatty-liver-ayurveda-herbs-diet.webp
 featured: false
 ---
+
+![Fatty Liver: Reversing It with Ayurveda, Diet and Discipline](/images/blog/posts/fatty-liver-ayurveda-herbs-diet.webp)
 
 Non-alcoholic fatty liver disease (NAFLD) is quietly becoming one of the most common findings on routine health checkups. The liver — the body's chief metabolic engine — starts storing fat it cannot process. In Ayurveda, this maps closely to **Yakrit Medoroga**: fat tissue (*meda*) overwhelmed in the liver (*yakrit*), driven by weak Agni and accumulating Ama.
 

@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-gor
 date: 2025-12-23
 readTime: 6 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/neem-benefits-ayurveda.webp
 featured: false
 ---
+
+![Neem: Ayurveda's Bitter Panacea for Skin, Hair, and Immunity](/images/blog/posts/neem-benefits-ayurveda.webp)
 
 If Ayurveda had to pick one plant to represent its approach to skin, infection, and purification, it would be **Neem** (*Azadirachta indica*) — the "village pharmacy" of India. Every part of the tree has a use: leaves, bark, seeds, oil, and twigs. It is intensely bitter, deeply cooling, and one of the most studied medicinal plants in the world. Here is the honest, practical guide.
 

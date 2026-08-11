@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-gor
 date: 2026-05-07
 readTime: 7 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/irregular-periods-ayurveda-balance-menstrual-cycle.webp
 featured: false
 ---
+
+![Irregular Periods: Restoring Your Natural Cycle with Ayurveda](/images/blog/posts/irregular-periods-ayurveda-balance-menstrual-cycle.webp)
 
 A regular menstrual cycle is one of the most sensitive indicators of a woman's overall health. When periods become irregular — late, scanty, skipped, or painful — it is often the body's way of saying that something deeper is out of balance. In Ayurveda, the menstrual cycle is governed by **Vata** (which moves the blood) and **Kapha** (which forms the tissue), and it is deeply connected to digestion, sleep, stress, and movement.
 

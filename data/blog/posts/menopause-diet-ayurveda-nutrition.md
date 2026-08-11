@@ -6,9 +6,11 @@ category: Nutrition
 authorId: dr-gor
 date: 2025-12-14
 readTime: 7 min read
-image: /images/blog/nutrition.svg
+image: /images/blog/posts/menopause-diet-ayurveda-nutrition.webp
 featured: false
 ---
+
+![Menopause Nutrition: The Ayurvedic Diet for a Smoother Transition](/images/blog/posts/menopause-diet-ayurveda-nutrition.webp)
 
 Menopause is not an illness — but for many women, the transition brings real, uncomfortable changes: hot flashes, sleep disruption, weight gain, dry skin, mood swings, and bone concerns. Ayurveda's view is both wise and practical: menopause is a **natural life transition** in which Vata (drying, anxiety) and Pitta (heat, irritation) tend to rise. The right diet does not "treat" menopause; it **eases the transition** — and for many women, it makes a dramatic difference. Here is the complete Ayurvedic nutrition guide.
 

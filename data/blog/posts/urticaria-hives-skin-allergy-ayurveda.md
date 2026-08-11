@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-gor
 date: 2026-02-24
 readTime: 6 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/urticaria-hives-skin-allergy-ayurveda.webp
 featured: false
 ---
+
+![Urticaria and Hives: Cooling the Skin's Allergic Fire](/images/blog/posts/urticaria-hives-skin-allergy-ayurveda.webp)
 
 Urticaria — hives — appears suddenly as itchy, raised, red welts (wheals) that can change shape and location within hours. It is one of the most common skin complaints, and in Ayurveda it is classically known as **Sheetapitta** or *Udarda*: a disturbance of **Pitta** (heat, redness) and **Kapha** (swelling, wheals), with Vata's role in their sudden, wandering movement. The welts are the skin's way of saying the internal balance has been disturbed — and the approach is to cool the fire and calm the reaction, not just suppress the itch.
 

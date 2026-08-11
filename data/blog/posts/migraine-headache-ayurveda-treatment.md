@@ -6,9 +6,11 @@ category: Wellness
 authorId: dr-gor
 date: 2026-03-20
 readTime: 7 min read
-image: /images/blog/wellness.svg
+image: /images/blog/posts/migraine-headache-ayurveda-treatment.webp
 featured: false
 ---
+
+![Migraine and Headache: Understanding the Ayurvedic Triggers](/images/blog/posts/migraine-headache-ayurveda-treatment.webp)
 
 Migraine is not "just a headache." It is a neurological event — often preceded by visual auras, nausea, and light sensitivity, and followed by days of fatigue. Ayurveda offers a remarkably clear framework for it: migraine is a disturbance of **Pitta** (heat, inflammation, upward movement) aggravated by **Vata** (the mobile, sharp quality of pain). Understanding your specific trigger pattern is the key to prevention — and Ayurveda is fundamentally a system of prevention.
 

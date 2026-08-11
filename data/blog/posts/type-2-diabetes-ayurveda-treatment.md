@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-sharma
 date: 2026-06-01
 readTime: 7 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/type-2-diabetes-ayurveda-treatment.webp
 featured: true
 ---
+
+![Type 2 Diabetes (Madhumeha): The Ayurveda View, Herbs and Diet](/images/blog/posts/type-2-diabetes-ayurveda-treatment.webp)
 
 Ayurveda described diabetes nearly three thousand years before the term "diabetes mellitus" appeared in Western medicine. In the classical texts, the condition is called **Madhumeha** — *madhu* (honey) and *meha* (excessive urination) — a name that captures the two defining features we still look for today: sweet urine and frequent urination.
 

@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-sharma
 date: 2026-05-25
 readTime: 7 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/hypothyroidism-diet-herbs-ayurveda.webp
 featured: false
 ---
+
+![Hypothyroidism: The Ayurveda Approach to a Sluggish Thyroid](/images/blog/posts/hypothyroidism-diet-herbs-ayurveda.webp)
 
 Hypothyroidism is one of the most common reasons patients walk into an Ayurvedic clinic. The classic picture — persistent fatigue, stubborn weight gain, dry skin, hair fall, and a general sense of sluggishness — maps remarkably well onto an Ayurvedic diagnosis: **Kapha accumulation with weak Agni**. The thyroid, in Ayurvedic thought, is intimately connected to the metabolic fire that every cell depends on.
 

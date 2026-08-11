@@ -6,9 +6,11 @@ category: Lifestyle
 authorId: dr-gor
 date: 2026-03-02
 readTime: 7 min read
-image: /images/blog/lifestyle.svg
+image: /images/blog/posts/child-care-ayurveda-immunity-kids.webp
 featured: false
 ---
+
+![Children's Health the Ayurvedic Way: Building Strong Immunity Early](/images/blog/posts/child-care-ayurveda-immunity-kids.webp)
 
 Childhood is Kapha season of life — children are naturally moist, growing, and resilient, but also prone to the classic Kapha problems: colds, coughs, tonsils, and congestion. The Ayurvedic approach to children (*Balachikitsa*, one of the eight classical branches) is gentle, practical, and grounded in the same principles as adult care: **strong digestion, adequate sleep, daily rhythm, and emotional warmth.** A few consistent habits in childhood build immunity that lasts a lifetime.
 

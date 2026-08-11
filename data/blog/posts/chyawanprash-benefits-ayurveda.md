@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-sharma
 date: 2025-12-29
 readTime: 6 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/chyawanprash-benefits-ayurveda.webp
 featured: false
 ---
+
+![Chyawanprash: The Ayurvedic Immunity Jam — What's Really Inside](/images/blog/posts/chyawanprash-benefits-ayurveda.webp)
 
 Mention immunity in India and one thing appears in almost every household: the jar of **Chyawanprash**. It is the country's most iconic Ayurvedic preparation — a dark, jam-like Rasayana whose legend dates to the sages themselves. But what is actually in it, what does it really do, and how do you choose a good jar among the dozens on the shelf? Here is the honest guide.
 

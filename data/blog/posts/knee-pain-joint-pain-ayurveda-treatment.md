@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-sharma
 date: 2026-04-10
 readTime: 7 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/knee-pain-joint-pain-ayurveda-treatment.webp
 featured: false
 ---
+
+![Knee Pain and Joint Care: The Ayurvedic Treatment Guide](/images/blog/posts/knee-pain-joint-pain-ayurveda-treatment.webp)
 
 Knee pain is one of the most common reasons people seek Ayurvedic treatment — and it is one of the conditions where Ayurveda truly shines. The classical condition is called **Sandhivata**: *sandhi* (joint) + *vata* (the dry, mobile dosha). As Vata accumulates in the joints with age, the natural lubrication (*Shleshma*) diminishes, the tissues wear, and the joint becomes dry, stiff, and painful — especially in cold weather and after rest.
 

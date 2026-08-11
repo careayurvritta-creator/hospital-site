@@ -6,9 +6,11 @@ category: Nutrition
 authorId: dr-sharma
 date: 2025-12-17
 readTime: 7 min read
-image: /images/blog/nutrition.svg
+image: /images/blog/posts/ayurveda-diet-6-tastes.webp
 featured: false
 ---
+
+![The Six Tastes (Shad Rasa): The Ayurvedic Guide to a Balanced Plate](/images/blog/posts/ayurveda-diet-6-tastes.webp)
 
 Modern nutrition obsesses over macros and calories. Ayurveda took a different, older, and remarkably elegant approach: **every meal should contain all six tastes (Shad Rasa)** — sweet, sour, salty, pungent, bitter, and astringent. Not because it tastes good (though it does), but because each taste has specific biological actions, and a plate that misses a taste is a plate that misses a job. This framework is, in many ways, Ayurveda's nutrition algorithm — and it is remarkably aligned with modern dietary diversity guidelines.
 

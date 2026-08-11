@@ -6,9 +6,11 @@ category: Wellness
 authorId: dr-sharma
 date: 2026-04-22
 readTime: 6 min read
-image: /images/blog/wellness.svg
+image: /images/blog/posts/insomnia-ayurveda-herbs-sleep-naturally.webp
 featured: false
 ---
+
+![Insomnia: Falling Asleep Naturally with Ayurvedic Wisdom](/images/blog/posts/insomnia-ayurveda-herbs-sleep-naturally.webp)
 
 Sleep is not a luxury — it is the time when the body repairs, the brain consolidates memory, and the nervous system resets. When sleep is broken, every other system suffers. In Ayurveda, sound sleep (*Nidra*) is one of the three pillars of health, alongside food (*Ahara*) and disciplined conduct (*Brahmacharya*). Insomnia is understood as a disturbed state of **Vata** (racing mind, light sleep) or **Pitta** (waking hot and irritable at 2–3 AM), and it is almost always aggravated by the modern habits of late nights and blue light.
 

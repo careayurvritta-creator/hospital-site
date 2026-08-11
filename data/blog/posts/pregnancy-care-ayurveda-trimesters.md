@@ -6,9 +6,11 @@ category: Lifestyle
 authorId: dr-gor
 date: 2026-03-08
 readTime: 8 min read
-image: /images/blog/lifestyle.svg
+image: /images/blog/posts/pregnancy-care-ayurveda-trimesters.webp
 featured: false
 ---
+
+![Pregnancy Care the Ayurvedic Way: A Trimester-by-Trimester Guide](/images/blog/posts/pregnancy-care-ayurveda-trimesters.webp)
 
 Pregnancy is one of the most profound states Ayurveda addresses — a time when the mother's health directly shapes a new life. The classical texts call the unborn child *Garbha* and treat the mother's nourishment, emotions, and routine as medicine. The guiding principle is gentle: **nourish deeply, calm the mind, and avoid anything that disturbs Vata or Pitta.** Throughout, modern obstetric care remains the non-negotiable backbone — Ayurveda supports the journey alongside it, never instead of it.
 

@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-sharma
 date: 2026-01-31
 readTime: 6 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/triphala-benefits-uses-dosage.webp
 featured: false
 ---
+
+![Triphala: The Three-Fruit Formula Every Household Should Know](/images/blog/posts/triphala-benefits-uses-dosage.webp)
 
 If there is one Ayurvedic formula every household should know, it is **Triphala** — a combination of three fruits that is arguably the most prescribed and most versatile preparation in the entire tradition. The name means "three fruits": **Amalaki** (Indian gooseberry), **Haritaki** (chebulic myrobalan), and **Bibhitaki** (belleric myrobalan). Together, they are described as a *Rasayana* (rejuvenator) that balances all three doshas while gently supporting digestion and elimination. It is the closest thing Ayurveda has to a universal daily tonic.
 

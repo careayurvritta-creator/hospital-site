@@ -6,9 +6,11 @@ category: Wellness
 authorId: dr-sharma
 date: 2026-04-19
 readTime: 6 min read
-image: /images/blog/wellness.svg
+image: /images/blog/posts/immunity-ayurveda-boost-naturally.webp
 featured: false
 ---
+
+![Building Immunity the Ayurvedic Way: Ojas and the Body's Defense](/images/blog/posts/immunity-ayurveda-boost-naturally.webp)
 
 Immunity has become a health buzzword — but Ayurveda has been talking about it for millennia, under a precise name: **Ojas**. Ojas is the essence of all the tissues, the "finest end product" of good digestion. It is what gives the body stamina, resistance, and a glowing resilience. When Ojas is high, infections are rare and recovery is quick. When it is depleted, the body is vulnerable and slow to heal.
 

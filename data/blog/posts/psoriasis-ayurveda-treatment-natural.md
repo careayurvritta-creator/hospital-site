@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-sharma
 date: 2026-05-04
 readTime: 8 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/psoriasis-ayurveda-treatment-natural.webp
 featured: false
 ---
+
+![Psoriasis: The Ayurvedic Understanding and Treatment Journey](/images/blog/posts/psoriasis-ayurveda-treatment-natural.webp)
 
 Psoriasis is a chronic skin condition in which the skin's renewal cycle speeds up dramatically, producing thick, silvery scales and red, inflamed patches. Modern medicine treats it as an immune-mediated condition — and Ayurveda agrees, though in a different language. It falls under the classical umbrella of **Kushtha**, a family of skin disorders understood as arising from deeply disturbed doshas, weakened digestion, and accumulated *Ama* (metabolic toxins) that surface through the skin.
 

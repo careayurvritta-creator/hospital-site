@@ -6,9 +6,11 @@ category: Nutrition
 authorId: dr-gor
 date: 2026-03-23
 readTime: 6 min read
-image: /images/blog/nutrition.svg
+image: /images/blog/posts/anemia-iron-ayurveda-food-sources.webp
 featured: false
 ---
+
+![Anemia and Low Iron: Ayurvedic Foods That Actually Rebuild Blood](/images/blog/posts/anemia-iron-ayurveda-food-sources.webp)
 
 Anemia is one of the most common conditions in India — especially among women — and one of the most misunderstood. The standard advice, "eat more iron," often fails, because the problem is usually not iron intake alone. In Ayurveda, blood is built from *Rasa* (plasma) and *Rakta* (blood tissue), and both depend on **strong digestion** — *Agni*. You can eat iron all day, but if the digestive fire is weak, the body cannot convert food into blood. The Ayurvedic approach, therefore, is not just "what to eat" but "how to make your body actually use it."
 

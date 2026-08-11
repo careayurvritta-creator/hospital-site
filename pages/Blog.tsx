@@ -46,6 +46,20 @@ function renderContent(content: string): React.ReactNode[] {
       );
     }
 
+    const imgMatch = block.trim().match(/^!\[([^\]]*)\]\(([^)\s]+)\)\s*$/);
+    if (imgMatch) {
+      return (
+        <figure key={idx} className="my-8">
+          <img
+            src={imgMatch[2]}
+            alt={imgMatch[1] || 'Ayurveda article illustration'}
+            className="w-full max-h-[420px] object-cover rounded-2xl border border-ayur-subtle shadow-lg"
+            loading="lazy"
+          />
+        </figure>
+      );
+    }
+
     const nonEmpty = lines.filter(l => l.trim() !== '');
     const allBullets = nonEmpty.length > 0 && nonEmpty.every(l => l.trim().startsWith('- '));
     const allNumbered = nonEmpty.length > 0 && nonEmpty.every(l => /^\d+\.\s/.test(l.trim()));

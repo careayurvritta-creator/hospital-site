@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-gor
 date: 2026-02-21
 readTime: 6 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/gastritis-stomach-inflammation-ayurveda.webp
 featured: false
 ---
+
+![Gastritis and Stomach Inflammation: An Ayurvedic Care Plan](/images/blog/posts/gastritis-stomach-inflammation-ayurveda.webp)
 
 Gastritis — inflammation of the stomach lining — is one of the most common digestive complaints, and one that affects the whole person: the gnawing pain, the fullness, the burning, the way stress makes everything worse. In Ayurveda, gastritis is understood as a **Pitta disturbance of the stomach** (*Amla Pitta* with *Urdhwaga* tendencies). Pitta is the fire that digests food; when it becomes excessive and hot, it burns the very lining it should nourish. The Ayurvedic answer is to **cool and soothe the lining** while removing the fire-feeding habits.
 

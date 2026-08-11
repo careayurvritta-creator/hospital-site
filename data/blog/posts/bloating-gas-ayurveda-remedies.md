@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-sharma
 date: 2025-12-20
 readTime: 7 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/bloating-gas-ayurveda-remedies.webp
 featured: false
 ---
+
+![Bloating and Gas: The Ayurvedic Remedies That Actually Work](/images/blog/posts/bloating-gas-ayurveda-remedies.webp)
 
 Walk into any Ayurvedic clinic and bloating is one of the top complaints. It is also — happily — one of the most fixable. In Ayurveda, gas and bloating are almost always a story about **weak or irregular digestive fire (Agni)** combined with the wrong foods at the wrong time. The good news: the framework for fixing it is simple, and most people improve within days. Here is the complete Ayurvedic approach.
 

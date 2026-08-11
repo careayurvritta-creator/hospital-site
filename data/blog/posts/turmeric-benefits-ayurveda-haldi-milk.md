@@ -6,9 +6,11 @@ category: Nutrition
 authorId: dr-sharma
 date: 2026-01-28
 readTime: 6 min read
-image: /images/blog/nutrition.svg
+image: /images/blog/posts/turmeric-benefits-ayurveda-haldi-milk.webp
 featured: false
 ---
+
+![Turmeric (Haldi): The Golden Spice's Real Benefits and Best Uses](/images/blog/posts/turmeric-benefits-ayurveda-haldi-milk.webp)
 
 Turmeric — *haridra* in Sanskrit — is the most famous spice in Ayurveda, and in the last two decades it has become one of the most studied natural compounds in the world. The interest is justified: the golden root has genuine anti-inflammatory and antioxidant properties. But there is a big gap between the health-food claims and what turmeric can realistically do. This guide separates the proven from the hype, and shows you how to use it so it actually works in your body.
 

@@ -6,9 +6,11 @@ category: Nutrition
 authorId: dr-sharma
 date: 2026-03-26
 readTime: 7 min read
-image: /images/blog/nutrition.svg
+image: /images/blog/posts/high-cholesterol-ayurveda-heart-health.webp
 featured: false
 ---
+
+![High Cholesterol: Ayurvedic Ways to Protect Your Heart](/images/blog/posts/high-cholesterol-ayurveda-heart-health.webp)
 
 High cholesterol is one of the most common findings on health checkups — and one of the most anxiety-producing. The Ayurvedic view offers a valuable reframe: cholesterol numbers matter, but they are a **symptom, not the disease**. The real issue is *Rasa* and *Meda dhatu* quality — the state of the plasma and fat tissue — and whether *Ama* (metabolic toxins) is coating the channels. This is why two people with the same LDL can have very different heart risk: the health of the vessel wall matters as much as the lipid number.
 

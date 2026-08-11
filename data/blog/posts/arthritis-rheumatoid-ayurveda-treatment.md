@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-sharma
 date: 2026-04-04
 readTime: 8 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/arthritis-rheumatoid-ayurveda-treatment.webp
 featured: false
 ---
+
+![Rheumatoid Arthritis (Amavata): Ayurveda's Ancient Protocol](/images/blog/posts/arthritis-rheumatoid-ayurveda-treatment.webp)
 
 Rheumatoid arthritis (RA) is an autoimmune condition in which the immune system attacks the joints, causing pain, swelling, and deformity. It is more than "arthritis" — it is a systemic inflammatory disease. Ayurveda calls it **Amavata**: *ama* (undigested metabolic toxins) + *vata* (the mobile dosha). The classical teaching is that when digestive fire is weak, undigested residue (*Ama*) forms, circulates, and settles in the joints, where it produces inflammation and pain. The treatment is therefore sequenced: **first clear the Ama, then nourish the tissues.**
 

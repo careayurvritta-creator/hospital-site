@@ -6,9 +6,11 @@ category: Lifestyle
 authorId: dr-sharma
 date: 2026-01-01
 readTime: 7 min read
-image: /images/blog/lifestyle.svg
+image: /images/blog/posts/seasonal-detox-ayurveda-ritucharya.webp
 featured: false
 ---
+
+![Ritucharya: Ayurveda's Seasonal Detox and the Art of Eating With the Seasons](/images/blog/posts/seasonal-detox-ayurveda-ritucharya.webp)
 
 Ayurveda's founders observed something profound: **your body is not the same in summer as it is in winter.** The doshas accumulate, aggravate, and settle with the seasons. The system that handles this is **Ritucharya** — the seasonal routine. It explains why you feel heavy in monsoon, dry in winter, and overheated in summer — and what to do about it. It is, in a real sense, Ayurveda's "seasonal detox."
 

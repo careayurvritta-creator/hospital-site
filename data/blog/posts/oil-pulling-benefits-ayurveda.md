@@ -6,9 +6,11 @@ category: Wellness
 authorId: dr-gor
 date: 2026-01-16
 readTime: 6 min read
-image: /images/blog/wellness.svg
+image: /images/blog/posts/oil-pulling-benefits-ayurveda.webp
 featured: false
 ---
+
+![Oil Pulling (Gandusha): What It Does and How to Do It Right](/images/blog/posts/oil-pulling-benefits-ayurveda.webp)
 
 Oil pulling — swishing oil around the mouth for several minutes — has become a viral wellness trend. But unlike most internet fads, it is a genuine classical Ayurvedic practice called **Gandusha** (holding oil in the mouth) and **Kavala** (swishing and gargling), described in the classical texts as part of daily oral and systemic care. The honest picture is mixed: it has real, evidence-backed oral benefits, modest systemic claims, and a list of things it definitely does not do. Here's the full, balanced guide.
 

@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-gor
 date: 2026-01-04
 readTime: 6 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/shatavari-benefits-women.webp
 featured: false
 ---
+
+![Shatavari: The Ayurvedic Herb for Women's Health](/images/blog/posts/shatavari-benefits-women.webp)
 
 In the Ayurvedic tradition, **Shatavari** (*Asparagus racemosus*) is the premier herb for women's health. Its name translates roughly to "she who possesses a hundred husbands" — a reference to its nurturing, fertility-supporting qualities. It is the classical choice for the reproductive system, hormonal balance, lactation, and the transitions of a woman's life. Modern research has begun confirming several of these uses.
 

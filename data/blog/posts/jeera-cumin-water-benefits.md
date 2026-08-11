@@ -6,9 +6,11 @@ category: Nutrition
 authorId: dr-sharma
 date: 2026-01-07
 readTime: 6 min read
-image: /images/blog/nutrition.svg
+image: /images/blog/posts/jeera-cumin-water-benefits.webp
 featured: false
 ---
+
+![Jeera (Cumin) Water: The Simple Digestive Remedy Everyone Can Try](/images/blog/posts/jeera-cumin-water-benefits.webp)
 
 One of the most underrated items in the Indian kitchen is the humble **jeera** (cumin) seed. And its simplest preparation — **jeera water** — has been a quiet morning ritual in Indian households for generations. Modern research is now catching up to what the tradition always knew: cumin is a genuine digestive medicine, and cumin water is one of the most accessible wellness habits there is.
 

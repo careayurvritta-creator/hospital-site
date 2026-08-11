@@ -6,9 +6,11 @@ category: Lifestyle
 authorId: dr-sharma
 date: 2026-01-19
 readTime: 7 min read
-image: /images/blog/lifestyle.svg
+image: /images/blog/posts/dinacharya-daily-routine-ayurveda.webp
 featured: false
 ---
+
+![Dinacharya: The Ayurvedic Daily Routine That Changes Everything](/images/blog/posts/dinacharya-daily-routine-ayurveda.webp)
 
 In Ayurveda, there is a practice that outweighs all others in its power to create health: **Dinacharya** — the daily routine. The classical texts devote entire chapters to it, because Ayurveda's deepest insight is simple: **health is built daily, by small repeated actions.** A person who eats the right things occasionally but lives chaotically will not match a person who eats simply but lives rhythmically. The daily routine is the foundation on which all other healing stands.
 

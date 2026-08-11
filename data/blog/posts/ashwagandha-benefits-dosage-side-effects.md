@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-sharma
 date: 2026-02-03
 readTime: 7 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/ashwagandha-benefits-dosage-side-effects.webp
 featured: false
 ---
+
+![Ashwagandha: Benefits, Dosage, and What to Watch Out For](/images/blog/posts/ashwagandha-benefits-dosage-side-effects.webp)
 
 Ashwagandha (*Withania somnifera*) has become the face of Ayurveda in the global wellness world — and for good reason: it is one of the most studied adaptogenic herbs, with genuine evidence behind its use for stress, sleep, and stamina. But its popularity has also created a wave of casual, self-prescribed, often incorrect use. This guide gives you the evidence, the proper dose, and — just as important — the honest warnings. Ashwagandha is medicine, and it should be used like one.
 

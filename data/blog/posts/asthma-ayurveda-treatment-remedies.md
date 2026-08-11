@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-sharma
 date: 2026-03-05
 readTime: 7 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/asthma-ayurveda-treatment-remedies.webp
 featured: false
 ---
+
+![Asthma and Breathing Difficulty: Ayurvedic Ways to Open the Lungs](/images/blog/posts/asthma-ayurveda-treatment-remedies.webp)
 
 Asthma is one of the most common chronic conditions in children and adults — and one of the most frightening, because it directly threatens breath itself. In Ayurveda, asthma is classically known as **Tamaka Shwasa**: *tamaka* (darkness) + *shwasa* (breath) — capturing that suffocating, suffused feeling of an attack. It is understood as a **Kapha and Vata** disorder of the respiratory channels (*Prana vaha srotas*), where mucus (Kapha) blocks the airways and spasm (Vata) constricts them.
 

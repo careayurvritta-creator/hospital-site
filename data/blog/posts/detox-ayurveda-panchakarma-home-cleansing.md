@@ -6,9 +6,11 @@ category: Wellness
 authorId: dr-sharma
 date: 2026-04-01
 readTime: 7 min read
-image: /images/blog/wellness.svg
+image: /images/blog/posts/detox-ayurveda-panchakarma-home-cleansing.webp
 featured: false
 ---
+
+![Detox the Ayurvedic Way: Panchakarma and Gentle Home Cleansing](/images/blog/posts/detox-ayurveda-panchakarma-home-cleansing.webp)
 
 "Detox" has become a marketing buzzword — usually meaning an expensive juice cleanse that mostly depletes the body. Ayurveda's version of detox, **Panchakarma**, is the opposite: it is a systematic, physician-guided process that removes accumulated *Ama* (metabolic toxins) from the deep tissues, strengthens digestion, and restores balance. It is precise, staged, and individualized — not a one-size-fits-all fast.
 

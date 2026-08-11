@@ -6,9 +6,11 @@ category: Lifestyle
 authorId: dr-gor
 date: 2026-04-28
 readTime: 7 min read
-image: /images/blog/lifestyle.svg
+image: /images/blog/posts/hair-fall-ayurveda-treatment-diet.webp
 featured: false
 ---
+
+![Hair Fall: An Ayurvedic Plan for Thicker, Healthier Hair](/images/blog/posts/hair-fall-ayurveda-treatment-diet.webp)
 
 Hair is one of the first visible signals of inner health. When hair starts shedding heavily, it is rarely a "hair problem" — it is a body-wide message. In Ayurveda, hair health depends on nourished *Rasa*, *Rakta*, and *Asthi* (bone) tissue, and it is deeply connected to *Pitta* (which governs the hair follicle) and *Vata* (dryness and brittleness). Heavy shedding almost always has an underlying cause that needs identifying first.
 

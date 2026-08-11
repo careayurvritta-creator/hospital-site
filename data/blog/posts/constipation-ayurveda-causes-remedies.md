@@ -6,9 +6,11 @@ category: Ayurveda
 authorId: dr-sharma
 date: 2026-05-19
 readTime: 6 min read
-image: /images/blog/ayurveda.svg
+image: /images/blog/posts/constipation-ayurveda-causes-remedies.webp
 featured: false
 ---
+
+![Constipation: Causes, Remedies and Diet for Lasting Relief](/images/blog/posts/constipation-ayurveda-causes-remedies.webp)
 
 Constipation is one of the most common digestive complaints in modern clinics — and one of the most over-treated with laxatives. In Ayurveda, regular elimination is a cornerstone of health. The condition is understood primarily as a **Vata disturbance** in the lower abdomen, specifically of *Apana Vata* — the downward-moving energy responsible for elimination, menstruation, and childbirth.
 
