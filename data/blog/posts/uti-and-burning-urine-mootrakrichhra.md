@@ -18,7 +18,7 @@ Burning, frequency, and urgency are common symptoms of a Urinary Tract Infection
 
 In Ayurveda, **Mootrakrichhra** (burning urine) is often associated with an imbalance of the digestive fire, or **Agni**. When Agni is weak, it can lead to an accumulation of toxins, which can manifest as a UTI. One of the ways to cool the Agni and alleviate UTI symptoms is by using cooling diuretics. **Gokshura** and **Punarnava** are two herbs that are commonly used in Ayurvedic medicine to treat UTIs.
 
-- **Gokshura (Gloriosa Superba):** This herb has been used for centuries to treat kidney stones and urinary tract infections. It is a natural diuretic that helps to flush out toxins and reduce inflammation in the urinary tract.
+- **Gokshura (Tribulus terrestris):** This herb has been used for centuries to treat kidney stones and urinary tract infections. It is a natural diuretic that helps to flush out toxins and reduce inflammation in the urinary tract.
 - **Punarnava (Boerhavia Diffusa):** This herb is known for its ability to reduce inflammation and promote healing in the urinary tract. It is also a natural diuretic that helps to flush out toxins and prevent the formation of kidney stones.
 
 ## Hydration and Hygiene
