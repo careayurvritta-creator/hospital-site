@@ -71,3 +71,56 @@ describe('blog auto-poster (offline deterministic path)', () => {
     expect(body.split(/\s+/).filter(Boolean).length).toBeGreaterThanOrEqual(350);
   });
 });
+
+// Unit tests for heading normalization (validates the output cleanBody produces).
+// The normalizer lives inside the CLI script, so extract it from the source to
+// test the exact logic the pipeline uses.
+import { readFileSync } from 'node:fs';
+
+const AUTOPOST_PATH = resolve(__dirname, '..', 'tools', 'autopost.mjs');
+
+function normalizeHeadingsSource() {
+  const src = readFileSync(AUTOPOST_PATH, 'utf8');
+  const startIdx = src.indexOf('function normalizeHeadings(text) {');
+  if (startIdx === -1) throw new Error('normalizeHeadings not found in tools/autopost.mjs');
+  let depth = 0;
+  let endIdx = startIdx;
+  for (; endIdx < src.length; endIdx++) {
+    if (src[endIdx] === '{') depth++;
+    else if (src[endIdx] === '}') {
+      depth--;
+      if (depth === 0) { endIdx++; break; }
+    }
+  }
+  const fn = src.slice(startIdx, endIdx);
+  return new Function('text', `${fn}\nreturn normalizeHeadings(text);`);
+}
+
+describe('heading normalization', () => {
+  const normalize = normalizeHeadingsSource();
+
+  it('collapses H4+ headers to H3', () => {
+    const out = normalize('## Intro\n## A\n## B\n## C\n## D\n\n#### How to Use Gokshura\n### Next\n');
+    expect(out).toContain('### How to Use Gokshura');
+    expect(out).not.toContain('####');
+  });
+
+  it('strips bold-asterisk wrapping from headings', () => {
+    const out = normalize('## Intro\n## A\n## B\n## C\n## D\n\n## **The Ayurvedic Perspective**\n### **Another**\n');
+    expect(out).toContain('## The Ayurvedic Perspective');
+    expect(out).toContain('### Another');
+    expect(out).not.toContain('## **');
+  });
+
+  it('forces Who Should Use Care and The Bottom Line to ##', () => {
+    const out = normalize('### Who Should Use Care\n\n### **The Bottom Line**\n');
+    expect(out).toMatch(/^## Who Should Use Care$/m);
+    expect(out).toMatch(/^## The Bottom Line$/m);
+  });
+
+  it('promotes ### to ## until at least 5 top-level sections', () => {
+    const out = normalize('### A\n### B\n### C\n### D\n### E\n### F\n');
+    const h2 = (out.match(/^## /gm) || []).length;
+    expect(h2).toBeGreaterThanOrEqual(5);
+  });
+});

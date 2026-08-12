@@ -31,7 +31,7 @@
  *   AUTO_POST_NO_PUSH=1   commit but do not push
  */
 
-import { execSync } from 'node:child_process';
+import { execFileSync, execSync } from 'node:child_process';
 import {
   mkdirSync,
   readFileSync,
@@ -684,10 +684,24 @@ function cleanBody(raw, row, imagePath) {
 
 function normalizeHeadings(text) {
   const lines = text.split('\n');
+
+  // The 8B NIM model wraps heading text in **...** even though the site's
+  // renderer and every existing post use plain heading text. Strip emphasis
+  // markers that wrap a heading, and collapse deep H4+ subsections to ### so
+  // the output stays within the ## / ### shape used across all 58 posts.
+  for (let i = 0; i < lines.length; i++) {
+    const m = lines[i].match(/^(#{1,6})\s+(.+)$/);
+    if (!m) continue;
+    const level = Math.min(m[1].length, 3);
+    let title = m[2].trim();
+    title = title.replace(/^(\*\*|\*|__|_)+(?=\S)/, '').replace(/(\*\*|\*|__|_)+$/, '').trim();
+    lines[i] = `${'#'.repeat(level)} ${title}`;
+  }
+
   // The two required sections must always be ## regardless of what the model emitted.
   for (let i = 0; i < lines.length; i++) {
-    if (/^#{1,4}\s+who should use care\s*$/i.test(lines[i])) lines[i] = lines[i].replace(/^#+\s+/, '## ');
-    if (/^#{1,4}\s+the bottom line\s*$/i.test(lines[i])) lines[i] = lines[i].replace(/^#+\s+/, '## ');
+    if (/^#{1,3}\s+who should use care\s*$/i.test(lines[i])) lines[i] = lines[i].replace(/^#+\s+/, '## ');
+    if (/^#{1,3}\s+the bottom line\s*$/i.test(lines[i])) lines[i] = lines[i].replace(/^#+\s+/, '## ');
   }
   let h2 = 0;
   for (const l of lines) if (/^##\s+/.test(l)) h2++;
@@ -731,6 +745,8 @@ function validatePost({ slug, title, excerpt, category, authorId, date, readTime
   if (/^\s*\|/.test(body)) errors.push('table row present');
   if (/^\s*>/m.test(body)) errors.push('blockquote present');
   if (/\[[^\]]+\]\(https?:\/\/[^)]+\)/.test(body)) errors.push('external link present');
+  if (/(?:^|\n)#{4,}\s/.test(body)) errors.push('heading deeper than ### present');
+  if (/(?:^|\n)#{1,3}\s+[^*\s].*\*/.test(body)) errors.push('emphasis markers in heading present');
   if (/[^\\*]\*[^*\s]/.test(body) || /[^*\s]\*[^\\*]/.test(body)) errors.push('stray *italic* emphasis present');
   if (useImageFile && image && !image.startsWith('/images/blog/') && !existsSync(join(ROOT, 'public', image.replace(/^\//, '')))) {
     errors.push(`image file missing: ${image}`);
@@ -916,7 +932,7 @@ function appendLog(entry) {
 
 // ---------- git ----------
 function git(...args) {
-  execSync(`git ${args.join(' ')}`, { cwd: ROOT, stdio: ['ignore', 'inherit', 'inherit'] });
+  execFileSync('git', args, { cwd: ROOT, stdio: ['ignore', 'inherit', 'inherit'] });
 }
 
 function commitAndPush(files, message) {
