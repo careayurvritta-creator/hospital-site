@@ -35,3 +35,5 @@ dist/
 # Generated files
 *.pdf
 scripts/
+.vercel
+.env*

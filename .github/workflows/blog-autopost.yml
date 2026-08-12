@@ -1,0 +1,54 @@
+name: Blog Auto-Post
+
+on:
+  schedule:
+    # Twice a week: Monday and Thursday, 05:30 UTC (11:00 IST)
+    - cron: '30 5 * * 1,4'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: blog-autopost
+  cancel-in-progress: false
+
+jobs:
+  autopost:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run auto-poster
+        run: node tools/autopost.mjs --commit
+        env:
+          # AI generation goes through the site's deployed /api/nvidia proxy,
+          # which reads NVIDIA_API_KEY server-side in Vercel. No secret is
+          # exposed to CI. Falls back to the deterministic writer if the
+          # proxy or the model is unavailable.
+          AUTO_POST_COMMIT_NAME: github-actions[bot]
+          AUTO_POST_COMMIT_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+
+      - name: Commit any state changes
+        if: ${{ !cancelled() }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "auto-post(blog): sync autopost state"
+            git push
+          fi
