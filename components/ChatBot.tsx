@@ -11,6 +11,19 @@ interface Message {
   text: string;
 }
 
+/** Strip Markdown so the chat never shows raw ** or * symbols to patients. */
+function stripMarkdown(text: string): string {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '$1')            // bold
+    .replace(/__(.+?)__/g, '$1')                // bold (underscore)
+    .replace(/^\s*(#{1,6})\s+/gm, '')           // headings
+    .replace(/`([^`]+)`/g, '$1')                // inline code
+    .replace(/(?:^|\n)\s*[-*•]\s+/g, '\n• ')    // list markers -> bullets
+    .replace(/\*([^*\n]+)\*/g, '$1')            // italic
+    .replace(/\n{3,}/g, '\n\n')                 // collapse blank lines
+    .trim();
+}
+
 const ChatBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { language } = useLanguage();
@@ -138,11 +151,12 @@ You understand:
 - Basti: ₹500–₹1,500 (Matra Basti ₹500 · Kashaya/Anuvasana Basti ₹1,000–₹1,500)
 - Consultation: New ₹500 · Follow-up ₹300
 
-## RESPONSE STYLE
-- Keep responses concise (2-4 paragraphs max)
-- Use bullet points for lists
-- Include relevant Sanskrit terms with meanings
-- End with a helpful suggestion or call-to-action`;
+## RESPONSE STYLE (CRITICAL)
+1. First understand the query AND its sentiment — is the person anxious, worried, in pain, or just curious? Mirror that tone with genuine empathy before answering.
+2. Keep answers SHORT and to the point: 2-4 short sentences, never long paragraphs or essays.
+3. Reply in PLAIN TEXT ONLY — never use Markdown (no **, *, #, or - symbols).
+4. Give practical, clear guidance; explain only as much as needed.
+5. Always stay physician-guided and end by directing them to consult Dr. Jinendradutt Sharma for anything personal or further details (e.g. "For further details, please consult Dr. Jinendradutt Sharma at Ayurvritta — call +91 94266 84047."). Never diagnose.`;
 
         const newChat = await aiService.createChatSession(systemInstruction);
         
@@ -183,7 +197,7 @@ You understand:
       const prompt = `${userMessage} (Please reply in ${language === 'hi' ? 'Hindi' : language === 'gu' ? 'Gujarati' : 'English'})`;
       
       // Use unified AI service (Nvidia)
-      const fullText = await aiService.chat(chatSession, prompt);
+      const fullText = stripMarkdown(await aiService.chat(chatSession, prompt));
 
       setMessages(prev => [...prev, { role: 'model', text: fullText }]);
 
