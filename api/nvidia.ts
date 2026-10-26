@@ -25,12 +25,11 @@ export const config = {
 const NVIDIA_API_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
 const DEEPSEEK_API_URL = 'https://api.deepseek.com/chat/completions';
 
-// Nvidia fallback order — small/fast (non-reasoning) models first for low
-// latency; gpt-oss-20b is kept last as a reliable fallback.
+// Nvidia fallback order — small/fast models verified active on this key:
+// nemotron-3.5-bolt-e4b responds in ~1-2s; minimax-m3.1-flash is the backup.
 const DEFAULT_NVIDIA_MODELS = [
-  'mistralai/mistral-7b-instruct-v0.3',
-  'google/gemma-7b',
-  'openai/gpt-oss-20b',
+  'nvidia/nemotron-3.5-bolt-e4b',
+  'minimaxai/minimax-m3.1-flash',
 ];
 
 // Per-model budget. Keeps us under Vercel's ~30s edge limit across models.
