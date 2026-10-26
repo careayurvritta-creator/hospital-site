@@ -165,7 +165,7 @@ const Blog: React.FC = () => {
   };
 
   const shareArticle = async (sharePost: BlogPostWithAuthor) => {
-    const url = `${window.location.origin}${window.location.pathname}#/blog/${sharePost.slug}`;
+    const url = `${window.location.origin}/blog/${sharePost.slug}`;
     if (navigator.share) {
       try {
         await navigator.share({ title: sharePost.title, text: sharePost.excerpt, url });

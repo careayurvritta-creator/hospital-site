@@ -62,7 +62,7 @@ const MobileCTABar: React.FC<MobileCTABarProps> = ({
 
     const handleBooking = () => {
         trackEvent('conversion', 'booking_click', 'mobile_cta_bar');
-        window.location.href = '#/booking';
+        window.location.href = '/booking';
     };
 
     const handleDismiss = () => {

@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import SEOHead from './components/SEOHead';
 import Home from './pages/Home';
@@ -26,7 +26,7 @@ const PageLoader: React.FC = () => (
 
 const App: React.FC = () => {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <SEOHead />
       <Layout>
         <Suspense fallback={<PageLoader />}>
@@ -48,7 +48,7 @@ const App: React.FC = () => {
           </Routes>
         </Suspense>
       </Layout>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 

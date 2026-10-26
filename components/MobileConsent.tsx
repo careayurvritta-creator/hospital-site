@@ -200,7 +200,7 @@ const MobileConsent: React.FC = () => {
                     {/* Privacy Link */}
                     <div className="px-5 pb-4 pt-2 border-t border-gray-100">
                         <a
-                            href="#/privacy"
+                            href="/privacy"
                             className="text-xs text-gray-500 underline"
                         >
                             Privacy Policy

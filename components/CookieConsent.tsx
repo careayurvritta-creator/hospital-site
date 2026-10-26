@@ -198,7 +198,7 @@ const CookieConsent: React.FC<CookieConsentProps> = ({ onConsentChange }) => {
                     {/* Privacy Policy Link */}
                     <p className="text-center text-xs text-gray-500 mt-4">
                         Learn more in our{' '}
-                        <a href="#/privacy" className="text-[#0F3D3E] underline hover:no-underline">
+                        <a href="/privacy" className="text-[#0F3D3E] underline hover:no-underline">
                             Privacy Policy
                         </a>
                     </p>

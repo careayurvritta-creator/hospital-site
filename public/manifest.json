@@ -64,7 +64,7 @@
             "name": "Book Appointment",
             "short_name": "Book",
             "description": "Book your Ayurveda consultation",
-            "url": "/#/booking",
+            "url": "/booking",
             "icons": [
                 {
                     "src": "/icons/icon-96x96.png",
@@ -76,7 +76,7 @@
             "name": "Ayurveda Skin Care",
             "short_name": "Skin Care",
             "description": "Ayurvedic treatment for acne, eczema, psoriasis and other skin conditions",
-            "url": "/#/ayurveda-skin-care",
+            "url": "/ayurveda-skin-care",
             "icons": [
                 {
                     "src": "/icons/icon-96x96.png",
@@ -88,7 +88,7 @@
             "name": "Ayurveda Blog",
             "short_name": "Blog",
             "description": "Educational Ayurveda articles by our physicians",
-            "url": "/#/blog",
+            "url": "/blog",
             "icons": [
                 {
                     "src": "/icons/icon-96x96.png",

@@ -545,37 +545,37 @@ export const HOWTO_PANCHAKARMA_SCHEMA = {
             "@type": "HowToStep",
             "name": "Consultation & Assessment",
             "text": "Schedule a detailed consultation with our Ayurvedic physician. They will assess your Prakriti (body constitution), current health condition, and determine if Panchakarma is suitable for you.",
-            "url": "https://ayurvrittaayurveda.in/#/booking"
+            "url": "https://ayurvrittaayurveda.in/booking"
         },
         {
             "@type": "HowToStep",
             "name": "Pre-Treatment Preparation (Purvakarma)",
             "text": "Follow the prescribed diet and lifestyle modifications 5-7 days before treatment. This includes eating light, warm, easily digestible foods, avoiding cold drinks and raw foods, and maintaining regular sleep patterns.",
-            "url": "https://ayurvrittaayurveda.in/#/services/panchakarma"
+            "url": "https://ayurvrittaayurveda.in/services/panchakarma"
         },
         {
             "@type": "HowToStep",
             "name": "Oleation (Snehana)",
             "text": "Internal and external oleation is performed using medicated ghee and oils. This helps loosen toxins (Ama) from tissues and prepares them for elimination.",
-            "url": "https://ayurvrittaayurveda.in/#/services"
+            "url": "https://ayurvrittaayurveda.in/services"
         },
         {
             "@type": "HowToStep",
             "name": "Fomentation (Swedana)",
             "text": "Herbal steam therapy is administered to open channels (Srotas) and further loosen toxins. This is typically done for 3-7 days before main therapy.",
-            "url": "https://ayurvrittaayurveda.in/#/services/swedana"
+            "url": "https://ayurvrittaayurveda.in/services/swedana"
         },
         {
             "@type": "HowToStep",
             "name": "Main Panchakarma Therapy",
             "text": "Depending on your condition, the main therapy may include Vamana (therapeutic emesis), Virechana (purgation), Basti (medicated enema), Nasya (nasal therapy), or Raktamokshana (bloodletting).",
-            "url": "https://ayurvrittaayurveda.in/#/services/panchakarma"
+            "url": "https://ayurvrittaayurveda.in/services/panchakarma"
         },
         {
             "@type": "HowToStep",
             "name": "Post-Treatment Care (Paschatkarma)",
             "text": "Follow the prescribed diet and lifestyle regimen for 7-14 days after therapy. Gradually reintroduce regular foods, avoid heavy exercise, and maintain proper hydration.",
-            "url": "https://ayurvrittaayurveda.in/#/services"
+            "url": "https://ayurvrittaayurveda.in/services"
         }
     ],
     "totalTime": "P7D",
@@ -607,37 +607,37 @@ export const HOWTO_PRAKRITI_SCHEMA = {
             "@type": "HowToStep",
             "name": "Know Your Prakriti",
             "text": "Take our Prakriti assessment tool to understand your dominant dosha. This helps customize diet and lifestyle recommendations specific to your body type.",
-            "url": "https://ayurvrittaayurveda.in/#/tools"
+            "url": "https://ayurvrittaayurveda.in/tools"
         },
         {
             "@type": "HowToStep",
             "name": "Follow Dosha-Specific Diet",
             "text": "Vata types should favor warm, moist, oily foods. Pitta types should choose cooling, less spicy foods. Kapha types should opt for light, dry, less oily options.",
-            "url": "https://ayurvrittaayurveda.in/#/tools"
+            "url": "https://ayurvrittaayurveda.in/tools"
         },
         {
             "@type": "HowToStep",
             "name": "Maintain Daily Routine (Dinacharya)",
             "text": "Wake up before sunrise (Brahma Muhurta), practice meditation and yoga, eat meals at consistent times, and sleep by 10 PM for optimal dosha balance.",
-            "url": "https://ayurvrittaayurveda.in/#/programs"
+            "url": "https://ayurvrittaayurveda.in/programs"
         },
         {
             "@type": "HowToStep",
             "name": "Follow Seasonal Routine (Ritucharya)",
             "text": "Adjust your diet and lifestyle according to seasons. In summer, favor cooling foods; in monsoon, eat warm easy-to-digest foods; in winter, favor warm and oily foods.",
-            "url": "https://ayurvrittaayurveda.in/#/tools"
+            "url": "https://ayurvrittaayurveda.in/tools"
         },
         {
             "@type": "HowToStep",
             "name": "Practice Regular Exercise",
             "text": "Engage in appropriate physical activity based on your body type: gentle yoga and walking for Vata, moderate exercise for Pitta, and stimulating exercises for Kapha.",
-            "url": "https://ayurvrittaayurveda.in/#/programs"
+            "url": "https://ayurvrittaayurveda.in/programs"
         },
         {
             "@type": "HowToStep",
             "name": "Regular Detoxification",
             "text": "Consider annual Panchakarma or seasonal detoxification to prevent toxin accumulation (Ama) and maintain optimal health and immunity (Ojas).",
-            "url": "https://ayurvrittaayurveda.in/#/services/panchakarma"
+            "url": "https://ayurvrittaayurveda.in/services/panchakarma"
         }
     ],
     "image": "https://ayurvrittaayurveda.in/images/og-default.svg"
@@ -654,37 +654,37 @@ export const HOWTO_DIET_SCHEMA = {
             "@type": "HowToStep",
             "name": "Eat According to Your Digestive Fire (Agni)",
             "text": "Choose foods that match your digestive capacity. Eat your largest meal when Agni is strongest (usually midday), and have light meals in the morning and evening.",
-            "url": "https://ayurvrittaayurveda.in/#/tools"
+            "url": "https://ayurvrittaayurveda.in/tools"
         },
         {
             "@type": "HowToStep",
             "name": "Prefer Warm, Cooked Foods",
             "text": "Favor freshly cooked, warm meals over cold, raw foods. Warm foods are easier to digest and don't extinguish Agni. Avoid leftovers and processed foods.",
-            "url": "https://ayurvrittaayurveda.in/#/programs"
+            "url": "https://ayurvrittaayurveda.in/programs"
         },
         {
             "@type": "HowToStep",
             "name": "Eat in a Calm Environment",
             "text": "Eat mindfully without distractions. Sit down, chew thoroughly, and avoid eating when upset or rushed. This ensures proper digestion and nutrient absorption.",
-            "url": "https://ayurvrittaayurveda.in/#/about"
+            "url": "https://ayurvrittaayurveda.in/about"
         },
         {
             "@type": "HowToStep",
             "name": "Avoid Incompatible Food Combinations",
             "text": "Don't combine milk with sour fruits, fish with dairy, or cold foods with hot foods. Proper food combining prevents Ama formation and digestive issues.",
-            "url": "https://ayurvrittaayurveda.in/#/tools"
+            "url": "https://ayurvrittaayurveda.in/tools"
         },
         {
             "@type": "HowToStep",
             "name": "Stay Hydrated with Warm Water",
             "text": "Drink warm or room temperature water throughout the day. Avoid cold drinks with meals as they extinguish digestive fire. Sip warm water between meals.",
-            "url": "https://ayurvrittaayurveda.in/#/services"
+            "url": "https://ayurvrittaayurveda.in/services"
         },
         {
             "@type": "HowToStep",
             "name": "Eat According to Seasons",
             "text": "Choose fresh, locally grown, seasonal produce. Favor cooling foods in summer, warming foods in winter, and light foods during monsoon.",
-            "url": "https://ayurvrittaayurveda.in/#/tools"
+            "url": "https://ayurvrittaayurveda.in/tools"
         }
     ],
     "image": "https://ayurvrittaayurveda.in/images/og-default.svg"
