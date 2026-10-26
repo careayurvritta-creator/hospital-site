@@ -7,6 +7,12 @@
  *   calls without an Origin header still work, e.g. the blog auto-poster CI).
  * - Payload size and output tokens are capped.
  * - Upstream error details stay in server logs instead of leaking to clients.
+ *
+ * Reliability:
+ * - NVIDIA's free tier is intermittently slow and retires models (HTTP 410).
+ *   We try each candidate model in order and move to the next on timeout,
+ *   overload (429/5xx), retired (410), unknown (404) or not-enabled (403).
+ *   Set NVIDIA_MODEL in Vercel env to pin a specific model (e.g. DeepSeek).
  */
 
 export const config = {
@@ -15,15 +21,17 @@ export const config = {
 
 const NVIDIA_API_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
 
-// Hosted-model fallback order. NVIDIA retires hosted models over time
-// (e.g. meta/llama-3.1-8b-instruct reached end of life on 2026-08-26 and
-// now answers HTTP 410), so we move to the next candidate when a model is
-// retired (410), unknown (404) or not enabled for the key (403).
+// Order matters: first model is tried first. gpt-oss-20b is the most
+// reliable on NVIDIA's free tier (DeepSeek/Llama models frequently time out).
 const DEFAULT_MODELS = [
   'openai/gpt-oss-20b',
   'meta/llama-3.3-70b-instruct',
-  'mistralai/mistral-large-2-instruct',
 ];
+
+// Per-model budget. Two models x 12s keeps us under Vercel's ~30s edge limit.
+const MODEL_TIMEOUT_MS = 12000;
+
+const RETRYABLE_STATUS = [403, 404, 410, 429, 500, 502, 503, 504];
 
 const ALLOWED_ORIGIN_HOSTS = [
   'ayurvritta.com',
@@ -104,7 +112,7 @@ export default async function handler(request: Request) {
       MAX_OUTPUT_TOKENS
     );
 
-    // Try each candidate model until one is served (see DEFAULT_MODELS).
+    // Try each candidate model until one responds (see DEFAULT_MODELS).
     const candidates = [process.env.NVIDIA_MODEL, ...DEFAULT_MODELS].filter(
       (m, i, arr): m is string => Boolean(m) && arr.indexOf(m) === i
     );
@@ -112,7 +120,7 @@ export default async function handler(request: Request) {
     let response: Response | null = null;
     for (const model of candidates) {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 20000); // respond before Vercel's ~30s edge invocation limit
+      const timeoutId = setTimeout(() => controller.abort(), MODEL_TIMEOUT_MS);
       try {
         const upstream = await fetch(NVIDIA_API_URL, {
           method: 'POST',
@@ -124,11 +132,13 @@ export default async function handler(request: Request) {
           signal: controller.signal,
         });
         console.log('[Nvidia API] model', model, '-> status', upstream.status);
-        // 410 (retired) / 404 (unknown) / 403 (not enabled) -> try next model.
-        if (upstream.ok || ![403, 404, 410].includes(upstream.status)) {
+        if (upstream.ok || !RETRYABLE_STATUS.includes(upstream.status)) {
           response = upstream;
           break;
         }
+      } catch (error) {
+        // Timeout or network error on this model -> try the next one.
+        console.log('[Nvidia API] model', model, '->', error instanceof Error ? error.name : 'error');
       } finally {
         clearTimeout(timeoutId);
       }
@@ -153,13 +163,6 @@ export default async function handler(request: Request) {
     return jsonResponse(data, 200);
   } catch (error) {
     console.error('[Nvidia Proxy] Error:', error);
-
-    if (error instanceof Error && error.name === 'AbortError') {
-      return jsonResponse({
-        error: 'AI request timed out. Please try with a smaller document.'
-      }, 504);
-    }
-
     return jsonResponse({ error: 'Internal server error' }, 500);
   }
 }

@@ -159,12 +159,19 @@ You understand:
   }, [isOpen, language]);
 
   const handleSend = async () => {
-    if (!input.trim() || !chatSession) return;
+    if (!input.trim()) return;
 
     const userMessage = input;
     setInput('');
     setMessages(prev => [...prev, { role: 'user', text: userMessage }]);
     setIsLoading(true);
+
+    if (!chatSession) {
+      // Session still initializing - show a message instead of silently dropping.
+      setMessages(prev => [...prev, { role: 'model', text: "I'm still starting up — please try again in a few seconds." }]);
+      setIsLoading(false);
+      return;
+    }
 
     // Track user message with analytics
     chatBotAnalytics.trackUserMessage(userMessage);
