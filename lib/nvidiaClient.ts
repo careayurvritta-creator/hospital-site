@@ -33,7 +33,7 @@ export interface ChatMessage {
 
 const DEFAULT_MODELS = {
   nano: 'nvidia/llama-3.1-nemotron-nano-8b-v1',
-  instruct: 'meta/llama-3.1-8b-instruct',
+  instruct: 'openai/gpt-oss-20b',
   reasoning: 'deepseek-ai/deepseek-r1',
 } as const;
 

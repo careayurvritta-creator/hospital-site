@@ -25,7 +25,7 @@
  *                      When absent, AI writes go through the site's deployed
  *                      /api/nvidia proxy (which reads the key server-side in
  *                      Vercel), so the CI runner needs no secret.
- *   NVIDIA_MODEL     model id for the direct path, default meta/llama-3.1-8b-instruct
+ *   NVIDIA_MODEL     model id for the direct path, default openai/gpt-oss-20b
  *   AUTO_POST_NVIDIA_URL  override the proxy endpoint (default https://ayurvrittaayurveda.in/api/nvidia)
  *   AUTO_POST_NO_AI=1     skip AI entirely and use the deterministic fallback writer
  *   AUTO_POST_NO_PUSH=1   commit but do not push
@@ -466,7 +466,7 @@ function selectTopic(ctx, rows, log) {
 // Two paths:
 //   1. Direct: NVIDIA_API_KEY present -> call integrate.api.nvidia.com (OpenAI-compatible).
 //   2. Proxy: no key -> call the site's deployed /api/nvidia function, which reads the
-//      key server-side in Vercel. The proxy forces meta/llama-3.1-8b-instruct.
+//      key server-side in Vercel. The proxy forces openai/gpt-oss-20b.
 const NVIDIA_API_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
 const NVIDIA_PROXY_URL = process.env.AUTO_POST_NVIDIA_URL || 'https://ayurvrittaayurveda.in/api/nvidia';
 
@@ -547,7 +547,7 @@ async function callNvidia(prompt) {
     try {
       if (key) {
         // Direct path: OpenAI-compatible chat completions endpoint.
-        const model = process.env.NVIDIA_MODEL || 'meta/llama-3.1-8b-instruct';
+        const model = process.env.NVIDIA_MODEL || 'openai/gpt-oss-20b';
         res = await fetch(NVIDIA_API_URL, {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },

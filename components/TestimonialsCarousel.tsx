@@ -59,6 +59,110 @@ const TESTIMONIALS: Testimonial[] = [
         condition: "Panchakarma",
         rating: 5,
         text: "Truly outstanding Ayurvedic health care hospital in Vadodara... My treatment were absolutely magnificent and effective. I would highly recommend for panchkarma and other ayurvedic services at this hospital.",
+    },
+    {
+        id: 6,
+        name: "Shruti Singhvi",
+        location: "Google Review",
+        condition: "Nasya Therapy",
+        rating: 5,
+        text: "I visited Ayurvritta Clinic for severe chest congestion and constant coughing. After undergoing Nasya therapy, I felt some relief. The doctor was caring and attentive, and I really appreciate the treatment and guidance provided. …",
+    },
+    {
+        id: 7,
+        name: "Parveen Kumar",
+        location: "Google Review",
+        condition: "Panchakarma",
+        rating: 5,
+        text: "I had a very good experience at this Ayurvedic hospital for my neck and back pain. When I consulted Dr. Jinendra Dutt Sharma, he recommended Panchakarma. …",
+    },
+    {
+        id: 8,
+        name: "Zaid Hakim",
+        location: "Google Review",
+        condition: "General Care",
+        rating: 5,
+        text: "Best clinic",
+    },
+    {
+        id: 9,
+        name: "Parth Bhatt",
+        location: "Google Review",
+        condition: "Skin Care",
+        rating: 5,
+        text: "I had a skin problem and consulted Dr Jinendra Sharma for treatment. The doctor listened to my concerns carefully and explained everything clearly. With the prescribed treatment, my skin problem improved and resolved quickly. I'm very satisfied with the treatment and would definitely recommend Dr Jinendra Sharma to others.",
+    },
+    {
+        id: 10,
+        name: "Megh Joshi",
+        location: "Google Review",
+        condition: "Skin Care",
+        rating: 5,
+        text: "Doctor successfully brought respite to my chronic skin condition. After years of trying allopathic and other treatments without success, his Ayurvedic treatments gave results. Great experience",
+    },
+    {
+        id: 11,
+        name: "Ragini Mishra",
+        location: "Google Review",
+        condition: "General Consultation",
+        rating: 5,
+        text: "I'm truly grateful for the care and guidance I received from my Ayurvedic doctor. He took the time to understand my concerns, listened patiently, and provided thoughtful treatment and advice tailored to my needs. …",
+    },
+    {
+        id: 12,
+        name: "Zheel Parihar",
+        location: "Google Review",
+        condition: "General Consultation",
+        rating: 5,
+        text: "Really happy with my experience with the doctor. The consultation was comfortable and detailed, and the doctor took the time to understand my problem properly. The treatment was effective and I could see a good improvement. …",
+    },
+    {
+        id: 13,
+        name: "Sagar Jivani",
+        location: "Google Review",
+        condition: "General Care",
+        rating: 5,
+        text: "Very good Dr",
+    },
+    {
+        id: 14,
+        name: "Bhargav Kumar",
+        location: "Google Review",
+        condition: "Panchakarma",
+        rating: 5,
+        text: "I had a very good experience with Panchakarma treatment for sacroiliitis at Ayurvitta Ayurvedic Hospital under the treatment of Dr. Jinendra Sharma. Dr. Sharma is very knowledgeable, humble, and gives proper attention …",
+    },
+    {
+        id: 15,
+        name: "Harshita Sharma",
+        location: "Google Review",
+        condition: "Agnikarma (Knee Pain)",
+        rating: 5,
+        text: "I had been suffering from knee pain for many years and had tried different treatments but none of them brought relief. Recently, I underwent Ayurvedic treatment using Agnikarma by Dr jinendra and I was honestly surprised by the results. …",
+    },
+    {
+        id: 16,
+        name: "Alpa Gohil",
+        location: "Google Review",
+        condition: "Osteoarthritis Care",
+        rating: 5,
+        text: "The Doctor is so kind and helpful, I was helped for my pain issues because of osteoarthritis, and I am very relieved",
+    },
+    {
+        id: 17,
+        name: "Dhrumil Pandya",
+        location: "Google Review",
+        condition: "Skin Care",
+        rating: 5,
+        text: "We consulted Dr. Jinendra Dutt for my mother's Katibha Kushtam, and we are incredibly grateful for the results. His diagnosis and treatment plan were spot on. My mother has found immense relief under his care. He is a highly skilled and …",
+    },
+    {
+        id: 18,
+        name: "Manohar Kumar",
+        location: "Google Review",
+        condition: "General Care",
+        rating: 5,
+        text: "Service is nice. I m feeling good afternoon treatment.",
     }
 ];
 
@@ -71,18 +175,8 @@ const TestimonialsCarousel: React.FC = () => {
     const [direction, setDirection] = useState<'left' | 'right'>('right');
     const observer = useIntersectionObserver({ threshold: 0.3, triggerOnce: false });
     const progressInterval = useRef<number | null>(null);
+    const autoplayResumeRef = useRef<number | null>(null);
     const sectionRef = useRef<HTMLElement>(null);
-
-    // Auto-scroll to reviews when section becomes visible
-    useEffect(() => {
-        if (observer.isVisible && sectionRef.current) {
-            const offset = sectionRef.current.getBoundingClientRect().top + window.scrollY - 100;
-            window.scrollTo({
-                top: offset,
-                behavior: 'smooth'
-            });
-        }
-    }, [observer.isVisible]);
 
     useEffect(() => {
         if (!isAutoPlaying || !observer.isVisible || isHovered) return;
@@ -117,8 +211,14 @@ const TestimonialsCarousel: React.FC = () => {
         setCurrentIndex(index);
         setProgress(0);
         setIsAutoPlaying(false);
-        setTimeout(() => setIsAutoPlaying(true), 8000);
+        if (autoplayResumeRef.current) clearTimeout(autoplayResumeRef.current);
+        autoplayResumeRef.current = window.setTimeout(() => setIsAutoPlaying(true), 8000);
     };
+
+    // Clear the pending autoplay-resume timer on unmount
+    useEffect(() => () => {
+        if (autoplayResumeRef.current) clearTimeout(autoplayResumeRef.current);
+    }, []);
 
     const nextSlide = () => {
         setDirection('right');

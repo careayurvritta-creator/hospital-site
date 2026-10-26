@@ -15,6 +15,16 @@ export const config = {
 
 const NVIDIA_API_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
 
+// Hosted-model fallback order. NVIDIA retires hosted models over time
+// (e.g. meta/llama-3.1-8b-instruct reached end of life on 2026-08-26 and
+// now answers HTTP 410), so we move to the next candidate when a model is
+// retired (410), unknown (404) or not enabled for the key (403).
+const DEFAULT_MODELS = [
+  'openai/gpt-oss-20b',
+  'meta/llama-3.3-70b-instruct',
+  'mistralai/mistral-large-2-instruct',
+];
+
 const ALLOWED_ORIGIN_HOSTS = [
   'ayurvritta.com',
   'www.ayurvritta.com',
@@ -88,31 +98,47 @@ export default async function handler(request: Request) {
       return jsonResponse({ error: 'Request too large' }, 413);
     }
 
-    // Use a single, fast model - no fallback loop
-    const model = 'meta/llama-3.1-8b-instruct';
     const requestedTokens = Number(body.max_tokens);
     const maxTokens = Math.min(
       Number.isFinite(requestedTokens) && requestedTokens > 0 ? requestedTokens : 1024,
       MAX_OUTPUT_TOKENS
     );
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => {
-      console.log('[Nvidia API] Request timeout');
-      controller.abort();
-    }, 25000); // 25 second timeout (Vercel pro tier limit is 30s)
+    // Try each candidate model until one is served (see DEFAULT_MODELS).
+    const candidates = [process.env.NVIDIA_MODEL, ...DEFAULT_MODELS].filter(
+      (m, i, arr): m is string => Boolean(m) && arr.indexOf(m) === i
+    );
 
-    const response = await fetch(NVIDIA_API_URL, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ ...body, model, max_tokens: maxTokens }),
-      signal: controller.signal,
-    });
+    let response: Response | null = null;
+    for (const model of candidates) {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 25000); // 25s (Vercel pro tier limit is 30s)
+      try {
+        const upstream = await fetch(NVIDIA_API_URL, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ...body, model, max_tokens: maxTokens }),
+          signal: controller.signal,
+        });
+        console.log('[Nvidia API] model', model, '-> status', upstream.status);
+        // 410 (retired) / 404 (unknown) / 403 (not enabled) -> try next model.
+        if (upstream.ok || ![403, 404, 410].includes(upstream.status)) {
+          response = upstream;
+          break;
+        }
+      } finally {
+        clearTimeout(timeoutId);
+      }
+    }
 
-    clearTimeout(timeoutId);
+    if (!response) {
+      console.error('[Nvidia API] All candidate models unavailable');
+      return jsonResponse({ error: 'AI service temporarily unavailable' }, 502);
+    }
+
     console.log('[Nvidia API] Response status:', response.status);
 
     if (!response.ok) {
