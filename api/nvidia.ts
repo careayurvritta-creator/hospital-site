@@ -28,8 +28,8 @@ const DEEPSEEK_API_URL = 'https://api.deepseek.com/chat/completions';
 // Nvidia fallback order — small/fast (non-reasoning) models first for low
 // latency; gpt-oss-20b is kept last as a reliable fallback.
 const DEFAULT_NVIDIA_MODELS = [
-  'nvidia/llama-3.1-nemotron-nano-8b-v1',
-  'meta/llama-3.2-3b-instruct',
+  'mistralai/mistral-7b-instruct-v0.3',
+  'google/gemma-7b',
   'openai/gpt-oss-20b',
 ];
 

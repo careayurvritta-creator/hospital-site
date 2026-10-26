@@ -121,10 +121,10 @@ const About: React.FC = () => {
             textColor: "text-orange-700",
             verifiedColor: "text-orange-700",
             details: [
-                { label: "Reg Number", value: "GUJVAD202501108PR" },
-                { label: "Valid Upto", value: "28/03/2026", isValid: true }
+                { label: "Reg Number", value: "GUJVAD202600488" },
+                { label: "Valid Upto", value: "11/10/2031", isValid: true }
             ],
-            verified: "Provisional Registration Approved"
+            verified: "Permanent Registration"
         }
     ];
 

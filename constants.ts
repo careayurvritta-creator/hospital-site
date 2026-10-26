@@ -92,43 +92,43 @@ export const SERVICES: Service[] = [
     subServices: [
       {
         name: 'Abhyanga (Full body)',
-        price: 1300,
+        price: 1600,
         description: 'Synchronized full-body massage using warm medicated oils. Improves circulation, relieves fatigue, and promotes sound sleep.',
         image: '/images/services/abhyanga-full.jpg'
       },
       {
         name: 'Sthanik Abhyanga (Local)',
-        price: 600,
+        price: 400,
         description: 'Localized oil application for specific pain points like shoulders or legs. Reduces localized stiffness and inflammation.',
         image: '/images/services/abhyanga-local.jpg'
       },
       {
         name: 'Moordha Taila',
-        price: 500,
+        price: 400,
         description: 'Oil application on the head. Calms the mind, improves vision, and strengthens hair roots.',
         image: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
       },
       {
         name: 'Greeva Vasti (Neck)',
-        price: 1000,
+        price: 1200,
         description: 'Pooling warm oil on the back of the neck. Specific therapy for Cervical Spondylosis, neck pain, and stiffness.',
         image: '/images/services/abhyanga-neck.webp'
       },
       {
         name: 'Janu Vasti (Single Knee)',
-        price: 1000,
+        price: 1200,
         description: 'Pooling warm oil over the knee joint. Highly effective for Osteoarthritis, ligament injuries, and knee pain.',
         image: '/images/services/abhyanga-knee.png'
       },
       {
         name: 'Kati Vasti (Lower Back)',
-        price: 1000,
+        price: 1200,
         description: 'Oil retention therapy on the lower back. Best for Lumbar Spondylosis, Sciatica, and chronic backache.',
         image: '/images/services/abhyanga-back.webp'
       },
       {
         name: 'Uro Vasti (Chest/Heart)',
-        price: 1000,
+        price: 1600,
         description: 'Pooling warm oil over the chest region. strengthens heart muscles and helps in respiratory conditions.',
         image: '/images/services/abhyanga-chest.jpg'
       },
@@ -140,13 +140,13 @@ export const SERVICES: Service[] = [
       },
       {
         name: 'Siro Vasti',
-        price: 1200,
+        price: 1400,
         description: 'Retaining oil on the head using a cap. Intense therapy for facial paralysis, migraines, and neurological disorders.',
         image: '/images/services/abhyanga-shirobasti.webp'
       },
       {
         name: 'Shirolepa / Thalapothichil',
-        price: 1500,
+        price: 1600,
         description: 'Herbal paste application on the head. Excellent for insomnia, hypertension, stress, and cooling the head.',
         image: '/images/services/abhyanga-lepa.webp'
       }
@@ -169,7 +169,7 @@ export const SERVICES: Service[] = [
     subServices: [
       {
         name: 'Nadi Sweda',
-        price: 1000,
+        price: 800,
         description: 'Directed steam via a tube to specific body parts. targets localized pain, stiffness, and frozen shoulder.',
         image: '/images/services/swedana-nadi.webp'
       },
@@ -181,13 +181,13 @@ export const SERVICES: Service[] = [
       },
       {
         name: 'Patra Pinda Sweda / Podikkizhi',
-        price: 1500,
+        price: 1700,
         description: 'Massage with heated herbal leaf bundles. Best for Rheumatoid Arthritis, sciatica, and Vata disorders.',
         image: '/images/services/swedana-leaf.webp'
       },
       {
         name: 'Sthanika Patra Pinda Sweda',
-        price: 700,
+        price: 1000,
         description: 'Localized leaf bundle massage. Relieves pain in specific joints or muscular regions.',
         image: '/images/services/swedana-leaf-local.webp'
       },
@@ -199,7 +199,7 @@ export const SERVICES: Service[] = [
       },
       {
         name: 'Sthanika Dhanyamla Pinda Sweda',
-        price: 900,
+        price: 1000,
         description: 'Localized grain bundle therapy. Focused relief for swollen or painful joints.',
         image: '/images/services/swedana-dhanya-local.webp'
       },
@@ -211,43 +211,43 @@ export const SERVICES: Service[] = [
       },
       {
         name: 'Jambeera Pinda Sweda',
-        price: 1500,
+        price: 1700,
         description: 'Bolus massage using lemons and herbs. Helps in frozen shoulder and traumatic injuries.',
         image: '/images/services/swedana-lemon.webp'
       },
       {
         name: 'Sthanika Jambeera Pinda Sweda',
-        price: 900,
+        price: 1000,
         description: 'Localized lemon bolus therapy. Rapid relief for acute stiffness and muscle catches.',
         image: '/images/services/swedana-lemon-local.webp'
       },
       {
         name: 'Shashtika Pinda Sweda',
-        price: 2000,
+        price: 1900,
         description: 'Rice cooked in medicated milk massage. Nourishing therapy for muscle wasting and weakness.',
         image: '/images/services/swedana-rice.jpg'
       },
       {
         name: 'Sthanika Shashtika Pinda Sweda',
-        price: 1250,
+        price: 1100,
         description: 'Localized nourishing rice massage. Strengthens weak limbs or joints post-injury.',
         image: '/images/services/swedana-rice-local.jpg'
       },
       {
         name: 'Valuka Sweda / Manal Kizhi',
-        price: 1200,
+        price: 1500,
         description: 'Hot sand bag therapy. Excellent for reducing swelling and stiffness in Rheumatoid Arthritis.',
         image: '/images/services/swedana-sand.webp'
       },
       {
         name: 'Sthanika Valuka Sweda',
-        price: 800,
+        price: 900,
         description: 'Localized sand bag fomentation. Targets specific swollen joints to reduce fluid accumulation.',
         image: '/images/services/swedana-sand-local.webp'
       },
       {
         name: 'Upanaha / Upanaha Sweda',
-        price: 700,
+        price: 800,
         description: 'Warm herbal poultice bandaging. Relieves chronic joint pain and swelling overnight.',
         image: '/images/services/swedana-poultice.jpg'
       }
@@ -270,25 +270,25 @@ export const SERVICES: Service[] = [
     subServices: [
       {
         name: 'Shirodhara (Oil)',
-        price: 1500,
+        price: 2000,
         description: 'Rhythmic pouring of warm oil on the forehead. The ultimate therapy for stress, anxiety, and sleep disorders.',
         image: '/images/services/dhara-shiro.png'
       },
       {
         name: 'Kashaya Dhara (Whole Body)',
-        price: 1800,
+        price: 1500,
         description: 'Pouring of herbal decoctions over the body. Treats skin diseases, eczema, and psoriasis.',
         image: '/images/services/dhara-kashaya.png'
       },
       {
         name: 'Sthanika Kashaya Dhara',
-        price: 1000,
+        price: 900,
         description: 'Localized decoction pouring. Heals wounds, skin rashes, and localized inflammation.',
         image: '/images/services/dhara-local.png'
       },
       {
         name: 'Ksheera Dhara',
-        price: 1500,
+        price: 1600,
         description: 'Pouring of medicated milk. Cooling therapy for anxiety, headaches, and Pitta imbalance.',
         image: '/images/services/dhara-milk.png'
       },
@@ -300,7 +300,7 @@ export const SERVICES: Service[] = [
       },
       {
         name: 'Takradhara',
-        price: 1500,
+        price: 1600,
         description: 'Pouring of medicated buttermilk on forehead. Excellent for psoriasis, insomnia, and greying hair.',
         image: '/images/services/dhara-buttermilk.png'
       }
@@ -323,19 +323,19 @@ export const SERVICES: Service[] = [
     subServices: [
       {
         name: 'Snehapana (Ghee Days)',
-        price: 700,
+        price: 600,
         description: 'Oral consumption of medicated ghee. Lubricates channels and loosens deep-seated toxins.',
         image: '/images/services/pk-ghee.png'
       },
       {
         name: 'Vamana (Emesis)',
-        price: 5000,
+        price: 1100,
         description: 'Therapeutic vomiting. Clears Kapha toxins; treats asthma, allergies, and skin disorders.',
         image: '/images/services/pk-vamana.png'
       },
       {
         name: 'Virechana (Purgation)',
-        price: 3000,
+        price: 500,
         description: 'Therapeutic purgation. Expels Pitta toxins; best for liver, skin, and digestion issues.',
         image: '/images/services/pk-virechan.png'
       },
@@ -364,7 +364,7 @@ export const SERVICES: Service[] = [
     subServices: [
       {
         name: 'Nirooha Basti',
-        price: 1200,
+        price: 1500,
         description: 'Decoction enema. Cleanses the colon, eliminates toxins, and treats arthritis/neuropathy.',
         image: '/images/services/basti-nirooh.png'
       },
@@ -417,7 +417,7 @@ export const SERVICES: Service[] = [
       },
       {
         name: 'Putapaka',
-        price: 1000,
+        price: 1200,
         description: 'Application of herbal juice to eyes. Similar to Tarpana but restores strength to eyes.',
         image: '/images/services/netra-putapaka.png'
       },
@@ -452,7 +452,7 @@ export const SERVICES: Service[] = [
     subServices: [
       {
         name: 'Nasya',
-        price: 700,
+        price: 900,
         description: 'Nasal drops administration. Clears sinuses, treats migraines, and improves brain function.',
         image: '/images/services/nasya-drops.png'
       },
@@ -476,7 +476,7 @@ export const SERVICES: Service[] = [
       },
       {
         name: 'Eshana',
-        price: 700,
+        price: 800,
         description: 'Probing therapy for sinus. Specialized technique for chronic sinusitis drainage.',
         image: '/images/services/nasya-eshana.png'
       }
@@ -499,13 +499,13 @@ export const SERVICES: Service[] = [
     subServices: [
       {
         name: 'Kabala',
-        price: 390,
+        price: 600,
         description: 'Gargling with medicated liquids. Strengthens gums and relieves throat pain.',
         image: '/images/services/oral-gargle.png'
       },
       {
         name: 'Gandoosha (Oil Pulling)',
-        price: 450,
+        price: 600,
         description: 'Holding liquid in the mouth. Improves taste perception and strengthens teeth.',
         image: '/images/services/oral-holding.png'
       },
@@ -533,13 +533,13 @@ export const SERVICES: Service[] = [
     subServices: [
       {
         name: 'Siravyadha / Rakta Moksha',
-        price: 1000,
+        price: 900,
         description: 'Therapeutic venesection. Rapidly reduces high blood pressure and blood impurities.',
         image: '/images/services/rakta-siravyadhh.png'
       },
       {
         name: 'Prachanna',
-        price: 700,
+        price: 800,
         description: 'Superficial skin pricking. Drains localized blood congestion in eczema/alopecia.',
         image: '/images/services/rakta-prick.png'
       },
@@ -574,7 +574,7 @@ export const SERVICES: Service[] = [
     subServices: [
       {
         name: 'Yoni Prakshalana',
-        price: 500,
+        price: 700,
         description: 'Vaginal douche with herbal decoctions. Treats infections, white discharge, and odors.',
         image: '/images/services/women-wash.png'
       },
@@ -602,7 +602,7 @@ export const SERVICES: Service[] = [
     subServices: [
       {
         name: 'Anchana (Traction)',
-        price: 500,
+        price: 700,
         description: 'Manual or mechanical traction. Relieves spinal compression and muscle spasm.',
         image: '/images/services/others-traction.png'
       },
@@ -614,13 +614,13 @@ export const SERVICES: Service[] = [
       },
       {
         name: 'Karnapoorana (Ear)',
-        price: 700,
+        price: 500,
         description: 'Filling ears with oil. Prevents earwax, improves hearing, and treats tinnitus.',
         image: '/images/services/nasya-ear.png'
       },
       {
         name: 'Lekhana',
-        price: 700,
+        price: 800,
         description: 'Scraping therapy. Removes excess tissue or fat from specific areas.',
         image: '/images/services/rakta-scrapping.png'
       },

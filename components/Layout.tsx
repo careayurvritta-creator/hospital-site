@@ -501,7 +501,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </div>
 
           <div className="border-t border-white/10 mt-12 pt-8 text-center text-xs opacity-60 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p>&copy; {new Date().getFullYear()} Ayurvritta Ayurveda Hospital.<br />Gujarat Clinical Est. Reg. No. GUJVAD202501108PR</p>
+            <p>&copy; {new Date().getFullYear()} Ayurvritta Ayurveda Hospital.<br />Gujarat Clinical Est. Reg. No. GUJVAD202600488</p>
             <div className="space-x-6">
               <NavLink to="/privacy" className={() => "hover:text-white transition-colors"}>Privacy</NavLink>
               <NavLink to="/terms" className={() => "hover:text-white transition-colors"}>Terms</NavLink>

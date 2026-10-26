@@ -162,8 +162,8 @@ export const HOSPITAL_SCHEMA = {
     "identifier": {
         "@type": "PropertyValue",
         "propertyID": "Gujarat Clinical Establishments Registration",
-        "value": "GUJVAD202501108PR",
-        "description": "Provisional registration under the Gujarat Clinical Establishments (Registration and Regulation) Act, 2021"
+        "value": "GUJVAD202600488",
+        "description": "Permanent registration under the Gujarat Clinical Establishments (Registration and Regulation) Act, 2021"
     },
     "currenciesAccepted": "INR",
     "paymentAccepted": "Cash, Credit Card, UPI, Insurance",
