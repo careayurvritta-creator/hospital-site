@@ -220,6 +220,27 @@ const Blog: React.FC = () => {
     return Array.from(map.entries());
   }, []);
 
+  // ======================== NOT FOUND (unknown /blog/:slug) ========================
+  if (slug && !post) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center px-4 pt-28 pb-16 bg-gradient-to-br from-ayur-cream via-white to-ayur-green/5">
+        <div className="max-w-md text-center">
+          <BookOpen className="w-12 h-12 mx-auto text-ayur-green/40 mb-6" />
+          <h1 className="font-serif text-3xl font-bold text-ayur-green mb-4">Article not found</h1>
+          <p className="text-ayur-gray mb-8">
+            The article you are looking for does not exist or may have been moved. Browse our latest Ayurveda articles instead.
+          </p>
+          <button
+            onClick={() => navigate('/blog')}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-ayur-green text-white font-semibold rounded-full hover:bg-ayur-green-dark transition-colors"
+          >
+            <ArrowLeft size={18} /> Back to all articles
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   // ======================== ARTICLE VIEW ========================
   if (post) {
     return (
@@ -341,13 +362,13 @@ const Blog: React.FC = () => {
               <div className="text-center md:text-left flex-1">
                 <h3 className="text-xl font-bold text-ayur-text mb-1">{post.author.name}</h3>
                 <p className="text-sm text-ayur-green font-semibold mb-1">{post.author.credentials}</p>
-                <p className="text-ayur-gray mb-3">{post.author.role} ΓÇó Ayurvritta Ayurveda Hospital ΓÇó Reg. {post.author.regNumber}</p>
+                <p className="text-ayur-gray mb-3">{post.author.role} • Ayurvritta Ayurveda Hospital • Reg. {post.author.regNumber}</p>
                 <p className="text-ayur-gray text-sm mb-4">{post.author.bio}</p>
                 <button
                   onClick={() => navigate('/blog', { state: { author: post.authorId } })}
                   className="text-ayur-green font-semibold hover:text-ayur-accent transition-colors"
                 >
-                  View All Articles ΓåÆ
+                  View All Articles →
                 </button>
               </div>
             </div>
@@ -382,7 +403,7 @@ const Blog: React.FC = () => {
               </div>
             )) : (
               <div className="md:col-span-3 text-center text-ayur-gray py-8">
-                No other articles yet ΓÇö check back soon.
+                No other articles yet — check back soon.
               </div>
             )}
           </div>

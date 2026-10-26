@@ -19,28 +19,26 @@ const Booking: React.FC = () => {
   const formObserver = useIntersectionObserver({ threshold: 0.1, rootMargin: '-50px' });
   const locationObserver = useIntersectionObserver({ threshold: 0.2, rootMargin: '-50px' });
 
+  const buildWhatsAppUrl = () => {
+    const whatsappMessage = `Hi Dr. Sharma, I would like to book an appointment.\n\nName: ${formData.name}\nPhone: ${formData.phone}\nConcern: ${formData.concern}\nDate: ${formData.date || 'Flexible'}\nTime: ${formData.time || 'Flexible'}\n\nAdditional: ${formData.message}`;
+    return `https://wa.me/919426684047?text=${encodeURIComponent(whatsappMessage)}`;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setTimeout(() => {
-      setSubmitted(true);
-      window.scrollTo(0, 0);
-    }, 1000);
+    // No backend stores bookings: send the request through WhatsApp so it
+    // actually reaches the hospital, then show the confirmation screen.
+    window.open(buildWhatsAppUrl(), '_blank', 'noopener,noreferrer');
+    setSubmitted(true);
+    window.scrollTo(0, 0);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleVoiceNote = (text: string) => {
-    setFormData(prev => ({
-      ...prev,
-      message: prev.message ? prev.message + " " + text : text
-    }));
-  };
-
   if (submitted) {
-    const whatsappMessage = `Hi Dr. Sharma, I would like to confirm my appointment.\n\nName: ${formData.name}\nPhone: ${formData.phone}\nConcern: ${formData.concern}\nDate: ${formData.date}\nTime: ${formData.time || 'Flexible'}\n\nAdditional: ${formData.message}`;
-    const whatsappUrl = `https://wa.me/919426684047?text=${encodeURIComponent(whatsappMessage)}`;
+    const whatsappUrl = buildWhatsAppUrl();
 
     return (
       <div className="min-h-screen bg-gradient-to-b from-ayur-cream via-white to-ayur-cream/30 flex items-center justify-center px-4 pt-20 pb-10">
@@ -54,10 +52,10 @@ const Booking: React.FC = () => {
               <Check size={48} strokeWidth={3} className="text-white" />
             </div>
             
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-ayur-green mb-4">Request Received!</h2>
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-ayur-green mb-4">Confirm on WhatsApp</h2>
             <p className="text-ayur-gray mb-8 text-lg leading-relaxed">
               Thank you, <strong className="text-ayur-green">{formData.name}</strong>.<br />
-              To speed up confirmation, you can send these details directly to our WhatsApp.
+              We have opened WhatsApp with your appointment details pre-filled — press send there to confirm your booking. If it did not open, use the button below.
             </p>
 
             <div className="flex flex-col gap-4">
@@ -234,6 +232,8 @@ const Booking: React.FC = () => {
                 placeholder="+91 98765 43210"
                 autoComplete="tel"
                 inputMode="tel"
+                pattern="[0-9+()\s-]{10,18}"
+                title="Enter a valid phone number (10-15 digits)"
               />
             </div>
           </div>
@@ -288,18 +288,14 @@ const Booking: React.FC = () => {
                 value={formData.date}
                 onChange={handleChange}
                 className={`${inputStyle} cursor-pointer`}
+                min={new Date().toISOString().split('T')[0]}
               />
             </div>
           </div>
 
           {/* Message with Voice Input */}
           <div className={`space-y-2 ${formObserver.isVisible ? 'animate-fadeInUp' : ''}`} style={{ animationDelay: '250ms' }}>
-            <label className="block text-sm font-bold text-ayur-gray ml-1 flex justify-between">
-              Additional Notes
-              <span className="text-xs text-ayur-accent font-normal flex items-center gap-1">
-                <Sparkles size={12} /> Tap mic to speak
-              </span>
-            </label>
+            <label className="block text-sm font-bold text-ayur-gray ml-1">Additional Notes</label>
             <div className="relative">
               <textarea
                 name="message"
@@ -309,13 +305,6 @@ const Booking: React.FC = () => {
                 className={`${inputStyle} pr-14`}
                 placeholder="Briefly describe your symptoms..."
               ></textarea>
-              <button
-                type="button"
-                className="absolute bottom-3 right-3 w-10 h-10 bg-ayur-green/10 hover:bg-ayur-green/20 rounded-xl flex items-center justify-center transition-colors"
-                title="Voice input"
-              >
-                <Sparkles size={18} className="text-ayur-green" />
-              </button>
             </div>
           </div>
 

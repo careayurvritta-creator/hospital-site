@@ -1,11 +1,15 @@
 /**
  * Service Worker for Ayurvritta PWA
  * Provides offline support, caching, and push notifications
+ *
+ * Bump the cache version (-v3, -v4, ...) on every deploy that changes the
+ * app shell so returning users never run stale code.
  */
 
-const CACHE_NAME = 'ayurvritta-v2';
-const STATIC_CACHE = 'ayurvritta-static-v2';
-const DYNAMIC_CACHE = 'ayurvritta-dynamic-v2';
+const CACHE_NAME = 'ayurvritta-v3';
+const STATIC_CACHE = 'ayurvritta-static-v3';
+const DYNAMIC_CACHE = 'ayurvritta-dynamic-v3';
+const MAX_DYNAMIC_ENTRIES = 60; // hashed /assets accumulate across deploys; keep bounded
 
 // Assets to cache immediately
 const STATIC_ASSETS = [
@@ -46,6 +50,22 @@ self.addEventListener('activate', (event) => {
     );
 });
 
+// Keep the dynamic cache bounded (oldest entries are evicted first)
+async function trimDynamicCache() {
+    const cache = await caches.open(DYNAMIC_CACHE);
+    const keys = await cache.keys();
+    if (keys.length > MAX_DYNAMIC_ENTRIES) {
+        const excess = keys.slice(0, keys.length - MAX_DYNAMIC_ENTRIES);
+        await Promise.all(excess.map((key) => cache.delete(key)));
+    }
+}
+
+async function putInDynamicCache(request, response) {
+    const cache = await caches.open(DYNAMIC_CACHE);
+    await cache.put(request, response);
+    await trimDynamicCache();
+}
+
 // Fetch event - network first for images, cache-first for everything else
 self.addEventListener('fetch', (event) => {
     const { request } = event;
@@ -82,17 +102,22 @@ self.addEventListener('fetch', (event) => {
                     // Cache successful responses
                     if (response.ok) {
                         const responseClone = response.clone();
-                        caches.open(DYNAMIC_CACHE)
-                            .then((cache) => cache.put(request, responseClone));
+                        putInDynamicCache(request, responseClone).catch(() => {});
                     }
                     return response;
                 })
-                .catch(() => caches.match('/offline.html'))
+                .catch(() =>
+                    // Offline: serve the cached app shell when available,
+                    // otherwise the dedicated offline page.
+                    caches.match('/index.html')
+                        .then((cached) => cached || caches.match('/offline.html'))
+                )
         );
         return;
     }
 
-    // For scripts/css, try cache first then network
+    // For scripts/css, try cache first then network.
+    // Vite emits content-hashed /assets filenames, so cached entries stay valid.
     event.respondWith(
         caches.match(request)
             .then((cachedResponse) => {
@@ -101,27 +126,13 @@ self.addEventListener('fetch', (event) => {
                 return fetch(request).then((networkResponse) => {
                     if (networkResponse.ok) {
                         const responseClone = networkResponse.clone();
-                        caches.open(DYNAMIC_CACHE)
-                            .then((cache) => cache.put(request, responseClone));
+                        putInDynamicCache(request, responseClone).catch(() => {});
                     }
                     return networkResponse;
                 });
             })
     );
 });
-
-// Update cache in background
-async function updateCache(request) {
-    try {
-        const response = await fetch(request);
-        if (response.ok) {
-            const cache = await caches.open(DYNAMIC_CACHE);
-            await cache.put(request, response);
-        }
-    } catch (e) {
-        // Network error, ignore
-    }
-}
 
 // Push notification event
 self.addEventListener('push', (event) => {
@@ -131,7 +142,7 @@ self.addEventListener('push', (event) => {
         title: 'Ayurvritta',
         body: 'You have a new notification',
         icon: '/icons/icon-192x192.png',
-        badge: '/icons/badge-72x72.png',
+        badge: '/icons/icon-72x72.png',
         data: { url: '/' },
     };
 

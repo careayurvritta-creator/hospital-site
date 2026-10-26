@@ -16,62 +16,116 @@ export const PAGE_SEO: Record<string, PageSEO> = {
         title: 'Ayurvritta Ayurveda Hospital & Panchakarma Center | Vadodara',
         description: 'Classical Ayurveda for modern lifestyle disorders. Expert Panchakarma treatment in Vadodara for Thyroid, Diabetes, CKD, Obesity & PCOD. 24/7 Hospital.',
         keywords: 'ayurveda hospital vadodara, panchakarma center vadodara, thyroid treatment ayurveda, diabetes ayurveda treatment, ayurvedic hospital gujarat',
-        ogImage: '/images/og-home.svg'
+        ogImage: '/images/og-default.jpg'
+    },
+    'ayurveda-skin-care': {
+        title: 'Ayurvedic Skin Care in Vadodara | Acne, Eczema & Psoriasis | Ayurvritta',
+        description: 'Root-cause Ayurvedic skin care for acne, eczema, psoriasis, urticaria and dry skin. Doctor-led treatment at Ayurvritta Ayurveda Hospital, Vadodara.',
+        keywords: 'ayurveda skin care, ayurvedic skin treatment vadodara, acne ayurveda treatment, eczema ayurveda, psoriasis ayurveda treatment, skin specialist ayurveda gujarat',
+        ogImage: '/images/og-default.jpg'
     },
     about: {
         title: 'About Us | Dr. Jinendradutt Sharma | Ayurvritta Hospital',
         description: 'Meet Dr. Jinendradutt Sharma, Chief Physician at Ayurvritta. 15+ years of experience in classical Ayurveda and Panchakarma for lifestyle disorders.',
         keywords: 'ayurveda doctor vadodara, panchakarma specialist, ayurveda physician gujarat',
-        ogImage: '/images/og-default.svg'
+        ogImage: '/images/og-default.jpg'
     },
     services: {
         title: 'Ayurveda Treatments & Therapies | Panchakarma | Ayurvritta',
         description: 'Explore our 70+ Ayurvedic treatments including Abhyanga, Shirodhara, Basti, Nasya, and more. Evidence-based Panchakarma in Vadodara.',
         keywords: 'panchakarma treatment vadodara, shirodhara therapy, abhyanga massage, ayurveda therapy vadodara',
-        ogImage: '/images/og-default.svg'
+        ogImage: '/images/og-default.jpg'
     },
     programs: {
         title: 'Wellness Programs | Thyroid, Diabetes, Weight Loss | Ayurvritta',
         description: 'Specialized Ayurveda programs for Thyroid Reset, Diabetes Reversal, CKD Support, Stress Relief & Weight Loss. Personalized treatment protocols.',
         keywords: 'thyroid treatment ayurveda, diabetes reversal program, weight loss ayurveda, ckd treatment ayurveda',
-        ogImage: '/images/og-default.svg'
+        ogImage: '/images/og-default.jpg'
     },
     booking: {
         title: 'Book Consultation | Ayurvritta Ayurveda Hospital',
         description: 'Book your consultation with Dr. Jinendradutt Sharma. Online and in-person appointments available. Call +91 94266 84047.',
         keywords: 'book ayurveda consultation, ayurveda appointment vadodara',
-        ogImage: '/images/og-default.svg'
+        ogImage: '/images/og-default.jpg'
     },
     tools: {
         title: 'Ayurveda Health Tools | Prakriti Quiz | Ayurvritta',
         description: 'Discover your Ayurvedic constitution with our Prakriti Assessment, Lifestyle Risk Calculator, and personalized Diet Planner.',
         keywords: 'prakriti quiz, dosha test, ayurveda body type, vata pitta kapha test',
-        ogImage: '/images/og-default.svg'
+        ogImage: '/images/og-default.jpg'
     },
     insurance: {
         title: 'Cashless Treatment & Insurance | Ayurvritta Hospital',
         description: 'Cashless Ayurveda treatment with 50+ insurance partners. HDFC ERGO, Star Health, ICICI Lombard & more accepted.',
         keywords: 'ayurveda insurance, cashless ayurveda treatment, health insurance ayurveda',
-        ogImage: '/images/og-insurance.jpg'
+        ogImage: '/images/og-default.jpg'
     },
     blog: {
         title: 'Ayurveda Blog & Health Articles | Dr. Sharma & Dr. Gor | Ayurvritta',
         description: 'Practical Ayurveda guidance written by Dr. Jinendradutt Sharma & Dr. Sharlin Gor — diabetes, thyroid, PCOS, skin, digestion, yoga & seasonal wellness tips.',
         keywords: 'ayurveda blog, ayurveda articles, ayurveda health tips, diabetes ayurveda, thyroid ayurveda, pcos ayurveda, panchakarma guide',
-        ogImage: '/images/blog/ayurveda.svg'
+        ogImage: '/images/og-default.jpg'
     },
     privacy: {
         title: 'Privacy Policy | Ayurvritta Ayurveda Hospital',
         description: 'Read the Ayurvritta Ayurveda Hospital privacy policy covering how we collect, use, and protect your personal and health information.',
         keywords: 'ayurvritta privacy policy, ayurveda hospital data policy',
-        ogImage: '/images/og-default.svg'
+        ogImage: '/images/og-default.jpg'
     },
     terms: {
         title: 'Terms of Service | Ayurvritta Ayurveda Hospital',
         description: 'Review the terms and conditions for using the Ayurvritta Ayurveda Hospital website and booking services.',
         keywords: 'ayurvritta terms of service, ayurveda hospital terms',
-        ogImage: '/images/og-default.svg'
+        ogImage: '/images/og-default.jpg'
     }
+};
+
+// Skin Care FAQ structured data (mirrors the visible FAQs in pages/SkinCare.tsx)
+export const SKIN_CARE_FAQ_SCHEMA = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "Can Ayurveda help chronic skin problems like eczema and psoriasis?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ayurveda offers structured, doctor-led management for chronic skin conditions by addressing digestion, dosha imbalance and lifestyle triggers alongside skin-directed therapies. These are long-term conditions: results vary from person to person, and treatment is planned as ongoing care rather than a quick cure. Many patients use Ayurvedic care alongside their dermatologist’s advice."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "How is Ayurvedic skin treatment different from using creams?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Creams mainly act on the surface. Ayurvedic skin care combines external therapies with internal work — digestion, diet, sleep, stress and dosha balance — because chronic skin disease is often an expression of a systemic imbalance. External routines are still used, but they are one part of the plan, not the whole plan."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "How long does Ayurvedic skin treatment take?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "It depends on the condition, its duration and your constitution. Acute problems may respond in a few weeks, while long-standing eczema or psoriasis usually needs a few months of consistent treatment and follow-up. After your first assessment, the doctor will give you a realistic timeline for your case."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Should I stop my current skin medicines before starting Ayurveda?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. Do not stop or replace prescribed medication on your own. Bring your reports and current prescriptions to the consultation — our physicians will plan Ayurvedic care around them and coordinate any changes safely."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Is online consultation available for skin problems?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Video consultations are available for patients in India and abroad. You can share photographs and reports in advance; the doctor will advise whether an in-person visit is needed for examination or procedures such as Panchakarma."
+            }
+        }
+    ]
 };
 
 // Hospital structured data
@@ -107,7 +161,7 @@ export const HOSPITAL_SCHEMA = {
     "priceRange": "₹₹",
     "currenciesAccepted": "INR",
     "paymentAccepted": "Cash, Credit Card, UPI, Insurance",
-    "image": "https://ayurvritta.com/images/hospital-exterior.jpg",
+    "image": "https://ayurvritta.com/images/about/about-story.png",
     "logo": "https://ayurvritta.com/images/logo-nobg.png",
     "sameAs": [
         "https://www.facebook.com/profile.php?id=61560024669845",
@@ -401,7 +455,7 @@ export const PHYSICIAN_SCHEMA = {
     "@id": "https://ayurvritta.com/#doctor",
     "name": "Dr. Jinendradutt Sharma",
     "jobTitle": "Chief Physician & Medical Director",
-    "image": "https://ayurvritta.com/images/doctor-profile.jpg",
+    "image": "https://ayurvritta.com/images/about/dr-sharma.jpg",
     "url": "https://ayurvritta.com/about",
     "description": "Experienced Ayurvedic physician specializing in Panchakarma therapy, lifestyle disorder management, and classical Ayurveda treatments.",
     "email": "care.ayurvritta@gmail.com",

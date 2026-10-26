@@ -67,31 +67,31 @@
             "url": "/#/booking",
             "icons": [
                 {
-                    "src": "/icons/book-icon.png",
+                    "src": "/icons/icon-96x96.png",
                     "sizes": "96x96"
                 }
             ]
         },
         {
-            "name": "Call Us",
-            "short_name": "Call",
-            "description": "Call Ayurvritta Hospital",
-            "url": "tel:+919426684047",
+            "name": "Ayurveda Skin Care",
+            "short_name": "Skin Care",
+            "description": "Ayurvedic treatment for acne, eczema, psoriasis and other skin conditions",
+            "url": "/#/ayurveda-skin-care",
             "icons": [
                 {
-                    "src": "/icons/call-icon.png",
+                    "src": "/icons/icon-96x96.png",
                     "sizes": "96x96"
                 }
             ]
         },
         {
-            "name": "WhatsApp",
-            "short_name": "Chat",
-            "description": "Chat with us on WhatsApp",
-            "url": "https://wa.me/919426684047",
+            "name": "Ayurveda Blog",
+            "short_name": "Blog",
+            "description": "Educational Ayurveda articles by our physicians",
+            "url": "/#/blog",
             "icons": [
                 {
-                    "src": "/icons/whatsapp-icon.png",
+                    "src": "/icons/icon-96x96.png",
                     "sizes": "96x96"
                 }
             ]
@@ -101,22 +101,6 @@
         "health",
         "medical",
         "lifestyle"
-    ],
-    "screenshots": [
-        {
-            "src": "/screenshots/home.png",
-            "sizes": "1080x1920",
-            "type": "image/png",
-            "form_factor": "narrow",
-            "label": "Home Page"
-        },
-        {
-            "src": "/screenshots/services.png",
-            "sizes": "1080x1920",
-            "type": "image/png",
-            "form_factor": "narrow",
-            "label": "Services"
-        }
     ],
     "related_applications": [],
     "prefer_related_applications": false

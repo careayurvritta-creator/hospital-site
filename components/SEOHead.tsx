@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { PAGE_SEO, HOSPITAL_SCHEMA, FAQ_SCHEMA, ORGANIZATION_SCHEMA, PHYSICIAN_SCHEMA, BREADCRUMB_SCHEMA, HOWTO_PANCHAKARMA_SCHEMA, HOWTO_PRAKRITI_SCHEMA, HOWTO_DIET_SCHEMA, MEDICAL_WEBPAGE_SCHEMA } from '../seo';
+import { PAGE_SEO, HOSPITAL_SCHEMA, FAQ_SCHEMA, ORGANIZATION_SCHEMA, PHYSICIAN_SCHEMA, BREADCRUMB_SCHEMA, HOWTO_PANCHAKARMA_SCHEMA, HOWTO_PRAKRITI_SCHEMA, HOWTO_DIET_SCHEMA, MEDICAL_WEBPAGE_SCHEMA, SKIN_CARE_FAQ_SCHEMA } from '../seo';
 import { BLOG_POSTS } from '../data/blog/loadPosts';
 
 interface SEOHeadProps {
@@ -40,10 +40,11 @@ const SEOHead: React.FC<SEOHeadProps> = ({
     // Resolve blog post detail metadata (single /blog/:slug detail pages)
     const postMatch = location.pathname.match(/^\/blog\/([^/]+)\/?$/);
     const activePost = postMatch ? BLOG_POSTS.find(p => p.slug === postMatch[1]) : null;
+    const isUnknownPost = Boolean(postMatch && !activePost);
 
     let finalTitle = title || seoData.title;
     let finalDescription = description || seoData.description;
-    let finalImage = image || seoData.ogImage || '/images/og-default.svg';
+    let finalImage = image || seoData.ogImage || '/images/og-default.jpg';
     let finalType = type;
 
     if (activePost) {
@@ -51,6 +52,12 @@ const SEOHead: React.FC<SEOHeadProps> = ({
         finalDescription = activePost.excerpt;
         finalImage = activePost.image;
         finalType = 'article';
+    }
+
+    if (isUnknownPost) {
+        // Unknown /blog/:slug: avoid soft-404 indexing of the blog list.
+        finalTitle = 'Article Not Found | Ayurvritta Ayurveda Hospital';
+        finalDescription = 'The requested article could not be found. Browse our latest Ayurveda articles.';
     }
 
     const canonicalUrl = `${baseUrl}${location.pathname}`;
@@ -83,7 +90,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
         updateCanonical(canonicalUrl);
 
         // Robots
-        if (noIndex) {
+        if (noIndex || isUnknownPost) {
             updateMeta('robots', 'noindex,nofollow');
         } else {
             updateMeta('robots', 'index,follow');
@@ -92,7 +99,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
         // Structured data
         updateStructuredData(location.pathname, activePost);
 
-    }, [location.pathname, finalTitle, finalDescription, finalType, finalImage, activePost]);
+    }, [location.pathname, finalTitle, finalDescription, finalType, finalImage, activePost, noIndex, isUnknownPost]);
 
     return null; // This component only manages head tags
 };
@@ -186,6 +193,14 @@ function updateStructuredData(pathname: string, activePost?: import('../data/blo
         faqScript.type = 'application/ld+json';
         faqScript.textContent = JSON.stringify(FAQ_SCHEMA);
         document.head.appendChild(faqScript);
+    }
+
+    // Add Skin Care FAQ schema on the skin care authority page
+    if (pathname === '/ayurveda-skin-care') {
+        const skinFaqScript = document.createElement('script');
+        skinFaqScript.type = 'application/ld+json';
+        skinFaqScript.textContent = JSON.stringify(SKIN_CARE_FAQ_SCHEMA);
+        document.head.appendChild(skinFaqScript);
     }
 
     // Add BlogPosting schema on individual blog post pages

@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDown, HelpCircle, Phone } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { useIntersectionObserver } from '../hooks';
 
 interface FAQItem {
@@ -52,22 +53,19 @@ const FAQ: React.FC = () => {
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const sectionObserver = useIntersectionObserver({ threshold: 0.1, rootMargin: '-50px' });
 
-  // Handle deep linking from URL hash
-  useEffect(() => {
-  const handleHashChange = () => {
-  const hash = window.location.hash;
-  if (hash.startsWith('#faq-')) {
-  const index = parseInt(hash.replace('#faq-', ''), 10);
-  if (!isNaN(index) && index >= 0 && index < FAQ_ITEMS.length) {
-  setTimeout(() => setOpenIndex(index), 100);
-  }
-  }
-  };
+  const location = useLocation();
 
-  handleHashChange();
-  window.addEventListener('hashchange', handleHashChange);
-  return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
+  // Handle deep linking via the router hash (e.g. /#/#faq-3 with HashRouter)
+  useEffect(() => {
+    const hash = location.hash;
+    if (hash.startsWith('#faq-')) {
+      const index = parseInt(hash.replace('#faq-', ''), 10);
+      if (!isNaN(index) && index >= 0 && index < FAQ_ITEMS.length) {
+        const timer = setTimeout(() => setOpenIndex(index), 100);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [location.hash]);
 
   // Smooth scroll to opened FAQ item
   useEffect(() => {

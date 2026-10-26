@@ -449,6 +449,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <h4 className="font-serif text-lg text-white mb-4 border-b border-white/20 pb-2 inline-block">Explore</h4>
                 <ul className="space-y-3 text-sm">
                   <li><NavLink to="/services" className={() => "hover:text-ayur-accent-light transition-colors flex items-center"}><span className="w-1.5 h-1.5 bg-ayur-accent rounded-full mr-2"></span>Treatments</NavLink></li>
+                  <li><NavLink to="/ayurveda-skin-care" className={() => "hover:text-ayur-accent-light transition-colors flex items-center"}><span className="w-1.5 h-1.5 bg-ayur-accent rounded-full mr-2"></span>Skin Care</NavLink></li>
                   <li><NavLink to="/programs" className={() => "hover:text-ayur-accent-light transition-colors flex items-center"}><span className="w-1.5 h-1.5 bg-ayur-accent rounded-full mr-2"></span>Programs</NavLink></li>
                 </ul>
               </div>

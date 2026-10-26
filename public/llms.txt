@@ -9,9 +9,9 @@ This file is for AI assistants, search engines, and large language models that w
 
 ## What this is
 
-Ayurvritta Ayurveda Hospital & Panchakarma Center is a 24/7 classical Ayurveda hospital located in Vadodara, Gujarat, India. It specializes in treating lifestyle disorders such as thyroid conditions, diabetes (Prameha), chronic kidney disease (CKD), obesity, and PCOD/PCOS using authentic Panchakarma therapies, personalized diet plans, and evidence-based Ayurvedic protocols.
+Ayurvritta Ayurveda Hospital & Panchakarma Center is a 24/7 classical Ayurveda hospital located in Vadodara, Gujarat, India. It specializes in treating lifestyle disorders such as thyroid conditions, diabetes (Prameha), chronic kidney disease (CKD), obesity, and PCOD/PCOS using authentic Panchakarma therapies, personalized diet plans, and evidence-based Ayurvedic protocols. It also provides doctor-led Ayurvedic skin care for acne, eczema, psoriasis, urticaria and other chronic skin conditions.
 
-The hospital offers 70+ Ayurvedic treatments across 11 therapy categories, 5 structured wellness programs, an Ayurveda knowledge base with 135 condition-specific diet charts, and 12 educational blog articles. The website is available in English, Hindi, and Gujarati.
+The hospital offers 70+ Ayurvedic treatments across 11 therapy categories, 5 structured wellness programs, an Ayurveda knowledge base with 135 condition-specific diet charts, and 59 educational blog articles. The website is available in English, Hindi, and Gujarati.
 
 ## Key facts
 
@@ -26,7 +26,7 @@ The hospital offers 70+ Ayurvedic treatments across 11 therapy categories, 5 str
 - Payment: Cash, Credit Card, UPI, Insurance
 - Insurance: Cashless treatment available with 50+ insurance partners and TPAs (including Star Health, HDFC ERGO, ICICI Lombard, and others)
 - Chief Physician: Dr. Jinendradutt Sharma (15+ years of experience in classical Ayurveda and Panchakarma)
-- Medical specialties: Ayurveda, Panchakarma, Lifestyle Medicine
+- Medical specialties: Ayurveda, Panchakarma, Lifestyle Medicine, Ayurvedic Dermatology (skin care)
 - Languages spoken: English, Hindi, Gujarati
 - Patient rating: 4.8/5 (based on 247 reviews)
 - Website languages: English, Hindi, Gujarati
@@ -40,7 +40,8 @@ The hospital offers 70+ Ayurvedic treatments across 11 therapy categories, 5 str
 - PCOD/PCOS
 - Stress, anxiety, insomnia, burnout
 - Chronic pain, arthritis, neurological disorders
-- Skin disorders, digestive issues, and general wellness
+- Skin disorders: acne, eczema, psoriasis, urticaria (hives), dry skin, pigmentation - see the Ayurveda Skin Care page
+- Digestive issues and general wellness
 
 ## Services
 
@@ -76,6 +77,7 @@ The hospital offers 70+ Ayurvedic treatments across 11 therapy categories, 5 str
 - [Home](https://ayurvritta.com/): Ayurvritta Ayurveda Hospital homepage
 - [About Us](https://ayurvritta.com/about): About Dr. Jinendradutt Sharma and the hospital
 - [Treatments & Therapies](https://ayurvritta.com/services): All 70+ Ayurvedic treatments
+- [Ayurveda Skin Care](https://ayurvritta.com/ayurveda-skin-care): Ayurvedic treatment for acne, eczema, psoriasis, urticaria and other skin conditions
 - [Wellness Programs](https://ayurvritta.com/programs): Thyroid, Diabetes, CKD, Stress and Weight programs
 - [Book Consultation](https://ayurvritta.com/booking): Book an appointment or online consultation
 - [Cashless Insurance](https://ayurvritta.com/insurance): Insurance partners and cashless treatment

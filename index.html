@@ -198,7 +198,7 @@
       if (window.location.hash) return;
       var path = window.location.pathname.replace(/\/+$/, '');
       if (!path || path === '/') return;
-      var routes = ['about', 'services', 'programs', 'tools', 'booking', 'insurance', 'blog', 'privacy', 'terms'];
+      var routes = ['about', 'services', 'programs', 'tools', 'booking', 'insurance', 'blog', 'ayurveda-skin-care', 'privacy', 'terms'];
       var first = path.replace(/^\//, '').split('/')[0];
       if (routes.indexOf(first) !== -1) {
         window.location.replace(window.location.origin + '/#/' + path.replace(/^\//, ''));
@@ -227,6 +227,7 @@
           <li><a href="#/about">About Us</a></li>
           <li><a href="#/insurance">Cashless Treatment &amp; Insurance</a></li>
           <li><a href="#/tools">Ayurveda Health Tools &amp; Prakriti Quiz</a></li>
+          <li><a href="#/ayurveda-skin-care">Ayurveda Skin Care (Acne, Eczema, Psoriasis)</a></li>
           <li><a href="#/blog">Ayurveda Blog</a></li>
           <li><a href="#/booking">Book a Consultation</a></li>
         </ul>

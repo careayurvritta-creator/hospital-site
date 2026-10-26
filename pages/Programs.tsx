@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from '../components/Layout';
-import { CheckCircle2, ArrowRight, Clock, Target, Sparkles, Activity, X, Droplet, Stethoscope, Moon, Scale } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Clock, Target, Sparkles, Activity, X } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { PROGRAMS } from '../constants';
 import { useIntersectionObserver } from '../hooks';
-
-const iconMap: Record<string, React.ElementType> = {
-  Activity,
-  Droplet,
-  Stethoscope,
-  Moon,
-  Scale
-};
 
 const Programs: React.FC = () => {
     const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1600334129128-685c5582fd35?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
 
     const [selectedProgram, setSelectedProgram] = useState<string | null>(null);
+    const location = useLocation();
+
+    const scrollToProgram = (id: string) => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    // Deep links such as /programs#thyroid (HashRouter keeps the anchor in
+    // location.hash): scroll to the matching program card once rendered.
+    useEffect(() => {
+        const id = location.hash.replace('#', '');
+        if (!id) return;
+        const timer = setTimeout(() => scrollToProgram(id), 150);
+        return () => clearTimeout(timer);
+    }, [location.hash]);
     const headerObserver = useIntersectionObserver({ threshold: 0.2, rootMargin: '-50px' });
     const programsObserver = useIntersectionObserver({ threshold: 0.1, rootMargin: '-50px' });
 
@@ -44,8 +51,6 @@ const Programs: React.FC = () => {
         };
         return themes[id] || themes.thyroid;
     };
-
-    const getIcon = (iconName: string) => iconMap[iconName] || Activity;
 
     const openModal = (id: string) => { setSelectedProgram(id); document.body.style.overflow = 'hidden'; };
     const closeModal = () => { setSelectedProgram(null); document.body.style.overflow = ''; };
@@ -78,7 +83,7 @@ const Programs: React.FC = () => {
                 <div className="max-w-7xl mx-auto flex items-center gap-4 overflow-x-auto">
                     {PROGRAMS.map(p => {
                         const t = getTheme(p.id);
-                        return <a key={p.id} href={`#${p.id}`} className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap hover:scale-105 transition-transform border border-transparent hover:border-ayur-subtle"><div className={`w-2 h-2 rounded-full bg-gradient-to-r ${t.gradient}`}></div><span className="text-ayur-gray hover:text-ayur-green">{p.title.split(' ')[0]}</span></a>;
+                        return <button key={p.id} type="button" onClick={() => scrollToProgram(p.id)} className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap hover:scale-105 transition-transform border border-transparent hover:border-ayur-subtle"><div className={`w-2 h-2 rounded-full bg-gradient-to-r ${t.gradient}`}></div><span className="text-ayur-gray hover:text-ayur-green">{p.title.split(' ')[0]}</span></button>;
                     })}
                 </div>
             </div>
@@ -86,9 +91,9 @@ const Programs: React.FC = () => {
             <div ref={programsObserver.ref} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20 space-y-16">
                 {PROGRAMS.map((program, index) => {
                     const theme = getTheme(program.id);
-                    const IconComponent = getIcon(program.icon?.toString() || 'Activity');
+                    const IconComponent = program.icon || Activity;
                     return (
-                        <div key={program.id} id={program.id} className={`group relative bg-white rounded-[2.5rem] shadow-xl hover:shadow-2xl transition-all duration-500 border ${theme.border} overflow-hidden flex flex-col lg:flex-row ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''} ${programsObserver.isVisible ? 'animate-fadeInUp' : ''}`} style={{ animationDelay: `${index * 150}ms` }}>
+                        <div key={program.id} id={program.id} className={`scroll-mt-40 group relative bg-white rounded-[2.5rem] shadow-xl hover:shadow-2xl transition-all duration-500 border ${theme.border} overflow-hidden flex flex-col lg:flex-row ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''} ${programsObserver.isVisible ? 'animate-fadeInUp' : ''}`} style={{ animationDelay: `${index * 150}ms` }}>
                             <div className="lg:w-[45%] relative h-[300px] lg:h-auto overflow-hidden bg-[#0F3D3E]">
                                 <div className={`absolute inset-0 bg-gradient-to-br ${theme.glow}`}></div>
                                 <img src={getProgramImage(program.id)} alt={program.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />

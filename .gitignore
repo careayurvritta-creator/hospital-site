@@ -37,3 +37,13 @@ dist/
 scripts/
 .vercel
 .env*
+
+# Patient records & personal health data (never commit)
+*.xlsx
+*.xls
+*_ocr.json
+Diet chart Images/
+latest diet chart iamge/
+
+# Converter/tool output archives
+*.zip

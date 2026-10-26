@@ -32,8 +32,9 @@ describe('blog auto-poster (offline deterministic path)', () => {
     expect(output).toContain('[DRY RUN]');
   });
 
-  it('picks the seasonally-relevant UTI topic for Varsha / Independence Day', () => {
-    expect(output).toContain('UTI & burning urine (Mootrakrichhra)');
+  it('uses the Varsha / Independence Day seasonal context', () => {
+    // Topic-agnostic: the selected topic changes as posts get published and
+    // topicCovered() excludes them. Seasonal context must always be applied.
     expect(output).toContain('Ritu Varsha');
     expect(output).toContain('Independence Day');
   });
@@ -47,7 +48,7 @@ describe('blog auto-poster (offline deterministic path)', () => {
     expect(fm).toMatch(/authorId: (dr-gor|dr-sharma)/);
     expect(fm).toMatch(/date: \d{4}-\d{2}-\d{2}/);
     expect(fm).toMatch(/readTime: \d+ min read/);
-    expect(fm).toMatch(/image: \/images\/blog\/(posts\/.+\.(webp|jpg|png)|ayurveda\.svg)/);
+    expect(fm).toMatch(/image: \/images\/blog\/(posts\/.+\.(webp|jpg|png)|(ayurveda|yoga|nutrition|lifestyle|wellness)\.svg)/);
   });
 
   it('includes the required safety sections', () => {
