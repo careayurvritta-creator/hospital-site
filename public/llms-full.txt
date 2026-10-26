@@ -18,7 +18,7 @@ The hospital offers 70+ Ayurvedic treatments across 11 therapy categories, 5 str
 - Name: Ayurvritta Ayurveda Hospital & Panchakarma Center
 - Also known as: Ayurvritta Hospital
 - Type: MedicalBusiness - Ayurveda hospital and Panchakarma center
-- Address: FF 104-113, Lotus Enora Complex, Opp. Rutu Villa, New Alkapuri, Gotri, Vadodara, Gujarat 390021, India
+- Address: FF 104-107, Lotus Enora Complex, Opp. Rutu Villa, New Alkapuri, Gotri, Vadodara, Gujarat 390021, India
 - Telephone: +91 94266 84047
 - Email: care.ayurvritta@gmail.com
 - Hours: Open 24/7 for hospital care; outpatient department 9 AM to 7 PM
@@ -28,6 +28,7 @@ The hospital offers 70+ Ayurvedic treatments across 11 therapy categories, 5 str
 - Medical specialties: Ayurveda, Panchakarma, Lifestyle Medicine
 - Website languages: English, Hindi, Gujarati
 - Patient rating: 4.9/5 (based on 250+ reviews)
+- Gujarat Clinical Establishments provisional registration: GUJVAD202501108PR (valid till 19/03/2027)
 
 ## Conditions treated
 

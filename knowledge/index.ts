@@ -185,7 +185,7 @@ export const HOSPITAL_INFO = {
     name: 'Ayurvritta Ayurveda Hospital & Panchakarma Center',
     doctor: 'Dr. Jinendradutt Sharma',
     phone: '+91 94266 84047',
-    address: 'FF 104–113, Lotus Enora Complex, Opp. Rutu Villa, New Alkapuri, Gotri, Vadodara – 390021',
+    address: 'FF 104–107, Lotus Enora Complex, Opp. Rutu Villa, New Alkapuri, Gotri, Vadodara – 390021',
     hours: 'Open 24 Hours, All Days',
     specialty: 'Lifestyle disorders (Thyroid, Diabetes, CKD, Obesity, PCOD) and classical Panchakarma'
 };

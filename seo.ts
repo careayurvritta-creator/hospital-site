@@ -141,7 +141,7 @@ export const HOSPITAL_SCHEMA = {
     "email": "care.ayurvritta@gmail.com",
     "address": {
         "@type": "PostalAddress",
-        "streetAddress": "FF 104–113, Lotus Enora Complex, Opp. Rutu Villa, New Alkapuri, Gotri",
+        "streetAddress": "FF 104–107, Lotus Enora Complex, Opp. Rutu Villa, New Alkapuri, Gotri",
         "addressLocality": "Vadodara",
         "addressRegion": "Gujarat",
         "postalCode": "390021",
@@ -159,6 +159,12 @@ export const HOSPITAL_SCHEMA = {
         "closes": "23:59"
     },
     "priceRange": "₹₹",
+    "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "Gujarat Clinical Establishments Registration",
+        "value": "GUJVAD202501108PR",
+        "description": "Provisional registration under the Gujarat Clinical Establishments (Registration and Regulation) Act, 2021"
+    },
     "currenciesAccepted": "INR",
     "paymentAccepted": "Cash, Credit Card, UPI, Insurance",
     "image": "https://ayurvritta.com/images/about/about-story.png",
@@ -441,7 +447,7 @@ export const ORGANIZATION_SCHEMA = {
     },
     "address": {
         "@type": "PostalAddress",
-        "streetAddress": "FF 104–113, Lotus Enora Complex, Opp. Rutu Villa, New Alkapuri, Gotri",
+        "streetAddress": "FF 104–107, Lotus Enora Complex, Opp. Rutu Villa, New Alkapuri, Gotri",
         "addressLocality": "Vadodara",
         "addressRegion": "Gujarat",
         "postalCode": "390021",
@@ -462,7 +468,7 @@ export const PHYSICIAN_SCHEMA = {
     "telephone": "+919426684047",
     "address": {
         "@type": "PostalAddress",
-        "streetAddress": "FF 104–113, Lotus Enora Complex, Opp. Rutu Villa, New Alkapuri, Gotri",
+        "streetAddress": "FF 104–107, Lotus Enora Complex, Opp. Rutu Villa, New Alkapuri, Gotri",
         "addressLocality": "Vadodara",
         "addressRegion": "Gujarat",
         "postalCode": "390021",
