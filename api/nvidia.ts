@@ -37,7 +37,7 @@ const ALLOWED_ORIGIN_HOSTS = [
 const MAX_MESSAGES = 40;
 const MAX_MESSAGE_CHARS = 12000;
 const MAX_TOTAL_CHARS = 40000;
-const MAX_OUTPUT_TOKENS = 2048;
+const MAX_OUTPUT_TOKENS = 4096; // auto-poster writes 950-1200 word articles
 
 function isAllowedOrigin(origin: string | null): boolean {
   // No Origin header = non-browser client (e.g. GitHub Actions auto-poster).
@@ -112,7 +112,7 @@ export default async function handler(request: Request) {
     let response: Response | null = null;
     for (const model of candidates) {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 25000); // 25s (Vercel pro tier limit is 30s)
+      const timeoutId = setTimeout(() => controller.abort(), 20000); // respond before Vercel's ~30s edge invocation limit
       try {
         const upstream = await fetch(NVIDIA_API_URL, {
           method: 'POST',
