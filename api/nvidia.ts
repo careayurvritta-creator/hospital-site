@@ -38,8 +38,8 @@ const MODEL_TIMEOUT_MS = 12000;
 const RETRYABLE_STATUS = [403, 404, 410, 429, 500, 502, 503, 504];
 
 const ALLOWED_ORIGIN_HOSTS = [
-  'ayurvritta.com',
-  'www.ayurvritta.com',
+  'ayurvrittaayurveda.in',
+  'www.ayurvrittaayurveda.in',
   'ayurvrittaayurveda.in',
   'www.ayurvrittaayurveda.in',
   'localhost',

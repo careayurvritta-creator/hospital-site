@@ -75,14 +75,14 @@ The hospital offers 70+ Ayurvedic treatments across 11 therapy categories, 5 str
 
 ## Navigation
 
-- [Home](https://ayurvritta.com/): Ayurvritta Ayurveda Hospital homepage
-- [About Us](https://ayurvritta.com/about): About Dr. Jinendradutt Sharma and the hospital
-- [Treatments & Therapies](https://ayurvritta.com/services): All 70+ Ayurvedic treatments
-- [Ayurveda Skin Care](https://ayurvritta.com/ayurveda-skin-care): Ayurvedic treatment for acne, eczema, psoriasis, urticaria and other skin conditions
-- [Wellness Programs](https://ayurvritta.com/programs): Thyroid, Diabetes, CKD, Stress and Weight programs
-- [Book Consultation](https://ayurvritta.com/booking): Book an appointment or online consultation
-- [Cashless Insurance](https://ayurvritta.com/insurance): Insurance partners and cashless treatment
-- [Ayurveda Health Tools](https://ayurvritta.com/tools): Prakriti assessment and health tools
-- [Ayurveda Blog](https://ayurvritta.com/blog): Educational articles on Ayurveda and health
-- [Privacy Policy](https://ayurvritta.com/privacy): Data privacy information
-- [Terms of Service](https://ayurvritta.com/terms): Terms of service
+- [Home](https://ayurvrittaayurveda.in/): Ayurvritta Ayurveda Hospital homepage
+- [About Us](https://ayurvrittaayurveda.in/about): About Dr. Jinendradutt Sharma and the hospital
+- [Treatments & Therapies](https://ayurvrittaayurveda.in/services): All 70+ Ayurvedic treatments
+- [Ayurveda Skin Care](https://ayurvrittaayurveda.in/ayurveda-skin-care): Ayurvedic treatment for acne, eczema, psoriasis, urticaria and other skin conditions
+- [Wellness Programs](https://ayurvrittaayurveda.in/programs): Thyroid, Diabetes, CKD, Stress and Weight programs
+- [Book Consultation](https://ayurvrittaayurveda.in/booking): Book an appointment or online consultation
+- [Cashless Insurance](https://ayurvrittaayurveda.in/insurance): Insurance partners and cashless treatment
+- [Ayurveda Health Tools](https://ayurvrittaayurveda.in/tools): Prakriti assessment and health tools
+- [Ayurveda Blog](https://ayurvrittaayurveda.in/blog): Educational articles on Ayurveda and health
+- [Privacy Policy](https://ayurvrittaayurveda.in/privacy): Data privacy information
+- [Terms of Service](https://ayurvrittaayurveda.in/terms): Terms of service

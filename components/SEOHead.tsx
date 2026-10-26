@@ -24,7 +24,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
     noIndex = false
 }) => {
     const location = useLocation();
-    const baseUrl = 'https://ayurvritta.com';
+    const baseUrl = 'https://ayurvrittaayurveda.in';
 
     // Determine page key from route
     const getPageKey = (): string => {
@@ -222,11 +222,11 @@ function updateStructuredData(pathname: string, activePost?: import('../data/blo
                 "name": "Ayurvritta Ayurveda Hospital",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://ayurvritta.com/images/logo-nobg.png"
+                    "url": "https://ayurvrittaayurveda.in/images/logo-nobg.png"
                 }
             },
             "datePublished": activePost.date,
-            "mainEntityOfPage": `https://ayurvritta.com${pathname}`
+            "mainEntityOfPage": `https://ayurvrittaayurveda.in${pathname}`
         });
         document.head.appendChild(blogPostingScript);
     }

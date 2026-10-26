@@ -1,5 +1,5 @@
 # Ayurvritta Ayurveda Hospital
-# https://ayurvritta.com
+# https://ayurvrittaayurveda.in
 
 User-agent: *
 Allow: /
@@ -52,4 +52,4 @@ Allow: /
 # llms-full.txt - full site content for AI assistants
 
 # Sitemap
-Sitemap: https://ayurvritta.com/sitemap.xml
+Sitemap: https://ayurvrittaayurveda.in/sitemap.xml

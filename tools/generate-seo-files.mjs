@@ -12,7 +12,7 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const BASE = 'https://ayurvritta.com';
+const BASE = 'https://ayurvrittaayurveda.in';
 const today = new Date().toISOString().slice(0, 10);
 
 const STATIC_PAGES = [

@@ -132,11 +132,11 @@ export const SKIN_CARE_FAQ_SCHEMA = {
 export const HOSPITAL_SCHEMA = {
     "@context": "https://schema.org",
     "@type": "MedicalBusiness",
-    "@id": "https://ayurvritta.com/#hospital",
+    "@id": "https://ayurvrittaayurveda.in/#hospital",
     "name": "Ayurvritta Ayurveda Hospital & Panchakarma Center",
     "alternateName": "Ayurvritta Hospital",
     "description": "Classical Ayurveda hospital specializing in lifestyle disorders - Thyroid, Diabetes, CKD, Obesity, PCOD. Expert Panchakarma treatments.",
-    "url": "https://ayurvritta.com",
+    "url": "https://ayurvrittaayurveda.in",
     "telephone": "+919426684047",
     "email": "care.ayurvritta@gmail.com",
     "address": {
@@ -167,8 +167,8 @@ export const HOSPITAL_SCHEMA = {
     },
     "currenciesAccepted": "INR",
     "paymentAccepted": "Cash, Credit Card, UPI, Insurance",
-    "image": "https://ayurvritta.com/images/about/about-story.png",
-    "logo": "https://ayurvritta.com/images/logo-nobg.png",
+    "image": "https://ayurvrittaayurveda.in/images/about/about-story.png",
+    "logo": "https://ayurvrittaayurveda.in/images/logo-nobg.png",
     "sameAs": [
         "https://www.facebook.com/profile.php?id=61560024669845",
         "https://www.instagram.com/ayurvritta/"
@@ -428,10 +428,10 @@ export const FAQ_SCHEMA = {
 export const ORGANIZATION_SCHEMA = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "@id": "https://ayurvritta.com/#organization",
+    "@id": "https://ayurvrittaayurveda.in/#organization",
     "name": "Ayurvritta Ayurveda Hospital",
-    "url": "https://ayurvritta.com",
-    "logo": "https://ayurvritta.com/images/logo-nobg.png",
+    "url": "https://ayurvrittaayurveda.in",
+    "logo": "https://ayurvrittaayurveda.in/images/logo-nobg.png",
     "description": "Premier Ayurvedic hospital in Vadodara specializing in classical Panchakarma treatments for lifestyle disorders.",
     "sameAs": [
         "https://www.facebook.com/profile.php?id=61560024669845",
@@ -458,11 +458,11 @@ export const ORGANIZATION_SCHEMA = {
 export const PHYSICIAN_SCHEMA = {
     "@context": "https://schema.org",
     "@type": "Physician",
-    "@id": "https://ayurvritta.com/#doctor",
+    "@id": "https://ayurvrittaayurveda.in/#doctor",
     "name": "Dr. Jinendradutt Sharma",
     "jobTitle": "Chief Physician & Medical Director",
-    "image": "https://ayurvritta.com/images/about/dr-sharma.jpg",
-    "url": "https://ayurvritta.com/about",
+    "image": "https://ayurvrittaayurveda.in/images/about/dr-sharma.jpg",
+    "url": "https://ayurvrittaayurveda.in/about",
     "description": "Experienced Ayurvedic physician specializing in Panchakarma therapy, lifestyle disorder management, and classical Ayurveda treatments.",
     "email": "care.ayurvritta@gmail.com",
     "telephone": "+919426684047",
@@ -507,7 +507,7 @@ export const BREADCRUMB_SCHEMA = (pathname: string): object => {
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "https://ayurvritta.com/"
+            "item": "https://ayurvrittaayurveda.in/"
         }
     ];
 
@@ -523,7 +523,7 @@ export const BREADCRUMB_SCHEMA = (pathname: string): object => {
             "@type": "ListItem",
             "position": position,
             "name": name,
-            "item": `https://ayurvritta.com${currentPath}`
+            "item": `https://ayurvrittaayurveda.in${currentPath}`
         });
     });
 
@@ -545,37 +545,37 @@ export const HOWTO_PANCHAKARMA_SCHEMA = {
             "@type": "HowToStep",
             "name": "Consultation & Assessment",
             "text": "Schedule a detailed consultation with our Ayurvedic physician. They will assess your Prakriti (body constitution), current health condition, and determine if Panchakarma is suitable for you.",
-            "url": "https://ayurvritta.com/#/booking"
+            "url": "https://ayurvrittaayurveda.in/#/booking"
         },
         {
             "@type": "HowToStep",
             "name": "Pre-Treatment Preparation (Purvakarma)",
             "text": "Follow the prescribed diet and lifestyle modifications 5-7 days before treatment. This includes eating light, warm, easily digestible foods, avoiding cold drinks and raw foods, and maintaining regular sleep patterns.",
-            "url": "https://ayurvritta.com/#/services/panchakarma"
+            "url": "https://ayurvrittaayurveda.in/#/services/panchakarma"
         },
         {
             "@type": "HowToStep",
             "name": "Oleation (Snehana)",
             "text": "Internal and external oleation is performed using medicated ghee and oils. This helps loosen toxins (Ama) from tissues and prepares them for elimination.",
-            "url": "https://ayurvritta.com/#/services"
+            "url": "https://ayurvrittaayurveda.in/#/services"
         },
         {
             "@type": "HowToStep",
             "name": "Fomentation (Swedana)",
             "text": "Herbal steam therapy is administered to open channels (Srotas) and further loosen toxins. This is typically done for 3-7 days before main therapy.",
-            "url": "https://ayurvritta.com/#/services/swedana"
+            "url": "https://ayurvrittaayurveda.in/#/services/swedana"
         },
         {
             "@type": "HowToStep",
             "name": "Main Panchakarma Therapy",
             "text": "Depending on your condition, the main therapy may include Vamana (therapeutic emesis), Virechana (purgation), Basti (medicated enema), Nasya (nasal therapy), or Raktamokshana (bloodletting).",
-            "url": "https://ayurvritta.com/#/services/panchakarma"
+            "url": "https://ayurvrittaayurveda.in/#/services/panchakarma"
         },
         {
             "@type": "HowToStep",
             "name": "Post-Treatment Care (Paschatkarma)",
             "text": "Follow the prescribed diet and lifestyle regimen for 7-14 days after therapy. Gradually reintroduce regular foods, avoid heavy exercise, and maintain proper hydration.",
-            "url": "https://ayurvritta.com/#/services"
+            "url": "https://ayurvrittaayurveda.in/#/services"
         }
     ],
     "totalTime": "P7D",
@@ -593,7 +593,7 @@ export const HOWTO_PANCHAKARMA_SCHEMA = {
             "name": "Medicated Oil (Taila)"
         }
     ],
-    "image": "https://ayurvritta.com/images/og-default.svg"
+    "image": "https://ayurvrittaayurveda.in/images/og-default.svg"
 };
 
 // HowTo Schema: Maintaining Prakriti Balance
@@ -607,40 +607,40 @@ export const HOWTO_PRAKRITI_SCHEMA = {
             "@type": "HowToStep",
             "name": "Know Your Prakriti",
             "text": "Take our Prakriti assessment tool to understand your dominant dosha. This helps customize diet and lifestyle recommendations specific to your body type.",
-            "url": "https://ayurvritta.com/#/tools"
+            "url": "https://ayurvrittaayurveda.in/#/tools"
         },
         {
             "@type": "HowToStep",
             "name": "Follow Dosha-Specific Diet",
             "text": "Vata types should favor warm, moist, oily foods. Pitta types should choose cooling, less spicy foods. Kapha types should opt for light, dry, less oily options.",
-            "url": "https://ayurvritta.com/#/tools"
+            "url": "https://ayurvrittaayurveda.in/#/tools"
         },
         {
             "@type": "HowToStep",
             "name": "Maintain Daily Routine (Dinacharya)",
             "text": "Wake up before sunrise (Brahma Muhurta), practice meditation and yoga, eat meals at consistent times, and sleep by 10 PM for optimal dosha balance.",
-            "url": "https://ayurvritta.com/#/programs"
+            "url": "https://ayurvrittaayurveda.in/#/programs"
         },
         {
             "@type": "HowToStep",
             "name": "Follow Seasonal Routine (Ritucharya)",
             "text": "Adjust your diet and lifestyle according to seasons. In summer, favor cooling foods; in monsoon, eat warm easy-to-digest foods; in winter, favor warm and oily foods.",
-            "url": "https://ayurvritta.com/#/tools"
+            "url": "https://ayurvrittaayurveda.in/#/tools"
         },
         {
             "@type": "HowToStep",
             "name": "Practice Regular Exercise",
             "text": "Engage in appropriate physical activity based on your body type: gentle yoga and walking for Vata, moderate exercise for Pitta, and stimulating exercises for Kapha.",
-            "url": "https://ayurvritta.com/#/programs"
+            "url": "https://ayurvrittaayurveda.in/#/programs"
         },
         {
             "@type": "HowToStep",
             "name": "Regular Detoxification",
             "text": "Consider annual Panchakarma or seasonal detoxification to prevent toxin accumulation (Ama) and maintain optimal health and immunity (Ojas).",
-            "url": "https://ayurvritta.com/#/services/panchakarma"
+            "url": "https://ayurvrittaayurveda.in/#/services/panchakarma"
         }
     ],
-    "image": "https://ayurvritta.com/images/og-default.svg"
+    "image": "https://ayurvrittaayurveda.in/images/og-default.svg"
 };
 
 // HowTo Schema: Following Ayurvedic Diet
@@ -654,51 +654,51 @@ export const HOWTO_DIET_SCHEMA = {
             "@type": "HowToStep",
             "name": "Eat According to Your Digestive Fire (Agni)",
             "text": "Choose foods that match your digestive capacity. Eat your largest meal when Agni is strongest (usually midday), and have light meals in the morning and evening.",
-            "url": "https://ayurvritta.com/#/tools"
+            "url": "https://ayurvrittaayurveda.in/#/tools"
         },
         {
             "@type": "HowToStep",
             "name": "Prefer Warm, Cooked Foods",
             "text": "Favor freshly cooked, warm meals over cold, raw foods. Warm foods are easier to digest and don't extinguish Agni. Avoid leftovers and processed foods.",
-            "url": "https://ayurvritta.com/#/programs"
+            "url": "https://ayurvrittaayurveda.in/#/programs"
         },
         {
             "@type": "HowToStep",
             "name": "Eat in a Calm Environment",
             "text": "Eat mindfully without distractions. Sit down, chew thoroughly, and avoid eating when upset or rushed. This ensures proper digestion and nutrient absorption.",
-            "url": "https://ayurvritta.com/#/about"
+            "url": "https://ayurvrittaayurveda.in/#/about"
         },
         {
             "@type": "HowToStep",
             "name": "Avoid Incompatible Food Combinations",
             "text": "Don't combine milk with sour fruits, fish with dairy, or cold foods with hot foods. Proper food combining prevents Ama formation and digestive issues.",
-            "url": "https://ayurvritta.com/#/tools"
+            "url": "https://ayurvrittaayurveda.in/#/tools"
         },
         {
             "@type": "HowToStep",
             "name": "Stay Hydrated with Warm Water",
             "text": "Drink warm or room temperature water throughout the day. Avoid cold drinks with meals as they extinguish digestive fire. Sip warm water between meals.",
-            "url": "https://ayurvritta.com/#/services"
+            "url": "https://ayurvrittaayurveda.in/#/services"
         },
         {
             "@type": "HowToStep",
             "name": "Eat According to Seasons",
             "text": "Choose fresh, locally grown, seasonal produce. Favor cooling foods in summer, warming foods in winter, and light foods during monsoon.",
-            "url": "https://ayurvritta.com/#/tools"
+            "url": "https://ayurvrittaayurveda.in/#/tools"
         }
     ],
-    "image": "https://ayurvritta.com/images/og-default.svg"
+    "image": "https://ayurvrittaayurveda.in/images/og-default.svg"
 };
 
 // MedicalWebPage Schema for AI visibility
 export const MEDICAL_WEBPAGE_SCHEMA = {
     "@context": "https://schema.org",
     "@type": "MedicalWebPage",
-    "@id": "https://ayurvritta.com/#webpage",
+    "@id": "https://ayurvrittaayurveda.in/#webpage",
     "name": "Ayurvritta Ayurveda Hospital - Ayurvedic Treatments & Panchakarma",
     "description": "Expert Ayurvedic hospital offering classical Panchakarma treatments, lifestyle disorder management, and personalized wellness programs in Vadodara, Gujarat.",
-    "url": "https://ayurvritta.com",
-    "image": "https://ayurvritta.com/images/og-default.svg",
+    "url": "https://ayurvrittaayurveda.in",
+    "image": "https://ayurvrittaayurveda.in/images/og-default.svg",
     "author": {
         "@type": "Organization",
         "name": "Ayurvritta Ayurveda Hospital"
@@ -708,7 +708,7 @@ export const MEDICAL_WEBPAGE_SCHEMA = {
         "name": "Ayurvritta Ayurveda Hospital",
         "logo": {
             "@type": "ImageObject",
-            "url": "https://ayurvritta.com/images/logo-nobg.png"
+            "url": "https://ayurvrittaayurveda.in/images/logo-nobg.png"
         }
     },
     "datePublished": "2024-01-01",
@@ -759,7 +759,7 @@ export const MEDICAL_WEBPAGE_SCHEMA = {
         "Shirodhara",
         "Basti Therapy"
     ],
-    "primaryImageOfPage": "https://ayurvritta.com/images/og-default.svg"
+    "primaryImageOfPage": "https://ayurvrittaayurveda.in/images/og-default.svg"
 };
 
 export default { PAGE_SEO, HOSPITAL_SCHEMA, FAQ_SCHEMA, ORGANIZATION_SCHEMA, PHYSICIAN_SCHEMA, BREADCRUMB_SCHEMA, HOWTO_PANCHAKARMA_SCHEMA, HOWTO_PRAKRITI_SCHEMA, HOWTO_DIET_SCHEMA, MEDICAL_WEBPAGE_SCHEMA };

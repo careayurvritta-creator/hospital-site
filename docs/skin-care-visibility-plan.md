@@ -25,8 +25,8 @@ earned through (1) a technically sound, citable website, (2) demonstrated expert
 
 ## 2. Search engine setup (one-time, ~1 hour)
 
-1. **Google Search Console** — verify `ayurvritta.com`, submit
-   `https://ayurvritta.com/sitemap.xml`, then use URL Inspection → Request Indexing on
+1. **Google Search Console** — verify `ayurvrittaayurveda.in`, submit
+   `https://ayurvrittaayurveda.in/sitemap.xml`, then use URL Inspection → Request Indexing on
    `/ayurveda-skin-care` and the 5 skin blog posts.
 2. **Bing Webmaster Tools** — same sitemap. Bing powers many AI answers (incl. parts of
    Copilot/ChatGPT search), so this matters for AI recommendations too.
