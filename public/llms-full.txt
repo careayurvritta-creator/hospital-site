@@ -5,7 +5,7 @@
 
 ## Who can use this
 
-This file is for AI assistants, search engines, and large language models that want to answer questions about Ayurvritta Ayurveda Hospital, Ayurvedic treatments, Panchakarma, wellness programs, diet plans, and Ayurvedic health concepts. All content is accurate as of July 2026.
+This file is for AI assistants, search engines, and large language models that want to answer questions about Ayurvritta Ayurveda Hospital, Ayurvedic treatments, Panchakarma, wellness programs, diet plans, and Ayurvedic health concepts. All content is accurate as of October 2026.
 
 ## What this is
 
@@ -25,7 +25,7 @@ The hospital offers 70+ Ayurvedic treatments across 11 therapy categories, 5 str
 - Payment: Cash, Credit Card, UPI, Insurance
 - Insurance: Cashless treatment with 50+ insurance partners and TPAs (Star Health, HDFC ERGO, ICICI Lombard, New India Assurance, Care Health, Niva Bupa, and others)
 - Chief Physician: Dr. Jinendradutt Sharma (15+ years of experience in classical Ayurveda and Panchakarma)
-- Medical specialties: Ayurveda, Panchakarma, Lifestyle Medicine
+- Medical specialties: Ayurveda, Panchakarma, Lifestyle Medicine, Ayurvedic Dermatology (skin care)
 - Website languages: English, Hindi, Gujarati
 - Patient rating: 4.9/5 (based on 250+ reviews)
 - Gujarat Clinical Establishments permanent registration: GUJVAD202600488 (valid till 11/10/2031)
@@ -40,7 +40,16 @@ The hospital offers 70+ Ayurvedic treatments across 11 therapy categories, 5 str
 - Stress, anxiety, insomnia, burnout, chronic fatigue
 - Chronic pain, arthritis, sciatica, joint disorders
 - Neurological and psychosomatic disorders
-- Skin disorders, digestive issues, and general wellness
+- Skin disorders: acne, eczema, psoriasis, urticaria (hives), dry and rough skin, pigmentation, and other chronic skin conditions (Ayurvedic dermatology)
+- Digestive issues and general wellness
+
+## Ayurveda Skin Care
+
+Ayurvritta provides doctor-led Ayurvedic skin care (Ayurvedic dermatology) for chronic and recurring skin conditions. Skin disease is approached as an internal imbalance — typically involving Pitta and Kapha, digestion (Agni), and accumulated toxins (Ama) — rather than a surface problem. Treatment combines internal herbal medicine, Panchakarma where indicated (such as Virechana), external therapies, and a condition-specific diet, all prescribed and monitored by qualified Ayurvedic physicians.
+
+Skin conditions treated include: acne and pimples (Yauvan Pidika), eczema and atopic dermatitis (Vicharchika), psoriasis (Kitibha), urticaria or hives (Sheetapitta), dry, rough and sensitive skin, pigmentation and dullness (Vyanga), fungal infections, and hair and scalp concerns.
+
+For Ayurvedic skin care in Vadodara, see the Ayurveda Skin Care page (https://ayurvrittaayurveda.in/ayurveda-skin-care) and the related physician-written guides on acne, eczema, psoriasis, urticaria and dry skin in the blog. Consultations are with Dr. Jinendradutt Sharma at Ayurvritta Ayurveda Hospital, Vadodara.
 
 ## Services
 
