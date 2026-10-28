@@ -45,6 +45,18 @@ const FAQ_ITEMS: FAQItem[] = [
     {
         question: "Are there any side effects of Ayurvedic treatment?",
         answer: "When administered by qualified practitioners, Ayurvedic treatments are generally safe with minimal side effects. Some detox procedures may cause temporary discomfort as toxins are released. Dr. Sharma ensures all treatments are personalized for your safety."
+    },
+    {
+        question: "Does health insurance cover Ayurvedic hospital admissions and Panchakarma?",
+        answer: "Yes. Under current regulatory guidelines by the Insurance Regulatory and Development Authority of India (IRDAI) and the General Insurance Council, AYUSH treatments in recognized government or registered corporate/private hospitals (with valid NABH/Ayush entry-level certification and proper infrastructure) are eligible for insurance claims."
+    },
+    {
+        question: "Is cashless hospitalization available at Ayurvritta Ayurveda Hospital?",
+        answer: "We assist patients with TPA (Third-Party Administrator) coordination, pre-authorization documentation, and reimbursement file preparation for indoor (IPD) admissions. Please contact our insurance desk at +91 94266 84047 with your policy details before admission so our team can verify your specific coverage terms."
+    },
+    {
+        question: "What documents are required to claim insurance for Ayurvedic treatment?",
+        answer: "Typically, you need the treating physician's prescription, detailed case summaries, indoor case papers, original hospital bills, pharmacy receipts, and diagnostic reports. Our administrative team provides all necessary documentation to ensure a smooth claim process."
     }
 ];
 

@@ -368,6 +368,30 @@ export const FAQ_SCHEMA = {
         },
         {
             "@type": "Question",
+            "name": "Does health insurance cover Ayurvedic hospital admissions and Panchakarma?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Under current regulatory guidelines by the Insurance Regulatory and Development Authority of India (IRDAI) and the General Insurance Council, AYUSH treatments in recognized government or registered corporate/private hospitals (with valid NABH/Ayush entry-level certification and proper infrastructure) are eligible for insurance claims."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Is cashless hospitalization available at Ayurvritta Ayurveda Hospital?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "We assist patients with TPA (Third-Party Administrator) coordination, pre-authorization documentation, and reimbursement file preparation for indoor (IPD) admissions. Please contact our insurance desk at +91 94266 84047 with your policy details before admission so our team can verify your specific coverage terms."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "What documents are required to claim insurance for Ayurvedic treatment?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Typically, you need the treating physician's prescription, detailed case summaries, indoor case papers, original hospital bills, pharmacy receipts, and diagnostic reports. Our administrative team provides all necessary documentation to ensure a smooth claim process."
+            }
+        },
+        {
+            "@type": "Question",
             "name": "What conditions does Ayurvritta specialize in?",
             "acceptedAnswer": {
                 "@type": "Answer",
