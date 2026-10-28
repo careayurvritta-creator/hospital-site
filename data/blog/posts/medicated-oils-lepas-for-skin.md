@@ -6,7 +6,7 @@ category: Ayurveda
 authorId: dr-sharma
 date: 2026-10-28
 readTime: 6 min read
-image: /images/blog/ayurveda.svg
+image: /images/services/service-abhyanga.jpg
 featured: false
 ---
 

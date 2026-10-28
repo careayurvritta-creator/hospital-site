@@ -19,150 +19,198 @@ interface Testimonial {
     image?: string;
 }
 
+/** Render **bold** terms as <strong> so key medical terms stand out in reviews. */
+function renderBoldText(text: string): React.ReactNode[] {
+    const parts = text.split(/\*\*(.*?)\*\*/g);
+    return parts.map((part, i) =>
+        i % 2 === 1 ? <strong key={i} className="font-bold not-italic">{part}</strong> : part
+    );
+}
+
 const TESTIMONIALS: Testimonial[] = [
     {
         id: 1,
-        name: "r9unisexsalon",
-        location: "Google Review",
-        condition: "Pain Relief & Wellness",
-        rating: 5,
-        text: "Thank you so much, Doctor Sir. I am profoundly grateful. My higher intuition pulled me towards your treatment... Today I feel 99% mentally unshakeable, magically pain-free... I radiate gratitude, I shower you with infinite blessings.",
-    },
-    {
-        id: 2,
-        name: "Ranjana Guha",
-        location: "Google Review",
-        condition: "Skin Care",
-        rating: 5,
-        text: "Few days ago I was suffering from some skin disease called 'Harpiece'. Dr. Jitendra gave me some therapy. It was unique therapy, within a week I am totally okay. Dr. Jitendra is a superb, unique, humble and sweet nature person.",
-    },
-    {
-        id: 3,
-        name: "Nandini Sharma",
-        location: "Google Review",
-        condition: "General Consultation",
-        rating: 5,
-        text: "Had a great experience here. The doctor is super patient, friendly, and well behaved. I feel so much better now and would definitely recommend!! Great support and care throughout. Medications on point ✨",
-    },
-    {
-        id: 4,
-        name: "Shaikh Amrin",
-        location: "Google Review",
-        condition: "Ayurvedic Care",
-        rating: 5,
-        text: "Dr jinendra is one of the kind and very humble doctor I've known. He is doing good in his expertise and holds brilliant knowledge in ayurvedic medicine... taking follow up with patient shows that they actually care.",
-    },
-    {
-        id: 5,
-        name: "Dipak Vyas",
-        location: "Vadodara",
-        condition: "Panchakarma",
-        rating: 5,
-        text: "Truly outstanding Ayurvedic health care hospital in Vadodara... My treatment were absolutely magnificent and effective. I would highly recommend for panchkarma and other ayurvedic services at this hospital.",
-    },
-    {
-        id: 6,
         name: "Shruti Singhvi",
         location: "Google Review",
         condition: "Nasya Therapy",
         rating: 5,
-        text: "I visited Ayurvritta Clinic for severe chest congestion and constant coughing. After undergoing Nasya therapy, I felt some relief. The doctor was caring and attentive, and I really appreciate the treatment and guidance provided. …",
+        text: "I visited Ayurvritta Clinic for severe **chest congestion** and constant **coughing**. After undergoing **Nasya therapy**, I felt some **relief**. The doctor was **caring and attentive**, and I really appreciate the treatment and guidance provided. I would **highly recommend** Ayurvritta Clinic to anyone looking for **Ayurvedic care** and a positive healing experience."
     },
     {
-        id: 7,
+        id: 2,
         name: "Parveen Kumar",
         location: "Google Review",
         condition: "Panchakarma",
         rating: 5,
-        text: "I had a very good experience at this Ayurvedic hospital for my neck and back pain. When I consulted Dr. Jinendra Dutt Sharma, he recommended Panchakarma. …",
+        text: "I had a very good experience at this **Ayurvedic hospital** for my **neck and back pain**. When I consulted **Dr. Jinendra Dutt Sharma**, he recommended **Panchakarma treatment** for my condition. I was admitted to the hospital and underwent **Panchakarma treatment**. The treatment was very well planned, and I received different **Ayurvedic therapies** during my stay. I was very satisfied with the overall care and treatment. **Dr. Jinendra Dutt Sharma** is very **polite, humble, knowledgeable, and caring**. He **listened to my concerns patiently** and guided me properly throughout the treatment. I would also like to appreciate the hospital staff for their **friendly, supportive, and respectful** behaviour. Dr. Jinendra Dutt Sharma also provided **proper follow-up** and guidance after treatment. Overall, I had a **positive and satisfying experience** with the treatment and care. I would **highly recommend Dr. Jinendra Dutt Sharma and his team** to anyone considering **Ayurvedic treatment for neck and back pain**."
     },
     {
-        id: 8,
+        id: 3,
         name: "Zaid Hakim",
         location: "Google Review",
         condition: "General Care",
         rating: 5,
-        text: "Best clinic",
+        text: "**Best clinic**"
     },
     {
-        id: 9,
+        id: 4,
         name: "Parth Bhatt",
         location: "Google Review",
         condition: "Skin Care",
         rating: 5,
-        text: "I had a skin problem and consulted Dr Jinendra Sharma for treatment. The doctor listened to my concerns carefully and explained everything clearly. With the prescribed treatment, my skin problem improved and resolved quickly. I'm very satisfied with the treatment and would definitely recommend Dr Jinendra Sharma to others.",
+        text: "I had a **skin problem** and consulted **Dr Jinendra Sharma** for treatment. The doctor **listened to my concerns carefully** and **explained everything clearly**. With the prescribed treatment, my **skin problem improved and resolved quickly**. I'm very satisfied with the treatment and would definitely **recommend Dr Jinendra Sharma** to others."
     },
     {
-        id: 10,
+        id: 5,
         name: "Megh Joshi",
         location: "Google Review",
         condition: "Skin Care",
         rating: 5,
-        text: "Doctor successfully brought respite to my chronic skin condition. After years of trying allopathic and other treatments without success, his Ayurvedic treatments gave results. Great experience",
+        text: "Doctor successfully brought **respite to my chronic skin condition**. After years of trying **allopathic** and other treatments without success, his **Ayurvedic treatments gave results**. **Great experience**"
     },
     {
-        id: 11,
+        id: 6,
         name: "Ragini Mishra",
         location: "Google Review",
         condition: "General Consultation",
         rating: 5,
-        text: "I'm truly grateful for the care and guidance I received from my Ayurvedic doctor. He took the time to understand my concerns, listened patiently, and provided thoughtful treatment and advice tailored to my needs. …",
+        text: "I'm truly grateful for the care and guidance I received from my **Ayurvedic doctor**. He took the time to **understand my concerns**, **listened patiently**, and provided **thoughtful treatment and advice tailored to my needs**. I really appreciated his **calm, compassionate approach** and the way he **explained everything clearly**. I felt **comfortable, supported, and genuinely cared for** throughout my treatment. I'm very thankful for his **dedication, knowledge, and holistic approach to wellness**. I would **happily recommend him** to anyone looking for a **caring and experienced Ayurvedic doctor**. **Highly recommended!**"
     },
     {
-        id: 12,
+        id: 7,
         name: "Zheel Parihar",
         location: "Google Review",
         condition: "General Consultation",
         rating: 5,
-        text: "Really happy with my experience with the doctor. The consultation was comfortable and detailed, and the doctor took the time to understand my problem properly. The treatment was effective and I could see a good improvement. …",
+        text: "Really happy with my experience with the doctor. The **consultation was comfortable and detailed**, and the doctor took the time to **understand my problem properly**. The **treatment was effective** and I could see a **good improvement**. Overall, a **very positive experience**. Definitely recommended. The doctor is also **approachable for different health concerns** and provides **proper guidance and treatment**."
     },
     {
-        id: 13,
+        id: 8,
         name: "Sagar Jivani",
         location: "Google Review",
         condition: "General Care",
         rating: 5,
-        text: "Very good Dr",
+        text: "**Very good Dr**"
     },
     {
-        id: 14,
+        id: 9,
         name: "Bhargav Kumar",
         location: "Google Review",
         condition: "Panchakarma",
         rating: 5,
-        text: "I had a very good experience with Panchakarma treatment for sacroiliitis at Ayurvitta Ayurvedic Hospital under the treatment of Dr. Jinendra Sharma. Dr. Sharma is very knowledgeable, humble, and gives proper attention …",
+        text: "I had a very good experience with **Panchakarma treatment for sacroiliitis** at Ayurvitta Ayurvedic Hospital under the treatment of **Dr. Jinendra Sharma**. Dr. Sharma is **very knowledgeable, humble**, and gives **proper attention to patients**. He **explained my condition clearly** and guided me through the **Panchakarma therapies** in a very professional way. The hospital environment is **clean, peaceful**, and the staff is **cooperative and caring**. After the treatment, I experienced **significant relief in lower back pain, stiffness, and discomfort** related to sacroiliitis. The combination of **Panchakarma therapy, Ayurvedic medicines, and lifestyle guidance** was **very effective** for me. I truly appreciate the **genuine care and holistic approach**. I would **highly recommend this hospital** to anyone looking for **authentic Ayurvedic treatment for chronic pain and spine-related issues**."
     },
     {
-        id: 15,
+        id: 10,
         name: "Harshita Sharma",
         location: "Google Review",
         condition: "Agnikarma (Knee Pain)",
         rating: 5,
-        text: "I had been suffering from knee pain for many years and had tried different treatments but none of them brought relief. Recently, I underwent Ayurvedic treatment using Agnikarma by Dr jinendra and I was honestly surprised by the results. …",
+        text: "I had been suffering from **knee pain** for many years and had tried different treatments but none of them brought relief. Recently, I underwent **Ayurvedic treatment using Agnikarma** by Dr jinendra and I was **honestly surprised by the results**. Within just **2 sets of treatment, my pain reduced significantly**. The procedure was **quick**, and the care provided was **very professional**. I'm really happy with the outcome and would definitely **recommend this treatment** to anyone struggling with **chronic knee pain**. I wasn't able to walk without feeling any pain nor do tasks with ease that involved standing. After the treatment I am able to **walk and work normally without any pain**. Truly grateful for the treatment and help I received."
     },
     {
-        id: 16,
+        id: 11,
         name: "Alpa Gohil",
         location: "Google Review",
         condition: "Osteoarthritis Care",
         rating: 5,
-        text: "The Doctor is so kind and helpful, I was helped for my pain issues because of osteoarthritis, and I am very relieved",
+        text: "The Doctor is so **kind and helpful**, I was helped for my **pain issues because of osteoarthritis**, and I am **very relieved**"
     },
     {
-        id: 17,
+        id: 12,
         name: "Dhrumil Pandya",
         location: "Google Review",
         condition: "Skin Care",
         rating: 5,
-        text: "We consulted Dr. Jinendra Dutt for my mother's Katibha Kushtam, and we are incredibly grateful for the results. His diagnosis and treatment plan were spot on. My mother has found immense relief under his care. He is a highly skilled and …",
+        text: "We consulted **Dr. Jinendra Dutt** for my mother's **Katibha Kushtam** (skin disease), and we are **incredibly grateful for the results**. His **diagnosis and treatment plan were spot on**. My mother has found **immense relief** under his care. He is a **highly skilled and patient doctor**. I **highly recommend him** to anyone looking for **authentic and effective treatment**. He is not only **highly knowledgeable** but also **very kind and reassuring**. The **medication and dietary guidelines** he provided have **worked wonders** for her condition."
     },
     {
-        id: 18,
+        id: 13,
         name: "Manohar Kumar",
         location: "Google Review",
         condition: "General Care",
         rating: 5,
-        text: "Service is nice. I m feeling good afternoon treatment.",
+        text: "Service is nice. I'm feeling **good after treatment**."
+    },
+    {
+        id: 14,
+        name: "r9unisexsalon",
+        location: "Google Review",
+        condition: "Pain Relief & Wellness",
+        rating: 5,
+        text: "Thank you so much, Doctor Sir. I am profoundly grateful. My higher intuition pulled me towards your treatment, and that divine choice **transformed my entire being**. Today I feel **99% mentally unshakeable**, magically **pain-free**, and wrapped in a **calm, powerful energy**. Every step feels lighter, every movement feels blessed, and my whole body responds with **divine speed and strength**. I radiate gratitude, I shower you with infinite blessings, and I pray that the universe multiplies your **healing power** a thousand times. Thank you for this **miraculous shift in my mind, my body, and my life**."
+    },
+    {
+        id: 15,
+        name: "Ranjana Guha",
+        location: "Google Review",
+        condition: "Skin Care",
+        rating: 5,
+        text: "Few days ago I was suffering from some **skin disease** called 'Harpiece'. Dr. Jitendra gave me some therapy. It was **unique therapy**, within a week I am **totally okay**. Dr. Jitendra is a **superb, unique, humble and sweet nature person**. Thank god that I have found a Doctor like him."
+    },
+    {
+        id: 16,
+        name: "Nandini Sharma",
+        location: "Google Review",
+        condition: "General Consultation",
+        rating: 5,
+        text: "Had a **great experience** here. The doctor is **super patient, friendly, and well behaved**. I feel **so much better** now and would definitely **recommend**! **Great support and care** throughout. I absolutely vouch for this! **Medications on point**"
+    },
+    {
+        id: 17,
+        name: "Shaikh Amrin",
+        location: "Google Review",
+        condition: "Ayurvedic Care",
+        rating: 5,
+        text: "Dr jinendra is **one of the kind and very humble doctor** I've known. He is doing good in his expertise and holds **brilliant knowledge in ayurvedic medicine**. And the key point is **taking follow up with patient** shows that they **actually care for patient** rather than making business. **Must must must visit him** if you're looking for ayurvedic medication."
+    },
+    {
+        id: 18,
+        name: "Aashima Singh",
+        location: "Google Review",
+        condition: "General Care",
+        rating: 5,
+        text: "**Very good experience** with jinendra sir, he is an **expert in his own field**"
+    },
+    {
+        id: 19,
+        name: "Krishna Dhobi",
+        location: "Google Review",
+        condition: "Hair & Weight Care",
+        rating: 5,
+        text: "I have **dandruff and hair loss** problems. after Dr. Jitendra's treatment in just **one week my hair problems reduced** and **weight loss** also happened"
+    },
+    {
+        id: 20,
+        name: "Manoj Mehta",
+        location: "Google Review",
+        condition: "General Care",
+        rating: 5,
+        text: "Ayurvritta **Dr Jinendra ji is best in treatment** as well as **kind in behavior**."
+    },
+    {
+        id: 21,
+        name: "Mukesh Rabari",
+        location: "Google Review",
+        condition: "General Care",
+        rating: 5,
+        text: "**Very Good Experience, Great Treatment**"
+    },
+    {
+        id: 22,
+        name: "Mayur Sardhara",
+        location: "Google Review",
+        condition: "General Care",
+        rating: 5,
+        text: "**Good experience** with their treatment. **Great place to consult**."
+    },
+    {
+        id: 23,
+        name: "Noghan Odedara",
+        location: "Google Review",
+        condition: "General Care",
+        rating: 5,
+        text: "**Good experience**, thanks a lot"
     }
 ];
 
@@ -331,7 +379,7 @@ const TestimonialsCarousel: React.FC = () => {
                                     animation: 'fadeInScale 0.6s ease-out both'
                                 }}
                             >
-                                "{testimonial.text}"
+                                "{renderBoldText(testimonial.text)}"
                             </p>
 
                             {/* Patient Info */}
