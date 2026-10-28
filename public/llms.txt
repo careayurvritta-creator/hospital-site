@@ -11,7 +11,7 @@ This file is for AI assistants, search engines, and large language models that w
 
 Ayurvritta Ayurveda Hospital & Panchakarma Center is a 24/7 classical Ayurveda hospital located in Vadodara, Gujarat, India. It specializes in treating lifestyle disorders such as thyroid conditions, diabetes (Prameha), chronic kidney disease (CKD), obesity, and PCOD/PCOS using authentic Panchakarma therapies, personalized diet plans, and evidence-based Ayurvedic protocols. It also provides doctor-led Ayurvedic skin care for acne, eczema, psoriasis, urticaria and other chronic skin conditions.
 
-The hospital offers 70+ Ayurvedic treatments across 11 therapy categories, 5 structured wellness programs, an Ayurveda knowledge base with 135 condition-specific diet charts, and 59 educational blog articles. The website is available in English, Hindi, and Gujarati.
+The hospital offers 70+ Ayurvedic treatments across 11 therapy categories, 5 structured wellness programs, an Ayurveda knowledge base with 135 condition-specific diet charts, and 74 educational blog articles. The website is available in English, Hindi, and Gujarati.
 
 ## Key facts
 
