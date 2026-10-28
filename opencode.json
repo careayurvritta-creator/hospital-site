@@ -3,7 +3,7 @@
   "agent": {
     "mobile-auditor": {
       "description": "Audits all pages and components for mobile responsiveness issues. Reads every file, checks against mobile-first rules, and generates a comprehensive fix list. Does NOT modify files — only reports findings.",
-      "model": "meta/llama-3.1-8b-instruct",
+      "model": "opencode-go/mimo-v2.5",
       "temperature": 0.2,
       "permission": {
         "tools": {
@@ -19,7 +19,7 @@
     },
     "mobile-fixer": {
       "description": "Applies mobile-first responsive fixes to pages and components based on audit findings. Uses mobile-first and tailwind-responsive-design skills.",
-      "model": "meta/llama-3.1-8b-instruct",
+      "model": "opencode-go/kimi-k2.7-code",
       "temperature": 0.3,
       "skills": ["mobile-first", "tailwind-responsive-design"],
       "permission": {

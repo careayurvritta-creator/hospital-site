@@ -87,42 +87,162 @@ export const SKIN_CARE_FAQ_SCHEMA = {
     "mainEntity": [
         {
             "@type": "Question",
-            "name": "Can Ayurveda help chronic skin problems like eczema and psoriasis?",
+            "name": "Do you specialize in treating chronic skin disorders like Psoriasis?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Ayurveda offers structured, doctor-led management for chronic skin conditions by addressing digestion, dosha imbalance and lifestyle triggers alongside skin-directed therapies. These are long-term conditions: results vary from person to person, and treatment is planned as ongoing care rather than a quick cure. Many patients use Ayurvedic care alongside their dermatologist’s advice."
+                "text": "Yes, using specialized internal RSBK formulations and systemic detox."
             }
         },
         {
             "@type": "Question",
-            "name": "How is Ayurvedic skin treatment different from using creams?",
+            "name": "What is Raktamokshana and how does it help skin diseases?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Creams mainly act on the surface. Ayurvedic skin care combines external therapies with internal work — digestion, diet, sleep, stress and dosha balance — because chronic skin disease is often an expression of a systemic imbalance. External routines are still used, but they are one part of the plan, not the whole plan."
+                "text": "It is a classical blood-letting purification therapy that removes toxic Pitta and Rakta aggravation from circulation, clearing chronic skin lesions from the root."
             }
         },
         {
             "@type": "Question",
-            "name": "How long does Ayurvedic skin treatment take?",
+            "name": "Do you use steroid-containing creams in your treatment?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "It depends on the condition, its duration and your constitution. Acute problems may respond in a few weeks, while long-standing eczema or psoriasis usually needs a few months of consistent treatment and follow-up. After your first assessment, the doctor will give you a realistic timeline for your case."
+                "text": "Never. All medicines and external Lepas are 100% herbal and herbo-mineral, ensuring zero rebound side effects."
             }
         },
         {
             "@type": "Question",
-            "name": "Should I stop my current skin medicines before starting Ayurveda?",
+            "name": "How long does a typical Panchakarma course for skin detox take?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "No. Do not stop or replace prescribed medication on your own. Bring your reports and current prescriptions to the consultation — our physicians will plan Ayurvedic care around them and coordinate any changes safely."
+                "text": "Depending on the chronicity, a complete detoxification protocol ranges from 7 to 21 days under direct physician supervision."
             }
         },
         {
             "@type": "Question",
-            "name": "Is online consultation available for skin problems?",
+            "name": "Can Ayurveda treat stubborn fungal infections or chronic Urticaria (hives)?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes. Video consultations are available for patients in India and abroad. You can share photographs and reports in advance; the doctor will advise whether an in-person visit is needed for examination or procedures such as Panchakarma."
+                "text": "Yes, by correcting digestive fire (Agni) and purifying the blood."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Is dietary control mandatory during skin treatment?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, avoiding Viruddha Ahara (incompatible food combinations) is crucial for preventing skin flare-ups."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "How do you treat severe cystic acne from the root?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "By addressing internal hormonal imbalances, blood impurities, and gut health rather than relying on temporary face washes."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Do you treat pediatric skin conditions like childhood eczema?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, with safe, mild, age-appropriate herbal formulations."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "What role does gut health play in skin diseases according to Ayurveda?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Skin disorders (Kushta) are considered manifestations of deep-seated internal metabolic toxins originating from improper digestion (Ama)."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Can Vitiligo patches be reversed with herbal formulations?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Early-stage depigmentation responds well to specialized herbo-mineral Rasayana therapy stimulating melanocyte function."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Are your herbo-mineral formulations safe for long-term use?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, all formulations undergo strict quality standardization and classical purification (Shodhana) protocols."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Do I need to undergo blood tests before starting skin treatment?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Baseline investigations may be advised by the physician to assess metabolic and inflammatory markers."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "What is the cost of an initial dermatological consultation?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Please contact our front desk at +91 94266 84047 for current consultation fee structures."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Do you provide medicated oils and Lepas prepared in-house?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, all specialized therapeutic oils and external herbal pastes are prepared according to classical RSBK standards."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "How soon can I expect to see a reduction in itching and inflammation?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Most patients notice significant relief in acute burning and itching within the first 7 to 14 days of protocol adherence."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Is prior appointment required for skin consultation and Nadi Pariksha?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Booking an appointment in advance ensures dedicated time with our specialist without waiting."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Can stress trigger my skin condition, and do you treat that too?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, psychological stress significantly aggravates Pitta dosha; we integrate stress-calming Ayurvedic therapies like Shirodhara when necessary."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Do you offer online consultations for out-of-station skin patients?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, video consultations are available for remote patients with secure prescription delivery."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "What precautions should I take during Vamana therapy for skin detox?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Strict adherence to pre-purification (Purvakarma) dietary guidelines provided by our physicians is essential."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Do you provide post-treatment maintenance protocols to prevent relapse?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, every patient receives a customized seasonal diet and lifestyle regimen (Ritu Charya) to maintain long-term remission."
             }
         }
     ]
