@@ -211,6 +211,46 @@ const TESTIMONIALS: Testimonial[] = [
         condition: "General Care",
         rating: 5,
         text: "**Good experience**, thanks a lot"
+    },
+    {
+        id: 24,
+        name: "Harsha Tulsiyani",
+        location: "Google Review",
+        condition: "General Care",
+        rating: 5,
+        text: ""
+    },
+    {
+        id: 25,
+        name: "Sonali",
+        location: "Google Review",
+        condition: "General Care",
+        rating: 5,
+        text: ""
+    },
+    {
+        id: 26,
+        name: "Chanda Singh",
+        location: "Google Review",
+        condition: "General Care",
+        rating: 5,
+        text: ""
+    },
+    {
+        id: 27,
+        name: "Devanshu Sharma",
+        location: "Google Review",
+        condition: "General Care",
+        rating: 5,
+        text: ""
+    },
+    {
+        id: 28,
+        name: "Kishor Satani",
+        location: "Google Review",
+        condition: "General Care",
+        rating: 5,
+        text: ""
     }
 ];
 
@@ -373,14 +413,26 @@ const TestimonialsCarousel: React.FC = () => {
                             key={`testimonial-${testimonial.id}-${currentIndex}`}
                         >
                             {/* Animated Text */}
-                            <p 
-                                className="text-xl md:text-2xl text-ayur-green leading-relaxed italic font-light mb-8"
-                                style={{
-                                    animation: 'fadeInScale 0.6s ease-out both'
-                                }}
-                            >
-                                "{renderBoldText(testimonial.text)}"
-                            </p>
+                            {testimonial.text ? (
+                                <p 
+                                    className="text-xl md:text-2xl text-ayur-green leading-relaxed italic font-light mb-8"
+                                    style={{
+                                        animation: 'fadeInScale 0.6s ease-out both'
+                                    }}
+                                >
+                                    "{renderBoldText(testimonial.text)}"
+                                </p>
+                            ) : (
+                                <div 
+                                    className="flex items-center justify-center gap-2 mb-8 text-yellow-400"
+                                    style={{ animation: 'fadeInScale 0.6s ease-out both' }}
+                                    aria-label="5 star rating"
+                                >
+                                    {[...Array(5)].map((_, i) => (
+                                        <Star key={i} className="w-8 h-8 fill-yellow-400 text-yellow-400" />
+                                    ))}
+                                </div>
+                            )}
 
                             {/* Patient Info */}
                             <div 
