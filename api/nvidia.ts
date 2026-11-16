@@ -98,6 +98,9 @@ function jsonResponse(payload: unknown, status: number): Response {
 export default async function handler(request: Request) {
   initSentry();
 
+  // Vercel nodejs runtime: request.headers is a plain object, not Headers
+  const getHeader = (name: string) => request.headers?.[name.toLowerCase()];
+
   if (request.method !== 'POST') {
     if (sentryInitialized) {
       try {
@@ -108,7 +111,7 @@ export default async function handler(request: Request) {
     return jsonResponse({ error: 'Method not allowed' }, 405);
   }
 
-  if (!isAllowedOrigin(request.headers.get('origin'))) {
+  if (!isAllowedOrigin(getHeader('origin'))) {
     if (sentryInitialized) {
       try {
         const Sentry = require('@sentry/node');
@@ -140,7 +143,9 @@ export default async function handler(request: Request) {
 
     const apiUrl = useDeepseek ? DEEPSEEK_API_URL : NVIDIA_API_URL;
 
-    const body = await request.json();
+    // Vercel nodejs runtime: parse body manually
+    const bodyText = await request.text();
+    const body = JSON.parse(bodyText);
 
     // Payload caps so the proxy cannot be used for oversized/costly jobs.
     const messages = body?.messages;
