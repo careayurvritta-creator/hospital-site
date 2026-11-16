@@ -24,21 +24,25 @@ export const config = {
 
 // Sentry server-side initialization (Phase 10: API proxy errors → errorTracker)
 // VITE_SENTRY_DSN is stripped by Vite from server-side code, so we read SENTRY_DSN.
+// Lazy init inside handler to avoid cold-start module-load issues.
 let sentryInitialized = false;
-try {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const Sentry = require('@sentry/node');
-  const dsn = process.env.SENTRY_DSN;
-  if (dsn && dsn !== 'YOUR_SENTRY_DSN') {
-    Sentry.init({
-      dsn,
-      tracesSampleRate: 1.0,
-    });
-    sentryInitialized = true;
-    console.log('[AI Proxy] Sentry initialized');
+function initSentry() {
+  if (sentryInitialized) return;
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const Sentry = require('@sentry/node');
+    const dsn = process.env.SENTRY_DSN;
+    if (dsn && dsn !== 'YOUR_SENTRY_DSN') {
+      Sentry.init({
+        dsn,
+        tracesSampleRate: 0.1, // Reduce overhead in serverless
+      });
+      sentryInitialized = true;
+      console.log('[AI Proxy] Sentry initialized');
+    }
+  } catch {
+    // @sentry/node not available — continue without Sentry
   }
-} catch {
-  // @sentry/node not available — continue without Sentry
 }
 
 const NVIDIA_API_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
@@ -92,6 +96,8 @@ function jsonResponse(payload: unknown, status: number): Response {
 }
 
 export default async function handler(request: Request) {
+  initSentry();
+
   if (request.method !== 'POST') {
     if (sentryInitialized) {
       try {
