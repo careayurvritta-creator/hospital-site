@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { ErrorBoundary } from '@sentry/react';
 import LifestyleTool from '../components/tools/LifestyleTool';
 import PanchakarmaTool from '../components/tools/PanchakarmaTool';
 import MedaTool from '../components/tools/MedaTool';
 import SaaraTool from '../components/tools/SaaraTool';
 import PrakritiTool from '../components/tools/PrakritiTool';
 import DietChartTool from '../components/tools/DietChartTool';
+import ToolErrorFallback from '../components/ToolErrorFallback';
 import { Aurora, SplitText, SpotlightCard, TiltedCard } from '../components/ui/reactbits';
 
 const AlertIcon = () => (
@@ -213,12 +215,90 @@ const Tools: React.FC = () => {
                 Back to Tools
               </button>
             </div>
-            {activeTool === 'lifestyle' && <LifestyleTool onBack={() => setActiveTool(null)} />}
-            {activeTool === 'panchakarma' && <PanchakarmaTool onBack={() => setActiveTool(null)} />}
-            {activeTool === 'meda' && <MedaTool onBack={() => setActiveTool(null)} />}
-            {activeTool === 'saara' && <SaaraTool onBack={() => setActiveTool(null)} />}
-            {activeTool === 'prakriti' && <PrakritiTool onBack={() => setActiveTool(null)} />}
-            {activeTool === 'diet' && <DietChartTool onBack={() => setActiveTool(null)} />}
+            {activeTool === 'lifestyle' && (
+                <ErrorBoundary
+                  fallback={(error, resetError) => (
+                    <ToolErrorFallback
+                      error={error}
+                      resetError={resetError}
+                      onBack={() => setActiveTool(null)}
+                      toolName="Lifestyle Tool"
+                    />
+                  )}
+                >
+                  <LifestyleTool onBack={() => setActiveTool(null)} />
+                </ErrorBoundary>
+              )}
+              {activeTool === 'panchakarma' && (
+                <ErrorBoundary
+                  fallback={(error, resetError) => (
+                    <ToolErrorFallback
+                      error={error}
+                      resetError={resetError}
+                      onBack={() => setActiveTool(null)}
+                      toolName="Panchakarma Check"
+                    />
+                  )}
+                >
+                  <PanchakarmaTool onBack={() => setActiveTool(null)} />
+                </ErrorBoundary>
+              )}
+              {activeTool === 'meda' && (
+                <ErrorBoundary
+                  fallback={(error, resetError) => (
+                    <ToolErrorFallback
+                      error={error}
+                      resetError={resetError}
+                      onBack={() => setActiveTool(null)}
+                      toolName="BMI & Meda Dhatu"
+                    />
+                  )}
+                >
+                  <MedaTool onBack={() => setActiveTool(null)} />
+                </ErrorBoundary>
+              )}
+              {activeTool === 'saara' && (
+                <ErrorBoundary
+                  fallback={(error, resetError) => (
+                    <ToolErrorFallback
+                      error={error}
+                      resetError={resetError}
+                      onBack={() => setActiveTool(null)}
+                      toolName="Saara Pariksha"
+                    />
+                  )}
+                >
+                  <SaaraTool onBack={() => setActiveTool(null)} />
+                </ErrorBoundary>
+              )}
+              {activeTool === 'prakriti' && (
+                <ErrorBoundary
+                  fallback={(error, resetError) => (
+                    <ToolErrorFallback
+                      error={error}
+                      resetError={resetError}
+                      onBack={() => setActiveTool(null)}
+                      toolName="Prakriti Analysis"
+                    />
+                  )}
+                >
+                  <PrakritiTool onBack={() => setActiveTool(null)} />
+                </ErrorBoundary>
+              )}
+              {activeTool === 'diet' && (
+                <ErrorBoundary
+                  fallback={(error, resetError) => (
+                    <ToolErrorFallback
+                      error={error}
+                      resetError={resetError}
+                      onBack={() => setActiveTool(null)}
+                      toolName="Diet Chart Generator"
+                    />
+                  )}
+                >
+                  <DietChartTool onBack={() => setActiveTool(null)} />
+                </ErrorBoundary>
+              )}
           </div>
         )}
       </div>

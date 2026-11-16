@@ -19,8 +19,27 @@
  */
 
 export const config = {
-  runtime: 'edge',
+  runtime: 'nodejs',
 };
+
+// Sentry server-side initialization (Phase 10: API proxy errors → errorTracker)
+// VITE_SENTRY_DSN is stripped by Vite from server-side code, so we read SENTRY_DSN.
+let sentryInitialized = false;
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const Sentry = require('@sentry/node');
+  const dsn = process.env.SENTRY_DSN;
+  if (dsn && dsn !== 'YOUR_SENTRY_DSN') {
+    Sentry.init({
+      dsn,
+      tracesSampleRate: 1.0,
+    });
+    sentryInitialized = true;
+    console.log('[AI Proxy] Sentry initialized');
+  }
+} catch {
+  // @sentry/node not available — continue without Sentry
+}
 
 const NVIDIA_API_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
 const DEEPSEEK_API_URL = 'https://api.deepseek.com/chat/completions';
@@ -74,10 +93,22 @@ function jsonResponse(payload: unknown, status: number): Response {
 
 export default async function handler(request: Request) {
   if (request.method !== 'POST') {
+    if (sentryInitialized) {
+      try {
+        const Sentry = require('@sentry/node');
+        Sentry.captureMessage('[AI Proxy] Method not allowed (405)', 'warning');
+      } catch { /* silent */ }
+    }
     return jsonResponse({ error: 'Method not allowed' }, 405);
   }
 
   if (!isAllowedOrigin(request.headers.get('origin'))) {
+    if (sentryInitialized) {
+      try {
+        const Sentry = require('@sentry/node');
+        Sentry.captureMessage('[AI Proxy] Origin not allowed (403)', 'warning');
+      } catch { /* silent */ }
+    }
     return jsonResponse({ error: 'Origin not allowed' }, 403);
   }
 
@@ -87,6 +118,15 @@ export default async function handler(request: Request) {
     const apiKey = useDeepseek ? process.env.DEEPSEEK_API_KEY : process.env.NVIDIA_API_KEY;
 
     if (!apiKey) {
+      if (sentryInitialized) {
+        try {
+          const Sentry = require('@sentry/node');
+          Sentry.captureMessage(
+            useDeepseek ? 'DeepSeek API key not configured' : 'Nvidia API key not configured',
+            'fatal'
+          );
+        } catch { /* silent */ }
+      }
       return jsonResponse({
         error: useDeepseek ? 'DeepSeek API key not configured' : 'Nvidia API key not configured'
       }, 500);
@@ -99,20 +139,44 @@ export default async function handler(request: Request) {
     // Payload caps so the proxy cannot be used for oversized/costly jobs.
     const messages = body?.messages;
     if (!Array.isArray(messages) || messages.length === 0) {
+      if (sentryInitialized) {
+        try {
+          const Sentry = require('@sentry/node');
+          Sentry.captureMessage('[AI Proxy] Missing messages array (400)', 'warning');
+        } catch { /* silent */ }
+      }
       return jsonResponse({ error: 'messages array is required' }, 400);
     }
     if (messages.length > MAX_MESSAGES) {
+      if (sentryInitialized) {
+        try {
+          const Sentry = require('@sentry/node');
+          Sentry.captureMessage(`[AI Proxy] Too many messages: ${messages.length} > ${MAX_MESSAGES} (413)`, 'warning');
+        } catch { /* silent */ }
+      }
       return jsonResponse({ error: `Too many messages (max ${MAX_MESSAGES})` }, 413);
     }
     let totalChars = 0;
     for (const message of messages) {
       const content = typeof message?.content === 'string' ? message.content : '';
       if (content.length > MAX_MESSAGE_CHARS) {
+        if (sentryInitialized) {
+          try {
+            const Sentry = require('@sentry/node');
+            Sentry.captureMessage(`[AI Proxy] Message too large: ${content.length} > ${MAX_MESSAGE_CHARS} (413)`, 'warning');
+          } catch { /* silent */ }
+        }
         return jsonResponse({ error: 'Message too large' }, 413);
       }
       totalChars += content.length;
     }
     if (totalChars > MAX_TOTAL_CHARS) {
+      if (sentryInitialized) {
+        try {
+          const Sentry = require('@sentry/node');
+          Sentry.captureMessage(`[AI Proxy] Request too large: ${totalChars} > ${MAX_TOTAL_CHARS} (413)`, 'warning');
+        } catch { /* silent */ }
+      }
       return jsonResponse({ error: 'Request too large' }, 413);
     }
 
@@ -155,6 +219,12 @@ export default async function handler(request: Request) {
 
     if (!response) {
       console.error('[AI Proxy] All candidate models unavailable');
+      if (sentryInitialized) {
+        try {
+          const Sentry = require('@sentry/node');
+          Sentry.captureMessage('[AI Proxy] All candidate models unavailable (502)', 'error');
+        } catch { /* silent */ }
+      }
       return jsonResponse({ error: 'AI service temporarily unavailable' }, 502);
     }
 
@@ -163,6 +233,15 @@ export default async function handler(request: Request) {
     if (!response.ok) {
       const errorText = await response.text();
       console.error('[AI Proxy] Upstream error:', response.status, errorText);
+      if (sentryInitialized) {
+        try {
+          const Sentry = require('@sentry/node');
+          Sentry.captureException(new Error(`[AI Proxy] Upstream error ${response.status}: ${errorText.slice(0, 200)}`), {
+            tags: { status: String(response.status) },
+            extra: { bodyLength: errorText.length },
+          });
+        } catch { /* silent */ }
+      }
       // Do not forward upstream error details to clients.
       return jsonResponse({ error: `AI API error (${response.status})` }, response.status);
     }
@@ -172,6 +251,12 @@ export default async function handler(request: Request) {
     return jsonResponse(data, 200);
   } catch (error) {
     console.error('[AI Proxy] Error:', error);
+    if (sentryInitialized) {
+      try {
+        const Sentry = require('@sentry/node');
+        Sentry.captureException(error);
+      } catch { /* silent */ }
+    }
     return jsonResponse({ error: 'Internal server error' }, 500);
   }
 }

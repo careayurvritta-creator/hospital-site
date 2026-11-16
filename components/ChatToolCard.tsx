@@ -5,7 +5,9 @@
 
 import React, { useState } from 'react';
 import { ArrowRight, CheckCircle, X } from 'lucide-react';
+import { ErrorBoundary } from '@sentry/react';
 import { ChatTool } from './ChatToolRegistry';
+import ToolErrorFallback from './ToolErrorFallback';
 
 interface ChatToolCardProps {
     tool: ChatTool;
@@ -14,7 +16,7 @@ interface ChatToolCardProps {
     isActive?: boolean;
 }
 
-const ChatToolCard: React.FC<ChatToolCardProps> = ({
+const ChatToolCardInner: React.FC<ChatToolCardProps> = ({
     tool,
     onStart,
     onDismiss,
@@ -79,6 +81,20 @@ const ChatToolCard: React.FC<ChatToolCardProps> = ({
     );
 };
 
+const ChatToolCard: React.FC<ChatToolCardProps> = (props) => (
+    <ErrorBoundary
+        fallback={(error, resetError) => (
+            <ToolErrorFallback
+                error={error}
+                resetError={resetError}
+                toolName={props.tool?.name || 'Chat Tool'}
+            />
+        )}
+    >
+        <ChatToolCardInner {...props} />
+    </ErrorBoundary>
+);
+
 /**
  * Mini Prakriti Quiz for inline chat
  */
@@ -87,7 +103,7 @@ interface InlinePrakritiQuizProps {
     onCancel: () => void;
 }
 
-export const InlinePrakritiQuiz: React.FC<InlinePrakritiQuizProps> = ({
+const InlinePrakritiQuizInner: React.FC<InlinePrakritiQuizProps> = ({
     onComplete,
     onCancel
 }) => {
@@ -162,6 +178,21 @@ export const InlinePrakritiQuiz: React.FC<InlinePrakritiQuizProps> = ({
     );
 };
 
+export const InlinePrakritiQuiz: React.FC<InlinePrakritiQuizProps> = (props) => (
+    <ErrorBoundary
+        fallback={(error, resetError) => (
+            <ToolErrorFallback
+                error={error}
+                resetError={resetError}
+                onBack={props.onCancel}
+                toolName="Prakriti Quiz"
+            />
+        )}
+    >
+        <InlinePrakritiQuizInner {...props} />
+    </ErrorBoundary>
+);
+
 /**
  * Prakriti Result Display
  */
@@ -169,7 +200,7 @@ interface PrakritiResultProps {
     scores: { vata: number; pitta: number; kapha: number };
 }
 
-export const PrakritiResult: React.FC<PrakritiResultProps> = ({ scores }) => {
+const PrakritiResultInner: React.FC<PrakritiResultProps> = ({ scores }) => {
     const total = scores.vata + scores.pitta + scores.kapha;
     const percentages = {
         vata: Math.round((scores.vata / total) * 100),
@@ -211,5 +242,19 @@ export const PrakritiResult: React.FC<PrakritiResultProps> = ({ scores }) => {
         </div>
     );
 };
+
+export const PrakritiResult: React.FC<PrakritiResultProps> = (props) => (
+    <ErrorBoundary
+        fallback={(error, resetError) => (
+            <ToolErrorFallback
+                error={error}
+                resetError={resetError}
+                toolName="Prakriti Result"
+            />
+        )}
+    >
+        <PrakritiResultInner {...props} />
+    </ErrorBoundary>
+);
 
 export default ChatToolCard;
