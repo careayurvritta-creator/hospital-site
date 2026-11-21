@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useEffect, useState } from 'react';
 
 interface SpotlightCardProps {
   children?: React.ReactNode;
@@ -16,17 +16,24 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({
   interactive = true,
 }) => {
   const ref = useRef<HTMLElement>(null);
+  const [isCoarse, setIsCoarse] = useState(false);
+  const [prefersReduced, setPrefersReduced] = useState(false);
+
+  useEffect(() => {
+    setIsCoarse(window.matchMedia('(pointer: coarse)').matches);
+    setPrefersReduced(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }, []);
 
   const handlePointerMove = useCallback(
     (e: React.PointerEvent) => {
-      if (!interactive) return;
+      if (!interactive || isCoarse || prefersReduced) return;
       const el = ref.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
       el.style.setProperty('--spot-x', `${((e.clientX - rect.left) / rect.width) * 100}%`);
       el.style.setProperty('--spot-y', `${((e.clientY - rect.top) / rect.height) * 100}%`);
     },
-    [interactive]
+    [interactive, isCoarse, prefersReduced]
   );
 
   return React.createElement(

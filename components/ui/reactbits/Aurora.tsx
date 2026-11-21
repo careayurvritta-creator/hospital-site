@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface AuroraProps {
   className?: string;
@@ -13,6 +13,16 @@ const Aurora: React.FC<AuroraProps> = ({
 }) => {
   const duration = speed === 'slow' ? 18 : speed === 'fast' ? 8 : 12;
   const [c1, c2, c3] = colors;
+  const [prefersReduced, setPrefersReduced] = useState(false);
+  const [isCoarse, setIsCoarse] = useState(false);
+
+  useEffect(() => {
+    setPrefersReduced(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    setIsCoarse(window.matchMedia('(pointer: coarse)').matches);
+  }, []);
+
+  // Disable animations on reduced motion or coarse pointer (mobile)
+  const shouldAnimate = !prefersReduced && !isCoarse;
 
   return (
     <div className={`reactbits-aurora ${className}`} aria-hidden="true">
@@ -24,7 +34,7 @@ const Aurora: React.FC<AuroraProps> = ({
           top: '-20%',
           left: '-10%',
           background: c1,
-          animation: `reactbits-aurora-a ${duration}s ease-in-out infinite`,
+          animation: shouldAnimate ? `reactbits-aurora-a ${duration}s ease-in-out infinite` : 'none',
         }}
       />
       <div
@@ -35,7 +45,7 @@ const Aurora: React.FC<AuroraProps> = ({
           top: '10%',
           right: '-15%',
           background: c2,
-          animation: `reactbits-aurora-b ${duration}s ease-in-out infinite`,
+          animation: shouldAnimate ? `reactbits-aurora-b ${duration}s ease-in-out infinite` : 'none',
         }}
       />
       <div
@@ -46,7 +56,7 @@ const Aurora: React.FC<AuroraProps> = ({
           bottom: '-25%',
           left: '20%',
           background: c3,
-          animation: `reactbits-aurora-c ${duration}s ease-in-out infinite`,
+          animation: shouldAnimate ? `reactbits-aurora-c ${duration}s ease-in-out infinite` : 'none',
         }}
       />
     </div>

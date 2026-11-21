@@ -120,13 +120,16 @@ const Home: React.FC = () => {
           <div className="relative h-[300px] xs:h-[350px] md:h-[500px] lg:h-[600px] w-full mx-auto max-w-md lg:max-w-none">
             <div className="relative h-full w-full rounded-[2rem] overflow-hidden shadow-2xl group hover:shadow-aurora-lg transition-shadow duration-500">
               <div className="absolute inset-0 bg-gradient-to-t from-ayur-green/30 via-transparent to-transparent z-10"></div>
-              <img
-                src="/images/home/home-hero.png"
-                alt="Modern Ayurveda Consultation & Therapy"
-                fetchPriority="high"
-                className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                onError={(e) => { e.currentTarget.src = FALLBACK_IMAGE; }}
-              />
+              <picture>
+                <source srcSet="/images/home/home-hero.webp" type="image/webp" />
+                <img
+                  src="/images/home/home-hero.png"
+                  alt="Modern Ayurveda Consultation & Therapy"
+                  fetchPriority="high"
+                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                  onError={(e) => { e.currentTarget.src = FALLBACK_IMAGE; }}
+                />
+              </picture>
               <div className="absolute inset-4 border-2 border-white/30 rounded-[1.5rem] pointer-events-none z-20"></div>
             </div>
 

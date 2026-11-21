@@ -309,4 +309,28 @@
   .reactbits-tilt-inner {
     transition: none;
   }
+  /* Disable Aurora animations */
+  .reactbits-aurora > div {
+    animation: none !important;
+  }
+}
+
+/* ---------- Mobile optimizations ---------- */
+@media (pointer: coarse) {
+  /* Disable hover-dependent spotlight effects on touch devices */
+  .reactbits-spotlight::before {
+    opacity: 0.4;
+  }
+  /* Reduce Aurora animation intensity on mobile */
+  .reactbits-aurora > div {
+    animation-duration: 30s !important;
+    opacity: 0.3 !important;
+  }
+}
+
+/* Low-end device / data saver optimizations */
+@media (prefers-reduced-motion: reduce), (max-width: 480px) {
+  .reactbits-aurora > div {
+    animation: none !important;
+  }
 }
