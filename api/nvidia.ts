@@ -143,13 +143,8 @@ export default async function handler(request: Request) {
 
     const apiUrl = useDeepseek ? DEEPSEEK_API_URL : NVIDIA_API_URL;
 
-    // Vercel nodejs runtime: request is Node.js IncomingMessage, read body via buffer
-    const bodyText = await new Promise<string>((resolve, reject) => {
-      const chunks: Buffer[] = [];
-      request.on('data', (chunk: Buffer) => chunks.push(chunk));
-      request.on('end', () => resolve(Buffer.concat(chunks).toString()));
-      request.on('error', reject);
-    });
+    // Vercel nodejs runtime: request is Node.js IncomingMessage, read body via text()
+    const bodyText = await request.text();
     const body = JSON.parse(bodyText || '{}');
 
     // Payload caps so the proxy cannot be used for oversized/costly jobs.

@@ -1,305 +1,133 @@
-import React from 'react';
-import { NavLink } from '../components/Layout';
-import { Leaf, Sparkles, Stethoscope, ClipboardList, FlaskConical, Salad, Phone, ArrowRight, ShieldCheck, Clock, Award, BookOpen } from 'lucide-react';
-
 /**
- * Ayurveda Skin Care authority page (/ayurveda-skin-care).
- * Targets "ayurveda skin care" searches and gives AI assistants a single,
- * citable page for skin-related recommendations. Medical copy stays
- * non-promissory: Ayurvedic care supports management, no cure guarantees.
+ * AI-Powered Skin Care Analysis Page (Redesigned)
+ * Modern, polished, mobile-first, accessible UI/UX
  */
 
-const CONDITIONS = [
-    {
-        title: 'Acne & Pimples',
-        ayurvedaName: 'Yauvan Pidika',
-        description: 'Breakouts linked to Pitta-Kapha imbalance, digestion and hormones. Care focuses on internal cooling, gut health and gentle external routines rather than harsh stripping of the skin.',
-        icon: Sparkles,
-        postSlug: 'acne-ayurveda-treatment-teenage-skin',
-    },
-    {
-        title: 'Eczema & Atopic Dermatitis',
-        ayurvedaName: 'Vicharchika',
-        description: 'Itching, dryness, oozing and thickened skin are approached by calming aggravated doshas, supporting the skin barrier and identifying dietary and lifestyle triggers.',
-        icon: Leaf,
-        postSlug: 'eczema-ayurveda-itchy-dry-skin-remedies',
-    },
-    {
-        title: 'Psoriasis',
-        ayurvedaName: 'Kitibha',
-        description: 'A chronic, relapsing condition needing long-term management. Treatment is individualized and may include classical detoxification procedures under strict physician supervision.',
-        icon: ShieldCheck,
-        postSlug: 'psoriasis-ayurveda-treatment-natural',
-    },
-    {
-        title: 'Urticaria (Hives) & Skin Allergy',
-        ayurvedaName: 'Sheetapitta',
-        description: 'Recurrent wheals and itching are managed by identifying triggers, correcting digestion and using classical formulations suited to your constitution.',
-        icon: Stethoscope,
-        postSlug: 'urticaria-hives-skin-allergy-ayurveda',
-    },
-    {
-        title: 'Dry, Sensitive & Flaky Skin',
-        ayurvedaName: 'Vata-pradhana Tvak Vikara',
-        description: 'Aggravated Vata, cold weather and irregular routine often sit behind chronic dryness. Internal and external oleation, warm routines and seasonal care form the core of treatment.',
-        icon: Leaf,
-        postSlug: 'dry-skin-winter-ayurveda-care',
-    },
-    {
-        title: 'Pigmentation & Dull Skin',
-        ayurvedaName: 'Vyanga',
-        description: 'Pigmentation and loss of glow are assessed alongside Pitta, liver function, sleep and hormonal factors, with a plan built around your Prakriti rather than a single cosmetic product.',
-        icon: Sparkles,
-        postSlug: null,
-    },
-];
-
-const APPROACH_STEPS = [
-    {
-        title: 'Detailed Skin & Pulse Assessment',
-        description: 'History, skin examination, Nadi (pulse) reading, Prakriti analysis and review of your reports and current medication.',
-        icon: ClipboardList,
-    },
-    {
-        title: 'Root-Cause Diagnosis',
-        description: 'We map the condition to dosha involvement, Agni (digestive fire), ama (metabolic toxins) and rakta dhatu, instead of treating the lesion alone.',
-        icon: Stethoscope,
-    },
-    {
-        title: 'Personalized Treatment',
-        description: 'Classical herbal formulations, external therapies and, when indicated, Panchakarma procedures such as Virechana — always selected and monitored by our physicians.',
-        icon: FlaskConical,
-    },
-    {
-        title: 'Diet, Routine & Follow-Up',
-        description: 'A condition-specific diet chart, trigger management and scheduled reviews so the plan evolves with your response.',
-        icon: Salad,
-    },
-];
-
-const FAQS = [
-    {
-        question: 'Do you specialize in treating chronic skin disorders like Psoriasis?',
-        answer: 'Yes, using specialized internal RSBK formulations and systemic detox.',
-    },
-    {
-        question: 'What is Raktamokshana and how does it help skin diseases?',
-        answer: 'It is a classical blood-letting purification therapy that removes toxic Pitta and Rakta aggravation from circulation, clearing chronic skin lesions from the root.',
-    },
-    {
-        question: 'Do you use steroid-containing creams in your treatment?',
-        answer: 'Never. All medicines and external Lepas are 100% herbal and herbo-mineral, ensuring zero rebound side effects.',
-    },
-    {
-        question: 'How long does a typical Panchakarma course for skin detox take?',
-        answer: 'Depending on the chronicity, a complete detoxification protocol ranges from 7 to 21 days under direct physician supervision.',
-    },
-    {
-        question: 'Can Ayurveda treat stubborn fungal infections or chronic Urticaria (hives)?',
-        answer: 'Yes, by correcting digestive fire (Agni) and purifying the blood.',
-    },
-    {
-        question: 'Is dietary control mandatory during skin treatment?',
-        answer: 'Yes, avoiding Viruddha Ahara (incompatible food combinations) is crucial for preventing skin flare-ups.',
-    },
-    {
-        question: 'How do you treat severe cystic acne from the root?',
-        answer: 'By addressing internal hormonal imbalances, blood impurities, and gut health rather than relying on temporary face washes.',
-    },
-    {
-        question: 'Do you treat pediatric skin conditions like childhood eczema?',
-        answer: 'Yes, with safe, mild, age-appropriate herbal formulations.',
-    },
-    {
-        question: 'What role does gut health play in skin diseases according to Ayurveda?',
-        answer: 'Skin disorders (Kushta) are considered manifestations of deep-seated internal metabolic toxins originating from improper digestion (Ama).',
-    },
-    {
-        question: 'Can Vitiligo patches be reversed with herbal formulations?',
-        answer: 'Early-stage depigmentation responds well to specialized herbo-mineral Rasayana therapy stimulating melanocyte function.',
-    },
-    {
-        question: 'Are your herbo-mineral formulations safe for long-term use?',
-        answer: 'Yes, all formulations undergo strict quality standardization and classical purification (Shodhana) protocols.',
-    },
-    {
-        question: 'Do I need to undergo blood tests before starting skin treatment?',
-        answer: 'Baseline investigations may be advised by the physician to assess metabolic and inflammatory markers.',
-    },
-    {
-        question: 'What is the cost of an initial dermatological consultation?',
-        answer: 'Please contact our front desk at +91 94266 84047 for current consultation fee structures.',
-    },
-    {
-        question: 'Do you provide medicated oils and Lepas prepared in-house?',
-        answer: 'Yes, all specialized therapeutic oils and external herbal pastes are prepared according to classical RSBK standards.',
-    },
-    {
-        question: 'How soon can I expect to see a reduction in itching and inflammation?',
-        answer: 'Most patients notice significant relief in acute burning and itching within the first 7 to 14 days of protocol adherence.',
-    },
-    {
-        question: 'Is prior appointment required for skin consultation and Nadi Pariksha?',
-        answer: 'Booking an appointment in advance ensures dedicated time with our specialist without waiting.',
-    },
-    {
-        question: 'Can stress trigger my skin condition, and do you treat that too?',
-        answer: 'Yes, psychological stress significantly aggravates Pitta dosha; we integrate stress-calming Ayurvedic therapies like Shirodhara when necessary.',
-    },
-    {
-        question: 'Do you offer online consultations for out-of-station skin patients?',
-        answer: 'Yes, video consultations are available for remote patients with secure prescription delivery.',
-    },
-    {
-        question: 'What precautions should I take during Vamana therapy for skin detox?',
-        answer: 'Strict adherence to pre-purification (Purvakarma) dietary guidelines provided by our physicians is essential.',
-    },
-    {
-        question: 'Do you provide post-treatment maintenance protocols to prevent relapse?',
-        answer: 'Yes, every patient receives a customized seasonal diet and lifestyle regimen (Ritu Charya) to maintain long-term remission.',
-    },
-];
+import React, { useState } from 'react';
+import { Camera, Stethoscope, ShieldCheck, Sparkles, Heart, Brain, Sun, Moon, Clock, Check, RefreshCw, BookOpen, Calendar } from 'lucide-react';
+import { ImageBasedSkinAnalyzer } from '../components/tools/ImageBasedSkinAnalyzer';
+import SkinSecondOpinion from '../components/tools/SkinSecondOpinion';
 
 const SkinCare: React.FC = () => {
-    return (
-        <div className="bg-gradient-to-b from-ayur-cream via-white to-ayur-cream/30 min-h-screen pb-24">
-            {/* Hero */}
-            <section className="relative bg-gradient-to-br from-ayur-green via-[#0a6b5a] to-ayur-green-dark pt-32 pb-20 md:pt-40 md:pb-28 text-white overflow-hidden">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-ayur-accent/30 to-transparent rounded-full blur-[100px] animate-pulse"></div>
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-                    <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full mb-8">
-                        <Leaf className="w-5 h-5 text-ayur-accent" />
-                        <span className="text-sm font-semibold uppercase tracking-wider">Doctor-Led Ayurvedic Dermatology</span>
-                    </div>
-                    <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-                        Ayurvedic <span className="text-transparent bg-clip-text bg-gradient-to-r from-ayur-accent to-yellow-300">Skin Care</span> in Vadodara
-                    </h1>
-                    <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto mb-10">
-                        Root-cause treatment for acne, eczema, psoriasis, urticaria and chronic dry skin — personalized by Ayurveda physicians at Ayurvritta Ayurveda Hospital &amp; Panchakarma Center.
-                    </p>
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <NavLink
-                            to="/booking"
-                            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 min-h-[48px] bg-ayur-accent text-white font-bold rounded-full hover:bg-ayur-accent/90 hover:shadow-2xl transition-all"
-                        >
-                            Book a Skin Consultation <ArrowRight size={18} />
-                        </NavLink>
-                        <a
-                            href="tel:+919426684047"
-                            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 min-h-[48px] bg-white/10 border border-white/30 text-white font-bold rounded-full hover:bg-white/20 transition-all"
-                        >
-                            <Phone size={18} /> +91 94266 84047
-                        </a>
-                    </div>
-                    <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 mt-10 text-sm text-white/70">
-                        <span className="inline-flex items-center gap-2"><Award size={16} className="text-ayur-accent" /> 15+ years of clinical experience</span>
-                        <span className="inline-flex items-center gap-2"><Clock size={16} className="text-ayur-accent" /> 24/7 hospital</span>
-                        <span className="inline-flex items-center gap-2"><ShieldCheck size={16} className="text-ayur-accent" /> Cashless insurance available</span>
-                    </div>
-                </div>
-            </section>
+  const [activeTool, setActiveTool] = useState<'image' | 'second-opinion'>('image');
 
-            {/* Conditions */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-24">
-                <div className="text-center mb-12">
-                    <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-ayur-green mb-4">Skin Conditions We Treat</h2>
-                    <p className="text-sm sm:text-base md:text-lg text-ayur-gray max-w-2xl mx-auto">
-                        Every condition is assessed against your Prakriti, digestion and lifestyle — no one-size-fits-all prescriptions.
-                    </p>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {CONDITIONS.map((condition) => (
-                        <article key={condition.title} className="bg-white rounded-3xl border-2 border-ayur-subtle p-4 sm:p-6 md:p-8 shadow-sm hover:shadow-xl hover:border-ayur-green/30 transition-all flex flex-col">
-                            <div className="w-12 h-12 rounded-2xl bg-ayur-green/10 text-ayur-green flex items-center justify-center mb-5">
-                                <condition.icon size={24} />
-                            </div>
-                            <h3 className="font-serif text-xl md:text-2xl font-bold text-ayur-green mb-1">{condition.title}</h3>
-                            <p className="text-xs font-bold uppercase tracking-widest text-ayur-accent mb-4">{condition.ayurvedaName}</p>
-                            <p className="text-sm sm:text-base text-ayur-gray leading-relaxed flex-1">{condition.description}</p>
-                            {condition.postSlug && (
-                                <NavLink
-                                    to={`/blog/${condition.postSlug}`}
-                                    className="mt-6 inline-flex items-center gap-2 min-h-[48px] text-ayur-green font-semibold hover:text-ayur-accent transition-colors"
-                                >
-                                    <BookOpen size={16} /> Read the physician’s guide <ArrowRight size={16} />
-                                </NavLink>
-                            )}
-                        </article>
-                    ))}
-                </div>
-            </section>
-
-            {/* Approach */}
-            <section className="bg-white border-y border-ayur-subtle">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-24">
-                    <div className="text-center mb-12">
-                        <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-ayur-green mb-4">How We Treat Skin Disease at the Root</h2>
-                        <p className="text-sm sm:text-base md:text-lg text-ayur-gray max-w-2xl mx-auto">
-                            A structured clinical process, not a cosmetic package.
-                        </p>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {APPROACH_STEPS.map((step, index) => (
-                            <div key={step.title} className="relative bg-ayur-cream/50 rounded-3xl p-4 sm:p-6 md:p-8 border border-ayur-subtle">
-                                <span className="absolute top-6 right-6 font-serif text-4xl font-bold text-ayur-green/10">0{index + 1}</span>
-                                <step.icon size={28} className="text-ayur-green mb-5" />
-                                <h3 className="font-serif text-lg md:text-xl font-bold text-ayur-green mb-3">{step.title}</h3>
-                                <p className="text-sm sm:text-base text-ayur-gray leading-relaxed">{step.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                    <p className="text-xs sm:text-sm text-ayur-gray/80 text-center max-w-3xl mx-auto mt-10">
-                        Note: Ayurvedic treatment supports the management of chronic skin conditions and is individualized. It is not a substitute for emergency dermatology care — please seek urgent help for severe reactions, rapidly spreading rashes or breathing difficulty.
-                    </p>
-                </div>
-            </section>
-
-            {/* FAQ */}
-            <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-24">
-                <div className="text-center mb-12">
-                    <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-ayur-green mb-4">Skin Care Questions, Answered</h2>
-                </div>
-                <div className="space-y-4">
-                    {FAQS.map((faq) => (
-                        <details key={faq.question} className="group bg-white border-2 border-ayur-subtle rounded-2xl overflow-hidden hover:border-ayur-green/40 transition-colors">
-                            <summary className="cursor-pointer list-none p-5 md:p-6 min-h-[48px] font-semibold text-base md:text-lg text-ayur-green flex items-center justify-between gap-4">
-                                {faq.question}
-                                <span className="text-ayur-accent text-2xl leading-none transition-transform group-open:rotate-45">+</span>
-                            </summary>
-                            <p className="px-5 md:px-6 pb-6 text-sm sm:text-base text-ayur-gray leading-relaxed">{faq.answer}</p>
-                        </details>
-                    ))}
-                </div>
-            </section>
-
-            {/* CTA */}
-            <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="bg-gradient-to-br from-ayur-green to-ayur-green-dark rounded-3xl p-6 sm:p-10 md:p-14 text-center text-white relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-ayur-accent/20 rounded-full blur-[80px]"></div>
-                    <h2 className="relative font-serif text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Start With a Proper Skin Assessment</h2>
-                    <p className="relative text-sm sm:text-base md:text-lg text-white/80 max-w-2xl mx-auto mb-8">
-                        Meet Dr. Jinendradutt Sharma and our physician team in Vadodara, or consult online from anywhere. Bring your reports and current prescriptions.
-                    </p>
-                    <div className="relative flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <NavLink
-                            to="/booking"
-                            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 min-h-[48px] bg-ayur-accent text-white font-bold rounded-full hover:bg-ayur-accent/90 transition-all"
-                        >
-                            Book Your Consultation <ArrowRight size={18} />
-                        </NavLink>
-                        <a
-                            href="https://wa.me/919426684047?text=Hi%2C%20I%20would%20like%20a%20skin%20care%20consultation%20at%20Ayurvritta."
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 min-h-[48px] bg-white/10 border border-white/30 text-white font-bold rounded-full hover:bg-white/20 transition-all"
-                        >
-                            WhatsApp Us
-                        </a>
-                    </div>
-                </div>
-            </section>
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-ayur-cream via-white to-ayur-cream/50 py-12 md:py-20 lg:py-24">
+        {/* Background decoration */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-ayur-green/5 rounded-full blur-3xl" />
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-ayur-accent/5 rounded-full blur-3xl" />
         </div>
-    );
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Hero Section */}
+          <div className="text-center mb-16 md:mb-20">
+            <div className="inline-flex items-center gap-3 px-5 py-2 bg-ayur-cream/50 backdrop-blur-sm rounded-full border border-ayur-subtle mb-6">
+              <ShieldCheck size={20} className="text-ayur-accent" />
+              <span className="font-semibold text-sm text-ayur-gray/70">AI-Powered Ayurvedic Diagnosis</span>
+            </div>
+            
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-ayur-green mb-6 leading-none">
+              AI-Powered Skin Care Analysis
+            </h1>
+            
+            <p className="text-lg md:text-xl text-ayur-gray max-w-3xl mx-auto leading-relaxed">
+              Experience the fusion of modern AI technology and ancient Ayurvedic wisdom. 
+              Get instant skin condition recognition from images or a detailed second opinion 
+              based on your health history.
+            </p>
+          </div>
+
+          {/* Tool Selector */}
+          <div className="max-w-4xl mx-auto mb-12 md:mb-16">
+            <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-ayur-subtle">
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${activeTool === 'image' ? 'bg-ayur-green text-white shadow-lg' : 'bg-ayur-cream/50 text-ayur-green border-2 border-dashed border-ayur-subtle'}`}>
+                  <Camera className="w-6 h-6" />
+                </div>
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${activeTool === 'second-opinion' ? 'bg-ayur-green text-white shadow-lg' : 'bg-ayur-cream/50 text-ayur-green border-2 border-dashed border-ayur-subtle'}`}>
+                  <Stethoscope className="w-6 h-6" />
+                </div>
+              </div>
+              
+              <div className="grid xs:grid-cols-1 sm:grid-cols-2 gap-3">
+                <button
+                  onClick={() => setActiveTool('image')}
+                  className={`py-4 px-6 rounded-xl font-semibold transition-all ${activeTool === 'image' ? 'bg-ayur-green text-white shadow-lg ring-2 ring-ayur-green/20' : 'bg-white text-ayur-green hover:bg-ayur-cream/80 border border-ayur-subtle'}`}
+                >
+                  <div className="flex items-center justify-center gap-2">
+                    <Camera size={18} />
+                    Image Analysis
+                  </div>
+                </button>
+                <button
+                  onClick={() => setActiveTool('second-opinion')}
+                  className={`py-4 px-6 rounded-xl font-semibold transition-all ${activeTool === 'second-opinion' ? 'bg-ayur-green text-white shadow-lg ring-2 ring-ayur-green/20' : 'bg-white text-ayur-green hover:bg-ayur-cream/80 border border-ayur-subtle'}`}
+                >
+                  <div className="flex items-center justify-center gap-2">
+                    <Stethoscope size={18} />
+                    Second Opinion
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Active Tool */}
+          <div className="max-w-4xl mx-auto">
+            {activeTool === 'image' && <ImageBasedSkinAnalyzer />}
+            {activeTool === 'second-opinion' && <SkinSecondOpinion />}
+          </div>
+
+          {/* Educational Content Section */}
+          <div className="mt-20 md:mt-24">
+            <h2 className="font-serif text-2xl md:text-3xl font-bold text-ayur-green text-center mb-12">
+              Why Ayurvedic Skin Care?
+            </h2>
+            
+            <div className="grid xs:grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Feature 1 */}
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-ayur-subtle hover:shadow-xl transition-all">
+                <div className="w-12 h-12 bg-ayur-green/10 rounded-full flex items-center justify-center mb-4">
+                  <ShieldCheck className="w-6 h-6 text-ayur-green" />
+                </div>
+                <h3 className="font-serif text-lg font-bold text-ayur-green mb-2">Root Cause Analysis</h3>
+                <p className="text-sm text-ayur-gray">We identify the underlying dosha imbalance (Vata, Pitta, Kapha) causing your skin issue, not just treat symptoms.</p>
+              </div>
+
+              {/* Feature 2 */}
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-ayur-subtle hover:shadow-xl transition-all">
+                <div className="w-12 h-12 bg-ayur-green/10 rounded-full flex items-center justify-center mb-4">
+                  <Brain className="w-6 h-6 text-ayur-green" />
+                </div>
+                <h3 className="font-serif text-lg font-bold text-ayur-green mb-2">Personalized Diet & Lifestyle</h3>
+                <p className="text-sm text-ayur-gray">Receive tailored Ayurvedic diet (Ahara), routine (Vihara), and seasonal (Ritucharya) recommendations.</p>
+              </div>
+
+              {/* Feature 3 */}
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-ayur-subtle hover:shadow-xl transition-all">
+                <div className="w-12 h-12 bg-ayur-cream/50 text-ayur-accent rounded-full flex items-center justify-center mb-4">
+                  <BookOpen className="w-6 h-6" />
+                </div>
+                <h3 className="font-serif text-lg font-bold text-ayur-green mb-2">Holistic Healing</h3>
+                <p className="text-sm text-ayur-gray">Combine modern AI analysis with Panchakarma, herbal formulations, and stress management for lasting results.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA Section */}
+          <div className="mt-16 text-center">
+            <a 
+              href="/booking"
+              className="inline-flex items-center gap-3 px-10 py-4 min-h-[48px] bg-ayur-accent text-white font-bold rounded-full hover:bg-ayur-accent/90 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-ayur-accent/20"
+            >
+              Book Consultation
+              <Sparkles size={20} />
+            </a>
+          </div>
+        </div>
+      </div>
+  );
 };
 
 export default SkinCare;
